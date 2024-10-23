@@ -1,0 +1,42 @@
+# This is the language file of the plugin
+# You shouldn't be adding/removing items from this file, but you can always edit its values.
+# Some of the messages supports minimessage format, while some only supports the bukkit color codes.
+# Messages that are sent in chat always supports 
+
+# These are terms that are used across the plugin. If possible, please don't add color codes in variables in this section.
+# Minimessage support: No
+term: 
+  nation: "国家"
+  town: "城镇"
+
+# These are messages that will be displayed when players execute specific commands.
+# Minimessage support: Yes
+command: 
+  success:
+    nation-created: "<#2288ff>成功创建了国家 <#0033aa>%name%！"
+  failed:
+    player-already-in-nation: "<red>你已经在一个国家里了！"
+    player-not-in-nation: "<red>你不在一个国家中!"
+    nation-already-exists: "<red>已经有另一个国家使用该名称了！"
+    player-in-gui: "<red>你正在操作另一个GUI!"
+
+# These are messages that are related to nations.
+# Minimessage support: partial
+nation:
+  type:
+    gui-name: "&f政体: %type_name%"
+    monarchy:
+      name: "君主制"
+      description: "绝对的集权才有绝对的稳定！"
+      material: YELLOW_WOOL
+    democracy:
+      name: "民主制"
+      description: "自由，民主，平等，但是真的高效吗？"
+      material: BLUE_WOOL
+    republic:
+      name: "共和制"
+      description: "现实主义与理想主义的平衡"
+
+town:
+  city-state:
+    default-name: "%town_name% 城邦"

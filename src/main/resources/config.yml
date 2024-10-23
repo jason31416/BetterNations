@@ -1,0 +1,12 @@
+# The language of the plugin
+# Please make sure the file exists in the /lang folder
+lang: zh-cn
+
+structure:
+  hologram: "&8-= &a%name% &8=-"
+  towncore:
+    name: ""
+
+# Nation-related settings
+nation:
+  capital-name: "%nation%首都"

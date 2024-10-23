@@ -1,0 +1,11 @@
+current tasks:
+- commands:
+    - create
+    - disband
+    - declare war
+    - revoke alliance
+    - vote for resolution
+
+future functionality:
+- display border particles
+- army system

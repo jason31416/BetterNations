@@ -1,0 +1,20 @@
+name: BetterNations
+version: '${project.version}'
+main: cn.jason31416.betternations.BetterNations
+api-version: '1.20'
+depend:
+  - Vault
+softdepend:
+  - MythicMobs
+  - BlueMap
+authors:
+  - Jason31416
+description: A modernized faction-based land management plugin for your server, with wars!
+
+commands:
+  planetlib:
+    description: PlanetLib API command, usually doesn't need to be used by players.
+    aliases: [plib]
+  nation:
+    description: BetterNations root command
+    aliases: [bn, nations, betternations, n, kingdom, k]
