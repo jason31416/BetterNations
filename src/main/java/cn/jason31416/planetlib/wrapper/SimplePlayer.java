@@ -2,6 +2,7 @@ package cn.jason31416.planetlib.wrapper;
 
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationalRank;
+import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -41,6 +42,10 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
     public void sendMessage(Message message) {
         message.send(getPlayer());
     }
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut){
+        if(!isOnline()) return;
+        getPlayer().sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+    }
     @Nullable
     public Nation getNation() {
         return Nation.playerNationMap.get(this);
@@ -50,7 +55,15 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
         return getNation().getRank(this);
     }
 
-
+    public double getBalance(){
+        return VaultHook.getBalance(offlinePlayer);
+    }
+    public void addBalance(double amount){
+        VaultHook.depositBalance(offlinePlayer, amount);
+    }
+    public boolean withdrawBalance(double amount){
+        return VaultHook.withdrawBalance(offlinePlayer, amount);
+    }
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

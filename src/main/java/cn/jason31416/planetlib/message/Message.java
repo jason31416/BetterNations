@@ -6,9 +6,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
+
 public interface Message {
     Message add(String key, Object value);
     String toString();
+    default String toFormatted(){
+        return toString();
+    }
     void send(CommandSender sender);
     default void send(SimpleSender sender){
         send(sender.sender());
@@ -22,7 +27,13 @@ public interface Message {
     }
     default void broadcast(){
         for(Player player : Bukkit.getOnlinePlayers()){
-            player.sendMessage(toString());
+            send(player);
+        }
+        send(Bukkit.getConsoleSender());
+    }
+    default void send(Collection<SimplePlayer> players){
+        for(SimplePlayer player : players){
+            if(player.isOnline()) send(player.getPlayer());
         }
     }
     default void historicalBroadcast(){

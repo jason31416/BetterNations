@@ -2,28 +2,34 @@ package cn.jason31416.betternations.nation;
 
 import cn.jason31416.betternations.nation.resolution.AbstractResolution;
 import cn.jason31416.planetlib.Config;
+import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.message.Message;
+import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import cn.jason31416.planetlib.wrapper.SimpleWorld;
 import org.bukkit.Color;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class Nation {
     // Static fields
     public static Map<UUID, Nation> nations = new java.util.HashMap<>();
     public static Map<SimplePlayer, Nation> playerNationMap = new java.util.HashMap<>();
+    public static Map<SimpleChunkLocation, Nation> chunkNationMap = new java.util.HashMap<>();
     // Fields
-    public final Map<UUID, AbstractResolution> resolutions = new HashMap<>();
+    public final Map<String, AbstractResolution> resolutions = new HashMap<>();
 
     List<Town> towns = new ArrayList<>();
+    Set<SimpleChunkLocation> nationalChunks = new HashSet<>();
     Map<SimplePlayer, NationalRank> memberRanks = new HashMap<>();
     UUID id;
     String name;
     SimplePlayer owner;
     Town capital;
     Color color;
-    NationType type;
+    NationType type=NationType.MONARCHY;
     Map<Nation, Relation> relations = new HashMap<>();
     // Constructors
     public Nation(UUID id, String name, Color color) {
@@ -44,6 +50,9 @@ public class Nation {
     public Color getColor() {
         return color;
     }
+    public String getColorTag(){
+        return "<#"+Integer.toHexString(color.asRGB())+">";
+    }
     public void setColor(Color color) {
         this.color = color;
     }
@@ -62,11 +71,33 @@ public class Nation {
     public NationType getType() {
         return type;
     }
+    public void setType(NationType type) {
+        for(SimplePlayer player : memberRanks.keySet()){
+            if(player.equals(owner)) memberRanks.put(player, type.getOwnerRank());
+            else memberRanks.put(player, type.getDefaultRank());
+        }
+        this.type = type;
+    }
     public Set<SimplePlayer> getMembers() {
         return memberRanks.keySet();
     }
     public NationalRank getRank(SimplePlayer player) {
         return memberRanks.get(player);
+    }
+    public void disband() {
+        for(Town town : new ArrayList<>(towns)){
+            town.remove();
+        }
+        for(SimpleChunkLocation chunk : nationalChunks){
+            chunkNationMap.remove(chunk);
+        }
+        for(Nation other : new ArrayList<>(relations.keySet())){
+            other.setRelation(this, Relation.NEUTRAL);
+        }
+        for(SimplePlayer player : memberRanks.keySet()){
+            playerNationMap.remove(player);
+        }
+        unregisterNation();
     }
     public void setRank(SimplePlayer player, NationalRank rank) {
         memberRanks.put(player, rank);
@@ -94,8 +125,7 @@ public class Nation {
             }
         }
         if(!ownedTowns.isEmpty()){
-            // Create a new nation for the kicked player
-            String initname = Message.getMessage("town.city-state.default-name").add("town_name", ownedTowns.get(0).name).toString(), name=initname;
+            String initname = Message.getMessage("town.revolt-name").add("town_name", ownedTowns.get(0).name).toString(), name=initname;
             int cnt=1;
             while(getNation(initname)!=null){
                 initname = name+"_"+(cnt++);
@@ -110,19 +140,39 @@ public class Nation {
             // todo: war declaration message
         }
     }
+    public void removePlayer(SimplePlayer player){
+        if(player == owner){
+            return;
+        }
+        memberRanks.remove(player);
+        playerNationMap.remove(player);
+        for(Town town : towns){
+            town.setRole(owner, TownRole.MAYOR);
+            town.removeResident(player);
+        }
+    }
+    public void addPlayer(SimplePlayer player) {
+        if(player.getNation()!=null) return;
+        playerNationMap.put(player, this);
+        memberRanks.put(player, type.getDefaultRank());
+    }
     public boolean claim(SimpleChunkLocation chunk){
         if(chunk.isClaimed()) return false;
-        Town closestTown = null;
-        double closestDistance = Double.MAX_VALUE;
-        for(Town town : towns){
-            double distance = chunk.distance(town.getCore().location.getChunkLocation());
-            if(distance < closestDistance){
-                closestTown = town;
-                closestDistance = distance;
+        nationalChunks.add(chunk);
+        chunkNationMap.put(chunk, this);
+        return true;
+    }
+    public boolean unclaim(SimpleChunkLocation chunk){
+        if(!nationalChunks.contains(chunk)) return false;
+        if(chunk.isTownChunk()){
+            Town town = chunk.getTown();
+            if(town!=null){
+                town.unclaim(chunk);
             }
         }
-        if(closestTown == null) return false;
-        return closestTown.claim(chunk);
+        nationalChunks.remove(chunk);
+        chunkNationMap.remove(chunk);
+        return true;
     }
     public void registerNation() {
         nations.put(id, this);
@@ -148,17 +198,78 @@ public class Nation {
         if(!relations.containsKey(other)) return Relation.NEUTRAL;
         return relations.get(other);
     }
-
+    // Data storage
+    public boolean serialize(IDataItem dataItem){
+        dataItem.setUUID(id);
+        dataItem.set("name", name);
+        dataItem.set("owner", owner.getUUID().toString());
+        dataItem.set("color", color.asRGB());
+        dataItem.set("type", type.name());
+        ArrayList<String> relationList = new ArrayList<>(), memberList = new ArrayList<>(), nationalChunkList = new ArrayList<>();
+        for(Nation other : relations.keySet()){
+            relationList.add(other.getId().toString() + ":" + relations.get(other).name());
+        }
+        for(SimplePlayer player : memberRanks.keySet()){
+            memberList.add(player.getUUID().toString() + ":" + memberRanks.get(player).name());
+        }
+        String lstWorld = "";
+        for(SimpleChunkLocation chunk : nationalChunks) {
+            String worldID = chunk.world().getBukkitWorld().getUID().toString();
+            if(!lstWorld.isEmpty()&&lstWorld.equals(worldID)){
+                nationalChunkList.add(chunk.x() + "_" + chunk.z());
+            }else {
+                nationalChunkList.add(chunk.x() + "_" + chunk.z() + "_" + worldID);
+                lstWorld = worldID;
+            }
+        }
+        dataItem.set("relations", String.join(";", relationList));
+        dataItem.set("members", String.join(";", memberList));
+        dataItem.set("chunks", String.join(";", nationalChunkList));
+        return true;
+    }
+    public static Nation deserialize(IDataItem dataItem){ // NOTE THAT TOWNS MUST BE LOADED AFTER NATIONS
+        Nation nation = new Nation(dataItem.getUUID(), dataItem.getString("name"), Color.fromRGB(dataItem.getInteger("color")));
+        nation.owner = SimplePlayer.of(UUID.fromString(dataItem.getString("owner")));
+        nation.type = NationType.valueOf(dataItem.getString("type"));
+        nation.relations.clear();
+        for(String relationStr : dataItem.getString("relations").split(";")) {
+            if (relationStr.isEmpty()) continue;
+            String[] relationArr = relationStr.split(":");
+            Nation other = getNation(UUID.fromString(relationArr[0]));
+            if (other != null) {
+                nation.setRelation(other, Relation.valueOf(relationArr[1]));
+            }
+        }
+        SimpleWorld world = null;
+        for(String chunk : dataItem.getString("chunks").split(";")) {
+            if(chunk.isEmpty()) continue;
+            String[] chunkLocation = chunk.split("_");
+            SimpleChunkLocation c;
+            if(world != null&&chunkLocation.length == 2){
+                c = SimpleChunkLocation.of(Integer.parseInt(chunkLocation[0]), Integer.parseInt(chunkLocation[1]), world);
+            }else {
+                c = SimpleChunkLocation.of(Integer.parseInt(chunkLocation[0]), Integer.parseInt(chunkLocation[1]), SimpleWorld.of(UUID.fromString(chunkLocation[2])));
+                world = c.world();
+            }
+            nation.nationalChunks.add(c);
+            chunkNationMap.put(c, nation);
+        }
+        nation.memberRanks.clear();
+        for(String memberStr : dataItem.getString("members").split(";")) {
+            if (memberStr.isEmpty()) continue;
+            String[] memberArr = memberStr.split(":");
+            SimplePlayer player = SimplePlayer.of(UUID.fromString(memberArr[0]));
+            nation.memberRanks.put(player, NationalRank.getRank(memberArr[1]));
+            playerNationMap.put(player, nation);
+        }
+        nation.registerNation();
+        return nation;
+    }
     // Static methods
     public static Nation createNation(SimplePlayer player, String name) {
-        Random colorRandomizer = new Random();
-        int r = colorRandomizer.nextInt(256);
-        int g = colorRandomizer.nextInt(256);
-        int b = colorRandomizer.nextInt(256);
-        Nation nation = new Nation(UUID.randomUUID(), name, Color.fromRGB(r, g, b));
+        if(player.getLocation().getChunkLocation().isClaimed()) return null;
+        Nation nation = createNation(player, name, null);
         nation.capital = Town.createTown(Config.getString("nation.capital-name").replace("%nation%", name), player.getLocation(), nation, player);
-        nation.registerNation();
-        nation.setOwner(player);
         return nation;
     }
     public static Nation createNation(SimplePlayer player, String name, Town capital) {
@@ -170,6 +281,7 @@ public class Nation {
         nation.capital = capital;
         nation.registerNation();
         nation.setOwner(player);
+        playerNationMap.put(player, nation);
         return nation;
     }
     public static Nation getNation(UUID id) {

@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.junit.Rule;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,11 +59,10 @@ public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements Co
     }
 
     public boolean isClaimed(){
-        return getTown()!= null;
+        return Nation.chunkNationMap.containsKey(this);
     }
     public boolean isTownChunk(){
-        if(getTown() == null) return false;
-        return getTown().getTownChunks().contains(this);
+        return Town.chunkTownMap.containsKey(this);
     }
 
     @Nullable
@@ -72,13 +72,11 @@ public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements Co
 
     @Nullable
     public Nation getNation() {
-        Town town = getTown();
-        if (town == null) return null;
-        return town.getNation();
+        return Nation.chunkNationMap.get(this);
     }
 
-    public static SimpleChunkLocation of(int x, int z, World world) {
-        return new SimpleChunkLocation(x, z, SimpleWorld.of(world));
+    public static SimpleChunkLocation of(int x, int z, SimpleWorld world) {
+        return new SimpleChunkLocation(x, z, world);
     }
 
     public static SimpleChunkLocation of(int x, int z) {

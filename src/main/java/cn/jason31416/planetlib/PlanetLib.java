@@ -4,6 +4,7 @@ import cn.jason31416.planetlib.command.RootCommand;
 import cn.jason31416.planetlib.command.tempAction.PlanetLibRootCommand;
 import cn.jason31416.planetlib.command.tempAction.TempAction;
 import cn.jason31416.planetlib.gui.GUIEventHandler;
+import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.message.InternalPlaceholder;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.update.UpdateCycle;
@@ -26,13 +27,14 @@ public class PlanetLib {
             return;
         }
         instance = plugin;
+        VaultHook.init();
         String pkg = Bukkit.getServer().getClass().getPackage().getName();
         packageName = pkg.substring(pkg.lastIndexOf(".")+1);
         plugin.saveDefaultConfig();
         initialized = true;
         Config.start(plugin);
         UpdateCycle.start();
-        MessageLoader.initialize(new File(plugin.getDataFolder(), "lang/"+Config.getString("lang")), plugin);
+        MessageLoader.initialize(new File(plugin.getDataFolder(), "lang/"+Config.getString("lang")+".yml"), plugin);
         new PlanetLibRootCommand().register();
 
         UpdateCycle.registerTask("PlanetLib.tempActionUpdater", new UpdateTask(60*20, TempAction::checkAll));
@@ -46,6 +48,7 @@ public class PlanetLib {
     }
     public static void shutdown() {
         UpdateCycle.stop();
+        MessageLoader.close();
         initialized = false;
     }
 }

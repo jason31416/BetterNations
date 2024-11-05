@@ -40,7 +40,7 @@ public abstract class ParentCommand implements ICommand, IParentCommand {
             return result;
         }else if(subCommands.containsKey(context.getArg(0))){
             ICommand subCommand = subCommands.get(context.getArg(0));
-            return subCommand.tabComplete(context);
+            return subCommand.tabComplete(context.getSubContext());
         }else{
             return null;
         }

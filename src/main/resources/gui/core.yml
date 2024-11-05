@@ -1,0 +1,13 @@
+town-core:
+  window:
+    title: "&7-= &r%% 城镇 &7=-"
+    size: 27
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    close:
+      name: "&c关闭菜单"
+      material: BARRIER
+      slot: 0

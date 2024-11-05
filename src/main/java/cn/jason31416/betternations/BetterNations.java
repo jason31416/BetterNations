@@ -1,15 +1,24 @@
 package cn.jason31416.betternations;
 
 import cn.jason31416.betternations.command.BetterNationsCommand;
+import cn.jason31416.betternations.manager.BorderDisplayManager;
+import cn.jason31416.betternations.manager.EventListener;
+import cn.jason31416.betternations.nation.Nation;
+import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.Hologram;
+import cn.jason31416.betternations.structure.StructureListener;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.data.DataList;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.data.YamlStorage;
 import cn.jason31416.planetlib.gui.GUILoader;
+import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.update.UpdateCycle;
 import cn.jason31416.planetlib.update.UpdateTask;
+import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +38,9 @@ public final class BetterNations extends JavaPlugin {
     public static YamlStorage storage;
 
     public void saveAllResources() {
-        savePluginResource("gui/test.yml");
+        savePluginResource("gui/create-nation.yml");
+        savePluginResource("gui/core.yml");
+        savePluginResource("gui/README.md");
         savePluginResource("lang/zh_cn.yml");
     }
     public void savePluginResource(@NotNull String resourcePath) {
@@ -82,7 +93,7 @@ public final class BetterNations extends JavaPlugin {
         }else for(File file: guiFolder.listFiles()){
             if(file.isFile()){
                 if(file.getName().endsWith(".yml")){
-                    getLogger().info("\033[36m- Loading "+file.getName()+":");
+                    getLogger().info("\033[36m- Loading "+file.getName()+":\033[0m");
                     GUILoader.loadFile(file);
                 }
             }else{
@@ -97,6 +108,49 @@ public final class BetterNations extends JavaPlugin {
             dataFolder.mkdirs();
         }
         storage = new YamlStorage(dataFolder);
+        storage.registerDataList(new DataList<Nation>() { // Nations
+            @Override
+            public String getName() {
+                return "nations";
+            }
+
+            @Override
+            public List<Nation> getAllData() {
+                return new ArrayList<>(Nation.nations.values());
+            }
+
+            @Override
+            public boolean serialize(Object data, IDataItem dataItem) {
+                if(!(data instanceof Nation nation)) return false;
+                return nation.serialize(dataItem);
+            }
+
+            @Override
+            public Nation deserialize(IDataItem dataItem) {
+                return Nation.deserialize(dataItem);
+            }
+        });
+        storage.registerDataList(new DataList<Town>() { // Towns
+            @Override
+            public String getName() {
+                return "towns";
+            }
+            @Override
+            public List<Town> getAllData() {
+                return new ArrayList<>(Town.towns.values());
+            }
+
+            @Override
+            public boolean serialize(Object data, IDataItem dataItem) {
+                if(!(data instanceof Town town)) return false;
+                return town.serialize(dataItem);
+            }
+
+            @Override
+            public Town deserialize(IDataItem dataItem) {
+                return Town.deserialize(dataItem);
+            }
+        });
         storage.registerDataList(new DataList<AbstractStructure>(){ // Structure
             public String getName(){return "structures";}
             public List<AbstractStructure> getAllData(){
@@ -112,7 +166,7 @@ public final class BetterNations extends JavaPlugin {
         });
         storage.load();
 
-        UpdateCycle.registerTask("BetterNations.PeriodicSave", new UpdateTask(20, () -> storage.save()));
+        UpdateCycle.registerTask("BetterNations.PeriodicSave", new UpdateTask(60*20, () -> storage.save()));
     }
     public void loadGUIs(){
         File guiFolder = new File(getDataFolder(), "gui");
@@ -132,14 +186,30 @@ public final class BetterNations extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
+        saveAllResources();
         printAsciiArt();
         PlanetLib.initialize(this);
-        saveAllResources();
         AbstractStructure.registerAllStructures();
         registerDataLists();
         loadGUIs();
         Hologram.checkHolograms();
+        UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
+        UpdateCycle.registerTask("BetterNations.ClaimingActionbar", new UpdateTask(20, ()->{
+            for(SimplePlayer i: new ArrayList<>(EventListener.autoClaiming.keySet())){
+                if(!i.isOnline()) EventListener.autoClaiming.remove(i);
+                else{
+                    switch (EventListener.autoClaiming.get(i)){
+                        case CLAIM -> Message.getMessage("auto-claiming.claim").sendActionbar(i);
+                        case UNCLAIM -> Message.getMessage("auto-claiming.unclaim").sendActionbar(i);
+                        case TOWN_CLAIM -> Message.getMessage("auto-claiming.town-claim").sendActionbar(i);
+                        case TOWN_UNCLAIM -> Message.getMessage("auto-claiming.town-unclaim").sendActionbar(i);
+                    }
+                }
+            }
+        }));
         loadCommands();
+        Bukkit.getPluginManager().registerEvents(new EventListener(), this);
+        Bukkit.getPluginManager().registerEvents(new StructureListener(), this);
         new BukkitRunnable() {
             public void run() {
                 loadHooks();
@@ -151,6 +221,7 @@ public final class BetterNations extends JavaPlugin {
         for(Hologram i: new ArrayList<>(Hologram.holograms.values())){
             i.removeHologram();
         }
+        storage.save();
         PlanetLib.shutdown();
     }
 }

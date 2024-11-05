@@ -25,6 +25,7 @@ public class UpdateCycle extends BukkitRunnable {
                             task.isExecuting = false;
                             throw e;
                         }
+                        task.isExecuting = false;
                     }
                 }.runTaskAsynchronously(PlanetLib.instance);
             }
@@ -39,6 +40,10 @@ public class UpdateCycle extends BukkitRunnable {
     public static void registerTask(String name, UpdateTask task) {
         if(tasks.containsKey(name)) return;
         tasks.put(name, task);
+    }
+    public static void setInterval(String name, int interval) {
+        if(!tasks.containsKey(name)) return;
+        tasks.get(name).interval = interval;
     }
     public static void unregisterTask(String name) {
         tasks.remove(name);

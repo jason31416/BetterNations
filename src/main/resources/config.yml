@@ -1,12 +1,24 @@
 # The language of the plugin
 # Please make sure the file exists in the /lang folder
-lang: zh-cn
-
-structure:
-  hologram: "&8-= &a%name% &8=-"
-  towncore:
-    name: ""
+lang: zh_cn
 
 # Nation-related settings
 nation:
+  creation-cost: 500 # The cost of creating a nation
   capital-name: "%nation%首都"
+  claim-cost: 10 # The cost of claiming a chunk
+  unclaim-refund: 8 # The refund of unclaiming a chunk
+
+# Town-related settings
+town:
+  creation-cost: 100 # The cost of creating a town
+  claim-cost: 30 # The (additional) cost of claiming a chunk as a town chunk
+  unclaim-refund: 10 # The refund of unclaiming a chunk as a town chunk
+
+border-display: # [Most options in this section require restart to take effect]
+  nation-border: true
+  town-border: true
+
+  range: 3 # in chunks
+  interval: 15 # in ticks
+  particle-size: 1.5

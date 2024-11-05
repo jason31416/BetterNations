@@ -2,7 +2,10 @@ package cn.jason31416.betternations.nation.resolution;
 
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationalRank;
+import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+
+import javax.annotation.Nonnull;
 
 public class PlayerRankResolution extends PlayerResolution {
     NationalRank rank;
@@ -18,7 +21,9 @@ public class PlayerRankResolution extends PlayerResolution {
     }
 
     @Override
-    public String getResolutionContent() {
-        return null;
+    public @Nonnull Message getResolutionContent() {
+        return Message.getMessage("nation.resolution.description.set-rank")
+                .add("target", target.getName())
+                .add("rank", rank.getDisplayName());
     }
 }

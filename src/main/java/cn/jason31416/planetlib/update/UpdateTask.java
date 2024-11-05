@@ -5,7 +5,7 @@ public class UpdateTask {
         void run();
     }
     public final RunnableTask runnableTask;
-    public final int interval;
+    public int interval;
     public boolean isExecuting=false;
 
     public UpdateTask(int interval, RunnableTask runnableTask) {

@@ -1,42 +1,140 @@
 # This is the language file of the plugin
 # You shouldn't be adding/removing items from this file, but you can always edit its values.
-# Some of the messages supports minimessage format, while some only supports the bukkit color codes.
-# Messages that are sent in chat always supports 
+# Most of the messages supports both minimessage and bukkit & color format, while some only supports the bukkit color codes.
 
 # These are terms that are used across the plugin. If possible, please don't add color codes in variables in this section.
-# Minimessage support: No
 term: 
   nation: "国家"
   town: "城镇"
 
+structure:
+  towncore:
+    hologram: "&8-= %nation_color%%town% &7- &b城镇核心 &8=-"
+
 # These are messages that will be displayed when players execute specific commands.
-# Minimessage support: Yes
 command: 
   success:
-    nation-created: "<#2288ff>成功创建了国家 <#0033aa>%name%！"
+    nation-created: "<#2288ff>成功创建了国家 <#00ddff>%name% <#2288ff>!"
+    join-nation: "<#2288ff>成功加入了 <#00ddff>%nation_name%<#2288ff> !"
+    chunk-claimed: "<#2288ff>成功占领了区块"
+    chunk-unclaimed: "<#2288ff>成功放弃了区块"
+    claimed-chunks: "<#2288ff>成功占领了 %count% 个区块"
+    town-chunk-claimed: "<#2288ff>成功占领了该城镇区块"
+    town-chunk-unclaimed: "<#2288ff>成功放弃占领了该城镇区块"
+    sent-join-request: "<#2288ff>成功请求加入了 %nation%!"
+    color-changed: "<#2288ff>成功修改国家颜色，试试发条消息叭!"
+    town-created: "<#2288ff>成功创建城镇 <#00ddff>%name% <#2288ff>!"
   failed:
-    player-already-in-nation: "<red>你已经在一个国家里了！"
+    owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
+    chunk-claim-failed: "<red>无法占领该区块!"
+    chunk-unclaim-failed: "<red>无法放弃占领该区块!"
+    chunk-not-belong-to-nation: "<red>该区块不属于你的国家!"
+    chunk-not-belong-to-town: "<red>这块地不属于任何一个城镇!"
+    chunk-not-adjacent-to-town: "<red>该区块不与选中城镇相邻!"
+    chunk-not-adjacent-to-any-town: "<red>该区块不与任何城镇相邻!"
+    cannot-unclaim-connecting-chunks: "<red>无法放弃占领此区块，因为它会破坏城镇连接性!"
+    already-claimed-by-town: "<red>该区块已经被一个城镇占领了!"
+    already-claimed-by-nation: "<red>该区块已经被一个国家占领了!"
+    cannot-unclaim-core-chunk: "<red>无法放弃占领核心区块, 请先使用<gray>/nation town nexus<red>来移走核心!"
+    invalid-rank: "<red>该等级不存在!"
+    invalid-target: "<red>该玩家不存在!"
+    town-not-exist: "<red>该城镇不存在!"
+    nation-not-exist: "<red>该国家不存在!"
+    player-already-in-nation: "<red>你已经在一个国家里了!"
+    no-permission: "<red>你没有足够的权限执行该操作!"
     player-not-in-nation: "<red>你不在一个国家中!"
-    nation-already-exists: "<red>已经有另一个国家使用该名称了！"
+    chunk-already-claimed: "<red>该区块已经被占领了!"
+    chunk-not-claimed: "<red>该区块还没有被你占领!"
+    nation-already-exists: "<red>已经有另一个国家使用该名称了!"
+    no-available-chunk: "<red>没有可用的区块来执行该操作!"
     player-in-gui: "<red>你正在操作另一个GUI!"
+    unknown-subcommand: "<red>未知的子命令!"
+    not-enough-money: "<red>你没有足够的<u><click:run_command:/money>金币</click></u><red>! 需要 <yellow>%amount%</yellow> 金币才能执行本操作"
+    failed-create-nation: "<red>创建国家失败!"
+    invalid-creation-location: "<red>不能在此处创建城镇!"
+    resolution-not-found: "<red>该决议不存在!"
+    resolution-not-signable: "<red>你无法签署该协议!"
+    resolution-not-signed: "<red>该协议还没有被你签署!"
 
 # These are messages that are related to nations.
-# Minimessage support: partial
 nation:
   type:
     gui-name: "&f政体: %type_name%"
+    gui-lore:
+      - "&7%type_description%"
     monarchy:
       name: "君主制"
-      description: "绝对的集权才有绝对的稳定！"
+      description: "绝对的集权才有绝对的稳定!"
       material: YELLOW_WOOL
     democracy:
       name: "民主制"
-      description: "自由，民主，平等，但是真的高效吗？"
+      description: "自由，民主，平等，但是真的高效吗?"
       material: BLUE_WOOL
     republic:
       name: "共和制"
       description: "现实主义与理想主义的平衡"
+      material: ORANGE_WOOL
+  rank:
+    king: "国王"
+    general: "将军"
+    knight: "骑士"
+    peasant: "平民"
+    member: "成员"
+    citizen: "公民"
+    leader: "领袖"
+    subject: "成员"
+    representative: "议员"
+    president: "总统"
+  resolution:
+    proposed: "<#2288ff>玩家<#00ddff> %proposer% <#2288ff>提出了一个决议: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(点击查看)"
+    signed: "<green>[+] <#2288ff>玩家<#00ddff> %signer% <#2288ff>同意了决议: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(点击查看)"
+    unsigned: "<red>[-] <#2288ff>玩家<#00ddff> %signer% <#2288ff>拒绝了决议: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(点击查看)"
+    passed: "<#2288ff>成功通过决议: <#00ddff><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click>"
+    cannot-propose: "<red>你无权提出该决议!"
+    list:
+      header: "&7-= <#2288ff>%nation% 决议列表 &7=-"
+      no-resolution: "&f你的国家暂时没有进行中的决议!"
+      item-with-permission: "&7- &f%content% <u><click:run_command:/nation resolution info %resolution_id%>&a[点击查看]</click></u>"
+      item-no-permission: "&7- &f%content% <u><click:run_command:/nation resolution info %resolution_id%>&7[点击查看]</click></u>"
+    info:
+      - "&7[<] <click:run_command:/nation resolution list>回到决议列表</click>"
+      - "&7----= <#2288ff>%nation% 决议 &7=----"
+      - ""
+      - "&l%content%"
+      - ""
+      - "&7发起者: &f%proposer%"
+      - "&7已签署: &f%signed_players_count% &7/ &f%required_signers%"
+      - "&7%signed_players%"
+      - "&a<click:run_command:/nation resolution sign %resolution_id%>[同意]</click> &7| &c<click:run_command:/nation resolution decline %resolution_id%>[拒绝]</click>"
+    info-no-permission:
+      - "&7[<] <click:run_command:/nation resolution list>回到决议列表</click>"
+      - "&7----= <#2288ff>%nation% 决议 &7=----"
+      - ""
+      - "&l%content%"
+      - ""
+      - "&7发起者: &f%proposer%"
+      - "&7已签署: &f%signed_players_count% &7/ &f%required_signers%"
+      - "&7%signed_players%"
+    description:
+      declare-war: "%from% 向 %to% 宣战"
+      disband-nation: "解散 %nation%"
+      revoke-alliance: "%from% 取消与 %to% 的盟约"
+      kick-player: "将 %player% 踢出 %nation%"
+      join-nation: "同意 %requester% 加入 %nation%"
+      set-rank: "将 %target% 设置为 %rank%"
 
 town:
-  city-state:
-    default-name: "%town_name% 城邦"
+  revolt-name: "%town_name% 城邦"
+  wilderness: "&8-= &2荒野 &8=-"
+  cannot-build: "&8你没有权限在此处交互!"
+chat:
+  with_nation: "&8[%nation_color%%nation% %title%&8] %sender% ≫ &f%message%"
+  no_nation: "&8%sender% &8≫ &f%message%"
+auto-claiming:
+  disabled-auto-claiming: "&c关闭了自动占领区块"
+  disabled-auto-unclaiming: "&c关闭了自动放弃区块"
+  town-claim: "&a开启了自动为城镇占领区块"
+  claim: "&a开启了自动占领区块"
+  town-unclaim: "&a开启了自动为城镇放弃区块"
+  unclaim: "&a开启了自动放弃区块"
+  cannot-start-from-wild: "&c你必须从一个城镇区块开始自动占领!"

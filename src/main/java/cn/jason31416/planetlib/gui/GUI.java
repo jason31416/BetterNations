@@ -162,9 +162,9 @@ public class GUI {
     }
     public GUI placeholder(String placeholder, String value){
         for(Item item : container.values()){
-            item.placeholder(placeholder, value);
+            item.placeholder("%"+placeholder+"%", value);
         }
-        title = title.replace(placeholder, value);
+        title = title.replace("%"+placeholder+"%", value);
         return this;
     }
     public Item addItem(String id, String name, int slot, Material material, int quantity){
@@ -206,6 +206,14 @@ public class GUI {
             inv.setItem(item.slot, putNbt(item));
         }
         player.getPlayer().openInventory(inv);
+    }
+    public void update(){
+        if(lstInventory != null){
+            lstInventory.clear();
+            for(Item item : container.values()){
+                lstInventory.setItem(item.slot, putNbt(item));
+            }
+        }
     }
     public GUI copy(){
         GUI gui = new GUI();

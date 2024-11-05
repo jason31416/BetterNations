@@ -15,6 +15,7 @@ public abstract class GUISession {
     private GUI gui;
     public GUISession(SimplePlayer player) {
         this.player = player;
+        if(sessions.containsKey(player)) sessions.get(player).close();
         sessions.put(player, this);
     }
     public abstract void constructGUI(String guiID, GUI gui);
@@ -32,8 +33,9 @@ public abstract class GUISession {
             constructGUI(guiID, gui);
             display(gui);
         } catch (Exception e) {
-            player.sendMessage(new StringMessage("&cError: Missing GUI "+guiID+", please contact admin!"));
-            PlanetLib.instance.getLogger().severe("Missing GUI: "+gui+"!");
+            player.sendMessage(new StringMessage("<red>Error: Missing GUI "+guiID+", please contact admin!"));
+            PlanetLib.instance.getLogger().severe("Error while loading GUI: "+guiID+"!");
+            e.printStackTrace();
         }
     }
     public void close() {

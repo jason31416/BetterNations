@@ -14,7 +14,7 @@ public class VaultHook {
     private static RegisteredServiceProvider<Economy> rsp;
     public static void init() {
         if(Bukkit.getPluginManager().getPlugin("Vault") == null || Bukkit.getServer().getServicesManager().getRegistration(Economy.class) == null) {
-            Bukkit.getLogger().info("\033[31mFailed to hook Vault, disabling BetterKingdoms...\033[0m");
+            Bukkit.getLogger().info("\033[31mFailed to hook Vault, disabling plugin...\033[0m");
             Bukkit.getPluginManager().disablePlugin(PlanetLib.instance);
             return;
         }

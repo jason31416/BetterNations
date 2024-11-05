@@ -9,5 +9,8 @@ public enum Permission {
     TOWN_UNCLAIM, // Unclaim land for towns
     NATION_CLAIM,
     NATION_UNCLAIM,
-    NATION_STRUCTURE
+    NATION_STRUCTURE,
+    CHANGE_RANK,
+    KICK_PLAYER,
+    TOWN_CREATE
 }

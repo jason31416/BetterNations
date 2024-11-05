@@ -1,8 +1,14 @@
 package cn.jason31416.betternations.structure;
 
 import cn.jason31416.betternations.nation.Town;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
+import cn.jason31416.planetlib.gui.GUI;
+import cn.jason31416.planetlib.gui.GUISession;
+import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
+import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,20 +21,40 @@ public class TownCore extends AbstractStructure {
     }
     public TownCore(SimpleLocation location, Town town) {
         super(Material.BEACON, location);
-        place();
         this.town = town;
+        place();
+    }
+    public String getHologramText(){
+        return Message.getMessage("structure.towncore.hologram").add("nation_color", town.getNation().getColorTag()).add("town", town.getName()).toString();
     }
     @Override
-    public void onInteract() {
+    @SuppressWarnings("SwitchStatementWithTooFewBranches")
+    public boolean processInteraction(InteractionType type, SimplePlayer player){
+        if(type == InteractionType.INTERACT){
+            GUISession session = new GUISession(player){
+                @Override
+                public void constructGUI(String guiID, GUI gui) {
+                    switch (guiID) {
+                        case "town-core": {
+                        }
+                    }
+                }
+            };
+            session.display("town-core");
+        }else if(type == InteractionType.BREAK) {
+            return false;
+        }
+        return true;
     }
     @Override
     public boolean serialize(IDataItem dataItem) {
-        dataItem.set("town", town.getId());
+        dataItem.set("town", town.getId().toString());
         return true;
     }
 
     @Override
     public void deserialize(IDataItem dataItem) {
         town = Town.getTown(UUID.fromString(dataItem.getString("town")));
+        town.core = this;
     }
 }

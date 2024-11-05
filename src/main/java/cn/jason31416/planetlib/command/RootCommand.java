@@ -65,7 +65,7 @@ public abstract class RootCommand implements ICommand, IParentCommand, CommandEx
         }
         if(subCommands.containsKey(context.getArg(0))){
             ICommand subCommand = subCommands.get(context.getArg(0));
-            Message msg = subCommand.execute(context);
+            Message msg = subCommand.execute(context.getSubContext());
             if(msg!= null) context.sender().sendMessage(msg);
         }else{
             context.sender().sendMessage(StaticMessages.UNKNOWN_COMMAND);
@@ -86,7 +86,7 @@ public abstract class RootCommand implements ICommand, IParentCommand, CommandEx
     @Nullable
     public abstract Message execute(ICommandContext context);
     public List<String> tabComplete(ICommandContext context) {
-        if(context.args().size() == 1) {
+        if(context.args().size()==1) {
             List<String> result = new ArrayList<>();
             for (String key : subCommands.keySet()) {
                 if (key.startsWith(context.getArg(0))) {
@@ -96,7 +96,7 @@ public abstract class RootCommand implements ICommand, IParentCommand, CommandEx
             return result;
         }else if(subCommands.containsKey(context.getArg(0))){
             ICommand subCommand = subCommands.get(context.getArg(0));
-            return subCommand.tabComplete(context);
+            return subCommand.tabComplete(context.getSubContext());
         }else{
             return null;
         }

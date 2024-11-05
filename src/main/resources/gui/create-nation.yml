@@ -1,6 +1,6 @@
 create-nation:
   window:
-    title: "&7-= &r创建国家 &7- &r%kingdom_name% &7=-"
+    title: "&7-= &r创建国家 &7- &r%nation_name% &7=-"
     size: 27
   container:
     border:
@@ -9,9 +9,12 @@ create-nation:
       slots: [1, 2, 3, 4, 5, 6, 7, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
     nation-type:
       name: "&f国家政体"
+      material: WHITE_CONCRETE
+      slot: 12
     confirm:
-      name: "&2&l确认创建 &a%kingdom_name%"
-      lore: []
+      name: "&2确认创建 &a%nation_name%"
+      lore:
+        - "&7点击确认创建国家"
       material: GREEN_WOOL
       slot: 8
     close:
