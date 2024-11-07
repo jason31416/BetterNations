@@ -26,10 +26,10 @@ public class GUILoader {
                 lore.add(new StringMessage(line).toString());
             }
             if(item.contains("slot")){
-                GUI.Item guiItem = gui.addItem(key, new StringMessage(item.getString("name")).toString(), item.getInt("slot"), Material.valueOf(item.getString("material", "AIR")), item.getInt("amount", 1));
+                GUI.Item guiItem = gui.addItem(key, new StringMessage(item.getString("name", "")).toString(), item.getInt("slot"), Material.valueOf(item.getString("material", "AIR")), item.getInt("amount", 1));
                 if(!lore.isEmpty()) guiItem.setLore(lore);
             } else {
-                List<GUI.Item> guiItems = gui.addItem(key, new StringMessage(item.getString("name")).toString(), item.getIntegerList("slots"), Material.valueOf(item.getString("material", "AIR")), item.getInt("amount", 1));
+                List<GUI.Item> guiItems = gui.addItem(key, new StringMessage(item.getString("name", "")).toString(), item.getIntegerList("slots"), Material.valueOf(item.getString("material", "AIR")), item.getInt("amount", 1));
                 if(!lore.isEmpty()) for(GUI.Item guiItem : guiItems) guiItem.setLore(lore);
             }
         }
@@ -43,6 +43,7 @@ public class GUILoader {
                 loadedGUIs.put(key, loadFromConfig(Objects.requireNonNull(config.getConfigurationSection(key))));
             }catch (Exception e){
                 StaticMessages.ERROR_GUI_CONFIG.add("file", path.getName()).add("key", key).sendConsole();
+                e.printStackTrace();
             }
         }
     }

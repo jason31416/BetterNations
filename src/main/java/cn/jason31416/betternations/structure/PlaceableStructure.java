@@ -1,27 +1,36 @@
 package cn.jason31416.betternations.structure;
 
 import cn.jason31416.planetlib.hook.NbtHook;
+import cn.jason31416.planetlib.item.ItemType;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class PlaceableStructure extends AbstractStructure {
-    public PlaceableStructure(Material material, SimpleLocation location) {
+    public static Map<String, Class<?> > placeableStructures=new HashMap<>();
+    public ItemType itemType;
+    public PlaceableStructure(Material material){
+        super(material);
+    }
+    public PlaceableStructure(Material material, ItemType type, SimpleLocation location) {
         super(material, location);
+        itemType = type;
+    }
+    public static void registerClass(String id, Class<? extends PlaceableStructure> clazz){
+        placeableStructures.put(id, clazz);
+        AbstractStructure.registerStructureType(clazz);
+    }
+    public void breakStructure(){
+        super.breakStructure();
+        if(location.getBukkitLocation().getWorld()==null) return;
+        location.getBukkitLocation().getWorld().dropItem(location.getBukkitLocation(), itemType.getItemStack());
     }
 
-    public static String getType(ItemStack item){
-        if(item == null||item.getType() == Material.AIR||item.getAmount() == 0) return null;
-        return NbtHook.getTag(item, "bn.structureItem.type");
-    }
-    public ItemStack setType(ItemStack item){
-        if(item == null || item.getType() == Material.AIR || item.getAmount() == 0) return null;
-        NbtHook.setTag(item, "bn.structureItem.type", getClass().getSimpleName());
-        return item;
-    }
-    public abstract ItemStack getItem();
-    public ItemStack getItemStack(){
-        return setType(getItem());
+    public static void registerAll(){
+        registerClass("testingitem", TestingPlacingStructure.class);
     }
 }

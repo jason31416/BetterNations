@@ -23,6 +23,7 @@ public class StringMessage implements Message {
     String content;
     public StringMessage(String content) {
         this.content = content
+                .replace("§", "&")
                 .replace("&a", "<green>")
                 .replace("&b", "<aqua>")
                 .replace("&c", "<red>")

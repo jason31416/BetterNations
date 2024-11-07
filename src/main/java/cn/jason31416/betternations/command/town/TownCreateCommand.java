@@ -25,17 +25,18 @@ public class TownCreateCommand extends ChildCommand {
     @Nullable
     @Override
     public Message execute(ICommandContext context) {
-        if (context.getPlayer() == null||context.checkArgs(ParameterType.STRING)||!context.getSender().isPlayer()) return null;
+        if (context.getPlayer() == null||!context.checkArgs(ParameterType.STRING)||!context.getSender().isPlayer()) return null;
         if (context.getPlayer().getNation() == null) return Message.getMessage("command.failed.player-not-in-nation");
-        SimpleLocation location = context.getSender().toPlayer().getLocation();
+        SimpleLocation location = context.getSender().toPlayer().getLocation().getBlockLocation();
         if (!context.getPlayer().getRank().hasPermission(Permission.TOWN_CREATE)) return Message.getMessage("command.failed.no-permission");
         if (location.getChunkLocation().isTownChunk()) return Message.getMessage("command.failed.already-claimed-by-town");
         if (location.getChunkLocation().getNation()!=null&&
                 location.getChunkLocation().getNation()!=context.getPlayer().getNation())
             return Message.getMessage("command.failed.chunk-not-belong-to-nation");
-        if (location.getBlockMaterial().isSolid()){
+        if (location.getBlockMaterial().isSolid()||!location.getRelative(0, -1, 0).getBlockMaterial().isSolid()){
             return Message.getMessage("command.failed.invalid-creation-location");
         }
+        if(Town.getTown(context.getArg(0))!=null) return Message.getMessage("command.failed.town-name-exists");
         if(!context.getPlayer().withdrawBalance(Config.getDouble("town.creation-cost"))){
             return Message.getMessage("not-enough-money").add("amount", Config.getDouble("town.creation-cost"));
         }

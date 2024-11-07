@@ -1,5 +1,8 @@
 package cn.jason31416.betternations.command;
 
+import cn.jason31416.betternations.command.admin.AdminCommand;
+import cn.jason31416.betternations.command.admin.ReloadCommand;
+import cn.jason31416.betternations.command.misc.CraftingGuideCommand;
 import cn.jason31416.betternations.command.nation.*;
 import cn.jason31416.betternations.command.resolution.ResolutionCommand;
 import cn.jason31416.betternations.command.town.TownClaimCommand;
@@ -23,8 +26,12 @@ public class BetterNationsCommand extends RootCommand {
         new NationColorCommand(this);
         new NationKickCommand(this);
 
+        new CraftingGuideCommand(this);
+
         new TownCommand(this);
         new ResolutionCommand(this);
+        new AdminCommand(this);
+        new ReloadCommand(this);
     }
 
     @Override

@@ -36,7 +36,6 @@ public abstract class AbstractStructure {
     }
     public abstract boolean serialize(IDataItem dataItem);
     public abstract void deserialize(IDataItem dataItem);
-
     public String getHologramText(){
         return Message.getMessage("structure."+getClass().getSimpleName().toLowerCase()+".hologram").toString();
     }

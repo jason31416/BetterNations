@@ -1,5 +1,6 @@
 package cn.jason31416.planetlib.message;
 
+import cn.jason31416.planetlib.PlanetLib;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -52,6 +53,7 @@ public class MessageLoader {
         return instance.getStringMessage(key, defaultMessage);
     }
     public static void initialize(File filePath, JavaPlugin plugin){
+        PlanetLib.instance.getLogger().info("\033[34mLoading messages: "+filePath.getName()+"\033[0m");
         instance = new MessageLoader(filePath);
         StringMessage.bukkitAudiences = BukkitAudiences.create(plugin);
         StringMessage.miniMessage = MiniMessage.miniMessage();

@@ -49,6 +49,12 @@ public class GUI {
         public ItemGroup(List<Item> items){
             this.items=items;
         }
+        public ItemGroup setItemStack(ItemStack stack){
+            for(Item item: items){
+                item.setItemStack(stack);
+            }
+            return this;
+        }
         public ItemGroup setName(String name){
             for(Item item : items){
                 item.setName(name);
@@ -97,6 +103,15 @@ public class GUI {
         public Item(String id) {this.id = id;}
         public Item setMaterial(Material material) {
             this.material = material;
+            return this;
+        }
+        public Item setItemStack(ItemStack stack) {
+            material = stack.getType();
+            quantity = stack.getAmount();
+            ItemMeta meta = stack.getItemMeta();
+            if(meta==null) return this;
+            name=meta.getDisplayName();
+            lore=meta.getLore();
             return this;
         }
         public Item setName(String name) {
@@ -205,6 +220,12 @@ public class GUI {
         for(Item item : container.values()){
             inv.setItem(item.slot, putNbt(item));
         }
+//        Item filleritem = new Item("_filler").setMaterial(Material.LIGHT_GRAY_STAINED_GLASS_PANE).setName(" ");
+//        for(int i=0;i<inv.getSize();i++){
+//            if(inv.getItem(i)==null||inv.getItem(i).getType()==Material.AIR){
+//                inv.setItem(i, putNbt(filleritem));
+//            }
+//        }
         player.getPlayer().openInventory(inv);
     }
     public void update(){
@@ -213,6 +234,12 @@ public class GUI {
             for(Item item : container.values()){
                 lstInventory.setItem(item.slot, putNbt(item));
             }
+//            Item filleritem = new Item("_filler").setMaterial(Material.LIGHT_GRAY_STAINED_GLASS_PANE).setName(" ");
+//            for(int i=0;i<lstInventory.getSize();i++){
+//                if(lstInventory.getItem(i)==null||lstInventory.getItem(i).getType()==Material.AIR){
+//                    lstInventory.setItem(i, putNbt(filleritem));
+//                }
+//            }
         }
     }
     public GUI copy(){

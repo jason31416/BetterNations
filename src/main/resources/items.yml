@@ -1,0 +1,51 @@
+# In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
+# !IMPORTANT! Changing item name/lore/material will make items that already exists in the server
+# to be unable to use in any crafting recipe!
+# !重要! 请不要在投入使用后更改物品信息，否则已有的该物品将无法用于任何合成!
+
+items:
+  testingitem:
+    name: "&7会说话的火把"
+    lore: "&8[<red>!&8] &7&o测试专用"
+    material: arrow
+  testingbase:
+    name: "&7火把把手"
+    material: stick
+  testingtorch:
+    name: "&7火把本体"
+    material: iron_sword
+  testingfire:
+    name: "&7纯度为100%的火焰"
+    material: campfire
+recipes:
+  testrecipe:
+    type: crafting
+    product: testingbase
+    shape:
+      - "a  "
+      - " b "
+      - "  b"
+    material:
+      a: iron_ingot
+      b: chain
+  testsmelting:
+    type: smelting
+    product: testingfire
+    ingredient: diamond
+    exp: 10.0
+    time: 5
+  craftitem:
+    type: crafting
+    product: testingitem
+    shape:
+      - "a "
+      - " b"
+    material:
+      a: testingfire
+      b: testingbase
+  smeltitem:
+    type: smelting
+    product: testingitem
+    ingredient: testingfire
+    exp: 10.0
+    time: 150

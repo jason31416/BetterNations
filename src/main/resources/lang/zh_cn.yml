@@ -24,6 +24,7 @@ command:
     sent-join-request: "<#2288ff>成功请求加入了 %nation%!"
     color-changed: "<#2288ff>成功修改国家颜色，试试发条消息叭!"
     town-created: "<#2288ff>成功创建城镇 <#00ddff>%name% <#2288ff>!"
+    give-item: "<#2288ff>给予了 %player% 物品: %item%"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
@@ -46,6 +47,7 @@ command:
     chunk-already-claimed: "<red>该区块已经被占领了!"
     chunk-not-claimed: "<red>该区块还没有被你占领!"
     nation-already-exists: "<red>已经有另一个国家使用该名称了!"
+    town-name-exists: "<red>已经有另一个城镇使用该名称了!"
     no-available-chunk: "<red>没有可用的区块来执行该操作!"
     player-in-gui: "<red>你正在操作另一个GUI!"
     unknown-subcommand: "<red>未知的子命令!"
@@ -55,6 +57,7 @@ command:
     resolution-not-found: "<red>该决议不存在!"
     resolution-not-signable: "<red>你无法签署该协议!"
     resolution-not-signed: "<red>该协议还没有被你签署!"
+    unknown-item-type: "<red>该物品不存在!"
 
 # These are messages that are related to nations.
 nation:
@@ -81,7 +84,7 @@ nation:
     peasant: "平民"
     member: "成员"
     citizen: "公民"
-    leader: "领袖"
+    leader: "执政官"
     subject: "成员"
     representative: "议员"
     president: "总统"
@@ -129,7 +132,7 @@ town:
   cannot-build: "&8你没有权限在此处交互!"
 chat:
   with_nation: "&8[%nation_color%%nation% %title%&8] %sender% ≫ &f%message%"
-  no_nation: "&8%sender% &8≫ &f%message%"
+  no_nation: "&f<%sender%> &f%message%"
 auto-claiming:
   disabled-auto-claiming: "&c关闭了自动占领区块"
   disabled-auto-unclaiming: "&c关闭了自动放弃区块"
@@ -138,3 +141,19 @@ auto-claiming:
   town-unclaim: "&a开启了自动为城镇放弃区块"
   unclaim: "&a开启了自动放弃区块"
   cannot-start-from-wild: "&c你必须从一个城镇区块开始自动占领!"
+admin:
+  configuration-format-error: "&c错误的配置格式!"
+  reloading: "&3重新加载 &bBetterNations &3中..."
+  reloaded: "&3成功加载 &bBetterNations &3!"
+item:
+  cannot-enchant: "<red>该物品不能被修改!"
+  recipe:
+    crafting:
+      name: "&f合成 &7(工作台)"
+      lore:
+        - "&f通过工作台合成"
+    smelting:
+      name: "&f烧制 &7(熔炉)"
+      lore:
+        - "&f通过熔炉烧制"
+        - "&f耗时: &7%smelting-time% s"

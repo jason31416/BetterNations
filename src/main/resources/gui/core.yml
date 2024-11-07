@@ -1,12 +1,12 @@
 town-core:
   window:
-    title: "&7-= &r%% 城镇 &7=-"
-    size: 27
+    title: "&7-= &r%town_name% 城镇 &7=-"
+    size: 54
   container:
     border:
       name: " "
       material: GRAY_STAINED_GLASS_PANE
-      slots: [1, 2, 3, 4, 5, 6, 7, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
     close:
       name: "&c关闭菜单"
       material: BARRIER

@@ -220,7 +220,8 @@ public class Town {
     }
     // Static methods
     public static Town createTown(String name, SimpleLocation location, Nation nation, SimplePlayer mayor) {
-        if(location.getChunkLocation().isClaimed()) return null;
+        if(!location.getChunkLocation().isClaimed()) nation.claim(location.getChunkLocation());
+        if(location.getChunkLocation().getNation()!=nation) return null;
         UUID id = UUID.randomUUID();
         Town town = new Town(id, name, nation);
         town.registerTown();
@@ -228,7 +229,6 @@ public class Town {
         town.setRole(mayor, TownRole.MAYOR);
         nation.addTown(town);
         town.core = new TownCore(location, town);
-        nation.claim(location.getChunkLocation());
         town.townChunks.add(location.getChunkLocation());
         chunkTownMap.put(location.getChunkLocation(), town);
         return town;

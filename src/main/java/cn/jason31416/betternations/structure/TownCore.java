@@ -36,6 +36,7 @@ public class TownCore extends AbstractStructure {
                 public void constructGUI(String guiID, GUI gui) {
                     switch (guiID) {
                         case "town-core": {
+                            gui.placeholder("town_name", town.getName());
                         }
                     }
                 }

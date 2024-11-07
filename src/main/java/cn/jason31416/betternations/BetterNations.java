@@ -3,10 +3,12 @@ package cn.jason31416.betternations;
 import cn.jason31416.betternations.command.BetterNationsCommand;
 import cn.jason31416.betternations.manager.BorderDisplayManager;
 import cn.jason31416.betternations.manager.EventListener;
+import cn.jason31416.betternations.manager.ItemCraftingManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.Hologram;
+import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.StructureListener;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.PlanetLib;
@@ -41,6 +43,10 @@ public final class BetterNations extends JavaPlugin {
         savePluginResource("gui/create-nation.yml");
         savePluginResource("gui/core.yml");
         savePluginResource("gui/README.md");
+        savePluginResource("gui/crafting-guide.yml");
+
+        savePluginResource("items.yml");
+
         savePluginResource("lang/zh_cn.yml");
     }
     public void savePluginResource(@NotNull String resourcePath) {
@@ -101,8 +107,14 @@ public final class BetterNations extends JavaPlugin {
             }
         }
     }
+    public void loadGUIs(){
+        File guiFolder = new File(getDataFolder(), "gui");
+        getLogger().info("\033[34mLoading GUIs:\033[0m");
+        loadGUIs(guiFolder);
+    }
     // Loading the plugin
     public void registerDataLists() {
+        getLogger().info("\033[34mLoading data...\033[0m");
         File dataFolder = new File(getDataFolder(), "data");
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
@@ -168,11 +180,6 @@ public final class BetterNations extends JavaPlugin {
 
         UpdateCycle.registerTask("BetterNations.PeriodicSave", new UpdateTask(60*20, () -> storage.save()));
     }
-    public void loadGUIs(){
-        File guiFolder = new File(getDataFolder(), "gui");
-        getLogger().info("\033[34mLoading GUIs:\033[0m");
-        loadGUIs(guiFolder);
-    }
     public void loadHooks(){
         // todo
     }
@@ -189,10 +196,13 @@ public final class BetterNations extends JavaPlugin {
         saveAllResources();
         printAsciiArt();
         PlanetLib.initialize(this);
+        ItemCraftingManager.loadAll();
+        PlaceableStructure.registerAll();
         AbstractStructure.registerAllStructures();
         registerDataLists();
         loadGUIs();
         Hologram.checkHolograms();
+
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
         UpdateCycle.registerTask("BetterNations.ClaimingActionbar", new UpdateTask(20, ()->{
             for(SimplePlayer i: new ArrayList<>(EventListener.autoClaiming.keySet())){
@@ -215,6 +225,21 @@ public final class BetterNations extends JavaPlugin {
                 loadHooks();
             }
         }.runTaskLater(this, 1);
+    }
+    public void reload(){
+        saveAllResources();
+        storage.save();
+        PlanetLib.reload(this);
+        ItemCraftingManager.unregisterAll();
+        ItemCraftingManager.loadAll();
+
+        GUILoader.loadedGUIs.clear();
+        loadGUIs();
+
+        UpdateCycle.unregisterTask("BetterNations.BorderDisplay");
+        UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
+
+        Hologram.checkHolograms();
     }
     @Override
     public void onDisable() {

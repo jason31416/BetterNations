@@ -76,7 +76,7 @@ public class NationCreateCommand extends ChildCommand {
                             context.getSender().sendMessage(Message.getMessage("command.failed.not-enough-money").add("amount", Config.getDouble("nation.creation-cost")));
                             return;
                         }
-                        if(player.getLocation().getBlockMaterial().isSolid()||player.getLocation().getChunkLocation().isClaimed()){
+                        if(player.getLocation().getBlockMaterial().isSolid()||player.getLocation().getChunkLocation().isClaimed()||!player.getLocation().getRelative(0, -1, 0).getBlockMaterial().isSolid()){
                             context.getSender().sendMessage(Message.getMessage("command.failed.invalid-creation-location"));
                             return;
                         }

@@ -1,4 +1,4 @@
-package cn.jason31416.betternations.command.town;
+package cn.jason31416.betternations.command.admin;
 
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
@@ -6,13 +6,12 @@ import cn.jason31416.planetlib.command.ParentCommand;
 import cn.jason31416.planetlib.message.Message;
 import org.jetbrains.annotations.Nullable;
 
-public class TownCommand extends ParentCommand {
-    public TownCommand(IParentCommand parent) {
-        super("town", parent);
+public class AdminCommand extends ParentCommand {
+    public AdminCommand(IParentCommand parent) {
+        super("admin", parent);
 
-        new TownClaimCommand(this);
-        new TownUnclaimCommand(this);
-        new TownCreateCommand(this);
+        new GiveCommand(this);
+        new ReloadCommand(this);
     }
 
     @Override

@@ -1,15 +1,12 @@
 package cn.jason31416.planetlib;
 
-import cn.jason31416.planetlib.command.RootCommand;
 import cn.jason31416.planetlib.command.tempAction.PlanetLibRootCommand;
 import cn.jason31416.planetlib.command.tempAction.TempAction;
 import cn.jason31416.planetlib.gui.GUIEventHandler;
 import cn.jason31416.planetlib.hook.VaultHook;
-import cn.jason31416.planetlib.message.InternalPlaceholder;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.update.UpdateCycle;
 import cn.jason31416.planetlib.update.UpdateTask;
-import io.lumine.mythic.api.packs.Pack;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,14 +38,16 @@ public class PlanetLib {
         instance.getServer().getPluginManager().registerEvents(new GUIEventHandler(), plugin);
     }
     public static void reload(JavaPlugin plugin) {
-        Config.start(plugin);
         plugin.saveDefaultConfig();
-        MessageLoader.initialize(new File(plugin.getDataFolder(), "lang/"+Config.getString("lang")), plugin);
-        InternalPlaceholder.placeholderHandlers.clear();
+        plugin.reloadConfig();
+        Config.start(plugin);
+        MessageLoader.close();
+        MessageLoader.initialize(new File(plugin.getDataFolder(), "lang/"+Config.getString("lang")+".yml"), plugin);
     }
     public static void shutdown() {
         UpdateCycle.stop();
         MessageLoader.close();
+        Bukkit.resetRecipes();
         initialized = false;
     }
 }
