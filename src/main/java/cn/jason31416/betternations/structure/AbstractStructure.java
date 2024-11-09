@@ -1,15 +1,13 @@
 package cn.jason31416.betternations.structure;
 
-import cn.jason31416.planetlib.Config;
+import cn.jason31416.betternations.structure.types.TownCore;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import cn.jason31416.planetlib.wrapper.SimpleWorld;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

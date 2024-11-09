@@ -3,6 +3,7 @@ package cn.jason31416.planetlib;
 import cn.jason31416.planetlib.command.tempAction.PlanetLibRootCommand;
 import cn.jason31416.planetlib.command.tempAction.TempAction;
 import cn.jason31416.planetlib.gui.GUIEventHandler;
+import cn.jason31416.planetlib.hook.MythicMobsHook;
 import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.update.UpdateCycle;
@@ -25,6 +26,7 @@ public class PlanetLib {
         }
         instance = plugin;
         VaultHook.init();
+        MythicMobsHook.init();
         String pkg = Bukkit.getServer().getClass().getPackage().getName();
         packageName = pkg.substring(pkg.lastIndexOf(".")+1);
         plugin.saveDefaultConfig();

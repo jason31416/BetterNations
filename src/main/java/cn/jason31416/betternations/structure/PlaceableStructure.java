@@ -1,11 +1,8 @@
 package cn.jason31416.betternations.structure;
 
-import cn.jason31416.planetlib.hook.NbtHook;
 import cn.jason31416.planetlib.item.ItemType;
-import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +28,6 @@ public abstract class PlaceableStructure extends AbstractStructure {
     }
 
     public static void registerAll(){
-        registerClass("testingitem", TestingPlacingStructure.class);
+
     }
 }

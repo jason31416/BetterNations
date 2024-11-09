@@ -1,7 +1,9 @@
 package cn.jason31416.betternations.nation;
 
-import cn.jason31416.betternations.structure.AbstractStructure;
-import cn.jason31416.betternations.structure.TownCore;
+import cn.jason31416.betternations.army.ArmorType;
+import cn.jason31416.betternations.army.DamageSource;
+import cn.jason31416.betternations.army.Damageable;
+import cn.jason31416.betternations.structure.types.TownCore;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
@@ -10,7 +12,7 @@ import cn.jason31416.planetlib.wrapper.SimpleWorld;
 
 import java.util.*;
 
-public class Town {
+public class Town implements Damageable {
     // Static fields
     public static final Map<UUID, Town> towns = new HashMap<>();
     public static final Map<SimpleChunkLocation, Town> chunkTownMap = new HashMap<>();
@@ -21,6 +23,7 @@ public class Town {
     Nation nation;
     SimplePlayer mayor;
     public TownCore core;
+    double townHealth=0;
     Set<SimpleChunkLocation> townChunks=new HashSet<>();
     Map<SimplePlayer, TownRole> roles=new HashMap<>();
     // Constructors
@@ -161,6 +164,7 @@ public class Town {
         dataItem.set("name", name);
         dataItem.set("mayor", mayor.getUUID().toString());
         dataItem.set("nation", nation.getId().toString());
+        dataItem.set("hp", townHealth);
         List<String> townChunkList = new ArrayList<>(),
                 roleList = new ArrayList<>();
         String lstWorld = "";
@@ -187,6 +191,7 @@ public class Town {
         Nation nation = Nation.getNation(UUID.fromString(dataItem.getString("nation")));
         SimplePlayer mayor = SimplePlayer.of(UUID.fromString(dataItem.getString("mayor")));
         Town town = new Town(id, name, nation);
+        town.townHealth = dataItem.getDouble("hp");
         town.mayor = mayor;
         String[] townChunks = dataItem.getString("chunks").split(";");
         SimpleWorld world = null;
@@ -225,6 +230,7 @@ public class Town {
         UUID id = UUID.randomUUID();
         Town town = new Town(id, name, nation);
         town.registerTown();
+        town.townHealth=10;
         town.mayor = mayor;
         town.setRole(mayor, TownRole.MAYOR);
         nation.addTown(town);
@@ -243,5 +249,24 @@ public class Town {
             }
         }
         return null;
+    }
+
+    @Override
+    public double getHealth() {
+        return townHealth;
+    }
+
+    @Override
+    public void damage(double dmg) {
+        townHealth -= dmg;
+    }
+    @Override
+    public void damage(DamageSource dmg){
+        townHealth -= dmg.getDamageTowards(ArmorType.TERRITORY);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return townHealth>0;
     }
 }

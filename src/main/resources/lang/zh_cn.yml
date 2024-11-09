@@ -145,6 +145,8 @@ admin:
   configuration-format-error: "&c错误的配置格式!"
   reloading: "&3重新加载 &bBetterNations &3中..."
   reloaded: "&3成功加载 &bBetterNations &3!"
+combat:
+  transport-name: "&e&l%nation% 的部队 &7 (%units% 个单位)"
 item:
   cannot-enchant: "<red>该物品不能被修改!"
   recipe:

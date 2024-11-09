@@ -2,6 +2,7 @@ package cn.jason31416.planetlib.wrapper;
 
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationalRank;
+import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.message.Message;
 import org.bukkit.Bukkit;
@@ -37,6 +38,13 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
     public Player getPlayer() {
         if(!isOnline()) throw new IllegalStateException("Player is not online");
         return offlinePlayer.getPlayer();
+    }
+    public boolean hasPermission(Permission p){
+        return getRank().hasPermission(p);
+    }
+    public boolean hasPermission(Permission p, SimpleLocation location){
+        if(getRank().hasPermission(p)) return true;
+        return location.getChunkLocation().getTown()!=null&&location.getChunkLocation().getTown().getRole(this).hasPermission(p);
     }
 
     public void sendMessage(Message message) {

@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class BorderDisplayManager implements UpdateTask.RunnableTask {
-    private int tick=0;
     private void drawBorder(SimpleChunkLocation chunk, int dx, int dz, Player player, Color color, int shifting) {
         Particle.DustOptions dustOptions = new Particle.DustOptions(color, (float) Config.getDouble("border-display.particle-size", 1.5));
         if(dx==1){ // eastern border of the chunk
@@ -62,6 +61,5 @@ public class BorderDisplayManager implements UpdateTask.RunnableTask {
                 }
             }
         }
-        tick++;
     }
 }

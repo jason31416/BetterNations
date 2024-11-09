@@ -12,5 +12,6 @@ public enum Permission {
     NATION_STRUCTURE,
     CHANGE_RANK,
     KICK_PLAYER,
-    TOWN_CREATE
+    TOWN_CREATE,
+    MANAGE_ARMY
 }

@@ -22,3 +22,7 @@ border-display: # [Most options in this section require restart to take effect]
   range: 3 # in chunks
   interval: 15 # in ticks
   particle-size: 1.5
+
+combat:
+  transport-mob: zombie
+  damage-units: 10 # top 10 units are counted toward the stack's total damage

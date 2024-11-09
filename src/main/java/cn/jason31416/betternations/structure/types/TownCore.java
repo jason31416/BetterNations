@@ -1,6 +1,7 @@
-package cn.jason31416.betternations.structure;
+package cn.jason31416.betternations.structure.types;
 
 import cn.jason31416.betternations.nation.Town;
+import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
