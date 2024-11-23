@@ -1,0 +1,50 @@
+
+# This section controls the land army's types.
+# Please do not delete anything when it already has been produced in the server, or unexpected bugs may happen.
+types:
+  infantry:
+    name: "基础步兵" # The display name of the army type
+    armor: unarmed # This can be: unarmed/armored
+    icon: iron_sword # The item displayed on the GUI view. Not case-sensitive
+    hp: 10 # The health of the unit
+    damage: # The damages dealt to other armor types when engaging in virtual combats. If not listed, the default is 0
+      # If you want to change these, remember to do so as well in items.yml for display!
+      unarmed: 2.0
+      armored: 0.5
+      territory: 0.5 # Its damage dealt to territories such as chunks/towns
+  advanced-infantry:
+    name: "高级步兵" # The display name of the army type
+    armor: armored # This can be: unarmed/armored
+    icon: iron_helmet # The item displayed on the GUI view. Not case-sensitive
+    hp: 20 # The health of the unit
+    damage: # The damages dealt to other armor types when engaging in virtual combats. If not listed, the default is 0
+      # If you want to change these, remember to do so as well in items.yml for display!
+      unarmed: 3.0
+      armored: 0.7
+      territory: 0.8 # Its damage dealt to territories such as chunks/towns
+  armored-infantry:
+    name: "重甲步兵" # The display name of the army type
+    armor: armored # This can be: unarmed/armored
+    icon: iron_chestplate # The item displayed on the GUI view. Not case-sensitive
+    hp: 40 # The health of the unit
+    damage: # The damages dealt to other armor types when engaging in virtual combats. If not listed, the default is 0
+      # If you want to change these, remember to do so as well in items.yml for display!
+      unarmed: 4.0
+      armored: 1.2
+      territory: 1.0 # Its damage dealt to territories such as chunks/towns
+
+# This section controls the production of land armies
+# Please do not delete/alter it when a unit production facility is already built in the server, or unexpected bugs may happen.
+production:
+  barrack: # The ID of the production facility structure. An item with the same id should exist as well!
+    material: GREEN_CONCRETE # The block used for the structure. Not case-sensitive
+    recipes:
+      infantry: # The item ID of the material that is used to produce this recipe. It should exist in items.yml.
+        type: infantry # The unit ID of the army type listed above.
+        time: 10 # How long does it take to produce it? (in seconds)
+      advanced-infantry:
+        type: advanced-infantry
+        time: 20
+      armored-infantry:
+        type: armored-infantry
+        time: 50

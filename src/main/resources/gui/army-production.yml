@@ -1,0 +1,26 @@
+army-production:
+  window:
+    title: "&7-= &r%structure_name% &7=-"
+    size: 54
+    inputs: [13]
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    training:
+      name: "&7未开始训练"
+      material: BARRIER
+      slot: 22
+    material:
+      name: "&7&l请放入装备"
+      material: WHITE_STAINED_GLASS_PANE
+      slot: 13
+    extract:
+      name: "&a&l提取所有单位"
+      material: LIME_WOOL
+      slot: 8
+    close:
+      name: "&c关闭"
+      material: BARRIER
+      slot: 0

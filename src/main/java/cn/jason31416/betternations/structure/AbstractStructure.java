@@ -21,24 +21,19 @@ public abstract class AbstractStructure {
     public static final Map<SimpleLocation, AbstractStructure> structures = new HashMap<>();
     public static final Map<String, Class<? extends AbstractStructure> > structureTypes = new HashMap<>();
     public SimpleLocation location;
-    public UUID uuid;
-    final Material material;
+    public UUID uuid=UUID.randomUUID();
+    public abstract Material getMaterial();
     Hologram hologram=null;
-    public AbstractStructure(Material material){
-        this.material = material;
-    }
-    public AbstractStructure(Material material, SimpleLocation location) {
-        this.location = location.getBlockLocation();
-        this.uuid = UUID.randomUUID();
-        this.material = material;
-    }
     public abstract boolean serialize(IDataItem dataItem);
     public abstract void deserialize(IDataItem dataItem);
     public String getHologramText(){
-        return Message.getMessage("structure."+getClass().getSimpleName().toLowerCase()+".hologram").toString();
+        return Message.getMessage("structure."+getID()+".hologram").toString();
+    }
+    public String getID(){
+        return getClass().getSimpleName().toLowerCase();
     }
     public void place(){
-        location.setBlockMaterial(material);
+        location.setBlockMaterial(getMaterial());
         hologram = Hologram.createHologram(SimpleLocation.of(location.getBlock().getLocation().add(0.5, 1.3, 0.5)), getHologramText());
         register();
     }
@@ -49,7 +44,7 @@ public abstract class AbstractStructure {
         structures.remove(location);
     }
     public static boolean pack(IDataItem dataItem, AbstractStructure structure){
-        String structureType = structure.getClass().getSimpleName();
+        String structureType = structure.getID();
         boolean success = structure.serialize(dataItem);
         dataItem.put("structureType", structureType);
         dataItem.put("location", structure.location.x()+"_"+structure.location.y()+"_"+structure.location.z()+"_"+structure.location.world().getBukkitWorld().getUID().toString());
@@ -81,7 +76,7 @@ public abstract class AbstractStructure {
     }
     public abstract boolean processInteraction(InteractionType type, SimplePlayer player);
     public static void registerStructureType(Class<? extends AbstractStructure> structureClass) {
-        structureTypes.put(structureClass.getSimpleName(), structureClass);
+        structureTypes.put(structureClass.getSimpleName().toLowerCase(), structureClass);
     }
     public static void registerAllStructures() {
         registerStructureType(TownCore.class);

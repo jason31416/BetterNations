@@ -5,7 +5,9 @@ import cn.jason31416.planetlib.hook.MythicMobsHook;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import io.lumine.mythic.bukkit.BukkitAdapter;
 import io.lumine.mythic.core.mobs.ActiveMob;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 
 public class MythicMob implements SimpleMob {
     ActiveMob mob;
@@ -29,6 +31,17 @@ public class MythicMob implements SimpleMob {
     public boolean isAlive() {
         return !mob.isDead();
     }
+
+    @Override
+    public void damage(double hp) {
+        mob.getEntity().damage((float) hp);
+    }
+
+    @Override
+    public void setMaxHealth(double hp) {
+        mob.getEntity().setMaxHealth((float) hp);
+    }
+
     @Override
     public void setHealth(double hp){
         mob.getEntity().setHealth(hp);
@@ -38,6 +51,11 @@ public class MythicMob implements SimpleMob {
     @Override
     public void setTarget(LivingEntity target) {
         mob.setTarget(BukkitAdapter.adapt(target));
+    }
+
+    @Override
+    public Entity getBukkitEntity(){
+        return mob.getEntity().getBukkitEntity();
     }
 
     @Override

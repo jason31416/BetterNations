@@ -23,13 +23,24 @@ public class ItemCraftingManager {
     public static void loadItems(ConfigurationSection section){
         for(String i: section.getKeys(false)){
             try{
-                CustomItemType itemType = new CustomItemType(
-                        i,
-                        new StringMessage(section.getString(i+".name", "")).toString(),
-                        Objects.requireNonNull(Material.getMaterial(section.getString(i+".material", "").toUpperCase()), "Material is not found!"),
-                        new MessageList(section.getStringList(i+".lore")).asList(),
-                        false
-                );
+                CustomItemType itemType;
+                if(section.contains(i + ".skull")) {
+                    itemType = new CustomItemType(
+                            i,
+                            new StringMessage(section.getString(i + ".name", "")).toString(),
+                            section.getString(i + ".skull", ""),
+                            new MessageList(section.getStringList(i + ".lore")).asList()
+                    );
+                }else{
+                    itemType = new CustomItemType(
+                            i,
+                            new StringMessage(section.getString(i + ".name", "")).toString(),
+                            Objects.requireNonNull(Material.getMaterial(section.getString(i + ".material", "").toUpperCase()), "Material is not found!"),
+                            new MessageList(section.getStringList(i + ".lore")).asList(),
+                            false
+                    );
+                }
+                if(section.contains(i+".model")) itemType.setCustomModelData(section.getInt(i+".model"));
                 itemType.register();
             }catch (Exception e){
                 Message.getMessage("admin.configuration-format-error").send(Bukkit.getConsoleSender());

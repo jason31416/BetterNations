@@ -21,6 +21,12 @@ public interface IDataItem {
         if(value instanceof Integer) return (Integer) get(key);
         return null;
     }
+    default Long getLong(String key) {
+        Object value = get(key);
+        if(value instanceof Long val) return val;
+        if(value instanceof Integer val) return val.longValue();
+        return null;
+    }
     default Double getDouble(String key) {
         Object value = get(key);
         if(value instanceof Double) return (Double) get(key);

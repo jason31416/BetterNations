@@ -83,7 +83,10 @@ public class Town implements Damageable {
     public void moveCore(SimpleLocation location){
         if(location.getChunkLocation().getTown() == this) {
             core.breakStructure();
-            core = new TownCore(location, this);
+            core = new TownCore();
+            core.location = location;
+            core.town = this;
+            core.place();
         }
     }
     public void remove(){
@@ -234,7 +237,10 @@ public class Town implements Damageable {
         town.mayor = mayor;
         town.setRole(mayor, TownRole.MAYOR);
         nation.addTown(town);
-        town.core = new TownCore(location, town);
+        town.core = new TownCore();
+        town.core.location = location.getBlockLocation();
+        town.core.town = town;
+        town.core.place();
         town.townChunks.add(location.getChunkLocation());
         chunkTownMap.put(location.getChunkLocation(), town);
         return town;

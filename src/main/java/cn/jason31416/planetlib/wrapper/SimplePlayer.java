@@ -43,8 +43,9 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
         return getRank().hasPermission(p);
     }
     public boolean hasPermission(Permission p, SimpleLocation location){
-        if(getRank().hasPermission(p)) return true;
-        return location.getChunkLocation().getTown()!=null&&location.getChunkLocation().getTown().getRole(this).hasPermission(p);
+        if(location.getChunkLocation().getNation()==null&&(p==Permission.BUILD||p==Permission.STRUCTURE)) return true;
+        if(location.getChunkLocation().getTown()!=null) return location.getChunkLocation().getTown().getRole(this).hasPermission(p);
+        return getRank().hasPermission(p)&&location.getChunkLocation().getNation()==getNation();
     }
 
     public void sendMessage(Message message) {

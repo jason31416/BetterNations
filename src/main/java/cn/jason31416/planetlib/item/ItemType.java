@@ -17,6 +17,10 @@ public abstract class ItemType {
     public boolean allowInteraction(){
         return true;
     }
+    public boolean equals(ItemType other){
+        if(other==null) return getMaterial()==Material.AIR;
+        return other.getName().equals(getName());
+    }
     public static ItemType getItemType(String name){
         if(CustomItemType.itemTypes.containsKey(name.toLowerCase())){
             return CustomItemType.itemTypes.get(name.toLowerCase());
@@ -28,8 +32,8 @@ public abstract class ItemType {
         }
     }
     public static ItemType getItemType(ItemStack item){
-        if(item == null) return null;
-        if(NbtHook.hasTag(item, "plib.itemType")){
+        if(item == null) return new VanillaItemType(Material.AIR);
+        if(NbtHook.hasTag(item, "plib.itemType")&&CustomItemType.itemTypes.containsKey(NbtHook.getTag(item, "plib.itemType"))){
             return CustomItemType.get(item);
         }
         return new VanillaItemType(item.getType());

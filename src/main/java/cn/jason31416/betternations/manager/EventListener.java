@@ -5,6 +5,7 @@ import cn.jason31416.betternations.command.nation.NationUnclaimCommand;
 import cn.jason31416.betternations.command.town.TownClaimCommand;
 import cn.jason31416.betternations.command.town.TownUnclaimCommand;
 import cn.jason31416.betternations.nation.Nation;
+import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StaticMessages;
@@ -99,7 +100,7 @@ public class EventListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
-        if(!SimpleLocation.of(event.getBlock()).canInteract(player)){
+        if(!player.hasPermission(Permission.BUILD, SimpleLocation.of(event.getBlock()))){
             event.setCancelled(true);
             Message.getMessage("town.cannot-build").sendActionbar(player);
         }
@@ -107,7 +108,7 @@ public class EventListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
-        if(!SimpleLocation.of(event.getBlock()).canInteract(player)){
+        if(!player.hasPermission(Permission.BUILD, SimpleLocation.of(event.getBlock()))){
             event.setCancelled(true);
             Message.getMessage("town.cannot-build").sendActionbar(player);
         }
@@ -116,7 +117,7 @@ public class EventListener implements Listener {
     public void onBlockInteract(PlayerInteractEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
         if(event.getClickedBlock()==null) return;
-        if(!SimpleLocation.of(event.getClickedBlock()).canInteract(player)){
+        if(!player.hasPermission(Permission.BUILD, SimpleLocation.of(event.getClickedBlock()))){
             event.setCancelled(true);
             Message.getMessage("town.cannot-build").sendActionbar(player);
         }
@@ -132,6 +133,10 @@ public class EventListener implements Listener {
     }
     @EventHandler
     public void onBlockExplode(EntityExplodeEvent event){
+        event.blockList().removeIf(i -> (SimpleLocation.of(i).getChunkLocation().isTownChunk()||AbstractStructure.structures.containsKey(SimpleLocation.of(i))));
+    }
+    @EventHandler
+    public void onBlockExplode(BlockExplodeEvent event){
         event.blockList().removeIf(i -> (SimpleLocation.of(i).getChunkLocation().isTownChunk()||AbstractStructure.structures.containsKey(SimpleLocation.of(i))));
     }
 }

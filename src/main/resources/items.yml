@@ -2,50 +2,56 @@
 # !IMPORTANT! Changing item name/lore/material will make items that already exists in the server
 # to be unable to use in any crafting recipe!
 # !重要! 请不要在投入使用后更改物品信息，否则已有的该物品将无法用于任何合成!
+# In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
+# !IMPORTANT! Changing item name/lore/material will make items that already exists in the server
+# to be unable to use in any crafting recipe!
+# !重要! 请不要在投入使用后更改物品信息，否则已有的该物品将无法用于任何合成!
 
 items:
-  testingitem:
-    name: "&7会说话的火把"
-    lore: "&8[<red>!&8] &7&o测试专用"
-    material: arrow
-  testingbase:
-    name: "&7火把把手"
-    material: stick
-  testingtorch:
-    name: "&7火把本体"
-    material: iron_sword
-  testingfire:
-    name: "&7纯度为100%的火焰"
-    material: campfire
+  barrack:
+    material: green_concrete
+    name: "&f步兵兵营"
+    lore:
+    - "&7用于训练步兵"
+  infantry:
+    # This "skull" option is the URL for the item, e.g. something like this http://textures.minecraft.net/texture/c7e6c40f68b775f2efcd7bd9916b327869dcf27e24c855d0a18e07ac04fe1
+    skull: "c7e6c40f68b775f2efcd7bd9916b327869dcf27e24c855d0a18e07ac04fe1"
+    name: "&f基础步兵 &7装备"
+    lore: # If you want to change this, remember to do so as well in army.yml to make actual changes!
+    - "&8| &710&c❤"
+    - "&8| &72.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+    - "&8| &70.5&b🗡&7 ➡ &8🛡 &f装甲陆军"
+    - "&8| &70.5&b🗡&7 ➡ &8🏴 &f领地"
+  advanced-infantry:
+    skull: "7b924b37fe3294273a74386c878ca210fc89f478702943a0272e71395630beda"
+    name: "&f高级步兵 &7装备"
+    lore:
+      - "&8| &720&c❤"
+      - "&8| &73.5&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.8&b🗡&7 ➡ &8🏴 &f领地"
+  armored-infantry:
+    skull: "2bd31ad1e93f166f97859cd9f2b80da52a829440097f5d67a8c210d122b9d5e5"
+    name: "&f装甲步兵 &7装备"
+    lore:
+      - "&8| &740&c❤"
+      - "&8| &74.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &71.2&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &71.0&b🗡&7 ➡ &8🏴 &f领地"
 recipes:
-  testrecipe:
-    type: crafting
-    product: testingbase
-    shape:
-      - "a  "
-      - " b "
-      - "  b"
-    material:
-      a: iron_ingot
-      b: chain
-  testsmelting:
-    type: smelting
-    product: testingfire
-    ingredient: diamond
-    exp: 10.0
-    time: 5
   craftitem:
     type: crafting
-    product: testingitem
+    product: diamond
     shape:
       - "a "
       - " b"
     material:
-      a: testingfire
-      b: testingbase
+      a: diamond
+      b: iron_ingot
   smeltitem:
     type: smelting
-    product: testingitem
-    ingredient: testingfire
+    product: iron_ingot
+    ingredient: diamond
     exp: 10.0
-    time: 150
+    time: 10000
+

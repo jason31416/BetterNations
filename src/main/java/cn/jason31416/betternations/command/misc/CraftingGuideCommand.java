@@ -42,14 +42,14 @@ public class CraftingGuideCommand extends ChildCommand {
                         int totalpages = CustomItemType.itemTypes.size()/28+1;
                         if(page < totalpages-1){
                             gui.getItems("nextpage").setMaterial(Material.LIME_STAINED_GLASS_PANE)
-                                    .setClickHandler((session, action, clickType) -> {
+                                    .setClickHandler((session, action, event) -> {
                                 page++;
                                 constructGUI(guiID, gui);
                             });
                         }else gui.getItems("nextpage").setMaterial(Material.BLACK_STAINED_GLASS_PANE).setName(" ");
                         if(page > 0){
                             gui.getItems("prevpage").setMaterial(Material.LIME_STAINED_GLASS_PANE)
-                                    .setClickHandler((session, action, clickType) -> {
+                                    .setClickHandler((session, action, event) -> {
                                 page--;
                                 constructGUI(guiID, gui);
                             });
@@ -62,10 +62,12 @@ public class CraftingGuideCommand extends ChildCommand {
                             if(i%9==8) i+=2;
                             if(cur>=types.size()) break;
                             CustomItemType t = types.get(cur);
-                            gui.addItem("item-"+i, t.displayName, i, t.material, 1)
+                            GUI.Item itm = gui.addItem("item-"+i, t.displayName, i, t.material, 1)
                                     .setLore(t.lore);
+                            if(t.customModelData!=0) itm.setCustomModelData(t.customModelData);
+                            if(t.skullValue!=null) itm.setSkullID(t.skullValue);
                             if(ItemCraftingManager.recipes.get(types.get(cur))!=null)
-                                gui.getItems("item-"+i).setClickHandler((session, action, clickType) -> {
+                                gui.getItems("item-"+i).setClickHandler((session, action, event) -> {
                                         selectedType = t;
                                         recipePage = 0;
                                         session.display("recipe-display");
@@ -78,33 +80,33 @@ public class CraftingGuideCommand extends ChildCommand {
                         List<SimpleRecipe> recipes = ItemCraftingManager.recipes.get(selectedType);
                         if(recipes==null||recipePage>=recipes.size()) return;
                         gui.placeholder("item", new StringMessage(selectedType.displayName).toFormatted());
-                        if(recipePage<recipes.size()-1) gui.getItems("nextpage").setClickHandler((session, b, c)->{
+                        if(recipePage<recipes.size()-1) gui.getItems("nextpage").setClickHandler((session, action, event)->{
                             recipePage++;
                             session.display("recipe-display");
                         });
                         else gui.getItems("nextpage").setMaterial(Material.BLACK_STAINED_GLASS_PANE);
-                        if(recipePage>0) gui.getItems("prevpage").setClickHandler((session, b, c)->{
+                        if(recipePage>0) gui.getItems("prevpage").setClickHandler((session, action, event)->{
                             recipePage--;
                             session.display("recipe-display");
                         });
                         else gui.getItems("prevpage").setMaterial(Material.BLACK_STAINED_GLASS_PANE);
                         gui.getItems("product").setItemStack(recipes.get(recipePage).getProduct());
-                        gui.getItems("back").setClickHandler((session, b, c) -> session.display("custom-items"));
+                        gui.getItems("back").setClickHandler((session, action, event) -> session.display("custom-items"));
                         if(recipes.get(recipePage) instanceof SimpleCraftingRecipe recipe){
                             gui.getItems("process")
                                     .setName(Message.getMessage("item.recipe.crafting.name").toString())
                                     .setMaterial(Material.CRAFTING_TABLE)
                                     .setLore(MessageLoader.getList("item.recipe.crafting.lore").asList());
-                            String[] shape = recipe.recipe.getShape();
-                            for(int i=0;i<shape.length;i++){
-                                for(int j=0;j<shape[i].length();j++){
-                                    if(!recipe.ingredients.containsKey(shape[i].substring(j, j + 1))){
+                            List<List<ItemType>> rcp = recipe.recipe;
+                            for(int i=0;i<rcp.size();i++){
+                                for(int j=0;j<rcp.get(i).size();j++){
+                                    if(rcp.get(i).get(j).getMaterial()==Material.AIR){
                                         gui.getItems("slot"+(i+1)+"-"+(j+1)).setMaterial(Material.AIR);
                                         continue;
                                     }
                                     gui.getItems("slot"+(i+1)+"-"+(j+1))
-                                            .setItemStack(recipe.ingredients.get(shape[i].substring(j, j+1)).getItemStack());
-                                    if(recipe.ingredients.get(shape[i].substring(j, j+1)) instanceof CustomItemType rc){
+                                            .setItemStack(rcp.get(i).get(j).getItemStack());
+                                    if(rcp.get(i).get(j) instanceof CustomItemType rc){
                                         gui.getItems("slot"+(i+1)+"-"+(j+1))
                                                 .setClickHandler((session, action, clicktype) -> {
                                                     selectedType = rc;

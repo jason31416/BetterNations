@@ -1,28 +1,30 @@
 package cn.jason31416.betternations.army;
 
-import cn.jason31416.betternations.army.structure.CampStructure;
-import cn.jason31416.betternations.army.structure.UnitStructure;
+import cn.jason31416.betternations.army.states.ArmyStackHolder;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
+import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.message.Message;
+import cn.jason31416.planetlib.message.MessageLoader;
+import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.mob.SimpleMob;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import io.lumine.mythic.core.mobs.ActiveMob;
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
 public class ArmyStack implements Damageable, DamageSource {
-    public static Map<SimplePlayer, Set<ArmyStack>> transportMissions;
     // Land army stack
     public static class Unit {
-        ArmyType type;
-        int count;
-        double hp;
+        public ArmyType type;
+        public int count;
+        public double hp;
         public Unit(ArmyType type, int count){
             this.type = type;
             this.count = count;
@@ -33,12 +35,24 @@ public class ArmyStack implements Damageable, DamageSource {
             this.count = count;
             this.hp = hp;
         }
+        public ItemStack getItemStack(){
+            GUI.Item item = new GUI.Item("unit");
+            item.setName(new StringMessage("&f"+type.name+" &7x"+count).toString());
+            item.setQuantity(count);
+            item.setLore(MessageLoader.getList("combat.unit.item-lore")
+                            .add("health", hp)
+                            .add("max_health", count*type.health)
+                            .asList());
+            item.setMaterial(type.icon);
+            return item.toBukkitItem();
+        }
         public Unit copy(){
             return new Unit(type, count, hp);
         }
     }
     public Map<ArmyType, Unit> armies = new HashMap<>();
     public Nation nation;
+    public ArmyStackHolder curHolder = null;
     public ArmyStack(Nation nation){
         this.nation = nation;
     }
@@ -144,43 +158,7 @@ public class ArmyStack implements Damageable, DamageSource {
         while (!minHeap.isEmpty()) sum += minHeap.poll();
         return sum;
     }
-    public boolean isEntityForm=false; // false: structure
-    public SimpleMob mob=null;
-    public UnitStructure structure=null;
-    public SimplePlayer transportHolder=null;
-    public SimpleLocation getLocation(){
-        if(isEntityForm) return mob.getLocation();
-        else return structure.location;
-    }
-
-    public void convertToEntity(SimplePlayer owner){
-        if(isEntityForm) return;
-        isEntityForm = true;
-        SimpleLocation loc = getLocation();
-        if(structure!=null) {
-            structure.breakStructure();
-            structure.unregister();
-        }
-        mob = SimpleMob.spawn(Config.getString("combat.transport-mob"), loc, Message.getMessage("combat.transport-name").add("nation", nation.getName()).add("units", size()).toString());
-        if(transportMissions.containsKey(owner)){
-            transportMissions.get(owner).add(this);
-        }else{
-            Set<ArmyStack> stack = new HashSet<>();
-            stack.add(this);
-            transportMissions.put(owner, stack);
-        }
-        transportHolder = owner;
-    }
-    public void convertToBlock(){
-        if(!isEntityForm) return;
-        isEntityForm = false;
-        SimpleLocation loc = getLocation();
-        if(transportMissions.containsKey(transportHolder)){
-            transportMissions.get(transportHolder).remove(this);
-            if(transportMissions.get(transportHolder).isEmpty()) transportMissions.remove(transportHolder);
-        }
-        mob.kill();
-        structure = new CampStructure(loc, this);
-        structure.place();
+    public void destroy(){
+        // todo: register/destruction of army stacks
     }
 }

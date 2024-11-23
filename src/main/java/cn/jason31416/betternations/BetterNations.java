@@ -1,15 +1,16 @@
 package cn.jason31416.betternations;
 
+import cn.jason31416.betternations.army.states.ArmyListener;
+import cn.jason31416.betternations.army.states.TransportArmy;
 import cn.jason31416.betternations.command.BetterNationsCommand;
-import cn.jason31416.betternations.manager.BorderDisplayManager;
-import cn.jason31416.betternations.manager.EventListener;
-import cn.jason31416.betternations.manager.ItemCraftingManager;
+import cn.jason31416.betternations.manager.*;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.Hologram;
 import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.StructureListener;
+import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.data.DataList;
@@ -44,8 +45,10 @@ public final class BetterNations extends JavaPlugin {
         savePluginResource("gui/core.yml");
         savePluginResource("gui/README.md");
         savePluginResource("gui/crafting-guide.yml");
+        savePluginResource("gui/army-production.yml");
 
         savePluginResource("items.yml");
+        savePluginResource("army.yml");
 
         savePluginResource("lang/zh_cn.yml");
     }
@@ -99,7 +102,7 @@ public final class BetterNations extends JavaPlugin {
         }else for(File file: guiFolder.listFiles()){
             if(file.isFile()){
                 if(file.getName().endsWith(".yml")){
-                    getLogger().info("\033[36m- Loading "+file.getName()+":\033[0m");
+                    getLogger().info("\033[36m- Loading "+file.getName()+"\033[0m");
                     GUILoader.loadFile(file);
                 }
             }else{
@@ -197,6 +200,7 @@ public final class BetterNations extends JavaPlugin {
         printAsciiArt();
         PlanetLib.initialize(this);
         ItemCraftingManager.loadAll();
+        LandArmyManager.loadAll();
         PlaceableStructure.registerAll();
         AbstractStructure.registerAllStructures();
         registerDataLists();
@@ -220,6 +224,7 @@ public final class BetterNations extends JavaPlugin {
         loadCommands();
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
         Bukkit.getPluginManager().registerEvents(new StructureListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ArmyListener(), this);
         new BukkitRunnable() {
             public void run() {
                 loadHooks();
@@ -231,7 +236,9 @@ public final class BetterNations extends JavaPlugin {
         storage.save();
         PlanetLib.reload(this);
         ItemCraftingManager.unregisterAll();
+        LandArmyManager.unregisterAll();
         ItemCraftingManager.loadAll();
+        LandArmyManager.loadAll();
 
         GUILoader.loadedGUIs.clear();
         loadGUIs();
@@ -239,12 +246,18 @@ public final class BetterNations extends JavaPlugin {
         UpdateCycle.unregisterTask("BetterNations.BorderDisplay");
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
 
+        UpdateCycle.unregisterTask("BetterNations.ArmyUpdate");
+        UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval"), new ArmyUpdateManager()));
+
         Hologram.checkHolograms();
     }
     @Override
     public void onDisable() {
         for(Hologram i: new ArrayList<>(Hologram.holograms.values())){
             i.removeHologram();
+        }
+        for(TransportArmy i: TransportArmy.transportArmyMap.values()){
+            i.destroy(); // todo: change to convert to stationary camps
         }
         storage.save();
         PlanetLib.shutdown();

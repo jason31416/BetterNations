@@ -1,5 +1,7 @@
 package cn.jason31416.betternations.structure;
 
+import cn.jason31416.betternations.nation.Permission;
+import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.item.CustomItemType;
 import cn.jason31416.planetlib.item.ItemType;
 import cn.jason31416.planetlib.message.Message;
@@ -28,6 +30,7 @@ public class StructureListener implements Listener {
         if (structure!= null) {
             if(structure instanceof PlaceableStructure||structure.processInteraction(AbstractStructure.InteractionType.BREAK, SimplePlayer.of(event.getPlayer()))){
                 structure.breakStructure();
+                structure.unregister();
                 event.setCancelled(true);
             }else{
                 event.setCancelled(true);
@@ -53,7 +56,11 @@ public class StructureListener implements Listener {
                     event.setCancelled(true);
                     hand.setAmount(hand.getAmount()-1);
                     try {
-                        PlaceableStructure ps = (PlaceableStructure) clazz.getDeclaredConstructor(SimpleLocation.class).newInstance(loc.getBlockLocation());
+                        PlaceableStructure ps = (PlaceableStructure) clazz.getDeclaredConstructor().newInstance();
+                        ps.location = loc.getBlockLocation();
+                        if(ps instanceof UnitProductionStructure ups){
+                            ups.type = ItemType.getItemType(hand).getName().toLowerCase();
+                        }
                         ps.place();
                     } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                              InvocationTargetException e) {

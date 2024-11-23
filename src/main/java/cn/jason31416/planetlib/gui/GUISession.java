@@ -5,6 +5,7 @@ import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
 public abstract class GUISession {
     public static final Map<SimplePlayer, GUISession> sessions = new java.util.HashMap<>();
     public final SimplePlayer player;
-    private GUI gui;
+    public GUI gui;
     public GUISession(SimplePlayer player) {
         this.player = player;
         if(sessions.containsKey(player)) sessions.get(player).close();
@@ -24,8 +25,8 @@ public abstract class GUISession {
         this.gui = gui;
         gui.display(player);
     }
-    public void handleClick(int slot, ClickType clickType, InventoryAction action) {
-        gui.handleClick(slot, this, action, clickType);
+    public void handleClick(int slot, InventoryAction action, InventoryClickEvent event) {
+        gui.handleClick(slot, this, action, event);
     }
     public void display(String guiID){
         try {

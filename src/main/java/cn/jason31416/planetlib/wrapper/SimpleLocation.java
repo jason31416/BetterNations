@@ -50,15 +50,6 @@ public record SimpleLocation(double x, double y, double z, SimpleWorld world) im
     public void setBlockMaterial(Material material) {
         getBlock().setType(material);
     }
-    public boolean canInteract(SimplePlayer player){
-        if(!getChunkLocation().isClaimed()) return true;
-        if(getChunkLocation().getNation()!=player.getNation()){
-            return false; // todo: allow cross-national permission systems
-        }else{
-            if(getChunkLocation().getTown()==null) return player.getRank().hasPermission(Permission.SUBURB_BUILD);
-            else return player.getRank().hasPermission(Permission.TOWN_BUILD)||getChunkLocation().getTown().getRole(player).hasPermission(Permission.TOWN_BUILD);
-        }
-    }
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

@@ -3,8 +3,10 @@ package cn.jason31416.planetlib.mob;
 import cn.jason31416.planetlib.hook.MythicMobsHook;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +18,8 @@ public interface SimpleMob {
     void teleport(SimpleLocation location);
     SimpleLocation getLocation();
     boolean isAlive();
+    void damage(double hp);
+    void setMaxHealth(double hp);
     void setTarget(LivingEntity target);
     void remove();
     default void kill(){
@@ -23,12 +27,13 @@ public interface SimpleMob {
         mobs.remove(this);
     }
     void setHealth(double health);
+    Entity getBukkitEntity();
     public static SimpleMob spawn(String type, SimpleLocation location, String name){
         SimpleMob mob;
         if(MythicMobsHook.loadedMobTypes().contains(type)){
             mob=new MythicMob(name, type, location);
         } else{
-            mob=new VanillaMob(name, EntityType.valueOf(type), location);
+            mob=new VanillaMob(name, EntityType.valueOf(type.toUpperCase()), location);
         }
         mobs.add(mob);
         return mob;

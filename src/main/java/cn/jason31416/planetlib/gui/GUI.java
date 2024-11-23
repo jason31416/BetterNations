@@ -8,25 +8,28 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 public class GUI {
     public interface GUIRunnable {
-        void run(GUISession session, InventoryAction action, ClickType clickType);
+        void run(GUISession session, InventoryAction action, InventoryClickEvent event);
     }
     public static class CommandRunnable implements GUIRunnable {
         public String command;
         public CommandRunnable(String command) {
             this.command = command;
         }
-        public void run(GUISession session, InventoryAction action, ClickType clickType) {
+        public void run(GUISession session, InventoryAction action, InventoryClickEvent event) {
             Bukkit.dispatchCommand(session.player.getPlayer(), command);
         }
     }
@@ -35,12 +38,12 @@ public class GUI {
         public SwitchGuiRunnable(String guiName) {
             this.guiName = guiName;
         }
-        public void run(GUISession session, InventoryAction action, ClickType clickType) {
+        public void run(GUISession session, InventoryAction action, InventoryClickEvent event) {
             session.display(guiName);
         }
     }
     public static class CloseGuiRunnable implements GUIRunnable {
-        public void run(GUISession session, InventoryAction action, ClickType clickType) {
+        public void run(GUISession session, InventoryAction action, InventoryClickEvent event) {
             session.close();
         }
     }
@@ -85,6 +88,10 @@ public class GUI {
             }
             return this;
         }
+        public ItemStack toBukkitItem() {
+            if(items.isEmpty()) return null;
+            return items.get(0).toBukkitItem();
+        }
         public ItemGroup placeholder(String placeholder, String value){
             for(Item item : items){
                 item.placeholder(placeholder, value);
@@ -97,8 +104,10 @@ public class GUI {
         public String name="", id;
         public int quantity=1;
         public int slot=0;
+        public int customModelData=-1;
         public Material material=Material.AIR;
         public List<String> lore=new ArrayList<>();
+        public String skullId=null;
         public GUIRunnable clickHandler=null;
         public Item(String id) {this.id = id;}
         public Item setMaterial(Material material) {
@@ -112,6 +121,7 @@ public class GUI {
             if(meta==null) return this;
             name=meta.getDisplayName();
             lore=meta.getLore();
+            if(meta.hasCustomModelData()) customModelData = meta.getCustomModelData();
             return this;
         }
         public Item setName(String name) {
@@ -130,13 +140,21 @@ public class GUI {
             this.slot = slot;
             return this;
         }
+        public Item setCustomModelData(int data){
+            customModelData = data;
+            return this;
+        }
+        public Item setSkullID(String skullID){
+            this.skullId = skullID;
+            return this;
+        }
         public Item setClickHandler(GUIRunnable clickHandler) {
             this.clickHandler = clickHandler;
             return this;
         }
         public Item placeholder(String placeholder, String value){
             name = name.replace(placeholder, value);
-            lore.replaceAll(s -> s.replace(placeholder, value));
+            if(lore != null) lore.replaceAll(s -> s.replace(placeholder, value));
             return this;
         }
         public ItemStack toBukkitItem() {
@@ -145,6 +163,18 @@ public class GUI {
             if(meta!= null){
                 meta.setDisplayName(name);
                 meta.setLore(lore);
+                if(customModelData != -1) meta.setCustomModelData(customModelData);
+                if(meta instanceof SkullMeta mt&&skullId!=null){
+                    try {
+                        PlayerProfile profile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID());
+                        PlayerTextures textures = profile.getTextures();
+                        textures.setSkin(new URL("https://textures.minecraft.net/texture/"+skullId));
+                        profile.setTextures(textures);
+                        mt.setOwnerProfile(profile);
+                    } catch (MalformedURLException ignored) {
+                        throw new RuntimeException(ignored);
+                    }
+                }
                 item.setItemMeta(meta);
             }
             return item;
@@ -161,6 +191,7 @@ public class GUI {
     }
     public Map<Integer, Item> container=new HashMap<>();
     public int size;
+    public Set<Integer> inputs=new HashSet<>();
     public String title;
     public Inventory lstInventory;
     public Item getItem(int slot){
@@ -191,6 +222,13 @@ public class GUI {
         container.put(slot, item);
         return item;
     }
+    public Item addItem(String id, int slot, ItemStack itemStack){
+        Item item = new Item(id);
+        item.setItemStack(itemStack);
+        item.setSlot(slot);
+        container.put(slot, item);
+        return item;
+    }
     public List<Item> addItem(String id, String name, List<Integer> slots, Material material, int quantity){
         List<Item> items = new ArrayList<>();
         for(int i : slots) {
@@ -208,10 +246,10 @@ public class GUI {
         NbtHook.setTag(itemStack, "bn.guiItem", item.id);
         return itemStack;
     }
-    public void handleClick(int slot, GUISession session, InventoryAction action, ClickType clickType){
+    public void handleClick(int slot, GUISession session, InventoryAction action, InventoryClickEvent event){
         Item item = container.get(slot);
         if(item!= null && item.clickHandler != null){
-            item.clickHandler.run(session, action, clickType);
+            item.clickHandler.run(session, action, event);
         }
     }
     public void display(SimplePlayer player){
@@ -246,6 +284,7 @@ public class GUI {
         GUI gui = new GUI();
         gui.size = size;
         gui.title = title;
+        gui.inputs = inputs;
         for(int key : container.keySet()){
             gui.container.put(key, container.get(key).copy());
         }

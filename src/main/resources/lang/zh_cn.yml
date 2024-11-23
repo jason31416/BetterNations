@@ -10,6 +10,8 @@ term:
 structure:
   towncore:
     hologram: "&8-= %nation_color%%town% &7- &b城镇核心 &8=-"
+  barrack:
+    hologram: "&8-= &b兵营 &8=-"
 
 # These are messages that will be displayed when players execute specific commands.
 command: 
@@ -146,7 +148,17 @@ admin:
   reloading: "&3重新加载 &bBetterNations &3中..."
   reloaded: "&3成功加载 &bBetterNations &3!"
 combat:
-  transport-name: "&e&l%nation% 的部队 &7 (%units% 个单位)"
+  transport-name: "&e&l%nation% &f的部队 &7 (%units% 个单位)"
+  transport-too-far: "&8[&4!&8] &c注意: 单位距离你过远!"
+  transport-destroyed: "&8[&4!&8] &c单位已被摧毁!"
+  training:
+    progress-item:
+      name: "&f训练 &b%type% &f中..."
+      lore:
+        - "&7剩余 &f%time% &7s"
+  unit:
+    item-lore:
+      - "&f%health%&7/%max_health% &c❤"
 item:
   cannot-enchant: "<red>该物品不能被修改!"
   recipe:

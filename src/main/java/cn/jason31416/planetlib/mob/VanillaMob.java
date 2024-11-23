@@ -3,10 +3,7 @@ package cn.jason31416.planetlib.mob;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Material;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
@@ -46,10 +43,25 @@ public class VanillaMob implements SimpleMob{
     public boolean isAlive() {
         return !entity.isDead();
     }
+
+    @Override
+    public void damage(double hp) {
+        entity.damage(hp);
+    }
+
+    @Override
+    public void setMaxHealth(double hp) {
+        entity.setMaxHealth(hp);
+    }
+
     @Override
     public void setHealth(double hp){
         entity.setHealth(hp);
         entity.setMaxHealth(hp);
+    }
+    @Override
+    public Entity getBukkitEntity(){
+        return entity;
     }
     @Override
     public void setTarget(LivingEntity target) {

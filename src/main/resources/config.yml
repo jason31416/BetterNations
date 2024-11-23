@@ -24,5 +24,9 @@ border-display: # [Most options in this section require restart to take effect]
   particle-size: 1.5
 
 combat:
-  transport-mob: zombie
   damage-units: 10 # top 10 units are counted toward the stack's total damage
+
+  transport-mob: zombie
+  army-tick-interval: 1200 # How long in game ticks does all of the armies update? This can change the speed of many things related to army such as combat speed
+  transport-max-distance: 16 # The unit must be within 16 blocks of the army
+  transport-warn-distance: 12 # The unit must be within 16 blocks of the army

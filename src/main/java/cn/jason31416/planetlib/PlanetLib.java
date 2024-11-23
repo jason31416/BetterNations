@@ -5,6 +5,7 @@ import cn.jason31416.planetlib.command.tempAction.TempAction;
 import cn.jason31416.planetlib.gui.GUIEventHandler;
 import cn.jason31416.planetlib.hook.MythicMobsHook;
 import cn.jason31416.planetlib.hook.VaultHook;
+import cn.jason31416.planetlib.item.SimpleCraftingRecipe;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.update.UpdateCycle;
 import cn.jason31416.planetlib.update.UpdateTask;
@@ -38,6 +39,7 @@ public class PlanetLib {
 
         UpdateCycle.registerTask("PlanetLib.tempActionUpdater", new UpdateTask(60*20, TempAction::checkAll));
         instance.getServer().getPluginManager().registerEvents(new GUIEventHandler(), plugin);
+        instance.getServer().getPluginManager().registerEvents(new SimpleCraftingRecipe.recipeListener(), plugin);
     }
     public static void reload(JavaPlugin plugin) {
         plugin.saveDefaultConfig();

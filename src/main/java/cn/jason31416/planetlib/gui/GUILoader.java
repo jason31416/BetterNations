@@ -18,6 +18,9 @@ public class GUILoader {
         ConfigurationSection windowSettings = Objects.requireNonNull(config.getConfigurationSection("window"), "Incomplete config structure!");
         gui.title = windowSettings.getString("title", "");
         gui.size = windowSettings.getInt("size");
+        if(windowSettings.contains("inputs")){
+            gui.inputs = new HashSet<>(windowSettings.getIntegerList("inputs"));
+        }
         ConfigurationSection items = Objects.requireNonNull(config.getConfigurationSection("container"), "Incomplete config structure!");
         for(String key : items.getKeys(false)) {
             ConfigurationSection item = Objects.requireNonNull(items.getConfigurationSection(key), "Incomplete config structure!");
@@ -38,7 +41,6 @@ public class GUILoader {
     public static void loadFile(File path){
         YamlConfiguration config = YamlConfiguration.loadConfiguration(path);
         for(String key : config.getKeys(false)){
-            BetterNations.instance.getLogger().info("\033[37m  · "+key+"\033[0m");
             try{
                 loadedGUIs.put(key, loadFromConfig(Objects.requireNonNull(config.getConfigurationSection(key))));
             }catch (Exception e){

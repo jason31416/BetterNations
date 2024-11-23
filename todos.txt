@@ -17,3 +17,6 @@ future functionality:
 - display border particles
 - army system
 - treaty system
+
+
+// Unit must not move nor take damage for a while in order to convert?

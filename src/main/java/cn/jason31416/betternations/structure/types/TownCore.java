@@ -16,14 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class TownCore extends AbstractStructure {
-    Town town;
-    public TownCore(){
-        super(Material.BEACON);
-    }
-    public TownCore(SimpleLocation location, Town town) {
-        super(Material.BEACON, location);
-        this.town = town;
-        place();
+    public Town town;
+    public TownCore() {
     }
     public String getHologramText(){
         return Message.getMessage("structure.towncore.hologram").add("nation_color", town.getNation().getColorTag()).add("town", town.getName()).toString();
@@ -48,6 +42,12 @@ public class TownCore extends AbstractStructure {
         }
         return true;
     }
+
+    @Override
+    public Material getMaterial() {
+        return Material.BEACON;
+    }
+
     @Override
     public boolean serialize(IDataItem dataItem) {
         dataItem.set("town", town.getId().toString());
