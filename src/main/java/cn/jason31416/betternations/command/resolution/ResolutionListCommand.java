@@ -11,8 +11,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.jason31416.planetlib.command.ParameterType.STRING;
-
 public class ResolutionListCommand extends ChildCommand {
     public ResolutionListCommand(IParentCommand parent) {
         super("list", parent);

@@ -32,6 +32,10 @@ public class MessageLoader {
         if(messageConfig.contains(key)) return new StringMessage(messageConfig.getString(key));
         return defaultMessage == null? null : new StringMessage(defaultMessage);
     }
+    public String getRawMessage(String key, String defaultMessage) {
+        if(messageConfig.contains(key)) return messageConfig.getString(key);
+        return defaultMessage;
+    }
     public List<String> getStringList(String key, List<String> defaultList) {
         if(messageConfig.isList(key)) return messageConfig.getStringList(key);
         return defaultList;

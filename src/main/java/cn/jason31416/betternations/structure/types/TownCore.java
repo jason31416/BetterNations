@@ -2,16 +2,12 @@ package cn.jason31416.betternations.structure.types;
 
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
-import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
 import cn.jason31416.planetlib.message.Message;
-import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 

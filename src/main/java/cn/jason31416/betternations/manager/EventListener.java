@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.manager;
 
+import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.command.nation.NationClaimCommand;
 import cn.jason31416.betternations.command.nation.NationUnclaimCommand;
 import cn.jason31416.betternations.command.town.TownClaimCommand;
@@ -8,24 +9,20 @@ import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.message.Message;
-import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.message.StringMessage;
-import org.bukkit.Bukkit;
-import org.bukkit.EntityEffect;
+import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
+import cn.jason31416.planetlib.wrapper.SimpleLocation;
+import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.*;
-import org.bukkit.event.block.*;
-import org.bukkit.event.block.*;
+import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
-import cn.jason31416.planetlib.wrapper.*;
-import cn.jason31416.planetlib.Config;
-import org.jetbrains.annotations.Blocking;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,7 +89,7 @@ public class EventListener implements Listener {
                     case TOWN_CLAIM -> {if(from.getTown()!=null) TownClaimCommand.claimWithChecks(player, to, from.getTown()).send(event.getPlayer());}
                     case TOWN_UNCLAIM -> TownUnclaimCommand.unclaimWithChecks(player, to).send(event.getPlayer());
                 }
-            }else if(from.isTownChunk()!=to.isTownChunk()||from.getTown()!=to.getTown()||from.isClaimed()!=to.isClaimed()) {
+            }else if(from.isTownChunk()!=to.isTownChunk()||from.getTown()!=to.getTown()||from.getNation()!=to.getNation()||from.isClaimed()!=to.isClaimed()) {
                 sendCrossChunkMessage(player, from, to);
             }
         }
@@ -117,6 +114,8 @@ public class EventListener implements Listener {
     public void onBlockInteract(PlayerInteractEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
         if(event.getClickedBlock()==null) return;
+        if(AbstractStructure.structures.containsKey(SimpleLocation.of(event.getClickedBlock()))&&
+                AbstractStructure.structures.get(SimpleLocation.of(event.getClickedBlock())) instanceof StructuredArmy) return;
         if(!player.hasPermission(Permission.BUILD, SimpleLocation.of(event.getClickedBlock()))){
             event.setCancelled(true);
             Message.getMessage("town.cannot-build").sendActionbar(player);
@@ -125,7 +124,20 @@ public class EventListener implements Listener {
     @EventHandler
     public void onPistonRetract(BlockPistonRetractEvent event){
         for(Block i: event.getBlocks()){
-            if(SimpleLocation.of(i).getChunkLocation().isTownChunk()){
+            SimpleLocation tolocation = SimpleLocation.of(i);
+            SimpleLocation fromLocation = SimpleLocation.of(i.getRelative(event.getDirection(), 1).getLocation());
+            if(tolocation.getChunkLocation().getNation()!=fromLocation.getChunkLocation().getNation()){
+                event.setCancelled(true);
+                return;
+            }
+        }
+    }
+    @EventHandler
+    public void onPistonPush(BlockPistonExtendEvent event){
+        for(Block i: event.getBlocks()){
+            SimpleLocation tolocation = SimpleLocation.of(i);
+            SimpleLocation fromLocation = SimpleLocation.of(i.getRelative(event.getDirection(), 1).getLocation());
+            if(tolocation.getChunkLocation().getNation()!=fromLocation.getChunkLocation().getNation()){
                 event.setCancelled(true);
                 return;
             }

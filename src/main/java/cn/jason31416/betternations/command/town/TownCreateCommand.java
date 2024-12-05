@@ -1,8 +1,5 @@
 package cn.jason31416.betternations.command.town;
 
-import cn.jason31416.betternations.command.nation.NationClaimCommand;
-import cn.jason31416.betternations.manager.EventListener;
-import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.planetlib.Config;
@@ -11,9 +8,7 @@ import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
 import cn.jason31416.planetlib.command.ParameterType;
 import cn.jason31416.planetlib.message.Message;
-import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
-import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

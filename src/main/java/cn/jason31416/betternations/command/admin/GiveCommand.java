@@ -10,7 +10,6 @@ import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

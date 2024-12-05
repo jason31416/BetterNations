@@ -7,10 +7,7 @@ import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
-import cn.jason31416.planetlib.gui.GUI;
-import cn.jason31416.planetlib.gui.GUISession;
 import cn.jason31416.planetlib.message.Message;
-import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static cn.jason31416.planetlib.command.ParameterType.*;
+import static cn.jason31416.planetlib.command.ParameterType.INTEGER;
+import static cn.jason31416.planetlib.command.ParameterType.STRING;
 
 public class NationClaimCommand extends ChildCommand {
     public static Message claimWithChecks(SimplePlayer player, SimpleChunkLocation chunkLocation){
@@ -38,7 +36,7 @@ public class NationClaimCommand extends ChildCommand {
         }
         player.withdrawBalance(Config.getDouble("nation.claim-cost"));
         if(nation.claim(chunkLocation)){
-            if(player.getLocation().getChunkLocation().equals(chunkLocation))
+            if(player.isOnline()&&player.getLocation().getChunkLocation().equals(chunkLocation))
                 EventListener.sendCrossChunkMessage(player, player.getLocation().getChunkLocation(), player.getLocation().getChunkLocation());
             return Message.getMessage("command.success.chunk-claimed");
         }

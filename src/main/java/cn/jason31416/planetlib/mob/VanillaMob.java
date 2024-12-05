@@ -71,4 +71,9 @@ public class VanillaMob implements SimpleMob{
     public void remove() {
         entity.remove();
     }
+
+    @Override
+    public void setName(String name) {
+        entity.setCustomName(name);
+    }
 }

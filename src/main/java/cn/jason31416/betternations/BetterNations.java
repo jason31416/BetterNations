@@ -1,5 +1,7 @@
 package cn.jason31416.betternations;
 
+import cn.jason31416.betternations.army.BreakCampRunnable;
+import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.ArmyListener;
 import cn.jason31416.betternations.army.states.TransportArmy;
 import cn.jason31416.betternations.command.BetterNationsCommand;
@@ -10,7 +12,6 @@ import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.Hologram;
 import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.StructureListener;
-import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.data.DataList;
@@ -20,8 +21,10 @@ import cn.jason31416.planetlib.gui.GUILoader;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.update.UpdateCycle;
 import cn.jason31416.planetlib.update.UpdateTask;
+import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -46,8 +49,10 @@ public final class BetterNations extends JavaPlugin {
         savePluginResource("gui/README.md");
         savePluginResource("gui/crafting-guide.yml");
         savePluginResource("gui/army-production.yml");
+        savePluginResource("gui/army-management.yml");
 
-        savePluginResource("items.yml");
+        savePluginResource("item/units.yml");
+        savePluginResource("item/basic-ingredients.yml");
         savePluginResource("army.yml");
 
         savePluginResource("lang/zh_cn.yml");
@@ -208,6 +213,8 @@ public final class BetterNations extends JavaPlugin {
         Hologram.checkHolograms();
 
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
+        UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
+        ArmyUpdateManager.nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
         UpdateCycle.registerTask("BetterNations.ClaimingActionbar", new UpdateTask(20, ()->{
             for(SimplePlayer i: new ArrayList<>(EventListener.autoClaiming.keySet())){
                 if(!i.isOnline()) EventListener.autoClaiming.remove(i);
@@ -225,6 +232,7 @@ public final class BetterNations extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
         Bukkit.getPluginManager().registerEvents(new StructureListener(), this);
         Bukkit.getPluginManager().registerEvents(new ArmyListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BreakCampRunnable.CampBreakingListener(), this);
         new BukkitRunnable() {
             public void run() {
                 loadHooks();
@@ -247,17 +255,32 @@ public final class BetterNations extends JavaPlugin {
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
 
         UpdateCycle.unregisterTask("BetterNations.ArmyUpdate");
-        UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval"), new ArmyUpdateManager()));
+        UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
+        ArmyUpdateManager.nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
 
         Hologram.checkHolograms();
     }
     @Override
     public void onDisable() {
+        for(TransportArmy i: TransportArmy.transportArmyMap.values()){
+            SimpleLocation loc = i.mob.getLocation().getBlockLocation();
+            while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!= Material.AIR){
+                loc = loc.getRelative(0, 1, 0);
+            }
+            if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) continue;
+            ArmyCamp c = new ArmyCamp();
+            i.unregister();
+            c.stack = i.stack;
+            c.location = loc;
+            i.stack.curHolder = c;
+            c.place();
+            i.mob.remove();
+        }
+        for(BreakCampRunnable i: BreakCampRunnable.breakingPlayers.values()){
+            i.failed();
+        }
         for(Hologram i: new ArrayList<>(Hologram.holograms.values())){
             i.removeHologram();
-        }
-        for(TransportArmy i: TransportArmy.transportArmyMap.values()){
-            i.destroy(); // todo: change to convert to stationary camps
         }
         storage.save();
         PlanetLib.shutdown();

@@ -3,11 +3,11 @@ package cn.jason31416.betternations.structure.types;
 import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.army.ArmyStack;
 import cn.jason31416.betternations.army.ArmyType;
+import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.TransportArmy;
-import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
-import cn.jason31416.betternations.nation.Relation;
 import cn.jason31416.betternations.structure.PlaceableStructure;
+import cn.jason31416.planetlib.Utils;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
@@ -15,18 +15,16 @@ import cn.jason31416.planetlib.item.ItemType;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.message.StaticMessages;
-import cn.jason31416.planetlib.message.StringMessage;
-import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class UnitProductionStructure extends PlaceableStructure {
     public static Map<String, Map<String, Recipe>> recipes = new HashMap<>();
@@ -79,8 +77,8 @@ public class UnitProductionStructure extends PlaceableStructure {
     }
     @Override
     public boolean processInteraction(InteractionType type, SimplePlayer player) {
-        Map<String, Recipe> recipeMap = recipes.get(this.type);
         if(type==InteractionType.INTERACT){
+            Map<String, Recipe> recipeMap = recipes.get(this.type);
             if(location.getChunkLocation().isTownChunk()&&
                     player.hasPermission(Permission.STRUCTURE, location)){
                 new GUISession(player) {
@@ -116,7 +114,7 @@ public class UnitProductionStructure extends PlaceableStructure {
                                         ArmyStack stack = new ArmyStack(player.getNation());
                                         stack.armies = new HashMap<>(armyStorage);
                                         armyStorage.clear();
-                                        TransportArmy.spawn(location.getRelative(0, 1, 0), player, stack);
+                                        TransportArmy.spawn(location.getRelative(0.5, 1, 0.5), player, stack);
                                     }
                                 });
                         gui.getItems("material")
@@ -136,7 +134,7 @@ public class UnitProductionStructure extends PlaceableStructure {
                         if(currentProducing!=null) gui.getItems("training")
                                     .setMaterial(Material.IRON_SWORD)
                                 .setName(Message.getMessage("combat.training.progress-item.name").add("type", recipeMap.get(currentProducing).armyType.name).toString())
-                                .setLore(MessageLoader.getList("combat.training.progress-item.lore").add("time", ((finishTime-System.currentTimeMillis())/1000)).asList());
+                                .setLore(MessageLoader.getList("combat.training.progress-item.lore").add("time", Utils.formatSeconds((int)((finishTime - System.currentTimeMillis()) / 1000))).asList());
                         else gui.getItems("training").setItemStack(ti);
                         new BukkitRunnable() {
                             @Override
@@ -157,6 +155,20 @@ public class UnitProductionStructure extends PlaceableStructure {
             }else{
                 Message.getMessage("town.cannot-build").sendActionbar(player);
             }
+        }else if(type == InteractionType.BREAK){
+            breakStructure();
+            unregister();
+            if(!armyStorage.isEmpty()) {
+                ArmyStack stack = new ArmyStack(player.getNation());
+                stack.armies = new HashMap<>(armyStorage);
+                armyStorage.clear();
+                ArmyCamp c = new ArmyCamp();
+                c.stack = stack;
+                c.location = location;
+                stack.curHolder = c;
+                c.place();
+            }
+            return false;
         }
         return true;
     }

@@ -1,11 +1,8 @@
 current tasks:
 - national systems refined
-- anti-griefing measures implemented
-    - function to check if a player can access a chunk
 - commands:
     - declare war
     - revoke alliance
-    - vote for resolution
     - town creation
     - town removal
     - claiming commands

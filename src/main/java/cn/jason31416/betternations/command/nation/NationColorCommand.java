@@ -1,25 +1,15 @@
 package cn.jason31416.betternations.command.nation;
 
-import cn.jason31416.betternations.manager.EventListener;
-import cn.jason31416.betternations.nation.Nation;
-import cn.jason31416.betternations.nation.Permission;
-import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
-import cn.jason31416.planetlib.command.ParameterType;
 import cn.jason31416.planetlib.message.Message;
-import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
-import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Color;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static cn.jason31416.planetlib.command.ParameterType.INTEGER;
-import static cn.jason31416.planetlib.command.ParameterType.STRING;
 
 public class NationColorCommand extends ChildCommand {
     public NationColorCommand(IParentCommand parent) {
@@ -32,6 +22,7 @@ public class NationColorCommand extends ChildCommand {
         if(context.getPlayer().getNation()==null) return Message.getMessage("command.failed.player-not-in-nation");
         if(context.getPlayer().getRank().weight()<500) return Message.getMessage("command.failed.no-permission");
         context.getPlayer().getNation().setColor(Color.fromRGB(context.getIntArg(0), context.getIntArg(1), context.getIntArg(2)));
+
         return Message.getMessage("command.success.color-changed");
     }
 

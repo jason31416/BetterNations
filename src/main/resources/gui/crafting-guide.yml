@@ -1,6 +1,27 @@
+item-categories:
+  window:
+    title: "&3BetterNations &8配方表"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 46, 47, 48, 49, 50, 51, 52]
+    nextpage:
+      name: "&b&l下一页"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 53
+    prevpage:
+      name: "&b&l上一页"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 45
+    close:
+      name: "&c关闭菜单"
+      material: BARRIER
+      slot: 0
 custom-items:
   window:
-    title: "&bBetterNations &r配方表"
+    title: "&8配方表 &7- &8%category%"
     size: 54
   container:
     border:
@@ -21,7 +42,7 @@ custom-items:
       slot: 0
 recipe-display:
   window:
-    title: "&r配方表 &7- &r%item%"
+    title: "&8配方表 &7- &8%category% &7- &8%item%"
     size: 45
   container:
     border:

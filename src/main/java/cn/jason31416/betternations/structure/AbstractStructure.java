@@ -1,12 +1,17 @@
 package cn.jason31416.betternations.structure;
 
+import cn.jason31416.betternations.BetterNations;
+import cn.jason31416.betternations.army.states.ArmyCamp;
+import cn.jason31416.betternations.army.states.InvasionFlag;
 import cn.jason31416.betternations.structure.types.TownCore;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import cn.jason31416.planetlib.wrapper.SimpleWorld;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,14 +21,15 @@ public abstract class AbstractStructure {
     public enum InteractionType {
         NONE,
         INTERACT,
-        BREAK
+        BREAK,
+        SNEAK_CLICK
     }
     public static final Map<SimpleLocation, AbstractStructure> structures = new HashMap<>();
     public static final Map<String, Class<? extends AbstractStructure> > structureTypes = new HashMap<>();
     public SimpleLocation location;
     public UUID uuid=UUID.randomUUID();
     public abstract Material getMaterial();
-    Hologram hologram=null;
+    public Hologram hologram=null;
     public abstract boolean serialize(IDataItem dataItem);
     public abstract void deserialize(IDataItem dataItem);
     public String getHologramText(){
@@ -52,8 +58,17 @@ public abstract class AbstractStructure {
         return success;
     }
     public void breakStructure(){
-        hologram.removeHologram();
-        location.setBlockMaterial(Material.AIR);
+        if(Bukkit.isPrimaryThread()) {
+            hologram.removeHologram();
+            location.setBlockMaterial(Material.AIR);
+        }else{
+            new BukkitRunnable() {
+                public void run(){
+                    hologram.removeHologram();
+                    location.setBlockMaterial(Material.AIR);
+                }
+            }.runTaskLater(BetterNations.instance, 0);
+        }
     }
     public static AbstractStructure unpack(IDataItem dataItem) {
         String structureType = dataItem.getString("structureType");
@@ -69,7 +84,7 @@ public abstract class AbstractStructure {
         }
         structure.uuid = dataItem.getUUID();
         String[] locationStr = dataItem.getString("location").split("_");
-        structure.location = new SimpleLocation(Double.parseDouble(locationStr[0]), Double.parseDouble(locationStr[1]), Double.parseDouble(locationStr[2]), SimpleWorld.of(UUID.fromString(locationStr[3])));
+        structure.location = new SimpleLocation(Double.parseDouble(locationStr[0]), Double.parseDouble(locationStr[1]), Double.parseDouble(locationStr[2]), SimpleWorld.of(UUID.fromString(locationStr[3]))).getBlockLocation();
         structure.deserialize(dataItem);
         structure.place();
         return structure;
@@ -80,5 +95,7 @@ public abstract class AbstractStructure {
     }
     public static void registerAllStructures() {
         registerStructureType(TownCore.class);
+        registerStructureType(ArmyCamp.class);
+        registerStructureType(InvasionFlag.class);
     }
 }

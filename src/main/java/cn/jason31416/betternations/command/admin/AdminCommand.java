@@ -12,6 +12,7 @@ public class AdminCommand extends ParentCommand {
 
         new GiveCommand(this);
         new ReloadCommand(this);
+        new ExecuteCommand(this);
     }
 
     @Override

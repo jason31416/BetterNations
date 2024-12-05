@@ -12,6 +12,9 @@ structure:
     hologram: "&8-= %nation_color%%town% &7- &b城镇核心 &8=-"
   barrack:
     hologram: "&8-= &b兵营 &8=-"
+  transportdock:
+    hologram: "&8-= &b船坞 &8=-"
+    no-water: "&c船坞必须与水相邻!"
 
 # These are messages that will be displayed when players execute specific commands.
 command: 
@@ -27,6 +30,8 @@ command:
     color-changed: "<#2288ff>成功修改国家颜色，试试发条消息叭!"
     town-created: "<#2288ff>成功创建城镇 <#00ddff>%name% <#2288ff>!"
     give-item: "<#2288ff>给予了 %player% 物品: %item%"
+    moved-core: "<#2288ff>成功移动了核心!"
+    renamed-town: "<#2288ff>成功修改了城镇名称!"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
@@ -60,6 +65,9 @@ command:
     resolution-not-signable: "<red>你无法签署该协议!"
     resolution-not-signed: "<red>该协议还没有被你签署!"
     unknown-item-type: "<red>该物品不存在!"
+    not-in-town: "<red>你不在一个城镇中!"
+    already-enemy: "<red>该国家已经是你们的敌人了!"
+    cannot-change-self-relation: "<red>不能改变与自己的关系!"
 
 # These are messages that are related to nations.
 nation:
@@ -127,11 +135,24 @@ nation:
       kick-player: "将 %player% 踢出 %nation%"
       join-nation: "同意 %requester% 加入 %nation%"
       set-rank: "将 %target% 设置为 %rank%"
+      rename-nation: "将 %name% 改名为 %new_name%"
 
+map:
+  header: "&7----=[ &b地区地图 &7]=----"
+  footer: "&7---------------------"
+  town-char: "<hover:show_text:'%nation_name%, %town_name%'>%kingdom_color%▣</hover>"
+  nation-char: "<hover:show_text:'%nation_name%'>%kingdom_color%▨</hover>"
+  wild-char: "<hover:show_text:'&2荒野'>&8▩</hover>"
+  self-chars:
+    right: "<hover:show_text:'&f%player%'>&7‣</hover>"
+    down: "<hover:show_text:'&f%player%'>&7▾</hover>"
+    left: "<hover:show_text:'&f%player%'>&7◂</hover>"
+    up: "<hover:show_text:'&f%player%'>&7▴</hover>"
 town:
   revolt-name: "%town_name% 城邦"
   wilderness: "&8-= &2荒野 &8=-"
   cannot-build: "&8你没有权限在此处交互!"
+  teleport-countdown: "&7将在 &e&l%timer% &r&7秒后传送..."
 chat:
   with_nation: "&8[%nation_color%%nation% %title%&8] %sender% ≫ &f%message%"
   no_nation: "&f<%sender%> &f%message%"
@@ -145,18 +166,51 @@ auto-claiming:
   cannot-start-from-wild: "&c你必须从一个城镇区块开始自动占领!"
 admin:
   configuration-format-error: "&c错误的配置格式!"
+  configuration-format-error-with-loc: "&c错误的配置格式 @%file%, %line%!"
   reloading: "&3重新加载 &bBetterNations &3中..."
   reloaded: "&3成功加载 &bBetterNations &3!"
 combat:
-  transport-name: "&e&l%nation% &f的部队 &7 (%units% 个单位)"
+  stack-name: "&f%nation% 的部队 &7(%count% 个单位)"
+  stack-lore:
+    - "&8| &7%health%/%max_health%&c❤"
+    - "&8| &7%damage_unarmed%&b🗡&7 ➡ &8🚶 &f普通陆军"
+    - "&8| &7%damage_armored%&b🗡&7 ➡ &8🛡 &f装甲陆军"
+    - "&8| &7%damage_territory%&b🗡&7 ➡ &8🏴 &f领地"
+  transport-name: "&e&l%nation% &f的部队 &r&7 (%units% 个单位) &e%hp%&7/%mxhp%&c❤"
   transport-too-far: "&8[&4!&8] &c注意: 单位距离你过远!"
   transport-destroyed: "&8[&4!&8] &c单位已被摧毁!"
+  camp-name: "&e&l%nation% &f的营地 &r&7 (%units% 个单位)"
+  invasion-name: "&e&l%nation% &c的入侵 &r&7 (%units% 个单位)"
+  defender-name: "&e&l%nation% &7的 &f%type%"
+
+  invalid-selection: "&c选中的单位超出了当前拥有的单位! 请尝试重新选择..."
+
+  breakage:
+    failed: "&c未能消灭对方部队!"
+    success: "&a该营地已被消灭!"
+  progress:
+    invasion:
+      attack:
+        name: "&c进攻方: %attacker%"
+        lore:
+        - "&f下轮攻击: &7%next_attack%"
+        - "&f%health% &c❤ &7| &f%damage% &b🗡&7➡🏴"
+      defend:
+        name: "&b防守方: %defender%"
+        lore:
+          - "&f防守中..."
+          - "&f%health% &c❤"
   training:
     progress-item:
       name: "&f训练 &b%type% &f中..."
       lore:
-        - "&7剩余 &f%time% &7s"
+        - "&7剩余 &f%time%"
   unit:
+    selecting-item-lore:
+      - "&f%health%&7/%max_health% &c❤"
+      - "&f已选择 %count%&7/&f%total%"
+      - "&a+ &f左键增加"
+      - "&c- &f右键减少"
     item-lore:
       - "&f%health%&7/%max_health% &c❤"
 item:

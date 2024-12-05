@@ -1,7 +1,6 @@
 package cn.jason31416.betternations.command.town;
 
 import cn.jason31416.betternations.manager.EventListener;
-import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.planetlib.Config;
@@ -24,7 +23,7 @@ public class TownUnclaimCommand extends ChildCommand {
         if(town.getCore().location.getChunkLocation().equals(chunkLocation)) return Message.getMessage("command.failed.cannot-unclaim-core-chunk");
         if(town.unclaim(chunkLocation)){
             player.addBalance(Config.getDouble("unclaim-refund"));
-            if(player.getLocation().getChunkLocation().equals(chunkLocation))
+            if(player.isOnline()&&player.getLocation().getChunkLocation().equals(chunkLocation))
                 EventListener.sendCrossChunkMessage(player, player.getLocation().getChunkLocation(), player.getLocation().getChunkLocation());
             return Message.getMessage("command.success.town-chunk-unclaimed");
         }

@@ -2,7 +2,6 @@ package cn.jason31416.betternations.command.town;
 
 import cn.jason31416.betternations.command.nation.NationClaimCommand;
 import cn.jason31416.betternations.manager.EventListener;
-import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.planetlib.Config;
@@ -38,7 +37,7 @@ public class TownClaimCommand extends ChildCommand {
         }
         player.withdrawBalance(Config.getDouble("town.claim-cost"));
         if(town.claim(chunkLocation)){
-            if(player.getLocation().getChunkLocation().equals(chunkLocation))
+            if(player.isOnline()&&player.getLocation().getChunkLocation().equals(chunkLocation))
                 EventListener.sendCrossChunkMessage(player, player.getLocation().getChunkLocation(), player.getLocation().getChunkLocation());
             return Message.getMessage("command.success.town-chunk-claimed");
         }

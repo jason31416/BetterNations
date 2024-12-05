@@ -4,13 +4,12 @@ import cn.jason31416.betternations.nation.resolution.AbstractResolution;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.message.Message;
-import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
+import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import cn.jason31416.planetlib.wrapper.SimpleWorld;
 import org.bukkit.Color;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class Nation {
@@ -55,6 +54,9 @@ public class Nation {
     }
     public void setColor(Color color) {
         this.color = color;
+        for(Town t: towns){
+            if(t.core!=null) t.core.hologram.setText(t.core.getHologramText());
+        }
     }
     public Town getCapital() {
         return capital;
@@ -266,10 +268,10 @@ public class Nation {
         return nation;
     }
     // Static methods
-    public static Nation createNation(SimplePlayer player, String name) {
-        if(player.getLocation().getChunkLocation().isClaimed()) return null;
+    public static Nation createNation(SimplePlayer player, SimpleLocation location, String name) {
+        if(location.getChunkLocation().isClaimed()) return null;
         Nation nation = createNation(player, name, null);
-        nation.capital = Town.createTown(Config.getString("nation.capital-name").replace("%nation%", name), player.getLocation(), nation, player);
+        nation.capital = Town.createTown(Config.getString("nation.capital-name").replace("%nation%", name), location, nation, player);
         return nation;
     }
     public static Nation createNation(SimplePlayer player, String name, Town capital) {

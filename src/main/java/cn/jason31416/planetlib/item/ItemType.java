@@ -17,9 +17,12 @@ public abstract class ItemType {
     public boolean allowInteraction(){
         return true;
     }
-    public boolean equals(ItemType other){
-        if(other==null) return getMaterial()==Material.AIR;
-        return other.getName().equals(getName());
+    public boolean equals(Object ot){
+        if (ot == null) return getMaterial() == Material.AIR;
+        if(ot instanceof ItemType other) {
+            return other.getName().equals(getName());
+        }
+        return false;
     }
     public static ItemType getItemType(String name){
         if(CustomItemType.itemTypes.containsKey(name.toLowerCase())){
@@ -37,5 +40,8 @@ public abstract class ItemType {
             return CustomItemType.get(item);
         }
         return new VanillaItemType(item.getType());
+    }
+    public int hashCode(){
+        return getName().hashCode();
     }
 }

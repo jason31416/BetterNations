@@ -62,4 +62,9 @@ public class MythicMob implements SimpleMob {
     public void remove() {
         mob.remove();
     }
+
+    @Override
+    public void setName(String name) {
+        mob.setDisplayName(name);
+    }
 }

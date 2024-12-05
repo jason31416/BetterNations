@@ -256,6 +256,10 @@ public class Town implements Damageable {
         }
         return null;
     }
+    public void rename(String newName){
+        this.name = newName;
+        if(core!=null) core.hologram.setText(core.getHologramText());
+    }
 
     @Override
     public double getHealth() {

@@ -30,11 +30,17 @@ public abstract class GUISession {
     }
     public void display(String guiID){
         try {
+            if (!GUILoader.loadedGUIs.containsKey(guiID)) {
+                player.sendMessage(new StringMessage("<red>Error: Missing GUI "+guiID+", please contact admin!"));
+                player.getPlayer().closeInventory();
+                PlanetLib.instance.getLogger().severe("Error: Missing GUI: "+guiID+"!");
+                return;
+            }
             GUI gui = GUILoader.getGUI(guiID);
             constructGUI(guiID, gui);
             display(gui);
         } catch (Exception e) {
-            player.sendMessage(new StringMessage("<red>Error: Missing GUI "+guiID+", please contact admin!"));
+            player.sendMessage(new StringMessage("<red>Error: Some Error has occured when loading GUI: "+guiID+", please contact admin!"));
             PlanetLib.instance.getLogger().severe("Error while loading GUI: "+guiID+"!");
             e.printStackTrace();
         }

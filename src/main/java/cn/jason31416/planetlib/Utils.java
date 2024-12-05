@@ -1,6 +1,8 @@
 package cn.jason31416.planetlib;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;

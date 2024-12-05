@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class ArmyType {
     public static Map<String, ArmyType> armyTypes = new HashMap<>();
-    public String id, name;
-    public double health;
+    public String id, name, type;
+    public double health, maxSupply, consumption;
     public Material icon;
     public Map<ArmorType, Double> attack=new HashMap<>();
     public ArmorType armorType;

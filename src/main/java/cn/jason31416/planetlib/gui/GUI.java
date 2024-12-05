@@ -6,10 +6,12 @@ import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -76,6 +78,12 @@ public class GUI {
             }
             return this;
         }
+        public ItemGroup setGlow(boolean glow){
+            for(Item item: items){
+                item.setGlow(glow);
+            }
+            return this;
+        }
         public ItemGroup setLore(List<String> lore){
             for(Item item : items){
                 item.setLore(lore);
@@ -104,6 +112,7 @@ public class GUI {
         public String name="", id;
         public int quantity=1;
         public int slot=0;
+        public boolean glow=false;
         public int customModelData=-1;
         public Material material=Material.AIR;
         public List<String> lore=new ArrayList<>();
@@ -121,6 +130,7 @@ public class GUI {
             if(meta==null) return this;
             name=meta.getDisplayName();
             lore=meta.getLore();
+            if(meta.hasEnchant(Enchantment.DURABILITY)) glow=true;
             if(meta.hasCustomModelData()) customModelData = meta.getCustomModelData();
             return this;
         }
@@ -138,6 +148,10 @@ public class GUI {
         }
         public Item setSlot(int slot) {
             this.slot = slot;
+            return this;
+        }
+        public Item setGlow(boolean glow){
+            this.glow = glow;
             return this;
         }
         public Item setCustomModelData(int data){
@@ -163,6 +177,10 @@ public class GUI {
             if(meta!= null){
                 meta.setDisplayName(name);
                 meta.setLore(lore);
+                if(glow){
+                    meta.addEnchant(Enchantment.DURABILITY, 1, true);
+                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                }
                 if(customModelData != -1) meta.setCustomModelData(customModelData);
                 if(meta instanceof SkullMeta mt&&skullId!=null){
                     try {
@@ -186,6 +204,8 @@ public class GUI {
             item.material = material;
             item.lore = lore;
             item.slot = slot;
+            item.customModelData = customModelData;
+            item.glow = glow;
             return item;
         }
     }

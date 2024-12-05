@@ -5,6 +5,8 @@ import cn.jason31416.planetlib.hook.NbtHook;
 import cn.jason31416.planetlib.message.StaticMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -26,6 +28,7 @@ public class CustomItemType extends ItemType {
     public final Material material;
     public final String skullValue;
     public final List<String> lore;
+    public boolean glow=false;
     public boolean allowInteraction=true;
     public Material getMaterial(){return material;}
     public CustomItemType(String registryName, String displayName, Material material, List<String> lore) {
@@ -64,6 +67,10 @@ public class CustomItemType extends ItemType {
             }
         } catch (MalformedURLException ignored) {
             throw new RuntimeException(ignored);
+        }
+        if(glow){
+            itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         itemStack.setItemMeta(itemMeta);
         NbtHook.setTag(itemStack, "plib.itemType", registryName);

@@ -13,14 +13,10 @@ import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CraftingGuideCommand extends ChildCommand {
     public CraftingGuideCommand(IParentCommand parent) {
@@ -33,13 +29,50 @@ public class CraftingGuideCommand extends ChildCommand {
         if(context.getPlayer()==null) return null;
         SimplePlayer player = context.getPlayer();
         GUISession session = new GUISession(player) {
-            int page=0, recipePage=0;
+            int page=0, recipePage=0, catpage=0;
             CustomItemType selectedType=null;
+            String curCat="";
             @Override
             public void constructGUI(String guiID, GUI gui) {
                 switch (guiID){
+                    case "item-categories": {
+                        int totalpages = ItemCraftingManager.itemTypes.size()/28+1;
+                        if(catpage < totalpages-1){
+                            gui.getItems("nextpage").setMaterial(Material.LIME_STAINED_GLASS_PANE)
+                                    .setClickHandler((session, action, event) -> {
+                                        catpage++;
+                                        constructGUI(guiID, gui);
+                                    });
+                        }else gui.getItems("nextpage").setMaterial(Material.BLACK_STAINED_GLASS_PANE).setName(" ");
+                        if(catpage > 0){
+                            gui.getItems("prevpage").setMaterial(Material.LIME_STAINED_GLASS_PANE)
+                                    .setClickHandler((session, action, event) -> {
+                                        catpage--;
+                                        constructGUI(guiID, gui);
+                                    });
+                        }else gui.getItems("prevpage").setMaterial(Material.BLACK_STAINED_GLASS_PANE).setName(" ");
+                        gui.getItems("close").setClickHandler(new GUI.CloseGuiRunnable());
+
+                        List<ItemCraftingManager.ItemCategory> cats = new ArrayList<>(ItemCraftingManager.itemTypes.values()).subList(page*28, Math.min(ItemCraftingManager.itemTypes.size(), page*28+28));
+                        int cur=0;
+                        for(int i=10;i<44;i++){
+                            if(i%9==8) i+=2;
+                            if(cur>=cats.size()) break;
+                            ItemCraftingManager.ItemCategory t = cats.get(cur);
+                            gui.addItem("item-"+i, new StringMessage(t.displayName).toString(), i, t.material, 1);
+                            gui.getItems("item-"+i).setClickHandler((session, action, event) -> {
+                                curCat = t.catid;
+                                page = 0;
+                                session.display("custom-items");
+                            });
+                            cur++;
+                        }
+                        break;
+                    }
                     case "custom-items": {
-                        int totalpages = CustomItemType.itemTypes.size()/28+1;
+                        gui.placeholder("category", new StringMessage(ItemCraftingManager.itemTypes.get(curCat).displayName).toFormatted());
+                        List<CustomItemType> customItemTypes = ItemCraftingManager.itemTypes.get(curCat).types;
+                        int totalpages = customItemTypes.size()/28+1;
                         if(page < totalpages-1){
                             gui.getItems("nextpage").setMaterial(Material.LIME_STAINED_GLASS_PANE)
                                     .setClickHandler((session, action, event) -> {
@@ -54,9 +87,9 @@ public class CraftingGuideCommand extends ChildCommand {
                                 constructGUI(guiID, gui);
                             });
                         }else gui.getItems("prevpage").setMaterial(Material.BLACK_STAINED_GLASS_PANE).setName(" ");
-                        gui.getItems("close").setClickHandler(new GUI.CloseGuiRunnable());
+                        gui.getItems("close").setClickHandler((session, action, event) -> session.display("item-categories"));
 
-                        List<CustomItemType> types = new ArrayList<>(CustomItemType.itemTypes.values()).subList(page*28, Math.min(CustomItemType.itemTypes.size(), page*28+28));
+                        List<CustomItemType> types = customItemTypes.subList(page*28, Math.min(customItemTypes.size(), page*28+28));
                         int cur=0;
                         for(int i=10;i<44;i++){
                             if(i%9==8) i+=2;
@@ -64,6 +97,7 @@ public class CraftingGuideCommand extends ChildCommand {
                             CustomItemType t = types.get(cur);
                             GUI.Item itm = gui.addItem("item-"+i, t.displayName, i, t.material, 1)
                                     .setLore(t.lore);
+                            if(t.glow) itm.setGlow(true);
                             if(t.customModelData!=0) itm.setCustomModelData(t.customModelData);
                             if(t.skullValue!=null) itm.setSkullID(t.skullValue);
                             if(ItemCraftingManager.recipes.get(types.get(cur))!=null)
@@ -74,12 +108,14 @@ public class CraftingGuideCommand extends ChildCommand {
                                     });
                             cur++;
                         }
+                        break;
                     }
                     case "recipe-display": {
                         if(selectedType==null) return;
                         List<SimpleRecipe> recipes = ItemCraftingManager.recipes.get(selectedType);
                         if(recipes==null||recipePage>=recipes.size()) return;
                         gui.placeholder("item", new StringMessage(selectedType.displayName).toFormatted());
+                        gui.placeholder("category", new StringMessage(ItemCraftingManager.itemTypes.get(curCat).displayName).toFormatted());
                         if(recipePage<recipes.size()-1) gui.getItems("nextpage").setClickHandler((session, action, event)->{
                             recipePage++;
                             session.display("recipe-display");
@@ -123,7 +159,14 @@ public class CraftingGuideCommand extends ChildCommand {
                                     .setLore(MessageLoader.getList("item.recipe.smelting.lore")
                                             .add("smelting-time", recipe.recipe.getCookingTime()/20.0)
                                             .asList());
-                            gui.getItems("slot2-2").setItemStack(recipe.recipe.getInput());
+                            gui.getItems("slot2-2").setItemStack(recipe.recipe.getInput())
+                                    .setClickHandler((session, action, clicktype) -> {
+                                        if(ItemType.getItemType(recipe.recipe.getInput()) instanceof CustomItemType tp) {
+                                            selectedType = tp;
+                                            recipePage = 0;
+                                            session.display("recipe-display");
+                                        }
+                                    });
                             gui.getItems("slot1-1").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
                             gui.getItems("slot1-2").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
                             gui.getItems("slot1-3").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
@@ -133,11 +176,12 @@ public class CraftingGuideCommand extends ChildCommand {
                             gui.getItems("slot3-2").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
                             gui.getItems("slot3-3").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
                         }
+                        break;
                     }
                 }
             }
         };
-        session.display("custom-items");
+        session.display("item-categories");
         return null;
     }
 

@@ -75,6 +75,12 @@ public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements Co
         return Nation.chunkNationMap.get(this);
     }
 
+    public void unclaim(){
+        if(getNation()!=null){
+            getNation().unclaim(this);
+        }
+    }
+
     public static SimpleChunkLocation of(int x, int z, SimpleWorld world) {
         return new SimpleChunkLocation(x, z, world);
     }

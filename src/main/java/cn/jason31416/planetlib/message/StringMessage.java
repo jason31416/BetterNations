@@ -27,8 +27,8 @@ public class StringMessage implements Message {
                 .replace("&a", "<green>")
                 .replace("&b", "<aqua>")
                 .replace("&c", "<red>")
-                .replace("&d", "<dark_aqua>")
-                .replace("&e", "<dark_red>")
+                .replace("&d", "<light_purple>")
+                .replace("&e", "<yellow>")
                 .replace("&f", "<white>")
                 .replace("&1", "<dark_blue>")
                 .replace("&2", "<dark_green>")
@@ -38,8 +38,10 @@ public class StringMessage implements Message {
                 .replace("&6", "<gold>")
                 .replace("&7", "<gray>")
                 .replace("&8", "<dark_gray>")
+                .replace("&9", "<blue>")
                 .replace("&l", "<bold>")
-                .replace("&r", "<reset>");
+                .replace("&r", "<reset>")
+                .replace("&o", "<italic>");
     }
     public StringMessage add(String placeholder, Object value){
         content = content.replace("%"+placeholder+"%", (value instanceof String)?(String)value:value.toString());

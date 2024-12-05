@@ -13,13 +13,8 @@ import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-
-import static cn.jason31416.planetlib.command.ParameterType.INTEGER;
-import static cn.jason31416.planetlib.command.ParameterType.STRING;
 
 public class NationUnclaimCommand extends ChildCommand {
     public static Message unclaimWithChecks(SimplePlayer player, SimpleChunkLocation chunkLocation){
@@ -52,7 +47,7 @@ public class NationUnclaimCommand extends ChildCommand {
             }
         }
         if(nation.unclaim(chunkLocation)){
-            if(player.getLocation().getChunkLocation().equals(chunkLocation))
+            if(player.isOnline()&&player.getLocation().getChunkLocation().equals(chunkLocation))
                 EventListener.sendCrossChunkMessage(player, player.getLocation().getChunkLocation(), player.getLocation().getChunkLocation());
             player.addBalance(Config.getDouble("nation.unclaim-refund"));
             return Message.getMessage("command.success.chunk-unclaimed");

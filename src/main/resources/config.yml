@@ -1,3 +1,5 @@
+# It is suggested to increase the bukkit.yml health limit to around 100,000!
+
 # The language of the plugin
 # Please make sure the file exists in the /lang folder
 lang: zh_cn
@@ -14,6 +16,11 @@ town:
   creation-cost: 100 # The cost of creating a town
   claim-cost: 30 # The (additional) cost of claiming a chunk as a town chunk
   unclaim-refund: 10 # The refund of unclaiming a chunk as a town chunk
+  teleport-countdown: # The countdown for /k tp
+
+map:
+  width: 6 # This value *2+1 is the actual size of the map
+  height: 4 # This value *2+1 is the actual size of the map
 
 border-display: # [Most options in this section require restart to take effect]
   nation-border: true
@@ -25,8 +32,11 @@ border-display: # [Most options in this section require restart to take effect]
 
 combat:
   damage-units: 10 # top 10 units are counted toward the stack's total damage
+  defend-units: 10 # 10 entities can be spawned at the same time to defend camps/invasions
+
+  chunk-hp: 10 # How many hp does a single chunk have
 
   transport-mob: zombie
-  army-tick-interval: 1200 # How long in game ticks does all of the armies update? This can change the speed of many things related to army such as combat speed
-  transport-max-distance: 16 # The unit must be within 16 blocks of the army
-  transport-warn-distance: 12 # The unit must be within 16 blocks of the army
+  army-tick-interval: 10 # How long in seconds does all of the combats update?
+  transport-max-distance: 64 # The unit must be within 64 blocks of the player, or else its gonna be destroyed
+  transport-warn-distance: 56

@@ -1,21 +1,20 @@
 package cn.jason31416.betternations.army;
 
+import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.ArmyStackHolder;
+import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.nation.Nation;
-import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
+import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.message.StringMessage;
-import cn.jason31416.planetlib.mob.SimpleMob;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
-import cn.jason31416.planetlib.wrapper.SimplePlayer;
-import io.lumine.mythic.core.mobs.ActiveMob;
-import org.bukkit.Location;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -40,7 +39,7 @@ public class ArmyStack implements Damageable, DamageSource {
             item.setName(new StringMessage("&f"+type.name+" &7x"+count).toString());
             item.setQuantity(count);
             item.setLore(MessageLoader.getList("combat.unit.item-lore")
-                            .add("health", hp)
+                            .add("health", Math.round(hp*10)/10.0)
                             .add("max_health", count*type.health)
                             .asList());
             item.setMaterial(type.icon);
@@ -53,8 +52,18 @@ public class ArmyStack implements Damageable, DamageSource {
     public Map<ArmyType, Unit> armies = new HashMap<>();
     public Nation nation;
     public ArmyStackHolder curHolder = null;
+    public double supply;
+    public Queue<Object> damageQueue = new ArrayDeque<>();
     public ArmyStack(Nation nation){
         this.nation = nation;
+    }
+    public void addArmy(ArmyType type, Integer count, Double health){
+        if(armies.containsKey(type)){
+            armies.get(type).count+=count;
+            armies.get(type).hp+=health;
+        }else{
+            armies.put(type, new Unit(type, count, health));
+        }
     }
     public void addArmy(ArmyType type, Integer count){
         if(armies.containsKey(type)){
@@ -80,6 +89,7 @@ public class ArmyStack implements Damageable, DamageSource {
             return true;
         }else return false;
     }
+
     public boolean removeArmyStack(ArmyStack group){
         boolean bb = true;
         for(ArmyType i: group.armies.keySet()){
@@ -99,7 +109,27 @@ public class ArmyStack implements Damageable, DamageSource {
         }
         return count;
     }
-
+    public double getMaxSupply() {
+        double total=0;
+        for(ArmyType i: armies.keySet()){
+            total += i.maxSupply*armies.get(i).count;
+        }
+        return total;
+    }
+    public double getSupplyConsumption() {
+        double total=0;
+        for(ArmyType i: armies.keySet()){
+            total += i.consumption*armies.get(i).count;
+        }
+        return total;
+    }
+    public double getMaxHealth() {
+        double hp=0;
+        for(ArmyType i: armies.keySet()){
+            hp += armies.get(i).count*i.health;
+        }
+        return hp;
+    }
     @Override
     public double getHealth() {
         double hp=0;
@@ -108,14 +138,68 @@ public class ArmyStack implements Damageable, DamageSource {
         }
         return hp;
     }
+    public void displayGUI(GUI gui, int starting, int ending){
+        int pos = starting;
+        for(ArmyType type: armies.keySet()){
+            if(pos>=ending) return;
+            gui.addItem("army-"+pos, pos, armies.get(type).getItemStack());
+            pos ++;
+            if(pos%9==8) pos += 2;
+        }
+    }
+
+    private boolean isBreaking(){
+        return (curHolder instanceof StructuredArmy sa) && sa.runnable != null;
+    }
+
+    public void processDamageQueue(){
+        if(isBreaking()) return;
+        while(!damageQueue.isEmpty()){
+            Object item = damageQueue.poll();
+            if(item instanceof Double dmg){
+                damage(dmg);
+            }else if(item instanceof DamageSource dmg){
+                damage(dmg);
+            }
+        }
+    }
+    public String getStackName(){
+        return Message.getMessage("combat.stack-name").add("nation", nation.getName()).add("count", size()).toString();
+    }
+    public ItemStack getItemDisplay(){
+        if(armies.isEmpty()){
+            GUI.Item ret = new GUI.Item("");
+            ret.setMaterial(Material.BARRIER)
+                    .setName(" ");
+            return ret.toBukkitItem();
+        }
+        GUI.Item ret = new GUI.Item("");
+        ret.setMaterial(armies.keySet().stream().toList().get(0).icon)
+                .setName(getStackName())
+                .setLore(MessageLoader.getList("combat.stack-lore")
+                        .add("health", Math.round(getHealth()*10)/10.0)
+                        .add("max_health", getMaxHealth())
+                        .add("damage_unarmed", getDamageTowards(ArmorType.UNARMED))
+                        .add("damage_armored", getDamageTowards(ArmorType.ARMORED))
+                        .add("damage_territory", getDamageTowards(ArmorType.TERRITORY))
+                        .asList());
+        return ret.toBukkitItem();
+    }
 
     @Override
     public void damage(double dmg) {
+        if(isBreaking()){
+//            damageQueue.add(dmg);
+            return;
+        }
         double div = size();
         for(ArmyType i: new ArrayList<>(armies.keySet())) {
             Unit unit = armies.get(i);
             unit.hp -= dmg*unit.count/div;
-            if(unit.hp <= 0){
+            while(unit.hp <= (unit.count-1)*i.health){
+                unit.count -= 1;
+            }
+            if(unit.count <= 0){
                 armies.remove(i);
             }
         }
@@ -123,16 +207,25 @@ public class ArmyStack implements Damageable, DamageSource {
 
     @Override
     public void damage(DamageSource source) {
+        if(isBreaking()){
+//            damageQueue.add(source);
+            return;
+        }
         double div = size();
         for(ArmyType i: new ArrayList<>(armies.keySet())){
             Unit unit = armies.get(i);
             unit.hp -= source.getDamageTowards(i.armorType)*unit.count/div;
-            if(unit.hp <= 0){
+            while(unit.hp <= (unit.count-1)*i.health){
+                unit.count -= 1;
+            }
+            if(unit.count <= 0){
                 armies.remove(i);
             }
         }
     }
-
+    public SimpleLocation getLocation(){
+        return curHolder.getLocation();
+    }
     @Override
     public boolean isAlive() {
         return armies.isEmpty();
@@ -160,5 +253,23 @@ public class ArmyStack implements Damageable, DamageSource {
     }
     public void destroy(){
         // todo: register/destruction of army stacks
+    }
+    public void serialize(IDataItem dataItem){
+        List<String> armyList=new ArrayList<>();
+        for(ArmyType i: armies.keySet()){
+            armyList.add(i.id+":"+armies.get(i).count+":"+armies.get(i).hp);
+        }
+        dataItem.set("a_bel", nation.getId().toString());
+        dataItem.set("a_cont", String.join(";", armyList));
+    }
+    public static ArmyStack deserialize(IDataItem dataItem){
+        ArmyStack stack = new ArmyStack(Nation.getNation(UUID.fromString(dataItem.getString("a_bel"))));
+        for(String i: dataItem.getString("a_cont").split(";")){
+            if(i.isEmpty()) continue;
+            String[] unit_string = i.split(":");
+            if(ArmyType.armyTypes.containsKey(unit_string[0])) stack.addArmy(ArmyType.armyTypes.get(unit_string[0]), Integer.parseInt(unit_string[1]), Double.parseDouble(unit_string[2]));
+            else Bukkit.getLogger().severe("Error loading armystack: Army type not found! Please check your configuration.");
+        }
+        return stack;
     }
 }

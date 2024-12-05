@@ -1,14 +1,9 @@
 package cn.jason31416.betternations.structure;
 
-import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.item.ItemType;
-import cn.jason31416.planetlib.message.StaticMessages;
-import cn.jason31416.planetlib.wrapper.SimpleLocation;
-import org.bukkit.Material;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public abstract class PlaceableStructure extends AbstractStructure {
     public static Map<String, Class<? extends PlaceableStructure> > placeableStructures=new HashMap<>();

@@ -22,6 +22,7 @@ public interface SimpleMob {
     void setMaxHealth(double hp);
     void setTarget(LivingEntity target);
     void remove();
+    void setName(String name);
     default void kill(){
         remove();
         mobs.remove(this);

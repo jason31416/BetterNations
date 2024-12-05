@@ -1,7 +1,6 @@
 package cn.jason31416.betternations.manager;
 
 import cn.jason31416.planetlib.Config;
-import cn.jason31416.planetlib.update.UpdateCycle;
 import cn.jason31416.planetlib.update.UpdateTask;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
@@ -9,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class BorderDisplayManager implements UpdateTask.RunnableTask {
     private void drawBorder(SimpleChunkLocation chunk, int dx, int dz, Player player, Color color, int shifting) {

@@ -3,7 +3,6 @@ package cn.jason31416.betternations.command.nation;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationalRank;
 import cn.jason31416.betternations.nation.Permission;
-import cn.jason31416.betternations.nation.resolution.JoinResolution;
 import cn.jason31416.betternations.nation.resolution.PlayerRankResolution;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;

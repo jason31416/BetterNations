@@ -1,5 +1,9 @@
 package cn.jason31416.planetlib.wrapper;
 
+import cn.jason31416.betternations.army.states.ArmyCamp;
+import cn.jason31416.betternations.army.states.InvasionFlag;
+import cn.jason31416.betternations.army.states.StructuredArmy;
+import cn.jason31416.betternations.manager.ArmyUpdateManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationalRank;
 import cn.jason31416.betternations.nation.Permission;
@@ -43,6 +47,13 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
         return getRank().hasPermission(p);
     }
     public boolean hasPermission(Permission p, SimpleLocation location){
+        if((p==Permission.STRUCTURE||p==Permission.BUILD)&&StructuredArmy.armyLocationMap.containsKey(location.getChunkLocation())){
+            for(StructuredArmy i: StructuredArmy.armyLocationMap.get(location.getChunkLocation())){
+                if(i instanceof InvasionFlag){
+                    return false;
+                }
+            }
+        }
         if(location.getChunkLocation().getNation()==null&&(p==Permission.BUILD||p==Permission.STRUCTURE)) return true;
         if(location.getChunkLocation().getTown()!=null) return location.getChunkLocation().getTown().getRole(this).hasPermission(p);
         return getRank().hasPermission(p)&&location.getChunkLocation().getNation()==getNation();

@@ -22,23 +22,6 @@ public abstract class RootCommand implements ICommand, IParentCommand, CommandEx
     public RootCommand(String name) {
         this.name = name;
     }
-//    public static CommandMap getCommandMap(){
-//        CommandMap commandMap = null;
-//        try{
-//            Class targetClass = Class.forName("org.bukkit.craftbukkit.".concat(PlanetLib.packageName)+".CraftServer");
-//            Method[] methods = targetClass.getDeclaredMethods();
-//            for(Method method : methods){
-//                method.setAccessible(true);
-//                if(method.getName().equalsIgnoreCase("getCommandMap")){
-//                    commandMap = (CommandMap) method.invoke(Bukkit.getServer(),new Object[0]);
-//                }
-//            }
-//        }catch (Exception e){
-//            throw new RuntimeException("Failed to get bukkit command map from NMS reflection! Likely caused by an unsupported version of Minecraft!");
-//        }
-//        if(commandMap==null) throw new RuntimeException("Failed to get bukkit command map from NMS reflection!");
-//        return commandMap;
-//    }
     public void register(){
         PluginCommand cmd = Bukkit.getPluginCommand(name);
         if(cmd!= null){
@@ -46,16 +29,6 @@ public abstract class RootCommand implements ICommand, IParentCommand, CommandEx
             cmd.setTabCompleter(this);
         }
     }
-//    public boolean execute(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args){
-//        return onCommand(sender, args);
-//    }
-//
-//    @NotNull
-//    public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
-//        List<String> result = onTabComplete(sender, args);
-//        if(result!= null) return result;
-//        return ImmutableList.of();
-//    }
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] strings) {
         CommandContext context = new CommandContext(Arrays.asList(strings), SimpleSender.of(commandSender), SimplePlayer.of(commandSender), name);
         if(context.args().isEmpty()){

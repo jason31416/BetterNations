@@ -1,0 +1,265 @@
+# In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
+
+items:
+  undead-essence:
+    material: glowstone_dust
+    name: "&4&l亡灵精华"
+    glowing: true
+    category: ingredient
+  silicon:
+    material: iron_nugget
+    name: "&3&l硅"
+    glowing: true
+    category: resource
+  chip:
+    material: paper
+    name: "&3&l芯片"
+    category: ingredient
+  mechanical-chip:
+    material: daylight_detector
+    name: "&3&l机械芯片"
+    glowing: true
+    category: ingredient
+  smart-chip:
+    material: daylight_detector
+    name: "&3&l智能芯片"
+    glowing: true
+    category: ingredient
+  raw-steel:
+    material: raw_iron
+    name: "&3&l粗钢"
+    glowing: true
+    category: resource
+  steel:
+    material: iron_ingot
+    name: "&3&l钢锭"
+    glowing: true
+    category: resource
+  steel-plate:
+    material: brick
+    name: "&3&l钢板"
+    glowing: true
+    category: ingredient
+  wood:
+    material: oak_planks
+    name: "&7&l木材"
+    category: resource
+  hilt:
+    material: bone
+    name: "&7&l剑柄"
+    category: ingredient
+  steel-sword:
+    material: iron_sword
+    name: "&7&l钢剑"
+    glowing: true
+    category: ingredient
+  compressed-steel-plate:
+    material: nether_brick
+    name: "&3&l压缩钢板"
+    glowing: true
+    category: ingredient
+
+recipes:
+  # vvv ingredients vvv
+  wood1:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: oak_planks
+  wood2:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: birch_planks
+  wood3:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: acacia_planks
+  wood4:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: jungle_planks
+  wood5:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: spruce_planks
+  wood6:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: dark_oak_planks
+  wood7:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: mangrove_planks
+  wood8:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: cherry_planks
+  wood9:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: bamboo_planks
+  wood10:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: crimson_planks
+  wood11:
+    type: crafting
+    product: wood
+    shape:
+      - "aaa"
+      - "aaa"
+      - "aaa"
+    material:
+      a: warped_planks
+
+  undead-essence:
+    type: crafting
+    product: undead-essence
+    shape:
+      - "ab"
+      - "bc"
+    material:
+      a: bone_meal
+      b: rotten_flesh
+      c: fermented_spider_eye
+  silicon:
+    type: smelting
+    product: silicon
+    ingredient: glass
+    exp: 0.5
+    time: 100
+  chip:
+    type: crafting
+    product: chip
+    shape:
+      - "aaa"
+    material:
+      a: silicon
+  mechanical-chip:
+    type: crafting
+    product: mechanical-chip
+    shape:
+      - " d "
+      - "aba"
+      - "ccc"
+    material:
+      a: redstone
+      b: iron_block
+      c: chip
+      d: netherite_scrap
+  smart-chip:
+    type: crafting
+    product: smart-chip
+    shape:
+      - " d "
+      - "aba"
+      - "ccc"
+    material:
+      a: redstone
+      b: bookshelf
+      c: chip
+      d: netherite_scrap
+  raw-steel:
+    type: crafting
+    product: raw-steel
+    shape:
+      - "ab"
+    material:
+      a: raw_iron
+      b: coal
+  raw-steel-2:
+    type: crafting
+    product: raw-steel
+    shape:
+      - "ab"
+    material:
+      a: raw_iron
+      b: charcoal
+  steel:
+    type: smelting
+    product: steel
+    ingredient: raw-steel
+    exp: 3.0
+    time: 800
+  hilt:
+    type: crafting
+    product: hilt
+    shape:
+      - "b"
+      - "a"
+    material:
+      a: stick
+      b: wood
+  steel-sword:
+    type: crafting
+    product: steel-sword
+    shape:
+      - "a"
+      - "a"
+      - "b"
+    material:
+      a: steel
+      b: hilt
+  steel-plate:
+    type: crafting
+    product: steel-plate
+    shape:
+      - "aaa"
+    material:
+      a: steel
+  compressed-steel-plate:
+    type: crafting
+    product: compressed-steel-plate
+    shape:
+      - "aaa"
+    material:
+      a: steel-plate

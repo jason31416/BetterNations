@@ -5,8 +5,6 @@ import cn.jason31416.betternations.nation.resolution.DisbandResolution;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
-import cn.jason31416.planetlib.gui.GUI;
-import cn.jason31416.planetlib.gui.GUISession;
 import cn.jason31416.planetlib.message.Message;
 import org.jetbrains.annotations.Nullable;
 

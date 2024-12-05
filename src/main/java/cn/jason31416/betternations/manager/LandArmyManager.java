@@ -7,8 +7,6 @@ import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.InvalidConfigurationException;
 import cn.jason31416.planetlib.PlanetLib;
-import cn.jason31416.planetlib.message.StaticMessages;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,6 +23,9 @@ public class LandArmyManager {
             if(typeSection==null) continue;
             ArmyType at = new ArmyType(i, typeSection.getString("name"), ArmorType.valueOf(typeSection.getString("armor", "UNARMED").toUpperCase()), Material.getMaterial(typeSection.getString("icon", "STONE").toUpperCase()));
             at.health = typeSection.getDouble("hp");
+            at.maxSupply = typeSection.getDouble("supply");
+            at.consumption = typeSection.getDouble("consume");
+            at.type = typeSection.getString("type");
             ConfigurationSection damages = typeSection.getConfigurationSection("damage");
             if(damages==null) continue;
             for(String j: damages.getKeys(false)){

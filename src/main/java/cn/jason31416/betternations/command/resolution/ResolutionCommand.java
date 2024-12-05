@@ -1,8 +1,9 @@
 package cn.jason31416.betternations.command.resolution;
 
-import cn.jason31416.betternations.command.town.TownClaimCommand;
-import cn.jason31416.betternations.command.town.TownUnclaimCommand;
-import cn.jason31416.planetlib.command.*;
+import cn.jason31416.planetlib.command.ICommand;
+import cn.jason31416.planetlib.command.ICommandContext;
+import cn.jason31416.planetlib.command.IParentCommand;
+import cn.jason31416.planetlib.command.ParentCommand;
 import cn.jason31416.planetlib.message.Message;
 import org.jetbrains.annotations.Nullable;
 

@@ -13,6 +13,9 @@ public class TownCommand extends ParentCommand {
         new TownClaimCommand(this);
         new TownUnclaimCommand(this);
         new TownCreateCommand(this);
+        new TownCoreCommand(this);
+        new TownTeleportCommand(this);
+        new TownRenameCommand(this);
     }
 
     @Override

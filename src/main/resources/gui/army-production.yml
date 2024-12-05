@@ -2,7 +2,6 @@ army-production:
   window:
     title: "&7-= &r%structure_name% &7=-"
     size: 54
-    inputs: [13]
   container:
     border:
       name: " "
