@@ -54,7 +54,6 @@ public class UnitProductionStructure extends PlaceableStructure {
             armiesList.add(i.id + ":" + armyStorage.get(i).count);
         }
         dataItem.set("armies", String.join(";", armiesList));
-        //todo: serialize and deserialize army information
         return true;
     }
     @Override
@@ -113,6 +112,7 @@ public class UnitProductionStructure extends PlaceableStructure {
                                     if(!armyStorage.isEmpty()&&player.getNation()!=null&&player.getNation()==location.getChunkLocation().getNation()){
                                         ArmyStack stack = new ArmyStack(player.getNation());
                                         stack.armies = new HashMap<>(armyStorage);
+                                        stack.supply = stack.getMaxSupply();
                                         armyStorage.clear();
                                         TransportArmy.spawn(location.getRelative(0.5, 1, 0.5), player, stack);
                                     }

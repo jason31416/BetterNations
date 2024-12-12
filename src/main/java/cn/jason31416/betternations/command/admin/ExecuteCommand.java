@@ -4,6 +4,7 @@ import cn.jason31416.betternations.command.BetterNationsCommand;
 import cn.jason31416.planetlib.command.*;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StaticMessages;
+import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -26,6 +27,8 @@ public class ExecuteCommand extends ChildCommand {
         if(target==null) return Message.getMessage("command.failed.invalid-target");
         ICommandContext ctx = new CommandContext(context.args().subList(2, context.args().size()), context.getSender(), target, "k admin execute");
         if(!BetterNationsCommand.instance.subCommands.containsKey(context.getArg(1))) return StaticMessages.UNKNOWN_COMMAND;
+        context.getSender().sendMessage(new StringMessage("&cNOTE THAT THIS COMMAND ISN'T SAFE AT ALL"));
+        context.getSender().sendMessage(new StringMessage("&cONLY FOR TESTING!!! USE IT AT YOUR OWN RISK!!!"));
         return BetterNationsCommand.instance.subCommands.get(context.getArg(1)).execute(ctx);
     }
 

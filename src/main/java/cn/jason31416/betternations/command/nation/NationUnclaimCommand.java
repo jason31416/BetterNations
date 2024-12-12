@@ -1,6 +1,8 @@
 package cn.jason31416.betternations.command.nation;
 
+import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.command.town.TownUnclaimCommand;
+import cn.jason31416.betternations.manager.ArmyUpdateManager;
 import cn.jason31416.betternations.manager.EventListener;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
@@ -36,6 +38,9 @@ public class NationUnclaimCommand extends ChildCommand {
         }
         if(!player.getRank().hasPermission(Permission.NATION_UNCLAIM)){
             return Message.getMessage("command.failed.no-permission");
+        }
+        if(ArmyUpdateManager.chunkHealths.containsKey(chunkLocation)){
+            return Message.getMessage("command.failed.cannot-unclaim-invading");
         }
         if(chunkLocation.isTownChunk()){
             if(!player.getRank().hasPermission(Permission.TOWN_UNCLAIM)&&

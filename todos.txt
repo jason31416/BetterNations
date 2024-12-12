@@ -15,5 +15,7 @@ future functionality:
 - army system
 - treaty system
 
+known bugs:
+- FromTo animation would not update when nation relation changes or chunk belonging changes
 
 // Unit must not move nor take damage for a while in order to convert?

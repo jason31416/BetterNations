@@ -74,7 +74,6 @@ public class TransportArmy implements ArmyStackHolder {
         Message.getMessage("combat.transport-destroyed").send(player);
         unregister();
         if(doKill) mob.remove();
-        stack.destroy();
     }
     public ArmyStack getStack() {
         return stack;

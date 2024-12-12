@@ -1,6 +1,8 @@
 package cn.jason31416.planetlib.gui;
 
 import cn.jason31416.planetlib.hook.NbtHook;
+import cn.jason31416.planetlib.item.CustomItemType;
+import cn.jason31416.planetlib.item.ItemType;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
@@ -54,6 +56,18 @@ public class GUI {
         public ItemGroup(List<Item> items){
             this.items=items;
         }
+        @Deprecated
+        public void setAsVanillaItemStack(ItemStack stack){
+            for(Item item: items){
+                item.setAsVanillaItemStack(stack);
+            }
+        }
+        public ItemGroup setSkullID(String skullID){
+            for(Item item: items){
+                item.setSkullID(skullID);
+            }
+            return this;
+        }
         public ItemGroup setItemStack(ItemStack stack){
             for(Item item: items){
                 item.setItemStack(stack);
@@ -102,7 +116,7 @@ public class GUI {
         }
         public ItemGroup placeholder(String placeholder, String value){
             for(Item item : items){
-                item.placeholder(placeholder, value);
+                item.placeholder("%"+placeholder+"%", value);
             }
             return this;
         }
@@ -117,6 +131,7 @@ public class GUI {
         public Material material=Material.AIR;
         public List<String> lore=new ArrayList<>();
         public String skullId=null;
+        public ItemStack stack=null;
         public GUIRunnable clickHandler=null;
         public Item(String id) {this.id = id;}
         public Item setMaterial(Material material) {
@@ -124,6 +139,9 @@ public class GUI {
             return this;
         }
         public Item setItemStack(ItemStack stack) {
+            if(ItemType.getItemType(stack) instanceof CustomItemType c){
+                skullId = c.skullValue;
+            }
             material = stack.getType();
             quantity = stack.getAmount();
             ItemMeta meta = stack.getItemMeta();
@@ -133,6 +151,9 @@ public class GUI {
             if(meta.hasEnchant(Enchantment.DURABILITY)) glow=true;
             if(meta.hasCustomModelData()) customModelData = meta.getCustomModelData();
             return this;
+        }
+        public void setAsVanillaItemStack(ItemStack stack){
+            this.stack = stack;
         }
         public Item setName(String name) {
             this.name = name;
@@ -172,6 +193,7 @@ public class GUI {
             return this;
         }
         public ItemStack toBukkitItem() {
+            if(stack!=null) return stack.clone();
             ItemStack item = new ItemStack(material, quantity);
             ItemMeta meta = item.getItemMeta();
             if(meta!= null){
@@ -182,15 +204,17 @@ public class GUI {
                     meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 }
                 if(customModelData != -1) meta.setCustomModelData(customModelData);
-                if(meta instanceof SkullMeta mt&&skullId!=null){
-                    try {
-                        PlayerProfile profile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID());
-                        PlayerTextures textures = profile.getTextures();
-                        textures.setSkin(new URL("https://textures.minecraft.net/texture/"+skullId));
-                        profile.setTextures(textures);
-                        mt.setOwnerProfile(profile);
-                    } catch (MalformedURLException ignored) {
-                        throw new RuntimeException(ignored);
+                if(meta instanceof SkullMeta mt){
+                    if(skullId!=null) {
+                        try {
+                            PlayerProfile profile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID());
+                            PlayerTextures textures = profile.getTextures();
+                            textures.setSkin(new URL("https://textures.minecraft.net/texture/" + skullId));
+                            profile.setTextures(textures);
+                            mt.setOwnerProfile(profile);
+                        } catch (MalformedURLException ignored) {
+                            throw new RuntimeException(ignored);
+                        }
                     }
                 }
                 item.setItemMeta(meta);
@@ -260,6 +284,9 @@ public class GUI {
             container.put(i, item);
         }
         return items;
+    }
+    public void removeItem(int slot){
+        container.remove(slot);
     }
     protected ItemStack putNbt(Item item){
         ItemStack itemStack = item.toBukkitItem();

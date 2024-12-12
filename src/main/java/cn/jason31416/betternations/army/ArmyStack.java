@@ -11,6 +11,7 @@ import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.message.StringMessage;
+import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -95,9 +96,11 @@ public class ArmyStack implements Damageable, DamageSource {
         for(ArmyType i: group.armies.keySet()){
             bb &= removeArmy(i, group.armies.get(i).count);
         }
+        supply -= group.supply;
         return bb;
     }
     public void addArmyStack(ArmyStack group){
+        supply += group.supply;
         for(ArmyType i: group.armies.keySet()){
             addArmy(group.armies.get(i));
         }
@@ -166,7 +169,7 @@ public class ArmyStack implements Damageable, DamageSource {
     public String getStackName(){
         return Message.getMessage("combat.stack-name").add("nation", nation.getName()).add("count", size()).toString();
     }
-    public ItemStack getItemDisplay(){
+    public ItemStack getItemDisplay(double supplygain){
         if(armies.isEmpty()){
             GUI.Item ret = new GUI.Item("");
             ret.setMaterial(Material.BARRIER)
@@ -179,17 +182,23 @@ public class ArmyStack implements Damageable, DamageSource {
                 .setLore(MessageLoader.getList("combat.stack-lore")
                         .add("health", Math.round(getHealth()*10)/10.0)
                         .add("max_health", getMaxHealth())
+                        .add("supply", Math.round(supply*100)/100.0)
+                        .add("max_supply", getMaxSupply())
+                        .add("supply_change", (getSupplyConsumption()<=supplygain?"&a+":"&c-")+Math.abs(getSupplyConsumption()-supplygain))
+                        .add("nation", nation.getColorTag()+nation.getName())
                         .add("damage_unarmed", getDamageTowards(ArmorType.UNARMED))
                         .add("damage_armored", getDamageTowards(ArmorType.ARMORED))
                         .add("damage_territory", getDamageTowards(ArmorType.TERRITORY))
                         .asList());
         return ret.toBukkitItem();
     }
+    public ItemStack getItemDisplay(){
+        return getItemDisplay(0);
+    }
 
     @Override
     public void damage(double dmg) {
         if(isBreaking()){
-//            damageQueue.add(dmg);
             return;
         }
         double div = size();
@@ -208,7 +217,6 @@ public class ArmyStack implements Damageable, DamageSource {
     @Override
     public void damage(DamageSource source) {
         if(isBreaking()){
-//            damageQueue.add(source);
             return;
         }
         double div = size();
@@ -251,9 +259,6 @@ public class ArmyStack implements Damageable, DamageSource {
         while (!minHeap.isEmpty()) sum += minHeap.poll();
         return sum;
     }
-    public void destroy(){
-        // todo: register/destruction of army stacks
-    }
     public void serialize(IDataItem dataItem){
         List<String> armyList=new ArrayList<>();
         for(ArmyType i: armies.keySet()){
@@ -261,9 +266,11 @@ public class ArmyStack implements Damageable, DamageSource {
         }
         dataItem.set("a_bel", nation.getId().toString());
         dataItem.set("a_cont", String.join(";", armyList));
+        dataItem.set("a_sup", supply);
     }
     public static ArmyStack deserialize(IDataItem dataItem){
         ArmyStack stack = new ArmyStack(Nation.getNation(UUID.fromString(dataItem.getString("a_bel"))));
+        stack.supply = dataItem.getDouble("a_sup");
         for(String i: dataItem.getString("a_cont").split(";")){
             if(i.isEmpty()) continue;
             String[] unit_string = i.split(":");

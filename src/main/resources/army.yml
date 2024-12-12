@@ -1,6 +1,9 @@
 
 # This section controls the land army's types.
 # Please do not delete anything when it already has been produced in the server, or unexpected bugs may happen.
+# In addition, it is suggested to not create too much (Preferred less than 14, would still work with less than 28) types since the UI isn't really big enough.
+# However, if you are fine with display issues when stacking over 14 types, it shouldn't cause any further issue.
+
 types:
   infantry:
     name: "基础步兵" # The display name of the army type
@@ -9,7 +12,7 @@ types:
     icon: iron_sword # The item displayed on the GUI view. Not case-sensitive
     hp: 15.0 # The health of the unit
     supply: 28.8 # The max. supply one unit can carry in the army. This will sustain this unit for 2 days exactly
-    consume: 0.05 # How many supply does it consume every army tick (default 5 minutes)
+    consume: 0.03 # How many supply does it consume every army tick (default 5 minutes)
     damage: # The damages dealt to other armor types when engaging in virtual combats. If not listed, the default is 0
       # If you want to change these, remember to do so as well in items.yml for display!
       unarmed: 2.0
@@ -22,7 +25,7 @@ types:
     icon: iron_helmet
     hp: 25.0
     supply: 28.8
-    consume: 0.055
+    consume: 0.04
     damage:
       unarmed: 3.0
       armored: 0.7
@@ -34,7 +37,7 @@ types:
     icon: iron_chestplate
     hp: 40.0
     supply: 28.8
-    consume: 0.06
+    consume: 0.05
     damage:
       unarmed: 4.0
       armored: 1.2

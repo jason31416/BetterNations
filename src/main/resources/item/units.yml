@@ -24,6 +24,26 @@ items: # You can create your own items!
       - ""
       - "&8[BetterNations 结构]"
     category: structure
+  granary:
+    material: hay_block
+    name: "&b&l粮仓"
+    lore:
+      - "&7用于给区块内部队与生产结构提供补给"
+      - "&7通过手持食物对着该结构右键来将食物转化为补给点"
+      - "&7右键放置 (需要放置在城镇地块内)"
+      - ""
+      - "&8[BetterNations 结构]"
+    category: structure
+  outpost:
+    material: bell
+    name: "&b&l前哨"
+    lore:
+      - "&7用于维持飞地稳定性"
+      - "&7如果飞地内没有前哨，敌人只需要攻占其中一个区块就能占领整块飞地!"
+      - ""
+      - "&8[BetterNations 结构]"
+    category: structure
+
 
   # Army items
   infantry:
@@ -32,6 +52,7 @@ items: # You can create your own items!
     name: "&f基础步兵 &7装备"
     lore: # If you want to change this, remember to do so as well in army.yml to make actual changes!
       - "&8| &710&c❤ &7🚶"
+      - "&8| &70.03/28.8&e🌾"
       - "&8| &72.0&b🗡&7 ➡ &8🚶 &f普通陆军"
       - "&8| &70.5&b🗡&7 ➡ &8🛡 &f装甲陆军"
       - "&8| &70.5&b🗡&7 ➡ &8🏴 &f领地"
@@ -44,6 +65,7 @@ items: # You can create your own items!
     name: "&f高级步兵 &7装备"
     lore:
       - "&8| &720&c❤ &7🚶"
+      - "&8| &70.04/28.8&e🌾"
       - "&8| &73.5&b🗡&7 ➡ &8🚶 &f普通陆军"
       - "&8| &70.7&b🗡&7 ➡ &8🛡 &f装甲陆军"
       - "&8| &70.8&b🗡&7 ➡ &8🏴 &f领地"
@@ -56,6 +78,7 @@ items: # You can create your own items!
     name: "&f装甲步兵 &7装备"
     lore:
       - "&8| &740&c❤ &7🛡"
+      - "&8| &70.05/28.8&e🌾"
       - "&8| &74.0&b🗡&7 ➡ &8🚶 &f普通陆军"
       - "&8| &71.2&b🗡&7 ➡ &8🛡 &f装甲陆军"
       - "&8| &71.0&b🗡&7 ➡ &8🏴 &f领地"
@@ -68,6 +91,7 @@ items: # You can create your own items!
     name: "&f机械化步兵 &7装备"
     lore:
       - "&8| &770&c❤ &7🛡"
+      - "&8| &70.07/43.2&e🌾"
       - "&8| &75.0&b🗡&7 ➡ &8🚶 &f普通陆军"
       - "&8| &71.8&b🗡&7 ➡ &8🛡 &f装甲陆军"
       - "&8| &71.5&b🗡&7 ➡ &8🏴 &f领地"
@@ -80,6 +104,7 @@ items: # You can create your own items!
     name: "&f现代化步兵 &7装备"
     lore:
       - "&8| &7120&c❤ &7🛡"
+      - "&8| &70.1/57.6&e🌾"
       - "&8| &76.5&b🗡&7 ➡ &8🚶 &f普通陆军"
       - "&8| &72.3&b🗡&7 ➡ &8🛡 &f装甲陆军"
       - "&8| &71.9&b🗡&7 ➡ &8🏴 &f领地"
@@ -89,6 +114,38 @@ items: # You can create your own items!
     category: unit
 
 recipes:
+  outpost:
+    type: crafting
+    product: outpost
+    shape:
+      - "sws"
+      - "wgw"
+      - "sws"
+    material:
+      g: granary
+      w: wood
+      s: steel
+  granary:
+    type: crafting
+    product: granary
+    shape:
+      - "ccc"
+      - "chc"
+      - "ccc"
+    material:
+      c: hay_block
+      h: barrel
+  barrack:
+    type: crafting
+    product: barrack
+    shape:
+      - "cbc"
+      - "bdb"
+      - "cbc"
+    material:
+      b: wood
+      c: steel
+      d: machine-core
   infantry:
     type: crafting
     product: infantry

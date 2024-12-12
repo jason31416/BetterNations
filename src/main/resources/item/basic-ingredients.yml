@@ -7,9 +7,8 @@ items:
     glowing: true
     category: ingredient
   silicon:
-    material: iron_nugget
+    skull: "324d23f0bb3e750ae4fe10a2a8490e8a028806b8a954c457be379d02b7d46502"
     name: "&3&l硅"
-    glowing: true
     category: resource
   chip:
     material: paper
@@ -24,6 +23,10 @@ items:
     material: daylight_detector
     name: "&3&l智能芯片"
     glowing: true
+    category: ingredient
+  machine-core:
+    skull: "6da482670ad74466081883fe7edd48dec27a698a9a52c4f870310ba035acf696"
+    name: "&3&l机器核心"
     category: ingredient
   raw-steel:
     material: raw_iron
@@ -40,8 +43,13 @@ items:
     name: "&3&l钢板"
     glowing: true
     category: ingredient
+  compressed-steel-plate:
+    material: nether_brick
+    name: "&3&l压缩钢板"
+    glowing: true
+    category: ingredient
   wood:
-    material: oak_planks
+    material: oak_wood
     name: "&7&l木材"
     category: resource
   hilt:
@@ -51,11 +59,6 @@ items:
   steel-sword:
     material: iron_sword
     name: "&7&l钢剑"
-    glowing: true
-    category: ingredient
-  compressed-steel-plate:
-    material: nether_brick
-    name: "&3&l压缩钢板"
     glowing: true
     category: ingredient
 
@@ -161,6 +164,19 @@ recipes:
     material:
       a: warped_planks
 
+  machine-core:
+    type: crafting
+    product: machine-core
+    shape:
+      - "ded"
+      - "cac"
+      - "dbd"
+    material:
+      a: mechanical-chip
+      b: iron_ingot
+      c: redstone
+      d: silicon
+      e: diamond
   undead-essence:
     type: crafting
     product: undead-essence

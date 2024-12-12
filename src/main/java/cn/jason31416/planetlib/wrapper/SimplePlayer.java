@@ -2,11 +2,13 @@ package cn.jason31416.planetlib.wrapper;
 
 import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.InvasionFlag;
+import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.manager.ArmyUpdateManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationalRank;
 import cn.jason31416.betternations.nation.Permission;
+import cn.jason31416.betternations.nation.Relation;
 import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.message.Message;
 import org.bukkit.Bukkit;
@@ -46,17 +48,17 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
     public boolean hasPermission(Permission p){
         return getRank().hasPermission(p);
     }
-    public boolean hasPermission(Permission p, SimpleLocation location){
+    public boolean hasPermission(Permission p, SimpleLocation location){ // ONLY USE FOR BUILD AND STRUCTURE PERMISSIONS!
         if((p==Permission.STRUCTURE||p==Permission.BUILD)&&StructuredArmy.armyLocationMap.containsKey(location.getChunkLocation())){
             for(StructuredArmy i: StructuredArmy.armyLocationMap.get(location.getChunkLocation())){
-                if(i instanceof InvasionFlag){
+                if(i instanceof InvasionFlag || i instanceof SiegeFlag){
                     return false;
                 }
             }
         }
-        if(location.getChunkLocation().getNation()==null&&(p==Permission.BUILD||p==Permission.STRUCTURE)) return true;
+        if(location.getChunkLocation().getNation()==null) return true;
         if(location.getChunkLocation().getTown()!=null) return location.getChunkLocation().getTown().getRole(this).hasPermission(p);
-        return getRank().hasPermission(p)&&location.getChunkLocation().getNation()==getNation();
+        return getRank().hasPermission(p)&&location.getChunkLocation().getNation().getRelation(getNation())==Relation.ALLY;
     }
 
     public void sendMessage(Message message) {

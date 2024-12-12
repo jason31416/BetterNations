@@ -3,7 +3,7 @@
 # Most of the messages supports both minimessage and bukkit & color format, while some only supports the bukkit color codes.
 
 # These are terms that are used across the plugin. If possible, please don't add color codes in variables in this section.
-term: 
+term:
   nation: "国家"
   town: "城镇"
 
@@ -12,9 +12,11 @@ structure:
     hologram: "&8-= %nation_color%%town% &7- &b城镇核心 &8=-"
   barrack:
     hologram: "&8-= &b兵营 &8=-"
-  transportdock:
-    hologram: "&8-= &b船坞 &8=-"
-    no-water: "&c船坞必须与水相邻!"
+  granary:
+    hologram: "&8-= &b粮仓 &7(%supply%/%max_supply% &e🌾&7) &8=-"
+  outpost:
+    hologram: "&8-= &b前哨 &8=-"
+    already-exists: "&c该区块已经有一个前哨了!"
 
 # These are messages that will be displayed when players execute specific commands.
 command: 
@@ -32,6 +34,7 @@ command:
     give-item: "<#2288ff>给予了 %player% 物品: %item%"
     moved-core: "<#2288ff>成功移动了核心!"
     renamed-town: "<#2288ff>成功修改了城镇名称!"
+    checked-holograms: "<#2288ff>清理了所有未知全息文字!"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
@@ -68,6 +71,7 @@ command:
     not-in-town: "<red>你不在一个城镇中!"
     already-enemy: "<red>该国家已经是你们的敌人了!"
     cannot-change-self-relation: "<red>不能改变与自己的关系!"
+    cannot-unclaim-invading: "<red>不能取消占领一个正在被入侵的区块!"
 
 # These are messages that are related to nations.
 nation:
@@ -173,6 +177,7 @@ combat:
   stack-name: "&f%nation% 的部队 &7(%count% 个单位)"
   stack-lore:
     - "&8| &7%health%/%max_health%&c❤"
+    - "&8| &7%supply%/%max_supply%&e🌾 %supply_change%&7/30m"
     - "&8| &7%damage_unarmed%&b🗡&7 ➡ &8🚶 &f普通陆军"
     - "&8| &7%damage_armored%&b🗡&7 ➡ &8🛡 &f装甲陆军"
     - "&8| &7%damage_territory%&b🗡&7 ➡ &8🏴 &f领地"
@@ -181,9 +186,16 @@ combat:
   transport-destroyed: "&8[&4!&8] &c单位已被摧毁!"
   camp-name: "&e&l%nation% &f的营地 &r&7 (%units% 个单位)"
   invasion-name: "&e&l%nation% &c的入侵 &r&7 (%units% 个单位)"
+  siege-name: "&e&l%nation% &c对 %town% &c的攻城 &r&7 (%units% 个单位)"
   defender-name: "&e&l%nation% &7的 &f%type%"
 
   invalid-selection: "&c选中的单位超出了当前拥有的单位! 请尝试重新选择..."
+  cannot-move-unit-during-combat: "&c无法移动战斗中部队!"
+  cannot-break-camps-in-town: "&c无法拆除处于城镇中的营地!"
+
+  item-not-edible: "&c该物品不能转换为补给点!"
+
+  next-update-bossbar: "&c下一次战斗更新:&e %timer%"
 
   breakage:
     failed: "&c未能消灭对方部队!"
@@ -196,10 +208,15 @@ combat:
         - "&f下轮攻击: &7%next_attack%"
         - "&f%health% &c❤ &7| &f%damage% &b🗡&7➡🏴"
       defend:
-        name: "&b防守方: %defender%"
+        name: "&b防守方: %defender% 的区块 %chunk%"
         lore:
           - "&f防守中..."
           - "&f%health% &c❤"
+      town:
+        name: "&b防守方: %defender%, %town%"
+        lore:
+          - "&f防守中..."
+          - "&f%health%/%max_health% &c❤"
   training:
     progress-item:
       name: "&f训练 &b%type% &f中..."

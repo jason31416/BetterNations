@@ -3,6 +3,7 @@ package cn.jason31416.betternations.structure;
 import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.InvasionFlag;
+import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.structure.types.TownCore;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.message.Message;
@@ -28,6 +29,7 @@ public abstract class AbstractStructure {
     public static final Map<String, Class<? extends AbstractStructure> > structureTypes = new HashMap<>();
     public SimpleLocation location;
     public UUID uuid=UUID.randomUUID();
+    public boolean exists=false;
     public abstract Material getMaterial();
     public Hologram hologram=null;
     public abstract boolean serialize(IDataItem dataItem);
@@ -42,6 +44,7 @@ public abstract class AbstractStructure {
         location.setBlockMaterial(getMaterial());
         hologram = Hologram.createHologram(SimpleLocation.of(location.getBlock().getLocation().add(0.5, 1.3, 0.5)), getHologramText());
         register();
+        exists=true;
     }
     public void register() {
         structures.put(location, this);
@@ -57,6 +60,9 @@ public abstract class AbstractStructure {
         dataItem.setUUID(structure.uuid);
         return success;
     }
+    public void updateHologram(){
+        hologram.setText(getHologramText());
+    }
     public void breakStructure(){
         if(Bukkit.isPrimaryThread()) {
             hologram.removeHologram();
@@ -69,6 +75,7 @@ public abstract class AbstractStructure {
                 }
             }.runTaskLater(BetterNations.instance, 0);
         }
+        exists = false;
     }
     public static AbstractStructure unpack(IDataItem dataItem) {
         String structureType = dataItem.getString("structureType");
@@ -97,5 +104,6 @@ public abstract class AbstractStructure {
         registerStructureType(TownCore.class);
         registerStructureType(ArmyCamp.class);
         registerStructureType(InvasionFlag.class);
+        registerStructureType(SiegeFlag.class);
     }
 }

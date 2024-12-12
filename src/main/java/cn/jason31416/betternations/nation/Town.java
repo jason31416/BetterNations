@@ -4,6 +4,7 @@ import cn.jason31416.betternations.army.ArmorType;
 import cn.jason31416.betternations.army.DamageSource;
 import cn.jason31416.betternations.army.Damageable;
 import cn.jason31416.betternations.structure.types.TownCore;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
@@ -23,7 +24,7 @@ public class Town implements Damageable {
     Nation nation;
     SimplePlayer mayor;
     public TownCore core;
-    double townHealth=0;
+    public double townHealth=0;
     Set<SimpleChunkLocation> townChunks=new HashSet<>();
     Map<SimplePlayer, TownRole> roles=new HashMap<>();
     // Constructors
@@ -72,6 +73,10 @@ public class Town implements Damageable {
 
     public void transferNation(Nation newNation){
         nation.towns.remove(this);
+        for(SimpleChunkLocation i: townChunks){
+            nation.forceUnclaim(i);
+            newNation.claim(i);
+        }
         nation = newNation;
         newNation.addTown(this);
         for(SimplePlayer player : roles.keySet()){
@@ -79,6 +84,9 @@ public class Town implements Damageable {
                 setRole(player, TownRole.NONE);
             }
         }
+        setRole(newNation.owner, TownRole.MAYOR);
+        mayor=newNation.owner;
+        core.updateHologram();
     }
     public void moveCore(SimpleLocation location){
         if(location.getChunkLocation().getTown() == this) {
@@ -117,7 +125,7 @@ public class Town implements Damageable {
         }
         return bb;
     }
-    public boolean claim(SimpleChunkLocation chunk){
+    public synchronized boolean claim(SimpleChunkLocation chunk){
         if(chunk.isTownChunk()||chunk.getNation() != nation) return false;
         if(!claimChecks(chunk)) return false;
         if(!chunk.isClaimed()) {
@@ -155,7 +163,7 @@ public class Town implements Damageable {
         }
         return true;
     }
-    public boolean unclaim(SimpleChunkLocation chunk){
+    public synchronized boolean unclaim(SimpleChunkLocation chunk){
         if(!chunk.isTownChunk()) return false;
         townChunks.remove(chunk);
         chunkTownMap.remove(chunk);
@@ -264,6 +272,9 @@ public class Town implements Damageable {
     @Override
     public double getHealth() {
         return townHealth;
+    }
+    public double getMaxHealth(){
+        return Config.getDouble("combat.chunk-hp")*townChunks.size();
     }
 
     @Override

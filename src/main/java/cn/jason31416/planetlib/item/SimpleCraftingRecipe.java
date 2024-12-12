@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -59,11 +60,13 @@ public class SimpleCraftingRecipe implements SimpleRecipe {
     }
     public static Map<ItemType, Set<SimpleCraftingRecipe> > recipes=new HashMap<>();
     public final List<List<ItemType>> recipe = new ArrayList<>();
-    public final ItemStack result;
+    public final ItemType result;
+    public final int rescount;
     public List<String> shape = null;
     public Map<String, ItemType> ingredients = new HashMap<>();
-    public SimpleCraftingRecipe(ItemStack result){
+    public SimpleCraftingRecipe(ItemType result, int rescount){
         this.result = result;
+        this.rescount = rescount;
     }
     public SimpleCraftingRecipe setShape(List<String> shape){
         this.shape = shape;
@@ -73,7 +76,7 @@ public class SimpleCraftingRecipe implements SimpleRecipe {
         ingredients.put(c, type);
         return this;
     }
-    public void register(){
+    public void register(@Nullable String uuid){
         ingredients.put(" ", new VanillaItemType(Material.AIR));
         recipe.clear();
         for(int i=0;i<shape.size();i++){ // what tf does this do
@@ -85,9 +88,9 @@ public class SimpleCraftingRecipe implements SimpleRecipe {
                 recipe.get(i).add(ingredients.get(shape.get(i).substring(j, j+1)));
             }
         }
-        if(!recipes.containsKey(ItemType.getItemType(result))) recipes.put(ItemType.getItemType(result), new HashSet<>());
-        recipes.get(ItemType.getItemType(result)).add(this);
-        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(PlanetLib.instance, UUID.randomUUID().toString()), result);
+        if(!recipes.containsKey(result)) recipes.put(result, new HashSet<>());
+        recipes.get(result).add(this);
+        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(PlanetLib.instance, uuid==null?UUID.randomUUID().toString():uuid), result.getItemStack(rescount));
         recipe.shape(shape.toArray(new String[0]));
         for(String i: ingredients.keySet()){
             if(i.equals(" ")) continue;
@@ -96,6 +99,6 @@ public class SimpleCraftingRecipe implements SimpleRecipe {
         Bukkit.addRecipe(recipe);
     }
     public ItemStack getProduct(){
-        return result;
+        return result.getItemStack(rescount);
     }
 }

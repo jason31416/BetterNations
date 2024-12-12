@@ -6,11 +6,13 @@ import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.item.*;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageList;
+import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.message.StringMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.io.File;
 import java.util.*;
@@ -85,14 +87,14 @@ public class ItemCraftingManager {
                 if(section.getString(i+".type", "crafting").equalsIgnoreCase("crafting")){
                     ItemType productType = ItemType.getItemType(section.getString(i+".product", ""));
                     int amount = section.getInt(i+".product-count", 1);
-                    SimpleCraftingRecipe recipe = new SimpleCraftingRecipe(productType.getItemStack(amount));
+                    SimpleCraftingRecipe recipe = new SimpleCraftingRecipe(productType, amount);
                     recipe.setShape(section.getStringList(i+".shape"));
                     ConfigurationSection sub = section.getConfigurationSection(i+".material");
                     if(sub == null) throw new RuntimeException("Lacking material section!");
                     for(String j: sub.getKeys(false)){
                         recipe.setMaterial(j, ItemType.getItemType(sub.getString(j, "")));
                     }
-                    recipe.register();
+                    recipe.register(i);
                     List<SimpleRecipe> allrec = recipes.get(productType);
                     if(allrec==null) allrec=new ArrayList<>();
                     allrec.add(recipe);

@@ -2,6 +2,7 @@ package cn.jason31416.betternations.command;
 
 import cn.jason31416.betternations.command.admin.AdminCommand;
 import cn.jason31416.betternations.command.admin.ReloadCommand;
+import cn.jason31416.betternations.command.misc.BNFSCKCommand;
 import cn.jason31416.betternations.command.misc.CraftingGuideCommand;
 import cn.jason31416.betternations.command.nation.*;
 import cn.jason31416.betternations.command.resolution.ResolutionCommand;
@@ -29,6 +30,8 @@ public class BetterNationsCommand extends RootCommand {
         new NationDeclareWarCommand(this);
         new NationRenameCommand(this);
         new NationMapCommand(this);
+        new ToggleArmyUpdateCommand(this);
+        new BNFSCKCommand(this);
 
         new TownTeleportCommand(this);
 

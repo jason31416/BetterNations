@@ -16,7 +16,8 @@ town:
   creation-cost: 100 # The cost of creating a town
   claim-cost: 30 # The (additional) cost of claiming a chunk as a town chunk
   unclaim-refund: 10 # The refund of unclaiming a chunk as a town chunk
-  teleport-countdown: # The countdown for /k tp
+  teleport-countdown: 5 # The countdown for /k tp
+  hp-recover-speed: 1.5 # How many HP to recover per update?
 
 map:
   width: 6 # This value *2+1 is the actual size of the map
@@ -40,3 +41,46 @@ combat:
   army-tick-interval: 10 # How long in seconds does all of the combats update?
   transport-max-distance: 64 # The unit must be within 64 blocks of the player, or else its gonna be destroyed
   transport-warn-distance: 56
+
+  enable-animation: true
+  particle-interval: 5
+  particle-speed: 1.0 # Usually this is fine
+  particle-frequency: 20 # In ticks, must be multiples of 5
+
+  enable-supply-system: true # Setting this to false would disable the update checks of the supply system. It is recommended to also remove the granary system & the supply display from the items/the units
+  granary-supply-limit: 720.0 # The max. supply points a single granary can hold
+  supply-regain-speed: 20.0 # The max. supply points per army update tick that can be transferred from the granary to army
+
+# This section contains all of the foods that can be converted into supply points
+# The key should be a valid food item's ID, the value should be its supply points worth.
+# Note that the item can also be a BetterNations added item
+supply:
+  cod: 1.0
+  salmon: 1.0
+  tropical_fish: 1.0
+  rotten_flesh: 0.1
+  pumpkin_pie: 5.0
+  apple: 2.5
+  beef: 2.0
+  potato: 1.25
+  melon_slice: 1.25
+  porkchop: 1.5
+  mutton: 1.5
+  chorus_fruit: 1.0
+  chicken: 1.0
+  rabbit: 1.5
+  bread: 2.25
+  carrot: 1.25
+  cooked_chicken: 2.5
+  cooked_rabbit: 3.5
+  sweet_berries: 0.5
+  glow_berries: 0.5
+  beetroot: 1.0
+  cooked_cod: 2.0
+  baked_potato: 2.0
+  cooked_porkchop: 4.0
+  cooked_beef: 5.5
+  cooked_mutton: 4.0
+  cooked_salmon: 2.0
+  golden_carrot: 8.0
+  golden_apple: 12.0

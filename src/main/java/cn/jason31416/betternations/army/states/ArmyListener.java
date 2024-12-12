@@ -3,9 +3,12 @@ package cn.jason31416.betternations.army.states;
 import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Relation;
+import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
+import cn.jason31416.planetlib.message.StaticMessages;
+import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Material;
@@ -119,10 +122,43 @@ public class ArmyListener implements Listener {
                                             army.stack.curHolder = c;
                                             c.place();
                                             army.mob.remove();
+                                            player.getPlayer().closeInventory();
                                         }
                                     }
                                 });
                             }else gui.getItems("invade").setMaterial(Material.AIR);
+                            Town adjTown=null;
+                            if(army.getLocation().getChunkLocation().isClaimed()&&army.getLocation().getChunkLocation().getNation()==army.stack.nation) for(SimpleChunkLocation i: army.getLocation().getChunkLocation().getAdjacentChunks()){
+                                if(i.isTownChunk()&&army.stack.nation.getRelation(i.getNation())==Relation.ENEMY){
+                                    adjTown = i.getTown();
+                                    break;
+                                }
+                            }
+                            if(adjTown!=null){
+                                Town t = adjTown;
+                                gui.getItems("siege")
+                                        .placeholder("town", adjTown.getName())
+                                        .setClickHandler((session, action, evt) -> {
+                                            StaticMessages.debug(t.getName()+","+army.stack.nation.getRelation(t.getNation())+","+army.stack.nation.getName());
+                                    if(army.isActive){
+                                        if(army.stack.nation.getRelation(t.getNation())== Relation.ENEMY) {
+                                            SimpleLocation loc = army.mob.getLocation().getBlockLocation();
+                                            while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
+                                                loc = loc.getRelative(0, 1, 0);
+                                            }
+                                            if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
+                                            SiegeFlag c = new SiegeFlag(t);
+                                            army.unregister();
+                                            c.stack = army.stack;
+                                            c.location = loc;
+                                            army.stack.curHolder = c;
+                                            c.place();
+                                            army.mob.remove();
+                                            player.getPlayer().closeInventory();
+                                        }
+                                    }
+                                });
+                            }else gui.getItems("siege").setMaterial(Material.AIR);
                         }
                     }
                 }

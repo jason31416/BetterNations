@@ -36,25 +36,10 @@ transport-actions:
       name: "&c入侵区块"
       material: RED_BANNER
       slot: 11
-    close:
-      name: "&c关闭"
-      material: BARRIER
-      slot: 0
-via-transport:
-  window:
-    title: "&7-= &r船坞 &7- &r登船 &7=-"
-    size: 27
-  container:
-    border:
-      name: " "
-      material: GRAY_STAINED_GLASS_PANE
-      slots: [1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
-    info:
-      name: "&f附近可用单位"
-      lore:
-        - "&7距离<5格"
-      material: PAPER
-      slot: 4
+    siege:
+      name: "&c攻击城镇: &6%town%"
+      material: RED_BANNER
+      slot: 11
     close:
       name: "&c关闭"
       material: BARRIER
@@ -78,6 +63,23 @@ join-camped:
       name: "&c关闭"
       material: BARRIER
       slot: 0
+combat-overview:
+  window:
+    title: "&7-= &r营地 &7- &r存入 &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 5, 6, 7, 8, 9, 13, 22, 31, 40, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    info:
+      name: "&c战斗中..."
+      material: PAPER
+      slot: 4
+    close:
+      name: "&c关闭"
+      material: BARRIER
+      slot: 0
 camped-army:
   window:
     title: "&7-= &r营地 &7=-"
@@ -86,11 +88,15 @@ camped-army:
     border:
       name: " "
       material: GRAY_STAINED_GLASS_PANE
-      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+      slots: [1, 2, 4, 6, 7, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
     army-overview:
       name: ""
       material: GLASS_PANE
-      slot: 4
+      slot: 3
+    combat-overview:
+      name: "&c该部队参与的战斗"
+      material: GOLDEN_SWORD
+      slot: 5
     action-page:
       name: "&a执行操作"
       material: LIME_WOOL
@@ -165,6 +171,47 @@ invasion-main:
 invasion-actions:
   window:
     title: "&7-= &r入侵 &7- &r执行操作 &7=-"
+    size: 27
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    extract:
+      name: "&e撤退"
+      lore:
+        - "&f点击将部队撤离"
+        - "&7注意: 当没有单位在攻击该区块时，该区块HP将立即自动回满!"
+      material: WHITE_BANNER
+      slot: 10
+    close:
+      name: "&c关闭"
+      material: BARRIER
+      slot: 0
+siege-main:
+  window:
+    title: "&7-= &r对 %town% 的攻城 &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 9, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    army-overview:
+      name: ""
+      material: GLASS_PANE
+      slot: 22
+    action-page:
+      name: "&a执行操作"
+      material: LIME_WOOL
+      slot: 8
+    close:
+      name: "&c关闭"
+      material: BARRIER
+      slot: 0
+siege-actions:
+  window:
+    title: "&7-= &r对 %town% 的攻城 &7- &r执行操作 &7=-"
     size: 27
   container:
     border:

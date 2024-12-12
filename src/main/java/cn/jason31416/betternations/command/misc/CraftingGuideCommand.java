@@ -13,6 +13,8 @@ import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -102,10 +104,18 @@ public class CraftingGuideCommand extends ChildCommand {
                             if(t.skullValue!=null) itm.setSkullID(t.skullValue);
                             if(ItemCraftingManager.recipes.get(types.get(cur))!=null)
                                 gui.getItems("item-"+i).setClickHandler((session, action, event) -> {
+                                    if(action == InventoryAction.PICKUP_ALL) {
                                         selectedType = t;
                                         recipePage = 0;
                                         session.display("recipe-display");
-                                    });
+                                    }else if(action == InventoryAction.PICKUP_HALF&&player.getPlayer().isOp()) {
+                                        player.getPlayer().setItemOnCursor(t.getItemStack(1));
+                                    }else if(action == InventoryAction.SWAP_WITH_CURSOR&&player.getPlayer().isOp()) {
+                                        if(ItemType.getItemType(player.getPlayer().getItemOnCursor())==t&&player.getPlayer().getItemOnCursor().getAmount()<t.material.getMaxStackSize()){
+                                            player.getPlayer().getItemOnCursor().setAmount(player.getPlayer().getItemOnCursor().getAmount()+1);
+                                        }
+                                    }
+                                });
                             cur++;
                         }
                         break;
@@ -159,8 +169,8 @@ public class CraftingGuideCommand extends ChildCommand {
                                     .setLore(MessageLoader.getList("item.recipe.smelting.lore")
                                             .add("smelting-time", recipe.recipe.getCookingTime()/20.0)
                                             .asList());
-                            gui.getItems("slot2-2").setItemStack(recipe.recipe.getInput())
-                                    .setClickHandler((session, action, clicktype) -> {
+                            gui.getItems("slot2-2").setItemStack(recipe.recipe.getInput());
+                            gui.getItems("slot2-2").setClickHandler((session, action, clicktype) -> {
                                         if(ItemType.getItemType(recipe.recipe.getInput()) instanceof CustomItemType tp) {
                                             selectedType = tp;
                                             recipePage = 0;

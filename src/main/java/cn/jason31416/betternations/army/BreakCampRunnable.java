@@ -11,10 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,6 +28,12 @@ public class BreakCampRunnable extends BukkitRunnable {
                 event.setDroppedExp(0);
                 event.getDrops().clear();
                 defendingMobs.remove(event.getEntity());
+            }
+        }
+        @EventHandler
+        public void onMobHeal(EntityRegainHealthEvent event){
+            if(defendingMobs.contains(event.getEntity())){
+                event.setCancelled(true);
             }
         }
         @EventHandler

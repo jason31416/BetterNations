@@ -1,5 +1,7 @@
 package cn.jason31416.betternations.structure;
 
+import cn.jason31416.betternations.structure.types.Granary;
+import cn.jason31416.betternations.structure.types.Outpost;
 import cn.jason31416.planetlib.item.ItemType;
 
 import java.util.HashMap;
@@ -20,5 +22,7 @@ public abstract class PlaceableStructure extends AbstractStructure {
     }
 
     public static void registerAll() {
+        registerClass("granary", Granary.class);
+        registerClass("outpost", Outpost.class);
     }
 }

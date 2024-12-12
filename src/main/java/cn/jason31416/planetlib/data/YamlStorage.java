@@ -48,9 +48,9 @@ public class YamlStorage extends AbstractStorage {
         for(DataList<?> dataList : dataLists){
             File file = new File(directory, dataList.getName() + ".yml");
             if(file.exists()) {
-                try {
-                    YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                    for (String key : config.getKeys(false)) {
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+                for (String key : config.getKeys(false)) {
+                    try {
                         ConfigurationSection section = config.getConfigurationSection(key);
                         if (section == null) continue;
                         DataItem dataItem = new DataItem();
@@ -59,10 +59,10 @@ public class YamlStorage extends AbstractStorage {
                             dataItem.put(subKey, section.get(subKey));
                         }
                         dataList.deserialize(dataItem);
+                    } catch (Exception e) {
+                        StaticMessages.FAILED_TO_LOAD_DATA.sendConsole();
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    StaticMessages.FAILED_TO_LOAD_DATA.sendConsole();
-                    e.printStackTrace();
                 }
             }
         }

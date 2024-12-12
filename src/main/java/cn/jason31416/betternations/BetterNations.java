@@ -5,6 +5,7 @@ import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.ArmyListener;
 import cn.jason31416.betternations.army.states.TransportArmy;
 import cn.jason31416.betternations.command.BetterNationsCommand;
+import cn.jason31416.betternations.command.nation.ToggleArmyUpdateCommand;
 import cn.jason31416.betternations.manager.*;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Town;
@@ -12,8 +13,10 @@ import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.Hologram;
 import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.StructureListener;
+import cn.jason31416.betternations.structure.types.Granary;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.PlanetLib;
+import cn.jason31416.planetlib.Utils;
 import cn.jason31416.planetlib.data.DataList;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.data.YamlStorage;
@@ -25,6 +28,8 @@ import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +40,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -210,10 +216,17 @@ public final class BetterNations extends JavaPlugin {
         AbstractStructure.registerAllStructures();
         registerDataLists();
         loadGUIs();
-        Hologram.checkHolograms();
+        Granary.loadSupplyWorth();
+        ToggleArmyUpdateCommand.bossBar=Bukkit.createBossBar(Message.getMessage("combat.next-update-bossbar").toString(), BarColor.RED, BarStyle.SOLID);
+        ToggleArmyUpdateCommand.bossBar.setVisible(true);
 
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
         UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
+        if(Config.getBoolean("combat.enable-animation")) UpdateCycle.registerTask("BetterNations.FromToParticlesUpdate", new UpdateTask(Config.getInt("combat.particle-interval"), FromToAnimationManager::updateAll));
+        UpdateCycle.registerTask("BetterNations.ArmyUpdateBossbar", new UpdateTask(5, () -> {
+            ToggleArmyUpdateCommand.bossBar.setProgress(Math.min(1, Math.max(0, (ArmyUpdateManager.nextUpdate-System.currentTimeMillis())/1000.0/Config.getInt("combat.army-tick-interval"))));
+            ToggleArmyUpdateCommand.bossBar.setTitle(Message.getMessage("combat.next-update-bossbar").add("timer", Utils.formatSeconds((int)(ArmyUpdateManager.nextUpdate-System.currentTimeMillis())/1000)).toString());
+        }));
         ArmyUpdateManager.nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
         UpdateCycle.registerTask("BetterNations.ClaimingActionbar", new UpdateTask(20, ()->{
             for(SimplePlayer i: new ArrayList<>(EventListener.autoClaiming.keySet())){
@@ -247,6 +260,7 @@ public final class BetterNations extends JavaPlugin {
         LandArmyManager.unregisterAll();
         ItemCraftingManager.loadAll();
         LandArmyManager.loadAll();
+        Granary.loadSupplyWorth();
 
         GUILoader.loadedGUIs.clear();
         loadGUIs();
@@ -254,11 +268,16 @@ public final class BetterNations extends JavaPlugin {
         UpdateCycle.unregisterTask("BetterNations.BorderDisplay");
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
 
+        UpdateCycle.unregisterTask("BetterNations.FromToParticlesUpdate");
+        if(Config.getBoolean("combat.enable-animation")) UpdateCycle.registerTask("BetterNations.FromToParticlesUpdate", new UpdateTask(Config.getInt("combat.particle-interval"), FromToAnimationManager::updateAll));
+
         UpdateCycle.unregisterTask("BetterNations.ArmyUpdate");
         UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
         ArmyUpdateManager.nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
 
-        Hologram.checkHolograms();
+        for(AbstractStructure i: AbstractStructure.structures.values()){
+            i.updateHologram();
+        }
     }
     @Override
     public void onDisable() {
@@ -276,11 +295,15 @@ public final class BetterNations extends JavaPlugin {
             c.place();
             i.mob.remove();
         }
+        ToggleArmyUpdateCommand.bossBar.removeAll();
+
         for(BreakCampRunnable i: BreakCampRunnable.breakingPlayers.values()){
             i.failed();
         }
-        for(Hologram i: new ArrayList<>(Hologram.holograms.values())){
-            i.removeHologram();
+        for(Collection<Hologram> i: new ArrayList<>(Hologram.holograms.values())){
+            for(Hologram j: i){
+                j.despawn();
+            }
         }
         storage.save();
         PlanetLib.shutdown();

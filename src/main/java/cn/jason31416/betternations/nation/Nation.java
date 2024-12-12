@@ -158,13 +158,43 @@ public class Nation {
         playerNationMap.put(player, this);
         memberRanks.put(player, type.getDefaultRank());
     }
-    public boolean claim(SimpleChunkLocation chunk){
+    public boolean claimChecks(SimpleChunkLocation chunk){
+        boolean bb = false;
+        for(SimpleChunkLocation adjacentChunk : chunk.getAdjacentChunks()){
+            if(adjacentChunk.isClaimed()&&adjacentChunk.getNation()==this){
+                bb = true;
+                break;
+            }
+        }
+        return bb;
+    }
+    public synchronized boolean claim(SimpleChunkLocation chunk){
         if(chunk.isClaimed()) return false;
+//        if(!claimChecks(chunk)) return false;
         nationalChunks.add(chunk);
         chunkNationMap.put(chunk, this);
         return true;
     }
-    public boolean unclaim(SimpleChunkLocation chunk){
+    private boolean isConnectedToTown(SimpleChunkLocation chunk, SimpleChunkLocation original){
+        Queue<SimpleChunkLocation> chunks=new ArrayDeque<>();
+        Set<SimpleChunkLocation> searched=new HashSet<>();
+        searched.add(original);
+        chunks.add(chunk);
+        while(!chunks.isEmpty()){
+            SimpleChunkLocation cur = chunks.poll();
+            searched.add(cur);
+            if(cur.isTownChunk()){
+                return true;
+            }
+            for(SimpleChunkLocation c: cur.getAdjacentChunks()){
+                if(c.getNation()==chunk.getNation()&&!searched.contains(c)){
+                    chunks.add(c);
+                }
+            }
+        }
+        return false;
+    }
+    public synchronized boolean unclaim(SimpleChunkLocation chunk){
         if(!nationalChunks.contains(chunk)) return false;
         if(chunk.isTownChunk()){
             Town town = chunk.getTown();
@@ -172,6 +202,12 @@ public class Nation {
                 town.unclaim(chunk);
             }
         }
+        nationalChunks.remove(chunk);
+        chunkNationMap.remove(chunk);
+        return true;
+    }
+    public synchronized boolean forceUnclaim(SimpleChunkLocation chunk){ // Note that this method is unsafe, use carefully
+        if(!nationalChunks.contains(chunk)) return false;
         nationalChunks.remove(chunk);
         chunkNationMap.remove(chunk);
         return true;
@@ -197,6 +233,8 @@ public class Nation {
         }
     }
     public Relation getRelation(Nation other){
+        if(other==this) return Relation.ALLY;
+        if(other==null) return Relation.NEUTRAL;
         if(!relations.containsKey(other)) return Relation.NEUTRAL;
         return relations.get(other);
     }
