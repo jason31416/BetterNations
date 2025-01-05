@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.command.nation;
 
+import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationType;
 import cn.jason31416.planetlib.Config;
@@ -25,7 +26,7 @@ public class NationCreateCommand extends ChildCommand {
     @Nullable
     @Override
     public Message execute(ICommandContext context) {
-        if(context.getPlayer()==null||!context.checkArgs(STRING)) return null;
+        if(context.getPlayer()==null||!context.getSender().isPlayer()) return null;
         if(context.getPlayer().getNation()!=null){
             return Message.getMessage("command.failed.player-already-in-nation");
         }
@@ -36,57 +37,23 @@ public class NationCreateCommand extends ChildCommand {
         if(Nation.getNation(nationName)!=null){
             return Message.getMessage("command.failed.nation-already-exists");
         }
-        List<NationType> types = List.of(NationType.values());
-        GUISession session = new GUISession(context.getSender().toPlayer()) {
-            int curtp = 0;
-            NationType nationType = types.get(curtp);
-            private void updateNationTypeItem(GUI gui){
-                gui.getItems("nation-type")
-                        .setMaterial(Material.getMaterial(MessageLoader.instance.getStringMessage("nation.type."+nationType.name().toLowerCase()+".material", "AIR").toString()))
-                        .setName(Message.getMessage("nation.type.gui-name").add("type_name", Message.getMessage("nation.type."+nationType.name().toLowerCase()+".name").toString()).toString())
-                        .setLore(MessageLoader.getList("nation.type.gui-lore").add("type_description", Message.getMessage("nation.type."+nationType.name().toLowerCase()+".description").toString()).asList());
-                gui.update();
-            }
-            @Override
-            public void constructGUI(String guiID, GUI gui) {
-                if (guiID.equals("create-nation")) {
-                    gui.placeholder("nation_name", nationName);
-                    gui.getItems("nation-type").setClickHandler((session, action, clickType) -> {
-                        curtp=(curtp+1)%types.size();
-                        nationType = types.get(curtp);
-                        updateNationTypeItem(gui);
-                    });
-                    updateNationTypeItem(gui);
-                    gui.getItems("close").setClickHandler(new GUI.CloseGuiRunnable());
-                    gui.getItems("confirm").setClickHandler((session, action, clickType) -> {
-                        session.close();
-                        if (context.getPlayer().getNation() != null) {
-                            return;
-                        }
-                        if(Nation.getNation(nationName)!=null){
-                            context.getSender().sendMessage(Message.getMessage("command.failed.nation-already-exists"));
-                            return;
-                        }
-                        if(!player.withdrawBalance(Config.getDouble("nation.creation-cost"))){
-                            context.getSender().sendMessage(Message.getMessage("command.failed.not-enough-money").add("amount", Config.getDouble("nation.creation-cost")));
-                            return;
-                        }
-                        if(player.getLocation().getBlockMaterial().isSolid()||player.getLocation().getChunkLocation().isClaimed()||!player.getLocation().getRelative(0, -1, 0).getBlockMaterial().isSolid()){
-                            context.getSender().sendMessage(Message.getMessage("command.failed.invalid-creation-location"));
-                            return;
-                        }
-                        Nation nation = Nation.createNation(context.getPlayer(), player.getLocation(), nationName);
-                        if(nation==null){
-                            context.getSender().sendMessage(Message.getMessage("command.failed.failed-create-nation").add("name", nationName));
-                            return;
-                        }
-                        nation.setType(nationType);
-                        context.getSender().sendMessage(Message.getMessage("command.success.nation-created").add("name", nationName));
-                    });
-                }
-            }
-        };
-        session.display("create-nation");
+        if(nationName.length()<Config.getInt("naming.min-length")||nationName.length()>Config.getInt("naming.max-length")){
+            return Message.getMessage("command.failed.name-length-invalid");
+        }
+        double amount = Config.getDouble("nation.creation-cost");
+        if(context.getPlayer().getBalance()<amount){
+            return Message.getMessage("command.failed.not-enough-money").add("amount", amount);
+        }
+        Nation nation = Nation.createNation(context.getPlayer(), context.getSender().toPlayer().getLocation(), nationName);
+        if(nation==null){
+            return Message.getMessage("command.failed.failed-create-nation").add("name", nationName);
+        }
+        context.getPlayer().withdrawBalance(amount);
+        context.getSender().sendMessage(Message.getMessage("command.success.nation-created").add("name", nationName));
+        HistoricalBroadcastManager.broadcast(Message.getMessage("history.nation-creation")
+                .add("player", context.getPlayer().getName())
+                .add("nation", nation.getName()),
+                List.of(nation));
         return null;
     }
 

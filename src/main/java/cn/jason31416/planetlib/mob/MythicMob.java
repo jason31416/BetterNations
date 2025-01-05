@@ -16,7 +16,7 @@ public class MythicMob implements SimpleMob {
         if(this.mob == null){
             throw new IllegalArgumentException("Invalid mob type: " + type);
         }
-        this.mob.setDisplayName(name);
+        this.mob.getEntity().setCustomName(name);
     }
     @Override
     public void teleport(SimpleLocation location) {
@@ -65,6 +65,6 @@ public class MythicMob implements SimpleMob {
 
     @Override
     public void setName(String name) {
-        mob.setDisplayName(name);
+        mob.getEntity().setCustomName(name);
     }
 }

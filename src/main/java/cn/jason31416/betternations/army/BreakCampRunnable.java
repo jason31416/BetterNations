@@ -104,6 +104,7 @@ public class BreakCampRunnable extends BukkitRunnable {
         while(instanceMobs.size() < Config.getInt("combat.defend-units", 10)){
             ArmyType type = getNextType();
             if(type==null) break;
+            System.out.println(Message.getMessage("combat.defender-name").add("nation", camp.stack.nation.getColorTag()+camp.stack.nation.getName()).add("type", type.name).toString());
             SimpleMob mob = SimpleMob.spawn(type.type, breaker.getLocation(), Message.getMessage("combat.defender-name").add("nation", camp.stack.nation.getColorTag()+camp.stack.nation.getName()).add("type", type.name).toString());
             double hp = camp.stack.armies.get(type).hp/camp.stack.armies.get(type).count;
             mob.setMaxHealth(hp);

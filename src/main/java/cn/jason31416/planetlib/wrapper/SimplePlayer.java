@@ -62,6 +62,7 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
     }
 
     public void sendMessage(Message message) {
+        if(!isOnline()) return;
         message.send(getPlayer());
     }
     public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut){

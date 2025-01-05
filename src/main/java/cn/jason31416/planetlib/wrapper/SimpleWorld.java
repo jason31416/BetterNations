@@ -41,4 +41,7 @@ public class SimpleWorld {
     public int hashCode() {
         return world.getUID().hashCode();
     }
+    public String toString(){
+        return "SimpleWorld("+ getName() + ")";
+    }
 }

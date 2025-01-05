@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.nation;
 
+import cn.jason31416.betternations.manager.map.MapDisplayManager;
 import cn.jason31416.betternations.nation.resolution.AbstractResolution;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
@@ -21,15 +22,14 @@ public class Nation {
     public final Map<String, AbstractResolution> resolutions = new HashMap<>();
 
     List<Town> towns = new ArrayList<>();
-    Set<SimpleChunkLocation> nationalChunks = new HashSet<>();
+    public Set<SimpleChunkLocation> nationalChunks = new HashSet<>();
     Map<SimplePlayer, NationalRank> memberRanks = new HashMap<>();
     UUID id;
     String name;
     SimplePlayer owner;
-    Town capital;
     Color color;
     NationType type=NationType.MONARCHY;
-    Map<Nation, Relation> relations = new HashMap<>();
+    public Map<Nation, Relation> relations = new HashMap<>();
     // Constructors
     public Nation(UUID id, String name, Color color) {
         this.id = id;
@@ -57,12 +57,6 @@ public class Nation {
         for(Town t: towns){
             if(t.core!=null) t.core.hologram.setText(t.core.getHologramText());
         }
-    }
-    public Town getCapital() {
-        return capital;
-    }
-    public void setCapital(Town capital) {
-        this.capital = capital;
     }
     public List<Town> getTowns() {
         return towns;
@@ -132,12 +126,11 @@ public class Nation {
             while(getNation(initname)!=null){
                 initname = name+"_"+(cnt++);
             }
-            Nation newNation = createNation(player, initname, ownedTowns.get(0));
+            Nation newNation = createNation(player, initname);
             for(Town town : ownedTowns){
                 if(newNation.getTowns().contains(town)) town.nation = newNation;
                 else newNation.addTown(town);
             }
-            // todo: broadcast historical event message
             newNation.setRelation(this, Relation.ENEMY);
             // todo: war declaration message
         }
@@ -155,44 +148,19 @@ public class Nation {
     }
     public void addPlayer(SimplePlayer player) {
         if(player.getNation()!=null) return;
+        for(Town town: towns){
+            if(town.getRole(player)==TownRole.GREENCARD) town.setRole(player, TownRole.RESIDENT);
+        }
         playerNationMap.put(player, this);
         memberRanks.put(player, type.getDefaultRank());
-    }
-    public boolean claimChecks(SimpleChunkLocation chunk){
-        boolean bb = false;
-        for(SimpleChunkLocation adjacentChunk : chunk.getAdjacentChunks()){
-            if(adjacentChunk.isClaimed()&&adjacentChunk.getNation()==this){
-                bb = true;
-                break;
-            }
-        }
-        return bb;
     }
     public synchronized boolean claim(SimpleChunkLocation chunk){
         if(chunk.isClaimed()) return false;
 //        if(!claimChecks(chunk)) return false;
         nationalChunks.add(chunk);
         chunkNationMap.put(chunk, this);
+        MapDisplayManager.updateNation(this);
         return true;
-    }
-    private boolean isConnectedToTown(SimpleChunkLocation chunk, SimpleChunkLocation original){
-        Queue<SimpleChunkLocation> chunks=new ArrayDeque<>();
-        Set<SimpleChunkLocation> searched=new HashSet<>();
-        searched.add(original);
-        chunks.add(chunk);
-        while(!chunks.isEmpty()){
-            SimpleChunkLocation cur = chunks.poll();
-            searched.add(cur);
-            if(cur.isTownChunk()){
-                return true;
-            }
-            for(SimpleChunkLocation c: cur.getAdjacentChunks()){
-                if(c.getNation()==chunk.getNation()&&!searched.contains(c)){
-                    chunks.add(c);
-                }
-            }
-        }
-        return false;
     }
     public synchronized boolean unclaim(SimpleChunkLocation chunk){
         if(!nationalChunks.contains(chunk)) return false;
@@ -204,12 +172,14 @@ public class Nation {
         }
         nationalChunks.remove(chunk);
         chunkNationMap.remove(chunk);
+        MapDisplayManager.updateNation(this);
         return true;
     }
     public synchronized boolean forceUnclaim(SimpleChunkLocation chunk){ // Note that this method is unsafe, use carefully
         if(!nationalChunks.contains(chunk)) return false;
         nationalChunks.remove(chunk);
         chunkNationMap.remove(chunk);
+        MapDisplayManager.updateNation(this);
         return true;
     }
     public void registerNation() {
@@ -308,17 +278,16 @@ public class Nation {
     // Static methods
     public static Nation createNation(SimplePlayer player, SimpleLocation location, String name) {
         if(location.getChunkLocation().isClaimed()) return null;
-        Nation nation = createNation(player, name, null);
-        nation.capital = Town.createTown(Config.getString("nation.capital-name").replace("%nation%", name), location, nation, player);
+        Nation nation = createNation(player, name);
+        Town.createTown(Config.getString("nation.capital-name").replace("%nation%", name), location, nation, player);
         return nation;
     }
-    public static Nation createNation(SimplePlayer player, String name, Town capital) {
+    public static Nation createNation(SimplePlayer player, String name) {
         Random colorRandomizer = new Random();
         int r = colorRandomizer.nextInt(256);
         int g = colorRandomizer.nextInt(256);
         int b = colorRandomizer.nextInt(256);
         Nation nation = new Nation(UUID.randomUUID(), name, Color.fromRGB(r, g, b));
-        nation.capital = capital;
         nation.registerNation();
         nation.setOwner(player);
         playerNationMap.put(player, nation);

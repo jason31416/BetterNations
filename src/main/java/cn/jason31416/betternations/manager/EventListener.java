@@ -7,7 +7,9 @@ import cn.jason31416.betternations.command.town.TownClaimCommand;
 import cn.jason31416.betternations.command.town.TownUnclaimCommand;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
+import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
@@ -28,6 +30,7 @@ import org.bukkit.event.world.ChunkLoadEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class EventListener implements Listener {
     public enum AutoClaimingMode {
@@ -111,6 +114,13 @@ public class EventListener implements Listener {
         if(!player.hasPermission(Permission.BUILD, SimpleLocation.of(event.getBlock()))){
             event.setCancelled(true);
             Message.getMessage("town.cannot-build").sendActionbar(player);
+        }else {
+            SimpleChunkLocation chunk = SimpleLocation.of(event.getBlock()).getChunkLocation();
+            if (chunk.isTownChunk()) {
+                Town t = chunk.getTown();
+                Objects.requireNonNull(t);
+                t.devPoints += Config.getDouble("town.dev-points.block-place");
+            }
         }
     }
     @EventHandler

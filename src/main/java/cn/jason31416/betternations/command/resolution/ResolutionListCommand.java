@@ -5,6 +5,7 @@ import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
 import cn.jason31416.planetlib.message.Message;
+import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,6 +26,7 @@ public class ResolutionListCommand extends ChildCommand {
         }
         if(player.getNation()==null) return Message.getMessage("command.failed.player-not-in-nation");
         Message.getMessage("nation.resolution.list.header").add("nation", player.getNation().getName()).send(context.getSender());
+        new StringMessage("").send(context.getSender());
         boolean bb=true;
         for(AbstractResolution i: new ArrayList<>(player.getNation().resolutions.values())){
             if(!i.checkDate()) player.getNation().resolutions.remove(i.resolutionId);

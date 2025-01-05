@@ -41,45 +41,44 @@
                     </archive>
                 </configuration>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>com.github.wvengen</groupId>-->
-            <!--                <artifactId>proguard-maven-plugin</artifactId>-->
-            <!--                <version>2.6.0</version>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <phase>package</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>proguard</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--                <configuration>-->
-            <!--                    <options> &lt;!&ndash; 详细配置方式参考 ProGuard 官方文档 &ndash;&gt;-->
-            <!--                        <option>-ignorewarnings</option> &lt;!&ndash;忽略所有告警&ndash;&gt;-->
-            <!--                        <option>-dontshrink</option>   &lt;!&ndash;不做 shrink &ndash;&gt;-->
-            <!--                        <option>-dontoptimize</option> &lt;!&ndash;不做 optimize &ndash;&gt;-->
-            <!--                        <option>-dontskipnonpubliclibraryclasses</option>-->
-            <!--                        <option>-dontskipnonpubliclibraryclassmembers</option>-->
+<!--            <plugin>-->
+<!--                <groupId>com.github.wvengen</groupId>-->
+<!--                <artifactId>proguard-maven-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>proguard</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <options> &lt;!&ndash; 详细配置方式参考 ProGuard 官方文档 &ndash;&gt;-->
+<!--                        <option>-ignorewarnings</option> &lt;!&ndash;忽略所有告警&ndash;&gt;-->
+<!--                        <option>-dontshrink</option>   &lt;!&ndash;不做 shrink &ndash;&gt;-->
+<!--                        <option>-dontoptimize</option> &lt;!&ndash;不做 optimize &ndash;&gt;-->
+<!--                        <option>-dontskipnonpubliclibraryclasses</option>-->
+<!--                        <option>-dontskipnonpubliclibraryclassmembers</option>-->
 
-            <!--                        <option>-keep class cn.jason31416.betternations.BetterNations { *; }</option>-->
+<!--                        <option>-keep class cn.jason31416.betternations.BetterNations { *; }</option>-->
 
-            <!--                        &lt;!&ndash;JAXB NEED，具体原因不明，不加会导致 JAXB 出异常，如果不使用 JAXB 根据需要修改&ndash;&gt;-->
-            <!--                        &lt;!&ndash; Jaxb requires generics to be available to perform xml parsing and without this option ProGuard was not retaining that information after obfuscation. That was causing the exception above. &ndash;&gt;-->
+<!--                        &lt;!&ndash;JAXB NEED，具体原因不明，不加会导致 JAXB 出异常，如果不使用 JAXB 根据需要修改&ndash;&gt;-->
+<!--                        &lt;!&ndash; Jaxb requires generics to be available to perform xml parsing and without this option ProGuard was not retaining that information after obfuscation. That was causing the exception above. &ndash;&gt;-->
 
-            <!--                        <option>-keepattributes SourceFile,LineNumberTable,*Annotation*</option>-->
-            <!--                        &lt;!&ndash;保持源码名与行号（异常时有明确的栈信息），注解（默认会过滤掉所有注解，会影响框架的注解）&ndash;&gt;-->
+<!--                        <option>-keepattributes SourceFile,LineNumberTable,*Annotation*</option>-->
+<!--                        &lt;!&ndash;保持源码名与行号（异常时有明确的栈信息），注解（默认会过滤掉所有注解，会影响框架的注解）&ndash;&gt;-->
 
-            <!--                        <option>-keepclassmembers enum * { *;}</option>-->
-            <!--                        &lt;!&ndash;保持枚举中的名子，确保枚举 valueOf 可以使用&ndash;&gt;-->
+<!--                        <option>-keepclassmembers enum * { *;}</option>-->
+<!--                        &lt;!&ndash;保持枚举中的名子，确保枚举 valueOf 可以使用&ndash;&gt;-->
 
-            <!--                    </options>-->
-            <!--                    <injar>${project.build.finalName}.jar</injar>-->
-            <!--                    <outjar>${project.build.finalName}.jar</outjar>-->
-            <!--                    <libs>-->
-            <!--                        <lib>${java.home}/</lib>-->
-            <!--                    </libs>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+<!--                    </options>-->
+<!--                    <injar>${project.build.finalName}.jar</injar>-->
+<!--                    <outjar>${project.build.finalName}.jar</outjar>-->
+<!--                    <libs>-->
+<!--                        <lib>${java.home}/</lib>-->
+<!--                    </libs>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -94,11 +93,22 @@
                                 <exclude>LICENSE.txt</exclude>
                             </excludes>
                         </filter>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludeDefaults>false</excludeDefaults>
+                            <includes>
+                                <include>net/wesjd/anvilgui/**</include>
+                            </includes>
+                        </filter>
                     </filters>
                     <relocations>
                         <relocation>
                             <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                            <shadedPattern>de.tr7zw.betternations.nbtapi</shadedPattern>
+                            <shadedPattern>cn.jason31416.betternations.lib.nbtapi</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>net.wesjd.anvilgui</pattern>
+                            <shadedPattern>cn.jason31416.betternations.lib.anvilgui</shadedPattern> <!-- Replace [YOUR_PLUGIN_PACKAGE] with your namespace -->
                         </relocation>
                     </relocations>
                 </configuration>
@@ -155,6 +165,11 @@
     </repositories>
     <dependencies>
         <dependency>
+            <groupId>net.wesjd</groupId>
+            <artifactId>anvilgui</artifactId>
+            <version>1.10.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.20.1-R0.1-SNAPSHOT</version>
@@ -164,7 +179,7 @@
             <groupId>de.bluecolored.bluemap</groupId>
             <artifactId>BlueMapAPI</artifactId>
             <version>2.7.2</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>

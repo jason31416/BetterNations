@@ -36,10 +36,6 @@ public interface Message {
             if(player.isOnline()) send(player.getPlayer());
         }
     }
-    default void historicalBroadcast(){
-        broadcast();
-        // todo: save message to history record
-    }
     public static Message getMessage(String key){
         return MessageLoader.getMessage(key);
     }

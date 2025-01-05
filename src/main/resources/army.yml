@@ -73,7 +73,7 @@ production:
   barrack: # The ID of the production facility structure. An item with the same id should exist as well!
     material: GREEN_CONCRETE # The block used for the structure. Not case-sensitive
     recipes:
-      infantry: # The item ID of the material that is used to produce this recipe. It should exist in items.yml.
+      infantry: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
         type: infantry # The unit ID of the army type listed above.
         time: 10 # How long does it take to produce it? (in seconds) [todo: THIS IS FOR TESTING]
       advanced-infantry:

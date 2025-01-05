@@ -112,6 +112,7 @@ items: # You can create your own items!
       - "&8&o[步兵 · 亡灵]"
       - "&7放入 &e步兵兵营 &7中训练"
     category: unit
+  
 
 recipes:
   outpost:

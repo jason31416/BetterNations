@@ -104,6 +104,12 @@ public class GUI {
             }
             return this;
         }
+        public ItemGroup removeLoreLine(int lineId){
+            for(Item item: items){
+                item.removeLoreLine(lineId);
+            }
+            return this;
+        }
         public ItemGroup setClickHandler(GUIRunnable clickHandler){
             for(Item item : items){
                 item.setClickHandler(clickHandler);
@@ -116,7 +122,7 @@ public class GUI {
         }
         public ItemGroup placeholder(String placeholder, String value){
             for(Item item : items){
-                item.placeholder("%"+placeholder+"%", value);
+                item.placeholder(placeholder, value);
             }
             return this;
         }
@@ -171,6 +177,12 @@ public class GUI {
             this.slot = slot;
             return this;
         }
+        public Item removeLoreLine(int lineId){
+            if(lore.size()>lineId){
+                lore.remove(lineId);
+            }
+            return this;
+        }
         public Item setGlow(boolean glow){
             this.glow = glow;
             return this;
@@ -188,8 +200,10 @@ public class GUI {
             return this;
         }
         public Item placeholder(String placeholder, String value){
-            name = name.replace(placeholder, value);
-            if(lore != null) lore.replaceAll(s -> s.replace(placeholder, value));
+            name = name.replace("%"+placeholder+"%", value);
+            if(lore != null){
+                lore.replaceAll(s -> s.replace("%"+placeholder+"%", value));
+            }
             return this;
         }
         public ItemStack toBukkitItem() {
@@ -226,9 +240,10 @@ public class GUI {
             item.name = name;
             item.quantity = quantity;
             item.material = material;
-            item.lore = lore;
+            item.lore = new ArrayList<>(lore);
             item.slot = slot;
             item.customModelData = customModelData;
+            item.skullId = skullId;
             item.glow = glow;
             return item;
         }
@@ -252,10 +267,16 @@ public class GUI {
     }
     public GUI placeholder(String placeholder, String value){
         for(Item item : container.values()){
-            item.placeholder("%"+placeholder+"%", value);
+            item.placeholder(placeholder, value);
         }
         title = title.replace("%"+placeholder+"%", value);
         return this;
+    }
+    public Item addItem(String id, int slot){
+        Item item = new Item(id);
+        item.setSlot(slot);
+        container.put(slot, item);
+        return item;
     }
     public Item addItem(String id, String name, int slot, Material material, int quantity){
         Item item = new Item(id);

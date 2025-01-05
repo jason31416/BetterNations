@@ -38,8 +38,8 @@ transport-actions:
       slot: 11
     siege:
       name: "&c攻击城镇: &6%town%"
-      material: RED_BANNER
-      slot: 11
+      material: DISPENSER
+      slot: 12
     close:
       name: "&c关闭"
       material: BARRIER

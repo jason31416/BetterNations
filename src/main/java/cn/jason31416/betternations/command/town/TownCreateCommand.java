@@ -1,5 +1,7 @@
 package cn.jason31416.betternations.command.town;
 
+import cn.jason31416.betternations.army.states.StructuredArmy;
+import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.planetlib.Config;
@@ -28,14 +30,16 @@ public class TownCreateCommand extends ChildCommand {
         if (location.getChunkLocation().getNation()!=null&&
                 location.getChunkLocation().getNation()!=context.getPlayer().getNation())
             return Message.getMessage("command.failed.chunk-not-belong-to-nation");
-        if (location.getBlockMaterial().isSolid()||!location.getRelative(0, -1, 0).getBlockMaterial().isSolid()){
+        if (location.getBlockMaterial().isSolid()||!location.getRelative(0, -1, 0).getBlockMaterial().isSolid()||StructuredArmy.isInvasionChunk(location.getChunkLocation())){
             return Message.getMessage("command.failed.invalid-creation-location");
         }
         if(Town.getTown(context.getArg(0))!=null) return Message.getMessage("command.failed.town-name-exists");
         if(!context.getPlayer().withdrawBalance(Config.getDouble("town.creation-cost"))){
             return Message.getMessage("not-enough-money").add("amount", Config.getDouble("town.creation-cost"));
         }
-        Town.createTown(context.getArg(0), location, context.getPlayer().getNation(), context.getPlayer());
+        Town town = Town.createTown(context.getArg(0), location, context.getPlayer().getNation(), context.getPlayer());
+        if(town != null) HistoricalBroadcastManager.broadcast(Message.getMessage("history.town-creation")
+                .add("player", context.getPlayer().getName()).add("nation", town.getNation().getName()).add("town", town.getName()), List.of(town.getNation()));
         return Message.getMessage("command.success.town-created").add("name", context.getArg(0));
     }
 

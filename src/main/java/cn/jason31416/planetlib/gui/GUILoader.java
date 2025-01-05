@@ -28,12 +28,20 @@ public class GUILoader {
             if(item.contains("lore")) for(String line : item.getStringList("lore")){
                 lore.add(new StringMessage(line).toString());
             }
+            Material mat = Material.valueOf(item.getString("material", "AIR"));
+            if(item.contains("skull")) mat = Material.PLAYER_HEAD;
             if(item.contains("slot")){
-                GUI.Item guiItem = gui.addItem(key, new StringMessage(item.getString("name", "")).toString(), item.getInt("slot"), Material.valueOf(item.getString("material", "AIR")), item.getInt("amount", 1));
+                GUI.Item guiItem = gui.addItem(key, new StringMessage(item.getString("name", "")).toString(), item.getInt("slot"), mat, item.getInt("amount", 1));
                 if(!lore.isEmpty()) guiItem.setLore(lore);
+                if(item.contains("model")) guiItem.setCustomModelData(item.getInt("model"));
+                if(item.contains("skull")) guiItem.setSkullID(item.getString("skull"));
+                if(item.getBoolean("glow", false)) guiItem.setGlow(true);
             } else {
-                List<GUI.Item> guiItems = gui.addItem(key, new StringMessage(item.getString("name", "")).toString(), item.getIntegerList("slots"), Material.valueOf(item.getString("material", "AIR")), item.getInt("amount", 1));
+                List<GUI.Item> guiItems = gui.addItem(key, new StringMessage(item.getString("name", "")).toString(), item.getIntegerList("slots"), mat, item.getInt("amount", 1));
                 if(!lore.isEmpty()) for(GUI.Item guiItem : guiItems) guiItem.setLore(lore);
+                if(item.contains("model")) for(GUI.Item guiItem : guiItems) guiItem.setCustomModelData(item.getInt("model"));
+                if(item.contains("skull")) for(GUI.Item guiItem : guiItems) guiItem.setSkullID(item.getString("skull"));
+                if(item.getBoolean("glow", false)) for(GUI.Item guiItem : guiItems) guiItem.setGlow(true);
             }
         }
         return gui;

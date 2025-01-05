@@ -10,6 +10,7 @@ import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.types.Granary;
 import cn.jason31416.betternations.structure.types.Outpost;
 import cn.jason31416.planetlib.Config;
+import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.update.UpdateTask;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
@@ -21,27 +22,41 @@ import java.util.*;
 public class ArmyUpdateManager implements UpdateTask.RunnableTask {
     public static Map<SimpleChunkLocation, Double> chunkHealths = new HashMap<>();
     public static long nextUpdate=0;
-    private void checkChunkAfterInvasion(SimpleChunkLocation chunk, Nation winner){
-        Queue<SimpleChunkLocation> chunks=new ArrayDeque<>();
-        Set<SimpleChunkLocation> searched=new HashSet<>();
-        chunks.add(chunk);
-        while(!chunks.isEmpty()) {
-            SimpleChunkLocation cur = chunks.poll();
-            if (cur.isTownChunk() || Outpost.outposts.contains(cur)) {
-                return;
+    private void checkChunkAfterInvasion(SimpleChunkLocation origchunk, Nation winner, Nation loser){
+        Set<SimpleChunkLocation> encircled = new HashSet<>();
+        outer: for(SimpleChunkLocation adj: origchunk.getAdjacentChunks()) {
+            if (adj.getNation() == loser && !encircled.contains(adj)) {
+                Queue<SimpleChunkLocation> chunks=new ArrayDeque<>();
+                Set<SimpleChunkLocation> searched=new HashSet<>();
+                chunks.add(adj);
+                searched.add(adj);
+                int cnt=0;
+                while(!chunks.isEmpty()) {
+                    SimpleChunkLocation cur = chunks.poll();
+//                    System.out.println("Searching "+cur+","+cnt+"-"+searched.size());
+                    if (cur.isTownChunk() || Outpost.outposts.contains(cur)) {
+//                        System.out.println("Found town");
+                        continue outer;
+                    }
+                    for (SimpleChunkLocation c : cur.getAdjacentChunks()) {
+                        if (c.getNation() == loser && !searched.contains(c)) {
+                            chunks.add(c);
+                            searched.add(c);
+                        }
+                    }
+                    cnt++;
+                }
+                encircled.addAll(searched);
             }
-            searched.add(cur);
-            for (SimpleChunkLocation c : cur.getAdjacentChunks()) {
-                if (c.getNation() == chunk.getNation() && !searched.contains(c)) {
-                    chunks.add(c);
+        }
+        new BukkitRunnable(){
+            public void run() {
+                for (SimpleChunkLocation i : encircled) {
+                    loser.forceUnclaim(i);
+                    winner.claim(i);
                 }
             }
-        }
-        if(chunk.getNation()==null) return;
-        for(SimpleChunkLocation i: searched){
-            chunk.getNation().forceUnclaim(i);
-            winner.claim(i);
-        }
+        }.runTaskLater(BetterNations.instance, 0);
     }
     @Override
     public void run() {
@@ -117,9 +132,10 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                                 }
                                 siege.target.damage(siege.stack);
                                 if (siege.target.townHealth <= 0) {
+                                    HistoricalBroadcastManager.broadcast(Message.getMessage("history.town-sieged")
+                                            .add("nation", siege.stack.nation.getName()).add("town", siege.target.getName()), List.of(siege.target.getNation(), siege.stack.nation));
                                     siege.target.transferNation(siege.stack.nation);
                                     siege.target.townHealth = siege.target.getMaxHealth()/2.0;
-                                    // todo: message broadcast
                                     siege.convertToCamp();
                                 }
                             }
@@ -145,11 +161,12 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                             if (tnation != null&&origNation!=null) {
                                 origNation.forceUnclaim(chunk);
                                 tnation.claim(chunk);
-                                for(SimpleChunkLocation i: chunk.getAdjacentChunks()){
-                                    if(i.getNation()==origNation){
-                                        checkChunkAfterInvasion(i, tnation);
+                                Nation n=tnation;
+                                new BukkitRunnable() {
+                                    public void run() {
+                                        checkChunkAfterInvasion(chunk, n, origNation);
                                     }
-                                }
+                                }.runTaskAsynchronously(BetterNations.instance);
                             }
                         }
                     }.runTaskLater(BetterNations.instance, 0);

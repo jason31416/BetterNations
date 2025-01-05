@@ -1,27 +1,62 @@
-# It is suggested to increase the bukkit.yml health limit to around 100,000!
+# It is suggested to increase the spigot.yml health limit (settings.attribute.maxHealth) to around 100,000!
+# This is because some stacks may have higher HP values
+# Although not increasing it shouldn't cause any fatal issues
 
 # The language of the plugin
 # Please make sure the file exists in the /lang folder
 lang: zh_cn
 
+naming:
+  min-length: 3
+  max-length: 18
 # Nation-related settings
 nation:
-  creation-cost: 500 # The cost of creating a nation
+  creation-cost: 1000 # The cost of creating a nation
   capital-name: "%nation%首都"
   claim-cost: 10 # The cost of claiming a chunk
   unclaim-refund: 8 # The refund of unclaiming a chunk
 
 # Town-related settings
 town:
-  creation-cost: 100 # The cost of creating a town
+  creation-cost: 400 # The cost of creating a town
   claim-cost: 30 # The (additional) cost of claiming a chunk as a town chunk
   unclaim-refund: 10 # The refund of unclaiming a chunk as a town chunk
   teleport-countdown: 5 # The countdown for /k tp
   hp-recover-speed: 1.5 # How many HP to recover per update?
+  dev-points:
+    drop-per-day: 10.0 # decrease per day
+    max-day-exist: 600 # 600 seconds (must be integer) (10 minutes) "exist" bonus valid for each town per day per player max.
+    exists: 0.1 # per second
+    block-place: 1.0 # per block placed
+  levels: # In fact, you can even create your own levels! However please make sure that all of their points are distinct.
+    settlement:
+      name: "&7聚居地"
+      points: 0.0
+      material: CAMPFIRE
+    village:
+      name: "&f村庄"
+      points: 50.0
+      material: OAK_PLANKS
+    town:
+      name: "&f小镇"
+      points: 450.0
+      material: STONE_BRICKS
+    city:
+      name: "&f城市"
+      points: 1350.0
+      material: IRON_BLOCK
+    metropolis:
+      name: "&f都市"
+      points: 4250.0
+      material: DIAMOND_BLOCK
+
+treaty:
+  creation-cost: 50
+  max-terms: 20
 
 map:
-  width: 6 # This value *2+1 is the actual size of the map
-  height: 4 # This value *2+1 is the actual size of the map
+  width: 9 # This value *2+1 is the actual size of the map
+  height: 6 # This value *2+1 is the actual size of the map
 
 border-display: # [Most options in this section require restart to take effect]
   nation-border: true
@@ -84,3 +119,11 @@ supply:
   cooked_salmon: 2.0
   golden_carrot: 8.0
   golden_apple: 12.0
+
+bluemap:
+  nation-layer-height: 95 # The height that the nation markers should be on
+  town-layer-height: 96 # The height that the town markers should be on
+  max-view-distance: 100000 # Usually this is fine :D
+  town-max-view-distance: 100000 # As well as this one
+  line-width: 5
+  check-interval: 20 # in ticks, how frequent should the plugin update the map (almost completely async ;) )

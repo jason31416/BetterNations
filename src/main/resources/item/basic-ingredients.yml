@@ -1,6 +1,15 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
 
 items:
+  pure-energy:
+    skull: "77400ea19dbd84f75c39ad6823ac4ef786f39f48fc6f84602366ac29b837422"
+    name: "&3&l纯能"
+    category: ingredient
+  redstone-alloy:
+    skull: "46d81068cbdf4a364231a26453d6cd660a0095f9cd8795307c5be667427712e"
+    name: "&3&l红石合金"
+    glowing: true
+    category: ingredient
   undead-essence:
     material: glowstone_dust
     name: "&4&l亡灵精华"

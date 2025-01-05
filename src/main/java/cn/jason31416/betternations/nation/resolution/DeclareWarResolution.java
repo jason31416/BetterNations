@@ -1,11 +1,13 @@
 package cn.jason31416.betternations.nation.resolution;
 
+import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Relation;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class DeclareWarResolution extends NationResolution implements ImportantResolution {
     public DeclareWarResolution(Nation nation, SimplePlayer proposer, Nation otherNation) {
@@ -14,9 +16,12 @@ public class DeclareWarResolution extends NationResolution implements ImportantR
 
     @Override
     public void execute() {
-        if(nation.getRelation(otherNation)!= Relation.ENEMY) {
+        if(nation.getRelation(otherNation) != Relation.ENEMY) {
             nation.setRelation(otherNation, Relation.ENEMY);
-            // todo: System message about war declaration
+            HistoricalBroadcastManager.broadcast(Message.getMessage("history.declare-war")
+                            .add("nation", nation.getName())
+                            .add("other_nation", otherNation.getName()),
+                    List.of(nation, otherNation));
         }
     }
 

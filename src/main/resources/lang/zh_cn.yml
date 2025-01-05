@@ -6,6 +6,12 @@
 term:
   nation: "国家"
   town: "城镇"
+  town-role:
+    mayor: "镇长"
+    manager: "管理者"
+    resident: "居民"
+    greencard: "绿卡"
+    none: "无"
 
 structure:
   towncore:
@@ -35,6 +41,8 @@ command:
     moved-core: "<#2288ff>成功移动了核心!"
     renamed-town: "<#2288ff>成功修改了城镇名称!"
     checked-holograms: "<#2288ff>清理了所有未知全息文字!"
+    removed-town: "<#2288ff>成功删除了城镇 <#00ddff>%town% <#2288ff>!"
+    treaty-created: "<#2288ff>成功创建了条约 <#00ddff>%treaty%<#2288ff>! <u><click:run_command:/nation treaty view %treaty%>点击编辑</click></u>"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
@@ -52,6 +60,7 @@ command:
     town-not-exist: "<red>该城镇不存在!"
     nation-not-exist: "<red>该国家不存在!"
     player-already-in-nation: "<red>你已经在一个国家里了!"
+    name-already-exists: "<red>该名称已被使用!"
     no-permission: "<red>你没有足够的权限执行该操作!"
     player-not-in-nation: "<red>你不在一个国家中!"
     chunk-already-claimed: "<red>该区块已经被占领了!"
@@ -72,6 +81,18 @@ command:
     already-enemy: "<red>该国家已经是你们的敌人了!"
     cannot-change-self-relation: "<red>不能改变与自己的关系!"
     cannot-unclaim-invading: "<red>不能取消占领一个正在被入侵的区块!"
+    cannot-claim-adjacent-towns: "<red>不能占领该区块，因为它与另一城镇相邻!"
+    name-length-invalid: "<red>该名称过短或过长!"
+    invalid-treaty: "<red>该条约不存在!"
+    unknown-term-type: "<red>未知的条款!"
+    invalid-term-id: "<red>该条约没有该编号的条款!"
+    cannot-propose-empty-treaty: "<red>无法提交空条约!"
+    treaty-not-editing: "<red>该条约不在编辑状态!"
+    treaty-cannot-sign: "<red>你的国家无法签署/否决该条约!"
+    invalid-term-arguments: "<red>无效的条款参数!"
+    invalid-nation-type: "<red>未知的政体!"
+    info-target-not-found: "<red>该国家/城镇不存在!"
+    not-allied: "<red>该国家不是你的盟友!"
 
 # These are messages that are related to nations.
 nation:
@@ -81,20 +102,28 @@ nation:
       - "&7%type_description%"
     monarchy:
       name: "君主制"
-      description: "绝对的集权才有绝对的稳定!"
+      description: "集权才能保证国家稳定"
       material: YELLOW_WOOL
     democracy:
       name: "民主制"
-      description: "自由，民主，平等，但是真的高效吗?"
+      description: "自由，民主，但是真的高效吗?"
       material: BLUE_WOOL
     republic:
       name: "共和制"
-      description: "现实主义与理想主义的平衡"
+      description: "现实与理想的一定平衡"
       material: ORANGE_WOOL
+    autocracy:
+      name: "独裁"
+      description: "一切权利归统治者!"
+      material: RED_WOOL
+    anarchy:
+      name: "无政府"
+      description: "在漫无目的的政治漩涡中，让我们将权利交还给民众吧"
+      material: BLACK_WOOL
   rank:
-    king: "国王"
-    general: "将军"
-    knight: "骑士"
+    king: "皇帝"
+    general: "诸侯"
+    knight: "将领"
     peasant: "平民"
     member: "成员"
     citizen: "公民"
@@ -102,19 +131,22 @@ nation:
     subject: "成员"
     representative: "议员"
     president: "总统"
+    officer: "官员"
+    dictator: "独裁者"
   resolution:
     proposed: "<#2288ff>玩家<#00ddff> %proposer% <#2288ff>提出了一个决议: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(点击查看)"
     signed: "<green>[+] <#2288ff>玩家<#00ddff> %signer% <#2288ff>同意了决议: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(点击查看)"
     unsigned: "<red>[-] <#2288ff>玩家<#00ddff> %signer% <#2288ff>拒绝了决议: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(点击查看)"
     passed: "<#2288ff>成功通过决议: <#00ddff><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click>"
     cannot-propose: "<red>你无权提出该决议!"
+    duplicate-exists: "<red>已有一个相同的决议: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(点击查看)"
     list:
-      header: "&7-= <#2288ff>%nation% 决议列表 &7=-"
-      no-resolution: "&f你的国家暂时没有进行中的决议!"
+      header: "&7----= <#2288ff>%nation% 决议列表 &7=----"
+      no-resolution: "&l&7[&e!&7] &f你的国家暂时没有进行中的决议!"
       item-with-permission: "&7- &f%content% <u><click:run_command:/nation resolution info %resolution_id%>&a[点击查看]</click></u>"
       item-no-permission: "&7- &f%content% <u><click:run_command:/nation resolution info %resolution_id%>&7[点击查看]</click></u>"
     info:
-      - "&7[<] <click:run_command:/nation resolution list>回到决议列表</click>"
+      - "&7<click:run_command:/nation resolution list>[<] 回到决议列表</click>"
       - "&7----= <#2288ff>%nation% 决议 &7=----"
       - ""
       - "&l%content%"
@@ -124,7 +156,7 @@ nation:
       - "&7%signed_players%"
       - "&a<click:run_command:/nation resolution sign %resolution_id%>[同意]</click> &7| &c<click:run_command:/nation resolution decline %resolution_id%>[拒绝]</click>"
     info-no-permission:
-      - "&7[<] <click:run_command:/nation resolution list>回到决议列表</click>"
+      - "&7<click:run_command:/nation resolution list>[<] 回到决议列表</click>"
       - "&7----= <#2288ff>%nation% 决议 &7=----"
       - ""
       - "&l%content%"
@@ -140,10 +172,13 @@ nation:
       join-nation: "同意 %requester% 加入 %nation%"
       set-rank: "将 %target% 设置为 %rank%"
       rename-nation: "将 %name% 改名为 %new_name%"
+      sign-treaty: "%nation% 签署条约: <hover:show_text:'/nation treaty view %treaty%'>%treaty%</hover>"
+      veto-treaty: "%nation% 否决条约: <hover:show_text:'/nation treaty view %treaty%'>%treaty%</hover>"
+      change-type: "%nation% 将政体变更为 %type%"
 
 map:
   header: "&7----=[ &b地区地图 &7]=----"
-  footer: "&7---------------------"
+  footer: "&7-------------------"
   town-char: "<hover:show_text:'%nation_name%, %town_name%'>%kingdom_color%▣</hover>"
   nation-char: "<hover:show_text:'%nation_name%'>%kingdom_color%▨</hover>"
   wild-char: "<hover:show_text:'&2荒野'>&8▩</hover>"
@@ -157,6 +192,16 @@ town:
   wilderness: "&8-= &2荒野 &8=-"
   cannot-build: "&8你没有权限在此处交互!"
   teleport-countdown: "&7将在 &e&l%timer% &r&7秒后传送..."
+  teleport-success: "&7传送成功!"
+  teleport-canceled: "&c你移动了呢!"
+  gui-member-lore-no-permission:
+    - "&7城镇权限: &f%permission%"
+  gui-member-lore:
+    - "&7城镇权限: &f%permission%"
+    - "&c&l左键 &c降低权限"
+    - "&a&l右键 &a提升权限"
+    - "&7(将管理者提升一级后该玩家将成为新的镇长!)"
+  day-change: "&e刷新城镇发展值中..."
 chat:
   with_nation: "&8[%nation_color%%nation% %title%&8] %sender% ≫ &f%message%"
   no_nation: "&f<%sender%> &f%message%"
@@ -168,6 +213,66 @@ auto-claiming:
   town-unclaim: "&a开启了自动为城镇放弃区块"
   unclaim: "&a开启了自动放弃区块"
   cannot-start-from-wild: "&c你必须从一个城镇区块开始自动占领!"
+history:
+  broadcast-message: "&7&l[&b!&7] &r&f%content%"
+  nation-creation: "%player% 建立了国家 %nation%"
+  declare-war: "%nation% 向 %other_nation% 宣战"
+  nation-disband: "%nation% 不复存在了"
+  nation-rename: "%nation% 更名为 %new_name%"
+  town-creation: "%nation% 的 %player% 建立了城镇 %town%"
+  town-sieged: "%nation% 攻下了 %town%"
+treaty:
+  activated: "&l&7[&e!&7] &r<#00ddff>条约: <#00ddff><u><click:run_command:/nation treaty view %treaty%>%treaty%</click></u> 已生效!"
+  signed: "&l&7[&e!&7] &r<#00ddff> %nation% <#2288ff>签署了条约: <#00ddff><u><click:run_command:/nation treaty view %treaty%>%treaty%</click></u> !"
+  vetoed: "&l&7[&e!&7] &r<#00ddff> %nation% <#2288ff>否决了条约: <#00ddff><u><click:run_command:/nation treaty view %treaty%>%treaty%</click></u> !"
+  submitted: "&l&7[&e!&7] &r<#2288ff>玩家<#00ddff> %proposer% <#2288ff>提交了条约: <#00ddff><u><click:run_command:/nation treaty view %treaty%>%treaty%</click></u> &7(点击查看)"
+  display:
+    header:
+    - ""
+    - "&7----= <#2288ff>%treaty% &7=----"
+    - ""
+    status-active: "&7状态: &a已通过"
+    status-pending: "&7状态: &e等待签署中"
+    status-editing: "&7状态: &c编辑中"
+    footer-proposed:
+    - "&a已签署: &f%signed%"
+    - "&c需要签署: &f%waiting%"
+    sign-button: "<green><click:run_command:/nation treaty sign %treaty%>[签署]</click></green> "
+    signed-button: "<gray>[已签署]</gray> "
+    veto-button: "&7| <red><click:run_command:/nation treaty veto %treaty%>[否决]</click></red> "
+
+    add-term-button: "<green><click:suggest_command:/nation treaty addterm %treaty% >[+] 添加条款</click></green> "
+    submit-button: "<green><click:run_command:/nation treaty submit %treaty%>[✅] 提交条约 </click></green> "
+    editing-term: "&c<click:run_command:/nation treaty removeterm %treaty% %id%>[-]</click> &7%id%. %content%"
+
+    normal-term: "&7%id%. %content%"
+    cannot-execute-term: "&7%id%. <st><hover:show_text:'<red>该条款无法被执行，条约无法通过!'>%content%</hover></st>"
+    affected-term: "&7%id%. &f%content%"
+
+#    nation-selection:
+#      header: "&7-= &b%treaty% &7- &b选择国家 %cnt% &7=-"
+#      nation: "&7- <click:run_command:/nation treaty addterm %cmd_content%>%nation%"
+  term:
+    peace: "%from% 与 %target% 停战"
+    ally: "%from% 与 %target% 结盟"
+info:
+  nation:
+    - "&7----= <b>%nation%</b> &7=----"
+    - ""
+    - "&7政体: &f%type%"
+    - "&7大小: &f%size%"
+    - "&7%leader_role_name%: &f%leader%"
+    - "&7成员: &f%members_count%"
+    - "&f%members%"
+    - "&a盟友:"
+    - "&f%allies%"
+    - "&c敌对:"
+    - "&f%enemies%"
+  town:
+    - "&7----= <b>%nation% 的 %town%</b> &7=----"
+    - ""
+    - "&7领地数: &f%size%"
+    - "&7镇长: &f%leader%"
 admin:
   configuration-format-error: "&c错误的配置格式!"
   configuration-format-error-with-loc: "&c错误的配置格式 @%file%, %line%!"
@@ -187,7 +292,7 @@ combat:
   camp-name: "&e&l%nation% &f的营地 &r&7 (%units% 个单位)"
   invasion-name: "&e&l%nation% &c的入侵 &r&7 (%units% 个单位)"
   siege-name: "&e&l%nation% &c对 %town% &c的攻城 &r&7 (%units% 个单位)"
-  defender-name: "&e&l%nation% &7的 &f%type%"
+  defender-name: "&l%nation% &7的 &f%type%"
 
   invalid-selection: "&c选中的单位超出了当前拥有的单位! 请尝试重新选择..."
   cannot-move-unit-during-combat: "&c无法移动战斗中部队!"
@@ -242,3 +347,8 @@ item:
       lore:
         - "&f通过熔炉烧制"
         - "&f耗时: &7%smelting-time% s"
+bluemap:
+  markerset:
+    nation: "国家领土"
+    town: "城镇领土"
+    marker: "标记"

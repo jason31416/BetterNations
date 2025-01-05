@@ -11,6 +11,7 @@ import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
 import cn.jason31416.planetlib.command.ParameterType;
 import cn.jason31416.planetlib.message.Message;
+import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
@@ -30,14 +31,23 @@ public class TownTeleportCommand extends ChildCommand {
         if(!to.getRole(context.getPlayer()).hasPermission(Permission.BUILD)) return Message.getMessage("command.failed.no-permission");
         new BukkitRunnable(){
             int countdown = Config.getInt("town.teleport-countdown", 3);
+            final SimpleLocation loc = context.getPlayer().getLocation();
             @Override
             public void run() {
-                Message.getMessage("town.teleport-countdown").add("timer", countdown).sendActionbar(context.getSender().toPlayer());
-                countdown--;
-                if(countdown<=0){
-                    if(context.getSender().toPlayer().getPlayer()!=null)
-                        context.getSender().toPlayer().getPlayer().teleport(to.core.location.getRelative(0, 1, 0).getBukkitLocation());
+                if(!context.getPlayer().getLocation().equals(loc)){
+                    Message.getMessage("town.teleport-canceled").send(context.getSender());
+                    new StringMessage("").sendActionbar(context.getSender().toPlayer());
+                    cancel();
                 }
+                Message.getMessage("town.teleport-countdown").add("timer", countdown).sendActionbar(context.getSender().toPlayer());
+                if(countdown<=0){
+                    if(context.getSender().toPlayer().getPlayer()!=null) {
+                        context.getSender().toPlayer().getPlayer().teleport(to.core.location.getRelative(0, 1, 0).getBukkitLocation());
+                        Message.getMessage("town.teleport-success").sendActionbar(context.getSender().toPlayer());
+                    }
+                    cancel();
+                }
+                countdown--;
             }
         }.runTaskTimer(BetterNations.instance, 0, 20);
         return null;

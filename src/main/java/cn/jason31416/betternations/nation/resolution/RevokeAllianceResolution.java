@@ -14,9 +14,8 @@ public class RevokeAllianceResolution extends NationResolution {
 
     @Override
     public void execute() {
-        if(nation.getRelation(otherNation)!= Relation.NEUTRAL) {
+        if(nation.getRelation(otherNation) == Relation.ALLY) {
             nation.setRelation(otherNation, Relation.NEUTRAL);
-            // todo: System message about revoke alliance
         }
     }
 

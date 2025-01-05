@@ -1,8 +1,10 @@
 package cn.jason31416.betternations.nation.resolution;
 
 import cn.jason31416.betternations.nation.Nation;
+import cn.jason31416.betternations.nation.NationType;
 import cn.jason31416.betternations.nation.NationalRank;
 import cn.jason31416.planetlib.message.Message;
+import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 
 import javax.annotation.Nonnull;
@@ -30,6 +32,14 @@ public abstract class AbstractResolution {
     }
     public void propose(){
         if(nation.getType().decisionMaker.makeDecision(this)) {
+            for(AbstractResolution res: nation.resolutions.values()){
+                if(res.equals(this)){
+                    proposer.sendMessage(Message.getMessage("nation.resolution.duplicate-exists")
+                            .add("resolution_id", res.resolutionId)
+                            .add("resolution_name", res.getResolutionContent().toFormatted()));
+                    return;
+                }
+            }
             nation.resolutions.put(resolutionId, this);
             Message.getMessage("nation.resolution.proposed")
                     .add("proposer", proposer.getName())
@@ -78,6 +88,9 @@ public abstract class AbstractResolution {
             signedPlayers.remove(player);
         }
     }
+    public boolean equals(AbstractResolution resolution){
+        return getResolutionContent().toString().equals(resolution.getResolutionContent().toString());
+    }
     public void cancel(){
         nation.resolutions.remove(resolutionId);
     }
@@ -98,7 +111,7 @@ public abstract class AbstractResolution {
         this.minimalSigners=minimalSigners;
     }
     public boolean checkPass(){
-        return !isExecuted&&signedPlayers.size()>=requiredSigners.size()*requiredRatio&&signedPlayers.size()>=Math.min(minimalSigners, requiredSigners.size()); // Over half of the required signers have signed
+        return !isExecuted&&((signedPlayers.size()>=requiredSigners.size()*requiredRatio&&signedPlayers.size()>=Math.min(minimalSigners, requiredSigners.size()))||(signedPlayers.contains(nation.getOwner())&&nation.getType()==NationType.MONARCHY)); // Over half of the required signers have signed/Monarch signed
     }
     public abstract void execute();
     @Nonnull

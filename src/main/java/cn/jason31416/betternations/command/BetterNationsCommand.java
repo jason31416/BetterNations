@@ -8,6 +8,7 @@ import cn.jason31416.betternations.command.nation.*;
 import cn.jason31416.betternations.command.resolution.ResolutionCommand;
 import cn.jason31416.betternations.command.town.TownCommand;
 import cn.jason31416.betternations.command.town.TownTeleportCommand;
+import cn.jason31416.betternations.command.treaty.TreatyCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.RootCommand;
 import cn.jason31416.planetlib.message.Message;
@@ -30,6 +31,9 @@ public class BetterNationsCommand extends RootCommand {
         new NationDeclareWarCommand(this);
         new NationRenameCommand(this);
         new NationMapCommand(this);
+        new NationTypeCommand(this);
+        new NationInfoCommand(this);
+        new NationRevokeAllianceCommand(this);
         new ToggleArmyUpdateCommand(this);
         new BNFSCKCommand(this);
 
@@ -41,6 +45,7 @@ public class BetterNationsCommand extends RootCommand {
         new ResolutionCommand(this);
         new AdminCommand(this);
         new ReloadCommand(this);
+        new TreatyCommand(this);
         instance = this;
     }
 

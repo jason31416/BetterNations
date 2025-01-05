@@ -74,31 +74,45 @@ public class UnitProductionStructure extends PlaceableStructure {
             armyStorage.put(tp, new ArmyStack.Unit(tp, Integer.parseInt(armyArr[1])));
         }
     }
+    private void checkComplete(){
+        Map<String, Recipe> recipeMap = recipes.get(this.type);
+        if(System.currentTimeMillis()>=finishTime&&currentProducing!=null){
+            if(recipeMap.containsKey(currentProducing)) {
+                ArmyType type = recipeMap.get(currentProducing).armyType;
+                if (!armyStorage.containsKey(type)) {
+                    armyStorage.put(type, new ArmyStack.Unit(type, 1));
+                } else {
+                    armyStorage.get(type).count += 1;
+                    armyStorage.get(type).hp += type.health;
+                }
+            }
+            currentProducing = null;
+            finishTime = 0;
+        }
+    }
     @Override
     public boolean processInteraction(InteractionType type, SimplePlayer player) {
         if(type==InteractionType.INTERACT){
             Map<String, Recipe> recipeMap = recipes.get(this.type);
             if(location.getChunkLocation().isTownChunk()&&
                     player.hasPermission(Permission.STRUCTURE, location)){
+                checkComplete();
+                ItemStack hand = player.getPlayer().getInventory().getItemInMainHand();
+                if(recipeMap.containsKey(ItemType.getItemType(hand).getName())){
+                    if(currentProducing==null){
+                        currentProducing = ItemType.getItemType(hand).getName();
+                        finishTime = recipeMap.get(ItemType.getItemType(hand).getName()).duration+System.currentTimeMillis();
+                        player.getPlayer().getInventory().getItemInMainHand().setAmount(hand.getAmount()-1);
+                    }
+                    return true;
+                }
                 new GUISession(player) {
                     ItemStack ti=null;
                     @Override
                     public void constructGUI(String guiID, GUI gui) {
                         if(ti==null) ti = gui.getItems("training").toBukkitItem();
                         gui.placeholder("structure_name", getHologramText());
-                        if(System.currentTimeMillis()>=finishTime&&currentProducing!=null){
-                            if(recipeMap.containsKey(currentProducing)) {
-                                ArmyType type = recipeMap.get(currentProducing).armyType;
-                                if (!armyStorage.containsKey(type)) {
-                                    armyStorage.put(type, new ArmyStack.Unit(type, 1));
-                                } else {
-                                    armyStorage.get(type).count += 1;
-                                    armyStorage.get(type).hp += type.health;
-                                }
-                            }
-                            currentProducing = null;
-                            finishTime = 0;
-                        }
+                        checkComplete();
                         int pos = 28;
                         for(ArmyType type: armyStorage.keySet()){
                             gui.addItem("army-"+pos, pos, armyStorage.get(type).getItemStack());
@@ -149,7 +163,7 @@ public class UnitProductionStructure extends PlaceableStructure {
                                 constructGUI(guiID, gui);
                                 gui.update();
                             }
-                        }.runTaskLater(BetterNations.instance, 6L);
+                        }.runTaskLater(BetterNations.instance, 5L);
                     }
                 }.display("army-production");
             }else{

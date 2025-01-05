@@ -3,6 +3,7 @@ package cn.jason31416.betternations.nation;
 import cn.jason31416.betternations.army.ArmorType;
 import cn.jason31416.betternations.army.DamageSource;
 import cn.jason31416.betternations.army.Damageable;
+import cn.jason31416.betternations.manager.map.MapDisplayManager;
 import cn.jason31416.betternations.structure.types.TownCore;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
@@ -22,11 +23,13 @@ public class Town implements Damageable {
     UUID id;
     String name;
     Nation nation;
-    SimplePlayer mayor;
+    public SimplePlayer mayor;
+    public double devPoints=0;
+    public Map<SimplePlayer, Integer> devadded=new HashMap<>();
     public TownCore core;
     public double townHealth=0;
     Set<SimpleChunkLocation> townChunks=new HashSet<>();
-    Map<SimplePlayer, TownRole> roles=new HashMap<>();
+    public Map<SimplePlayer, TownRole> roles=new HashMap<>();
     // Constructors
     public Town(UUID id, String name, Nation nation) {
         this.id = id;
@@ -34,6 +37,14 @@ public class Town implements Damageable {
         this.nation = nation;
     }
     // Getter/Setters
+    public TownLevel getLevel(){
+        for(int i=1;i<TownLevel.townLevels.size();i++){
+            if(devPoints < TownLevel.townLevels.get(i).points){
+                return TownLevel.townLevels.get(i-1);
+            }
+        }
+        return TownLevel.townLevels.get(0);
+    }
     public UUID getId() {
         return id;
     }
@@ -62,10 +73,6 @@ public class Town implements Damageable {
         if(role == TownRole.NONE){
             roles.remove(player);
             return;
-        }
-        if(role == TownRole.MAYOR){
-            roles.put(mayor, TownRole.MANAGER);
-            mayor = player;
         }
         roles.put(player, role);
     }
@@ -98,8 +105,10 @@ public class Town implements Damageable {
         }
     }
     public void remove(){
-        core.breakStructure();
-        core.unregister();
+        if(core != null) {
+            core.breakStructure();
+            core.unregister();
+        }
         nation.towns.remove(this);
         for(SimpleChunkLocation chunk : townChunks) {
             chunkTownMap.remove(chunk);
@@ -133,6 +142,7 @@ public class Town implements Damageable {
         }
         townChunks.add(chunk);
         chunkTownMap.put(chunk, this);
+        MapDisplayManager.updateTown(this);
         return true;
     }
     private boolean isConnectedToCore(SimpleChunkLocation chunk, SimpleChunkLocation original, SimpleChunkLocation target){
@@ -140,15 +150,16 @@ public class Town implements Damageable {
         Set<SimpleChunkLocation> searched=new HashSet<>();
         searched.add(original);
         chunks.add(chunk);
+        searched.add(chunk);
         while(!chunks.isEmpty()){
             SimpleChunkLocation cur = chunks.poll();
-            searched.add(cur);
             if(cur.equals(target)){
                 return true;
             }
             for(SimpleChunkLocation c: cur.getAdjacentChunks()){
                 if(c.getTown()==chunk.getTown()&&!searched.contains(c)){
                     chunks.add(c);
+                    searched.add(c);
                 }
             }
         }
@@ -167,6 +178,7 @@ public class Town implements Damageable {
         if(!chunk.isTownChunk()) return false;
         townChunks.remove(chunk);
         chunkTownMap.remove(chunk);
+        MapDisplayManager.updateTown(this);
         return true;
     }
     // Data storage
@@ -175,6 +187,7 @@ public class Town implements Damageable {
         dataItem.set("name", name);
         dataItem.set("mayor", mayor.getUUID().toString());
         dataItem.set("nation", nation.getId().toString());
+        dataItem.set("devpoints", devPoints);
         dataItem.set("hp", townHealth);
         List<String> townChunkList = new ArrayList<>(),
                 roleList = new ArrayList<>();
@@ -193,7 +206,6 @@ public class Town implements Damageable {
         }
         dataItem.set("chunks", String.join(";", townChunkList));
         dataItem.set("roles", String.join(";", roleList));
-        dataItem.set("isCapital", (nation.capital==this)?1:0);
         return true;
     }
     public static Town deserialize(IDataItem dataItem){
@@ -204,6 +216,7 @@ public class Town implements Damageable {
         Town town = new Town(id, name, nation);
         town.townHealth = dataItem.getDouble("hp");
         town.mayor = mayor;
+        town.devPoints = dataItem.getDouble("devpoints");
         String[] townChunks = dataItem.getString("chunks").split(";");
         SimpleWorld world = null;
         for(String chunk : townChunks) {
@@ -216,8 +229,10 @@ public class Town implements Damageable {
                 c = SimpleChunkLocation.of(Integer.parseInt(chunkLocation[0]), Integer.parseInt(chunkLocation[1]), SimpleWorld.of(UUID.fromString(chunkLocation[2])));
                 world = c.world();
             }
-            town.townChunks.add(c);
-            chunkTownMap.put(c, town);
+            if(c.getNation()==nation) {
+                town.townChunks.add(c);
+                chunkTownMap.put(c, town);
+            }
         }
         String[] roleList = dataItem.getString("roles").split(";");
         for(String role : roleList) {
@@ -228,9 +243,6 @@ public class Town implements Damageable {
             town.roles.put(player, townRole);
         }
         nation.towns.add(town);
-        if(dataItem.get("isCapital").equals(1)){
-            nation.capital = town;
-        }
         town.registerTown();
         return town;
     }
@@ -251,6 +263,7 @@ public class Town implements Damageable {
         town.core.place();
         town.townChunks.add(location.getChunkLocation());
         chunkTownMap.put(location.getChunkLocation(), town);
+        MapDisplayManager.updateTown(town);
         return town;
     }
     public static Town getTown(UUID id) {

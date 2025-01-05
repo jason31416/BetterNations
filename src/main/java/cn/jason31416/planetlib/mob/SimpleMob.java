@@ -8,10 +8,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public interface SimpleMob {
     public static Set<SimpleMob> mobs = new HashSet<>();
@@ -34,7 +31,11 @@ public interface SimpleMob {
         if(MythicMobsHook.loadedMobTypes().contains(type)){
             mob=new MythicMob(name, type, location);
         } else{
-            mob=new VanillaMob(name, EntityType.valueOf(type.toUpperCase()), location);
+            try {
+                mob = new VanillaMob(name, EntityType.valueOf(type.toUpperCase()), location);
+            }catch (Exception e){
+                throw new RuntimeException(e);
+            }
         }
         mobs.add(mob);
         return mob;

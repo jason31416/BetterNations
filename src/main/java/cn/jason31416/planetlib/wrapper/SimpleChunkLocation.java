@@ -15,6 +15,12 @@ import java.util.Map;
 import java.util.UUID;
 
 public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements ConfigurationSerializable {
+    public enum Direction {
+        EAST,
+        WEST,
+        NORTH,
+        SOUTH
+    }
     public World getBukkitWorld() {
         return world.getBukkitWorld();
     }
@@ -27,6 +33,17 @@ public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements Co
         return new SimpleChunkLocation(x + dx, z + dz, world);
     }
 
+    public SimpleChunkLocation getRelative(Direction dir){
+        if(dir==Direction.EAST){
+            return getRelative(1, 0);
+        }else if(dir==Direction.WEST){
+            return getRelative(-1, 0);
+        }else if(dir==Direction.SOUTH){
+            return getRelative(0, 1);
+        }else{
+            return getRelative(0, -1);
+        }
+    }
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -53,6 +70,22 @@ public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements Co
         int[] dx = {-1, 0, 1, 0}, dz = {0, -1, 0, 1};
         Collection<SimpleChunkLocation> result = new java.util.ArrayList<>();
         for (int i = 0; i < 4; i++) {
+            result.add(this.getRelative(dx[i], dz[i]));
+        }
+        return result;
+    }
+    public Collection<SimpleChunkLocation> getDiagAdjacentChunks() {
+        int[] dx = {-1, -1, 1, 1}, dz = {1, -1, 1, -1};
+        Collection<SimpleChunkLocation> result = new java.util.ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            result.add(this.getRelative(dx[i], dz[i]));
+        }
+        return result;
+    }
+    public Collection<SimpleChunkLocation> getEightAdjacentChunks() {
+        int[] dx = {-1, 0, 1, 0, -1, -1, 1, 1}, dz = {0, -1, 0, 1, -1, 1, -1, 1};
+        Collection<SimpleChunkLocation> result = new java.util.ArrayList<>();
+        for (int i = 0; i < 8; i++) {
             result.add(this.getRelative(dx[i], dz[i]));
         }
         return result;

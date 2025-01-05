@@ -9,6 +9,16 @@ import java.util.List;
 import java.util.Set;
 
 public enum NationType {
+    AUTOCRACY("Autocracy", new ArrayList<>(List.of(
+            new NationalRank("Peasant", 10, Set.of(Permission.BUILD)),
+            new NationalRank("Officer", 400, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.STRUCTURE, Permission.MANAGE_ARMY)),
+            new NationalRank("Dictator", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
+    )), (resolution) -> {
+        if(!(resolution instanceof OutsiderResolution)&&!resolution.proposer.getRank().hasPermission(Permission.CHANGE_NATION_ATTRIBUTE)) return false;
+        resolution.setRequiredSigners(List.of(NationalRank.getRank("dictator")));
+        resolution.setRequiredRatio(1);
+        return true;
+    }),
     MONARCHY("Monarchy", new ArrayList<>(List.of(
             new NationalRank("Peasant", 10, Set.of(Permission.BUILD)),
             new NationalRank("Knight", 100, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.STRUCTURE, Permission.MANAGE_ARMY)),
@@ -36,12 +46,22 @@ public enum NationType {
         resolution.setRequiredRatio(0.5);
         return true;
     }),
+    ANARCHY("Anarchy", new ArrayList<>(List.of(
+            new NationalRank("Member", 10, Set.of(Permission.BUILD)),
+            new NationalRank("Citizen", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
+            new NationalRank("Leader", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
+    )), (resolution) -> {
+        if(!(resolution instanceof OutsiderResolution)&&resolution.proposer.getRank() == NationalRank.getRank("member")) return false;
+        resolution.setRequiredRatio(0);
+        resolution.setMinimalSigners(0);
+        return true;
+    }),
     REPUBLIC("Republic", new ArrayList<>(List.of(
             NationalRank.getRank("Member"),
             new NationalRank("Representative", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("President", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if (!(resolution instanceof OutsiderResolution)&&resolution.proposer.getRank() == NationalRank.getRank("subject")) {
+        if (!(resolution instanceof OutsiderResolution)&&resolution.proposer.getRank() == NationalRank.getRank("member")) {
             return false;
         }
         if(resolution instanceof DisbandResolution){

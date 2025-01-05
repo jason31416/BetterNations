@@ -18,16 +18,16 @@ public class PlanetLib {
     static boolean initialized = false;
     public static JavaPlugin instance;
     public static String packageName;
+    public static String version;
     public static boolean isInitialized() {
         return initialized;
     }
-    public static void initialize(JavaPlugin plugin) {
+    public static void initialize(JavaPlugin plugin, String ver) {
         if (initialized) {
             return;
         }
+        version = ver;
         instance = plugin;
-        VaultHook.init();
-        MythicMobsHook.init();
         String pkg = Bukkit.getServer().getClass().getPackage().getName();
         packageName = pkg.substring(pkg.lastIndexOf(".")+1);
         plugin.saveDefaultConfig();
@@ -36,8 +36,11 @@ public class PlanetLib {
         UpdateCycle.start();
         MessageLoader.initialize(new File(plugin.getDataFolder(), "lang/"+Config.getString("lang")+".yml"), plugin);
         new PlanetLibRootCommand().register();
-
         UpdateCycle.registerTask("PlanetLib.tempActionUpdater", new UpdateTask(60*20, TempAction::checkAll));
+
+        VaultHook.init();
+        MythicMobsHook.init();
+
         instance.getServer().getPluginManager().registerEvents(new GUIEventHandler(), plugin);
         instance.getServer().getPluginManager().registerEvents(new SimpleCraftingRecipe.recipeListener(), plugin);
     }

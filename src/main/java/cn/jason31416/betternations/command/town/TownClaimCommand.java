@@ -32,6 +32,11 @@ public class TownClaimCommand extends ChildCommand {
         if(chunkLocation.getNation()!=town.getNation()){
             return Message.getMessage("command.failed.chunk-not-belong-to-nation");
         }
+        for(SimpleChunkLocation adj: chunkLocation.getAdjacentChunks()){
+            if(adj.isTownChunk()&&adj.getTown()!=town){
+                return Message.getMessage("command.failed.cannot-claim-adjacent-towns");
+            }
+        }
         if(player.getBalance()< Config.getDouble("town.claim-cost")){
             return Message.getMessage("command.failed.not-enough-money").add("amount", Config.getDouble("town.claim-cost"));
         }

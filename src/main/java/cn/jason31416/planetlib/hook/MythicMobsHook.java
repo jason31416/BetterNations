@@ -16,11 +16,11 @@ public class MythicMobsHook {
     public static boolean enabled = false;
     public static void init() {
         if(Bukkit.getPluginManager().getPlugin("MythicMobs") == null) {
-            Bukkit.getLogger().info("\033[31mFailed to hook MythicMobs\033[0m");
+            PlanetLib.instance.getLogger().info("\033[31mFailed to hook MythicMobs\033[0m");
             enabled = false;
             return;
         }
-        Bukkit.getLogger().info("\033[32mHook MythicMobs successfully\033[0m");
+        PlanetLib.instance.getLogger().info("\033[32mHook MythicMobs successfully\033[0m");
         enabled = true;
     }
     @Nullable

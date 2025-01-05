@@ -14,12 +14,12 @@ public class VaultHook {
     private static RegisteredServiceProvider<Economy> rsp;
     public static void init() {
         if(Bukkit.getPluginManager().getPlugin("Vault") == null || Bukkit.getServer().getServicesManager().getRegistration(Economy.class) == null) {
-            Bukkit.getLogger().info("\033[31mFailed to hook Vault, disabling plugin...\033[0m");
+            PlanetLib.instance.getLogger().info("\033[31mFailed to hook Vault, disabling plugin...\033[0m");
             Bukkit.getPluginManager().disablePlugin(PlanetLib.instance);
             return;
         }
         rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
-        Bukkit.getLogger().info("\033[32mHook Vault successfully\033[0m");
+        PlanetLib.instance.getLogger().info("\033[32mHook Vault successfully\033[0m");
     }
     public static void end() {
     }

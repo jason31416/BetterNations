@@ -106,7 +106,7 @@ public class ArmyListener implements Listener {
                                     army.mob.remove();
                                 }
                             });
-                            if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation())== Relation.ENEMY){
+                            if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation()) == Relation.ENEMY){
                                 gui.getItems("invade").setClickHandler((session, action, evt) -> {
                                     if(army.isActive){
                                         if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation())== Relation.ENEMY) {
@@ -139,7 +139,6 @@ public class ArmyListener implements Listener {
                                 gui.getItems("siege")
                                         .placeholder("town", adjTown.getName())
                                         .setClickHandler((session, action, evt) -> {
-                                            StaticMessages.debug(t.getName()+","+army.stack.nation.getRelation(t.getNation())+","+army.stack.nation.getName());
                                     if(army.isActive){
                                         if(army.stack.nation.getRelation(t.getNation())== Relation.ENEMY) {
                                             SimpleLocation loc = army.mob.getLocation().getBlockLocation();

@@ -207,13 +207,11 @@ public class ArmyCamp extends StructuredArmy {
         }else if(type == InteractionType.SNEAK_CLICK) {
             if(TransportArmy.transports.containsKey(player)){
                 new GUISession(player){
-                    int cnt;
                     @Override
                     public void constructGUI(String guiID, GUI gui) {
                         switch (guiID) {
                             case "join-camped": {
                                 int pos=10;
-                                cnt = TransportArmy.transports.get(player).size();
                                 for(TransportArmy i: TransportArmy.transports.get(player)){
                                     if(i.isActive&&i.getLocation().getBukkitLocation().distance(location.getBukkitLocation())<3){
                                         int p = pos;
@@ -223,11 +221,11 @@ public class ArmyCamp extends StructuredArmy {
                                                         i.mob.remove();
                                                         stack.addArmyStack(i.stack);
                                                         i.unregister();
-                                                        gui.removeItem(p);
                                                         hologram.setText(getHologramText());
-                                                        cnt--;
-                                                        if (cnt <= 0) {
+                                                        if (!TransportArmy.transports.containsKey(player)) {
                                                             player.getPlayer().closeInventory();
+                                                        }else{
+                                                            session.display("join-camped");
                                                         }
                                                     }
                                                 });
