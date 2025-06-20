@@ -3,6 +3,7 @@ package cn.jason31416.betternations.command.nation;
 import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationType;
+import cn.jason31416.betternations.structure.types.TownRuin;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
@@ -11,6 +12,7 @@ import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
+import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,7 +49,24 @@ public class NationCreateCommand extends ChildCommand {
         if(context.getPlayer().getBalance()<amount){
             return Message.getMessage("command.failed.not-enough-money").add("amount", amount);
         }
-        Nation nation = Nation.createNation(context.getPlayer(), context.getSender().toPlayer().getLocation(), nationName);
+        SimpleLocation loc = context.getSender().toPlayer().getLocation();
+        String townName = null;
+        if(Config.getBoolean("town.require-ruin")){
+            TownRuin ruin = TownRuin.ruins.getOrDefault(loc.getChunkLocation(), null);
+            if(ruin==null){
+                if(Config.getBoolean("town.allow-nomadic")){
+                    loc = null;
+                }else return Message.getMessage("command.failed.no-ruin-in-chunk");
+            }else {
+                loc = TownRuin.ruins.get(loc.getChunkLocation()).location;
+                townName = ruin.name;
+                ruin.breakStructure();
+                ruin.unregister();
+            }
+        }
+        Nation nation = null;
+        if(loc != null) nation = Nation.createNation(context.getPlayer(), loc, nationName, townName);
+        else nation = Nation.createNation(context.getPlayer(), nationName);
         if(nation==null){
             return Message.getMessage("command.failed.failed-create-nation").add("name", nationName);
         }

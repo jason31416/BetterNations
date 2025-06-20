@@ -18,6 +18,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -33,7 +34,10 @@ public class ArmyListener implements Listener {
             event.setDroppedExp(0);
         }
     }
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onTransportDamaged(EntityDamageEvent event){
         if(TransportArmy.transportArmyMap.containsKey(event.getEntity()) && event.getEntity() instanceof Mob mob && mob.getHealth()>event.getFinalDamage()){
             TransportArmy.transportArmyMap.get(event.getEntity()).stack.damage(event.getFinalDamage());
@@ -41,7 +45,9 @@ public class ArmyListener implements Listener {
             new BukkitRunnable(){
                 @Override
                 public void run() {
-                    mob.setMaxHealth(mob.getHealth());
+                    try {
+                        mob.setMaxHealth(mob.getHealth());
+                    } catch (Exception ignored) {}
                 }
             }.runTaskLater(BetterNations.instance, 0);
         }
@@ -71,7 +77,14 @@ public class ArmyListener implements Listener {
             event.setCancelled(true);
         }
         if(event.getDamager() instanceof Player pl && TransportArmy.transportArmyMap.containsKey(event.getEntity())){
+            SimplePlayer player = SimplePlayer.of(pl);
             TransportArmy army = TransportArmy.transportArmyMap.get(event.getEntity());
+            if(army.getStack().nation.getRelation(player.getNation())==Relation.ALLY){
+                event.setDamage(0);
+                event.setCancelled(true);
+            }else{
+                army.stack.damage(event.getDamage());
+            }
             if(army.isActive){
                 SimpleLocation loc = army.mob.getLocation().getBlockLocation();
                 while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){

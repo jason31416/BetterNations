@@ -28,6 +28,15 @@ town:
   unclaim-refund: 10 # The refund of unclaiming a chunk as a town chunk
   teleport-countdown: 5 # The countdown for /k tp
   hp-recover-speed: 1.5 # How many HP to recover per update?
+
+  # Should we require a ruin to create a town? (Useful for more RPG-like servers, require server owner to manually place ruins via /n ruin)
+  # If you are willing to enable this, you should probably also remove the outpost item from the item/structures file to force players to orient around the ruins.
+  require-ruin: false
+
+  # Should we allow nations with no towns? (only when the require-ruin option is enabled)
+  # Nomadic nations are nations without towns and cannot claim, but can still build up their army and potentially conquer one of the existing towns.
+  allow-nomadic: true
+
   dev-points:
     drop-per-day: 10.0 # decrease per day
     max-day-exist: 600 # 600 seconds (must be integer) (10 minutes) "exist" bonus valid for each town per day per player max.

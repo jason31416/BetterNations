@@ -95,10 +95,22 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                             army.stack.damage(other.stack); // other.stack attack army.stack
                         }
                     }
-                    army.hologram.setText(army.getHologramText());
+                    if(army instanceof SiegeFlag siege) {
+                        for(SimpleChunkLocation townChunks: siege.target.getTownChunks()){
+                            if(StructuredArmy.armyLocationMap.containsKey(townChunks)){
+                                for(StructuredArmy otherArmy: StructuredArmy.armyLocationMap.get(townChunks)){
+                                    if(otherArmy.stack.nation.getRelation(siege.stack.nation) == Relation.ENEMY){
+                                        otherArmy.stack.damage(siege.stack);
+                                        siege.stack.damage(otherArmy.stack);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 for (StructuredArmy army : new HashSet<>(armies)) {
-                    if ((army.stack.size() <= 0 || army.stack.supply <= 0) && army.runnable == null) {
+                    army.hologram.setText(army.getHologramText());
+                    if (!army.stack.nation.exists() || (army.stack.size() <= 0 || army.stack.supply <= 0) && army.runnable == null) {
                         army.breakStructure();
                         army.unregister();
                     }
@@ -140,6 +152,13 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                                 }
                             }
                         }.runTaskLater(BetterNations.instance, 0);
+                    }else if(army instanceof ArmyCamp camp){
+                        if(chunk.isTownChunk()){
+                            Town town = chunk.getTown();
+                            if(town!=null) {
+                                town.townHealth = Math.min(town.townHealth + camp.stack.getDamageTowards(ArmorType.TERRITORY)/2.0, town.getMaxHealth());
+                            }
+                        }
                     }
                 }
                 if (chunkHealths.containsKey(chunk) && chunkHealths.get(chunk) <= 0) {

@@ -24,6 +24,7 @@ public class TownCreateCommand extends ChildCommand {
     @Override
     public Message execute(ICommandContext context) {
         if (context.getPlayer() == null||!context.checkArgs(ParameterType.STRING)||!context.getSender().isPlayer()) return null;
+        if (Config.getBoolean("town.require-ruin")) return Message.getMessage("command.failed.require-ruin");
         if (context.getPlayer().getNation() == null) return Message.getMessage("command.failed.player-not-in-nation");
         SimpleLocation location = context.getSender().toPlayer().getLocation().getBlockLocation();
         if(!NationClaimCommand.checkWorld(location.world())){

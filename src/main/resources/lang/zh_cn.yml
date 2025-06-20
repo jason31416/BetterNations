@@ -27,6 +27,12 @@ structure:
   outpost:
     hologram: "&8-= &b前哨 &8=-"
     already-exists: "&c该区块已经有一个前哨了!"
+  townruin:
+    hologram: "&8-= &8%town% 城镇遗迹 &8=-"
+    message:
+      claimed: "<red>该区块已被其他国家占领!"
+      no_nation: "<red>你还没有一个国家！请使用<yellow>/n create 国名<red>在此创建国家!"
+      interact: "<#2288ff>SHIFT+点击本方块来在此处创建一个城镇! <red>(需要花费%cost%金币)"
 
 # These are messages that will be displayed when players execute specific commands.
 command: 
@@ -68,7 +74,7 @@ command:
     player-already-in-nation: "<red>你已经在一个国家里了!"
     name-already-exists: "<red>该名称已被使用!"
     no-permission: "<red>你没有足够的权限执行该操作!"
-    player-not-in-nation: "<red>你不在一个国家中!"
+    player-not-in-nation: "<red>你不在一个国家中! (或你的国家无法这么做)"
     chunk-already-claimed: "<red>该区块已经被占领了!"
     chunk-not-claimed: "<red>该区块还没有被你占领!"
     nation-already-exists: "<red>已经有另一个国家使用该名称了!"
@@ -99,6 +105,10 @@ command:
     invalid-nation-type: "<red>未知的政体!"
     info-target-not-found: "<red>该国家/城镇不存在!"
     not-allied: "<red>该国家不是你的盟友!"
+    require-ruin: "<red>城镇必须基于已有遗迹建立! 请寻找遗迹并右键创建城镇!"
+    ruin-exists: "<red>该区块已经有一个遗迹了!"
+    no-ruin-in-chunk: "<red>国家必须基于已有遗迹建立! 请在一个有遗迹的区块内执行本命令"
+    nomadic-nation-cannot-claim: "<red>必须拥有至少一个城镇才能占领区块!"
 
 # These are messages that are related to nations.
 nation:
@@ -126,7 +136,7 @@ nation:
       name: "无政府"
       description: "在漫无目的的政治漩涡中，让我们将权利交还给民众吧"
       material: BLACK_WOOL
-  rank:
+  rank: # NOT ORDERED, JUST TRANSLATIONS
     king: "皇帝"
     general: "诸侯"
     knight: "将领"

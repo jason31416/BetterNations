@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.manager;
 
+import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.command.nation.NationClaimCommand;
 import cn.jason31416.betternations.command.nation.NationUnclaimCommand;
@@ -25,6 +26,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
 import java.util.HashMap;
@@ -132,7 +134,23 @@ public class EventListener implements Listener {
         }
     }
     @EventHandler
+    public void onPlayerDamageVehicle(VehicleDestroyEvent event){
+        SimpleLocation loc = SimpleLocation.of(event.getVehicle().getLocation());
+        if(event.getAttacker() instanceof Player dmger) {
+            if (loc.getChunkLocation().isTownChunk() && loc.getChunkLocation().getNation() != SimplePlayer.of(dmger).getNation()){
+                event.setCancelled(true);
+            }
+        }else if(event.getAttacker() instanceof Projectile pj){
+            if(pj.getShooter() instanceof Player pl){
+                if (loc.getChunkLocation().isTownChunk() && loc.getChunkLocation().getNation() != SimplePlayer.of(pl).getNation()){
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
+    @EventHandler
     public void onPlayerAttackedInTown(EntityDamageByEntityEvent event){
+//        BetterNations.instance.getLogger().info("onPlayerAttackedInTown: "+event.getEntity().getClass().getName());
         if(event.getEntity() instanceof Player pl){
             SimpleLocation loc = SimpleLocation.of(pl.getLocation());
             SimplePlayer sp = SimplePlayer.of(pl);

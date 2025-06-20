@@ -3,6 +3,7 @@ package cn.jason31416.betternations.command.town;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.nation.TownRole;
 import cn.jason31416.betternations.structure.types.TownCore;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
@@ -19,6 +20,7 @@ public class TownCoreCommand extends ChildCommand {
     @Override
     public Message execute(ICommandContext context) {
         if(context.getPlayer()==null||!context.getSender().isPlayer()) return null;
+        if (Config.getBoolean("town.require-ruin")) return Message.getMessage("command.failed.require-ruin");
         Town town = context.getSender().toPlayer().getLocation().getChunkLocation().getTown();
         if(town == null) return Message.getMessage("command.failed.not-in-town");
         if(town.getRole(context.getPlayer())==TownRole.NONE||town.getRole(context.getPlayer())==TownRole.RESIDENT) return Message.getMessage("command.failed.no-permission");

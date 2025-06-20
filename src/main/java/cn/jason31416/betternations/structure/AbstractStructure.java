@@ -5,6 +5,7 @@ import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.InvasionFlag;
 import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.structure.types.TownCore;
+import cn.jason31416.betternations.structure.types.TownRuin;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
@@ -106,5 +107,6 @@ public abstract class AbstractStructure {
         registerStructureType(ArmyCamp.class);
         registerStructureType(InvasionFlag.class);
         registerStructureType(SiegeFlag.class);
+        registerStructureType(TownRuin.class);
     }
 }

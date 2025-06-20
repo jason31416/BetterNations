@@ -1,10 +1,5 @@
 current tasks:
-- Optional: fixed town core "ruins"
-- Unit cannot be manually destroyed inside ally territories [testing]
-- Transport auto convert when damaged by player [testing]
+- AI nomadic nations
 
 known bugs:
 - FromTo animation would not update when nation relation changes or chunk belonging changes
-- Players can access entity-based stuff in town [testing]
-- map update when removing town [testing]
-

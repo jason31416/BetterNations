@@ -5,6 +5,7 @@ import cn.jason31416.betternations.army.DamageSource;
 import cn.jason31416.betternations.army.Damageable;
 import cn.jason31416.betternations.manager.map.MapDisplayManager;
 import cn.jason31416.betternations.structure.types.TownCore;
+import cn.jason31416.betternations.structure.types.TownRuin;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.message.StaticMessages;
@@ -117,6 +118,7 @@ public class Town implements Damageable {
         }
         MapDisplayManager.updateTown(this);
         unregisterTown();
+        if (Config.getBoolean("town.require-ruin")) TownRuin.create(core.location, name);
     }
     public void registerTown() {
         towns.put(id, this);

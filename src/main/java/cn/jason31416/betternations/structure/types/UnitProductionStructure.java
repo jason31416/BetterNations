@@ -111,8 +111,8 @@ public class UnitProductionStructure extends PlaceableStructure {
     public boolean processInteraction(InteractionType type, SimplePlayer player) {
         if(type==InteractionType.INTERACT){
             Map<String, Recipe> recipeMap = recipes.get(this.type);
-            if(location.getChunkLocation().isTownChunk()&&
-                    player.hasPermission(Permission.STRUCTURE, location)){
+            if((location.getChunkLocation().isTownChunk()&&
+                    player.hasPermission(Permission.STRUCTURE, location))||!location.getChunkLocation().isClaimed()){
                 checkComplete();
                 ItemStack hand = player.getPlayer().getInventory().getItemInMainHand();
                 if(recipeMap.containsKey(ItemType.getItemType(hand).getName())){
@@ -140,7 +140,8 @@ public class UnitProductionStructure extends PlaceableStructure {
                         gui.getItems("extract")
                                 .setMaterial(armyStorage.isEmpty()?Material.GRAY_WOOL:Material.LIME_WOOL)
                                 .setClickHandler((session, action, event) -> {
-                                    if(!armyStorage.isEmpty()&&player.getNation()!=null&&player.getNation()==location.getChunkLocation().getNation()){
+                                    if(!armyStorage.isEmpty()&&player.getNation()!=null&&
+                                            (player.getNation()==location.getChunkLocation().getNation()||!location.getChunkLocation().isClaimed())){
                                         ArmyStack stack = new ArmyStack(player.getNation());
                                         stack.armies = new HashMap<>(armyStorage);
                                         stack.supply = stack.getMaxSupply();

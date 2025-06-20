@@ -2,6 +2,8 @@ package cn.jason31416.betternations.command.town;
 
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.nation.TownRole;
+import cn.jason31416.betternations.structure.types.TownRuin;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;

@@ -6,6 +6,7 @@ import cn.jason31416.betternations.command.misc.BNFSCKCommand;
 import cn.jason31416.betternations.command.misc.CraftingGuideCommand;
 import cn.jason31416.betternations.command.nation.*;
 import cn.jason31416.betternations.command.resolution.ResolutionCommand;
+import cn.jason31416.betternations.command.ruin.TownRuinCommand;
 import cn.jason31416.betternations.command.town.TownCommand;
 import cn.jason31416.betternations.command.town.TownTeleportCommand;
 import cn.jason31416.betternations.command.treaty.TreatyCommand;
@@ -38,6 +39,8 @@ public class BetterNationsCommand extends RootCommand {
         new BNFSCKCommand(this);
 
         new TownTeleportCommand(this);
+
+        new TownRuinCommand(this);
 
         new CraftingGuideCommand(this);
 

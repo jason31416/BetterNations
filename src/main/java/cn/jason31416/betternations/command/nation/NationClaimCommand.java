@@ -30,6 +30,10 @@ public class NationClaimCommand extends ChildCommand {
         if(nation==null){
             return Message.getMessage("command.failed.player-not-in-nation");
         }
+//        BetterNations.instance.getLogger().info(player.getName() + " is claiming chunk " + chunkLocation.toString()+", nation: "+nation.getName()+" isNomad: "+nation.getTowns());
+        if(nation.isNomad()){
+            return Message.getMessage("command.failed.nomadic-nation-cannot-claim");
+        }
         if(!checkWorld(chunkLocation.world())){
             return Message.getMessage("command.failed.chunk-claim-invalid-world");
         }

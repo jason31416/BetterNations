@@ -83,6 +83,9 @@ public class Nation {
     public boolean exists(){
         return nations.containsValue(this);
     }
+    public boolean isNomad(){
+        return towns.isEmpty();
+    }
     public void disband() {
         for(Town town : new ArrayList<>(towns)){
             town.remove();
@@ -279,10 +282,10 @@ public class Nation {
         return nation;
     }
     // Static methods
-    public static Nation createNation(SimplePlayer player, SimpleLocation location, String name) {
+    public static Nation createNation(SimplePlayer player, SimpleLocation location, String name, String townName) {
         if(location.getChunkLocation().isClaimed()) return null;
         Nation nation = createNation(player, name);
-        Town.createTown(Config.getString("nation.capital-name").replace("%nation%", name), location, nation, player);
+        Town.createTown((townName==null?Config.getString("nation.capital-name").replace("%nation%", name):townName), location, nation, player);
         return nation;
     }
     public static Nation createNation(SimplePlayer player, String name) {
