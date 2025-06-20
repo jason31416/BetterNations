@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public abstract class AbstractStructure {
         return Message.getMessage("structure."+getID()+".hologram").toString();
     }
     public String getID(){
-        return getClass().getSimpleName().toLowerCase();
+        return getClass().getSimpleName().toLowerCase(Locale.ROOT);
     }
     public void place(){
         location.setBlockMaterial(getMaterial());

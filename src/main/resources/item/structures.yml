@@ -1,0 +1,119 @@
+# In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
+categories:
+  structure:
+    name: "&b&l结构"
+    material: green_concrete
+
+items: # You can create your own items!
+  graveyard:
+    material: mossy_stone_bricks
+    name: "&b&l亡灵墓园"
+    lore:
+      - "&7用于生产亡灵单位的结构"
+      - "&7右键放置 (需要放置在城镇地块内)"
+      - ""
+      - "&8[BetterNations 结构]"
+    category: structure
+    model: 31437
+  spiderweb:
+    material: cobweb
+    name: "&b&l蛛网"
+    lore:
+      - "&7用于生产节肢单位的结构"
+      - "&7右键放置 (需要放置在城镇地块内)"
+      - ""
+      - "&8[BetterNations 结构]"
+    category: structure
+    model: 31438
+  ominous-outpost:
+    material: dark_oak_wood
+    name: "&b&l灾厄哨塔"
+    lore:
+      - "&7用于生产刌民单位的结构"
+      - "&7右键放置 (需要放置在城镇地块内)"
+      - ""
+      - "&8[BetterNations 结构]"
+    category: structure
+    model: 31439
+  granary:
+    material: hay_block
+    name: "&b&l粮仓"
+    lore:
+      - "&7用于给区块内部队与生产结构提供补给"
+      - "&7通过手持食物对着该结构右键来将食物转化为补给点"
+      - "&7右键放置 (需要放置在城镇地块内)"
+      - ""
+      - "&8[BetterNations 结构]"
+    category: structure
+    model: 31440
+  outpost:
+    material: bell
+    name: "&b&l前哨"
+    lore:
+      - "&7用于维持飞地稳定性"
+      - "&7如果飞地内没有前哨，敌人只需要攻占其中一个区块就能占领整块飞地!"
+      - ""
+      - "&8[BetterNations 结构]"
+    category: structure
+    model: 31441
+
+recipes:
+  outpost:
+    type: crafting
+    product: outpost
+    shape:
+      - "sns"
+      - "wgw"
+      - "sws"
+    material:
+      g: granary
+      w: wood
+      s: steel-chunk
+      n: beacon
+  granary:
+    type: crafting
+    product: granary
+    shape:
+      - "ccc"
+      - "chc"
+      - "ccc"
+    material:
+      c: hay_block
+      h: barrel
+  graveyard:
+    type: crafting
+    product: graveyard
+    shape:
+      - " u "
+      - "wtw"
+      - "ddd"
+    material:
+      w: wood
+      t: tomb
+      u: undead-essence
+      d: dirt
+  spiderweb:
+    type: crafting
+    product: spiderweb
+    shape:
+      - "sws"
+      - "wfw"
+      - "sws"
+    material:
+      w: cobweb
+      f: fermented_spider_eye
+      s: silk
+  ominous-outpost:
+    type: crafting
+    product: ominous-outpost
+    shape:
+      - "ese"
+      - "wlw"
+      - "fmf"
+    material:
+      w: dark_oak_wood
+      s: steel-chunk
+      e: emerald_block
+      f: dark_oak_fence
+      m: mechanical-chip
+      l: white_wool

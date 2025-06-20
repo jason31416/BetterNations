@@ -1,6 +1,7 @@
 package cn.jason31416.betternations.command.town;
 
 import cn.jason31416.betternations.army.states.StructuredArmy;
+import cn.jason31416.betternations.command.nation.NationClaimCommand;
 import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Town;
@@ -25,6 +26,9 @@ public class TownCreateCommand extends ChildCommand {
         if (context.getPlayer() == null||!context.checkArgs(ParameterType.STRING)||!context.getSender().isPlayer()) return null;
         if (context.getPlayer().getNation() == null) return Message.getMessage("command.failed.player-not-in-nation");
         SimpleLocation location = context.getSender().toPlayer().getLocation().getBlockLocation();
+        if(!NationClaimCommand.checkWorld(location.world())){
+            return Message.getMessage("command.failed.chunk-claim-invalid-world");
+        }
         if (!context.getPlayer().getRank().hasPermission(Permission.TOWN_CREATE)) return Message.getMessage("command.failed.no-permission");
         if (location.getChunkLocation().isTownChunk()) return Message.getMessage("command.failed.already-claimed-by-town");
         if (location.getChunkLocation().getNation()!=null&&

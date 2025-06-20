@@ -22,14 +22,14 @@ public class NationTypeCommand extends ChildCommand {
     public Message execute(ICommandContext context) {
         if(context.getPlayer()==null||!context.checkArgs(STRING)) return null;
         if(context.getPlayer().getNation()==null) return Message.getMessage("command.failed.player-not-in-nation");
-        if(!List.of("democracy", "republic", "monarchy", "autocracy").contains(context.getArg(0).toLowerCase())) return Message.getMessage("command.failed.invalid-nation-type");
+        if(!List.of("democracy", "republic", "monarchy", "autocracy", "anarchy").contains(context.getArg(0).toLowerCase())) return Message.getMessage("command.failed.invalid-nation-type");
         new ChangeTypeResolution(context.getPlayer().getNation(), context.getPlayer(), NationType.valueOf(context.getArg(0).toUpperCase())).propose();
         return null;
     }
 
     @Override
     public List<String> tabComplete(ICommandContext context) {
-        if(context.getCurrentArg()==1) return List.of("democracy", "republic", "monarchy", "autocracy");
+        if(context.getCurrentArg()==1) return List.of("democracy", "republic", "monarchy", "autocracy", "anarchy");
         return null;
     }
 }

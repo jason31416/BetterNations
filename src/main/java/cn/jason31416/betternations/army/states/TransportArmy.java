@@ -11,6 +11,9 @@ import org.bukkit.Material;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -47,7 +50,7 @@ public class TransportArmy implements ArmyStackHolder {
                     mob.damage(curPenalty);
                     curPenalty += 0.02;
                 }else curPenalty = 0.1;
-                if(player.getLocation().getBukkitLocation().distance(mob.getLocation().getBukkitLocation()) >= Config.getDouble("combat.transport-max-distance")){
+                if(!player.getLocation().world().equals(mob.getLocation().world())||player.getLocation().getBukkitLocation().distance(mob.getLocation().getBukkitLocation()) >= Config.getDouble("combat.transport-max-distance")){
                     destroy();
                 }else if(player.getLocation().getBukkitLocation().distance(mob.getLocation().getBukkitLocation()) >= Config.getDouble("combat.transport-warn-distance")&
                        System.currentTimeMillis()-lstwarn>750){
@@ -88,6 +91,8 @@ public class TransportArmy implements ArmyStackHolder {
         SimpleMob mob = SimpleMob.spawn(Config.getString("combat.transport-mob"), location, "");
         mob.setMaxHealth(stack.getHealth());
         mob.setHealth(stack.getHealth());
+        PotionEffect effect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000000, 3);
+        effect.apply((LivingEntity) mob.getBukkitEntity()); //todo testing
         TransportArmy army = new TransportArmy(
                 player,
                 mob,

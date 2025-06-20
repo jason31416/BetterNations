@@ -133,6 +133,7 @@ public class GUI {
         public int quantity=1;
         public int slot=0;
         public boolean glow=false;
+        public Map<Enchantment, Integer> enchantments=null;
         public int customModelData=-1;
         public Material material=Material.AIR;
         public List<String> lore=new ArrayList<>();
@@ -154,7 +155,10 @@ public class GUI {
             if(meta==null) return this;
             name=meta.getDisplayName();
             lore=meta.getLore();
-            if(meta.hasEnchant(Enchantment.DURABILITY)) glow=true;
+            if(meta.getEnchants().size()==1&&meta.getEnchants().getOrDefault(Enchantment.DURABILITY, 0)==1) glow=true;
+            else if(meta.hasEnchants()){
+                enchantments = new HashMap<>(meta.getEnchants());
+            }
             if(meta.hasCustomModelData()) customModelData = meta.getCustomModelData();
             return this;
         }
@@ -216,6 +220,10 @@ public class GUI {
                 if(glow){
                     meta.addEnchant(Enchantment.DURABILITY, 1, true);
                     meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                }else if(enchantments!=null){
+                    for(Enchantment i: enchantments.keySet()){
+                        meta.addEnchant(i, enchantments.get(i), true);
+                    }
                 }
                 if(customModelData != -1) meta.setCustomModelData(customModelData);
                 if(meta instanceof SkullMeta mt){
@@ -245,6 +253,7 @@ public class GUI {
             item.customModelData = customModelData;
             item.skullId = skullId;
             item.glow = glow;
+            if(enchantments!=null) item.enchantments = new HashMap<>(enchantments);
             return item;
         }
     }

@@ -16,10 +16,7 @@ import org.bukkit.profile.PlayerTextures;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CustomItemType extends ItemType {
     public static Map<String, CustomItemType> itemTypes = new java.util.HashMap<>();
@@ -28,6 +25,7 @@ public class CustomItemType extends ItemType {
     public final Material material;
     public final String skullValue;
     public final List<String> lore;
+    public final Map<Enchantment, Integer> enchantments=new HashMap<>();
     public boolean glow=false;
     public boolean allowInteraction=true;
     public Material getMaterial(){return material;}
@@ -71,6 +69,10 @@ public class CustomItemType extends ItemType {
         if(glow){
             itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }else if(!enchantments.isEmpty()){
+            for(Enchantment i: enchantments.keySet()){
+                itemMeta.addEnchant(i, enchantments.get(i), true);
+            }
         }
         itemStack.setItemMeta(itemMeta);
         NbtHook.setTag(itemStack, "plib.itemType", registryName);

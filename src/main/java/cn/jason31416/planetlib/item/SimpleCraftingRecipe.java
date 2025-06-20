@@ -96,6 +96,7 @@ public class SimpleCraftingRecipe implements SimpleRecipe {
             if(i.equals(" ")) continue;
             recipe.setIngredient(i.charAt(0), ingredients.get(i).getMaterial());
         }
+        Bukkit.removeRecipe(new NamespacedKey(PlanetLib.instance, uuid==null?UUID.randomUUID().toString():uuid));
         Bukkit.addRecipe(recipe);
     }
     public ItemStack getProduct(){

@@ -15,10 +15,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static cn.jason31416.betternations.command.nation.NationClaimCommand.checkWorld;
+
 public class TownClaimCommand extends ChildCommand {
     public static Message claimWithChecks(SimplePlayer player, SimpleChunkLocation chunkLocation, Town town){
         if(chunkLocation.isTownChunk()){
             return Message.getMessage("command.failed.chunk-already-claimed");
+        }
+        if(!NationClaimCommand.checkWorld(chunkLocation.world())){
+            return Message.getMessage("command.failed.chunk-claim-invalid-world");
         }
         if(!chunkLocation.isClaimed()){
             Message res = NationClaimCommand.claimWithChecks(player, chunkLocation);

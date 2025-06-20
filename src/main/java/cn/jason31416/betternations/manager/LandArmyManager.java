@@ -5,6 +5,7 @@ import cn.jason31416.betternations.army.ArmorType;
 import cn.jason31416.betternations.army.ArmyType;
 import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.types.UnitProductionStructure;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.InvalidConfigurationException;
 import cn.jason31416.planetlib.PlanetLib;
 import org.bukkit.Material;
@@ -22,14 +23,14 @@ public class LandArmyManager {
             ConfigurationSection typeSection = section.getConfigurationSection(i);
             if(typeSection==null) continue;
             ArmyType at = new ArmyType(i, typeSection.getString("name"), ArmorType.valueOf(typeSection.getString("armor", "UNARMED").toUpperCase()), Material.getMaterial(typeSection.getString("icon", "STONE").toUpperCase()));
-            at.health = typeSection.getDouble("hp");
-            at.maxSupply = typeSection.getDouble("supply");
-            at.consumption = typeSection.getDouble("consume");
+            at.health = typeSection.getDouble("hp") * Config.getDouble("multiplier.army-hp", 1.0);
+            at.maxSupply = typeSection.getDouble("supply") * Config.getDouble("multiplier.army-max-supply", 1.0);
+            at.consumption = typeSection.getDouble("consume") * Config.getDouble("multiplier.army-supply-consumption", 1.0);
             at.type = typeSection.getString("type");
             ConfigurationSection damages = typeSection.getConfigurationSection("damage");
             if(damages==null) continue;
             for(String j: damages.getKeys(false)){
-                at.attack.put(ArmorType.valueOf(j.toUpperCase()), damages.getDouble(j));
+                at.attack.put(ArmorType.valueOf(j.toUpperCase()), damages.getDouble(j) * Config.getDouble("multiplier.army-damage", 1.0));
             }
             at.register();
         }
@@ -46,7 +47,7 @@ public class LandArmyManager {
                 if(!ArmyType.armyTypes.containsKey(prodSection.getString(j+".type", "").toLowerCase())){
                     throw new InvalidConfigurationException("army.yml", i);
                 }
-                recipeMap.put(j, new UnitProductionStructure.Recipe(ArmyType.armyTypes.get(prodSection.getString(j+".type", "").toLowerCase()), prodSection.getLong(j+".time")*1000L));
+                recipeMap.put(j, new UnitProductionStructure.Recipe(ArmyType.armyTypes.get(prodSection.getString(j+".type", "").toLowerCase()), (long)(Config.getDouble("multiplier.army-train-speed", 1.0)*prodSection.getLong(j+".time")*1000L)));
                 cnt++;
             }
             UnitProductionStructure.recipes.put(i, recipeMap);

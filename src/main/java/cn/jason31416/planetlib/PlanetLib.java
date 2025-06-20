@@ -11,6 +11,7 @@ import cn.jason31416.planetlib.update.UpdateCycle;
 import cn.jason31416.planetlib.update.UpdateTask;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 
@@ -38,11 +39,11 @@ public class PlanetLib {
         new PlanetLibRootCommand().register();
         UpdateCycle.registerTask("PlanetLib.tempActionUpdater", new UpdateTask(60*20, TempAction::checkAll));
 
-        VaultHook.init();
-        MythicMobsHook.init();
-
         instance.getServer().getPluginManager().registerEvents(new GUIEventHandler(), plugin);
         instance.getServer().getPluginManager().registerEvents(new SimpleCraftingRecipe.recipeListener(), plugin);
+
+        VaultHook.init();
+        MythicMobsHook.init();
     }
     public static void reload(JavaPlugin plugin) {
         plugin.saveDefaultConfig();

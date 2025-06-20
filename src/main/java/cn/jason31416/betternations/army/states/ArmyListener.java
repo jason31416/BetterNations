@@ -70,6 +70,23 @@ public class ArmyListener implements Listener {
         if(TransportArmy.transportArmyMap.containsKey(event.getDamager()) && event.getEntity() instanceof Player){
             event.setCancelled(true);
         }
+        if(event.getDamager() instanceof Player pl && TransportArmy.transportArmyMap.containsKey(event.getEntity())){
+            TransportArmy army = TransportArmy.transportArmyMap.get(event.getEntity());
+            if(army.isActive){
+                SimpleLocation loc = army.mob.getLocation().getBlockLocation();
+                while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
+                    loc = loc.getRelative(0, 1, 0);
+                }
+                if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
+                ArmyCamp c = new ArmyCamp();
+                army.unregister();
+                c.stack = army.stack;
+                c.location = loc;
+                army.stack.curHolder = c;
+                c.place();
+                army.mob.remove();
+            }
+        }
     }
 
     @EventHandler

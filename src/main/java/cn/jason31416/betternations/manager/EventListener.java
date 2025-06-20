@@ -7,6 +7,7 @@ import cn.jason31416.betternations.command.town.TownClaimCommand;
 import cn.jason31416.betternations.command.town.TownUnclaimCommand;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
+import cn.jason31416.betternations.nation.Relation;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.Config;
@@ -16,16 +17,14 @@ import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
 
 import java.util.HashMap;
@@ -45,7 +44,10 @@ public class EventListener implements Listener {
         autoClaiming.remove(SimplePlayer.of(event.getPlayer()));
     }
     @SuppressWarnings("deprecation")
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.LOW,
+            ignoreCancelled = true
+    )
     public void onChat(PlayerChatEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
         Nation nation = player.getNation();
@@ -87,6 +89,12 @@ public class EventListener implements Listener {
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
         SimpleChunkLocation from = SimpleLocation.of(event.getFrom()).getChunkLocation();
         SimpleChunkLocation to = SimpleLocation.of(event.getTo()).getChunkLocation();
+        if(Config.getBoolean("nation.prevent-unfriendly-elytra", false)&&to.getNation()!=null&&to.getNation().getRelation(player.getNation())!=Relation.ALLY){
+            if(event.getPlayer().isGliding()){
+                event.getPlayer().setGliding(false);
+                Message.getMessage("town.cannot-fly").sendActionbar(player);
+            }
+        }
         if(!from.equals(to)){
             if(autoClaiming.containsKey(SimplePlayer.of(event.getPlayer()))){
                 switch (autoClaiming.get(SimplePlayer.of(event.getPlayer()))){
@@ -124,12 +132,55 @@ public class EventListener implements Listener {
         }
     }
     @EventHandler
+    public void onPlayerAttackedInTown(EntityDamageByEntityEvent event){
+        if(event.getEntity() instanceof Player pl){
+            SimpleLocation loc = SimpleLocation.of(pl.getLocation());
+            SimplePlayer sp = SimplePlayer.of(pl);
+            if(loc.getChunkLocation().isTownChunk()&&loc.getChunkLocation().getNation()==sp.getNation()){
+                if(event.getDamager() instanceof Player dmger){
+                    SimplePlayer sdmger = SimplePlayer.of(dmger);
+                    if(sdmger.getNation()!=sp.getNation()){
+                        event.setCancelled(true);
+                    }
+                }else if(event.getDamager() instanceof Projectile pj){
+                    if(pj.getShooter() instanceof Player dmger){
+                        SimplePlayer sdmger = SimplePlayer.of(dmger);
+                        if(sdmger.getNation()!=sp.getNation()){
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+            }
+        }else if(!(event.getEntity() instanceof Monster)){
+            SimpleLocation loc = SimpleLocation.of(event.getEntity().getLocation());
+            if(event.getDamager() instanceof Player dmger) {
+                if (loc.getChunkLocation().isTownChunk() && loc.getChunkLocation().getNation() != SimplePlayer.of(dmger).getNation()){
+                    event.setCancelled(true);
+                }
+            }else if(event.getDamager() instanceof Projectile pj){
+                if(pj.getShooter() instanceof Player pl){
+                    if (loc.getChunkLocation().isTownChunk() && loc.getChunkLocation().getNation() != SimplePlayer.of(pl).getNation()){
+                        event.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
+    @EventHandler
     public void onBlockInteract(PlayerInteractEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
         if(event.getClickedBlock()==null) return;
         if(AbstractStructure.structures.containsKey(SimpleLocation.of(event.getClickedBlock()))&&
                 AbstractStructure.structures.get(SimpleLocation.of(event.getClickedBlock())) instanceof StructuredArmy) return;
         if(!player.hasPermission(Permission.BUILD, SimpleLocation.of(event.getClickedBlock()))){
+            event.setCancelled(true);
+            Message.getMessage("town.cannot-build").sendActionbar(player);
+        }
+    }
+    @EventHandler
+    public void onEntityInteract(PlayerInteractEntityEvent event){
+        SimplePlayer player = SimplePlayer.of(event.getPlayer());
+        if(!player.hasPermission(Permission.BUILD, SimpleLocation.of(event.getRightClicked().getLocation()))){
             event.setCancelled(true);
             Message.getMessage("town.cannot-build").sendActionbar(player);
         }
@@ -157,11 +208,11 @@ public class EventListener implements Listener {
         }
     }
     @EventHandler
-    public void onBlockExplode(EntityExplodeEvent event){
-        event.blockList().removeIf(i -> (SimpleLocation.of(i).getChunkLocation().isTownChunk()||AbstractStructure.structures.containsKey(SimpleLocation.of(i))));
+    public void onEntityExplode(EntityExplodeEvent event){
+        event.blockList().removeIf(i -> (SimpleLocation.of(i).getChunkLocation().isClaimed()||AbstractStructure.structures.containsKey(SimpleLocation.of(i))));
     }
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event){
-        event.blockList().removeIf(i -> (SimpleLocation.of(i).getChunkLocation().isTownChunk()||AbstractStructure.structures.containsKey(SimpleLocation.of(i))));
+        event.blockList().removeIf(i -> (SimpleLocation.of(i).getChunkLocation().isClaimed()||AbstractStructure.structures.containsKey(SimpleLocation.of(i))));
     }
 }

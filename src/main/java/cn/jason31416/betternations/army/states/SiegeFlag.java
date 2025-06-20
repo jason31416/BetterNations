@@ -31,10 +31,12 @@ public class SiegeFlag extends StructuredArmy {
         this.target = target;
     }
     public boolean serialize(IDataItem dataItem){
+        if(!target.isAlive()) return false;
         dataItem.set("targ", target.getId().toString());
-        return true;
+        return super.serialize(dataItem);
     }
     public void deserialize(IDataItem dataItem){
+        super.deserialize(dataItem);
         target = Town.getTown(UUID.fromString(dataItem.getString("targ")));
     }
     @Override
@@ -134,8 +136,9 @@ public class SiegeFlag extends StructuredArmy {
             }.display("siege-main");
         }else if(type == InteractionType.BREAK) {
             if(stack.nation.getRelation(player.getNation()) == Relation.ENEMY&&runnable == null){
-                runnable = new BreakCampRunnable(player, this);
-                runnable.runTaskTimer(BetterNations.instance, 2, 2);
+                player.sendMessage(Message.getMessage("combat.cannot-break-camps-in-nation"));
+//                runnable = new BreakCampRunnable(player, this);
+//                runnable.runTaskTimer(BetterNations.instance, 2, 2);
             }
             return false;
         }

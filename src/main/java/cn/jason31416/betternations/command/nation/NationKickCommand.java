@@ -25,9 +25,6 @@ public class NationKickCommand extends ChildCommand {
         if(nation==null){
             return Message.getMessage("command.failed.player-not-in-nation");
         }
-        if(!context.getPlayer().getRank().hasPermission(Permission.KICK_PLAYER)){
-            return Message.getMessage("command.failed.no-permission");
-        }
         SimplePlayer target = context.getPlayerArg(0);
         if(target.getNation()!=nation) return Message.getMessage("command.failed.invalid-target");
         new KickPlayerResolution(nation, context.getPlayer(), target).propose();

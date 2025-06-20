@@ -33,6 +33,9 @@ public class NationCreateCommand extends ChildCommand {
         if(context.getSender().toPlayer().getLocation().getChunkLocation().isClaimed()){
             return Message.getMessage("command.failed.already-claimed-by-nation");
         }
+        if(!NationClaimCommand.checkWorld(context.getPlayer().getLocation().world())){
+            return Message.getMessage("command.failed.chunk-claim-invalid-world");
+        }
         String nationName = context.getArg(0);
         if(Nation.getNation(nationName)!=null){
             return Message.getMessage("command.failed.nation-already-exists");

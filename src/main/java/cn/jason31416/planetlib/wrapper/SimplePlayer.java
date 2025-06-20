@@ -9,12 +9,14 @@ import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationalRank;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Relation;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,6 +51,7 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
         return getRank().hasPermission(p);
     }
     public boolean hasPermission(Permission p, SimpleLocation location){ // ONLY USE FOR BUILD AND STRUCTURE PERMISSIONS!
+        if((p==Permission.STRUCTURE||p==Permission.BUILD)&& offlinePlayer.isOp()) return true;
         if((p==Permission.STRUCTURE||p==Permission.BUILD)&&StructuredArmy.armyLocationMap.containsKey(location.getChunkLocation())){
             for(StructuredArmy i: StructuredArmy.armyLocationMap.get(location.getChunkLocation())){
                 if(i instanceof InvasionFlag || i instanceof SiegeFlag){
@@ -82,10 +85,10 @@ public record SimplePlayer(OfflinePlayer offlinePlayer) implements Configuration
         return VaultHook.getBalance(offlinePlayer);
     }
     public void addBalance(double amount){
-        VaultHook.depositBalance(offlinePlayer, amount);
+        VaultHook.depositBalance(offlinePlayer, amount*Config.getDouble("multiplier.global-cost", 1.0));
     }
     public boolean withdrawBalance(double amount){
-        return VaultHook.withdrawBalance(offlinePlayer, amount);
+        return VaultHook.withdrawBalance(offlinePlayer, amount*Config.getDouble("multiplier.global-cost", 1.0)); // this is for multiplier support
     }
     public boolean equals(Object obj) {
         if (obj == this) {

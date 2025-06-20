@@ -5,86 +5,168 @@
 # However, if you are fine with display issues when stacking over 14 types, it shouldn't cause any further issue.
 
 types:
-  infantry:
-    name: "基础步兵" # The display name of the army type
+  zombie:
+    name: "基础僵尸" # The display name of the army type
     armor: unarmed # This can be: unarmed/armored
     type: zombie # This is the entity form of the mob when defending. Can be mythic(if installed) or vanilla.
-    icon: iron_sword # The item displayed on the GUI view. Not case-sensitive
-    hp: 15.0 # The health of the unit
+    icon: zombie_head # The item displayed on the GUI view. Not case-sensitive
+    hp: 10.0 # The health of the unit
     supply: 28.8 # The max. supply one unit can carry in the army. This will sustain this unit for 2 days exactly
-    consume: 0.03 # How many supply does it consume every army tick (default 5 minutes)
+    consume: 0.015 # How many supply does it consume every army tick (default 5 minutes)
     damage: # The damages dealt to other armor types when engaging in virtual combats. If not listed, the default is 0
       # If you want to change these, remember to do so as well in items.yml for display!
       unarmed: 2.0
-      armored: 0.5
+      armored: 1.2
       territory: 0.5 # Its damage dealt to territories such as chunks/towns
-  advanced-infantry:
-    name: "高级步兵"
+  advanced-zombie:
+    name: "高级僵尸"
     armor: unarmed
     type: zombie
-    icon: iron_helmet
-    hp: 25.0
+    icon: iron_sword
+    hp: 20.0
     supply: 28.8
-    consume: 0.04
-    damage:
-      unarmed: 3.0
-      armored: 0.7
-      territory: 0.8
-  armored-infantry:
-    name: "重甲步兵"
-    armor: armored
-    type: vindicator
-    icon: iron_chestplate
-    hp: 40.0
-    supply: 28.8
-    consume: 0.05
+    consume: 0.035
     damage:
       unarmed: 4.0
-      armored: 1.2
-      territory: 1.0
-  mechanized-infantry:
-    name: "机械化步兵"
-    armor: armored
-    type: vindicator
-    icon: redstone
-    hp: 70.0
-    supply: 43.2
-    consume: 0.07
+      armored: 0.8
+      territory: 0.5
+  zombified-piglin:
+    name: "僵尸猪灵"
+    armor: unarmed
+    type: zombified_piglin
+    icon: gold_sword
+    hp: 20.0
+    supply: 28.8
+    consume: 0.035
+    damage:
+      unarmed: 3.0
+      armored: 0.5
+      territory: 0.5
+  zombie-king:
+    name: "僵王"
+    armor: unarmed
+    type: zombie
+    icon: golden_apple
+    hp: 110.0
+    supply: 28.8
+    consume: 0.11
     damage:
       unarmed: 5.0
-      armored: 1.8
+      armored: 1.0
       territory: 1.5
-  modernized-infantry:
-    name: "现代化步兵"
+  spider:
+    name: "蜘蛛"
+    armor: unarmed
+    type: spider
+    icon: string
+    hp: 10.0
+    supply: 28.8
+    consume: 0.03
+    damage:
+      unarmed: 4.5
+      armored: 0.7
+      territory: 0.5
+  cave-spider:
+    name: "洞穴蜘蛛"
+    armor: unarmed
+    type: cave_spider
+    icon: spider_eye
+    hp: 5.0
+    supply: 28.8
+    consume: 0.045
+    damage:
+      unarmed: 8.0
+      armored: 1.0
+      territory: 0.5
+  vindicator:
+    name: "卫道士"
+    armor: unarmed
+    type: vindicator
+    icon: iron_axe
+    hp: 75
+    supply: 28.8
+    consume: 0.035
+    damage:
+      unarmed: 0.8
+      armored: 0.7
+      territory: 0.3
+  armored-vindicator:
+    name: "装甲卫道士"
     armor: armored
     type: vindicator
-    icon: diamond_chestplate
-    hp: 120.0
-    supply: 57.6
-    consume: 0.1
+    icon: diamond_axe
+    hp: 95
+    supply: 28.8
+    consume: 0.045
     damage:
-      unarmed: 6.5
-      armored: 2.3
-      territory: 1.9
+      unarmed: 1.0
+      armored: 1.0
+      territory: 0.3
+  ravager:
+    name: "劫掠兽"
+    armor: armored
+    type: ravager
+    icon: diamond_axe
+    hp: 215
+    supply: 28.8
+    consume: 0.045
+    damage:
+      unarmed: 9.0
+      armored: 7.0
+      territory: 0.1
+  transportation-llama:
+    name: "运输羊驼"
+    armor: armored
+    type: llama
+    icon: chest
+    hp: 5
+    supply: 86.4
+    consume: 0.01
+    damage:
+      unarmed: 0.1
+      armored: 0.1
+      territory: 0.1
 
 # This section controls the production of land armies
 # Please do not delete/alter it when a unit production facility is already built in the server, or unexpected bugs may happen.
 production:
-  barrack: # The ID of the production facility structure. An item with the same id should exist as well!
-    material: GREEN_CONCRETE # The block used for the structure. Not case-sensitive
+  graveyard: # The ID of the production facility structure. An item with the same id should exist as well!
+    material: MOSSY_STONE_BRICKS # The block used for the structure. Not case-sensitive
     recipes:
-      infantry: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
-        type: infantry # The unit ID of the army type listed above.
-        time: 10 # How long does it take to produce it? (in seconds) [todo: THIS IS FOR TESTING]
-      advanced-infantry:
-        type: advanced-infantry
-        time: 7200 # 2hrs
-      armored-infantry:
-        type: armored-infantry
-        time: 14400 # 4hrs
-      mechanized-infantry:
-        type: mechanized-infantry
-        time: 28800 # 8hrs
-      modernized-infantry:
-        type: mechanized-infantry
-        time: 43200 # 12hrs
+      zombie-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
+        type: zombie # The unit ID of the army type listed above.
+        time: 7200 # How long does it take to produce it? (in seconds)
+      advanced-zombie-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
+        type: advanced-zombie # The unit ID of the army type listed above.
+        time: 14400 # How long does it take to produce it? (in seconds)
+      zombified-piglin-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
+        type: zombified-piglin # The unit ID of the army type listed above.
+        time: 14400 # How long does it take to produce it? (in seconds)
+      zombie-king-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
+        type: zombie-king # The unit ID of the army type listed above.
+        time: 86400 # How long does it take to produce it? (in seconds)
+  spiderweb:
+    material: COBWEB
+    recipes:
+      spider-equipment:
+        type: spider
+        time: 14400
+      cave-spider-equipment:
+        type: cave-spider
+        time: 28800
+  ominous-outpost:
+    material: DARK_OAK_WOOD
+    recipes:
+      vindicator-equipment:
+        type: vindicator
+        time: 43200
+      armored-vindicator-equipment:
+        type: armored-vindicator
+        time: 86400
+      ravager-equipment:
+        type: ravager
+        time: 172800
+      transportation-llama-equipment:
+        type: transportation-llama
+        time: 43200
+

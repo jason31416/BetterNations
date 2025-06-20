@@ -9,23 +9,29 @@ import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
 import cn.jason31416.planetlib.message.Message;
+import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import cn.jason31416.planetlib.wrapper.SimpleWorld;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static cn.jason31416.planetlib.command.ParameterType.INTEGER;
 import static cn.jason31416.planetlib.command.ParameterType.STRING;
 
 public class NationClaimCommand extends ChildCommand {
+    public static boolean checkWorld(SimpleWorld world){
+        return Config.getConfig().getStringList("enabled-worlds").isEmpty() || Config.getConfig().getStringList("enabled-worlds").contains(world.getName());
+    }
     public static Message claimWithChecks(SimplePlayer player, SimpleChunkLocation chunkLocation, boolean doCost){
         Nation nation = player.getNation();
         if(nation==null){
             return Message.getMessage("command.failed.player-not-in-nation");
+        }
+        if(!checkWorld(chunkLocation.world())){
+            return Message.getMessage("command.failed.chunk-claim-invalid-world");
         }
         if(chunkLocation.isClaimed()){
             return Message.getMessage("command.failed.chunk-already-claimed");
@@ -102,13 +108,54 @@ public class NationClaimCommand extends ChildCommand {
                 }.runTaskAsynchronously(BetterNations.instance);
                 return null;
             }
+        }else if(context.getArg(0).equals("fill")) {
+            new BukkitRunnable() {
+                @Override
+            public void run() {
+                Set<SimpleChunkLocation> chunks = new HashSet<>();
+                Queue<SimpleChunkLocation> q = new ArrayDeque<>();
+                SimpleChunkLocation center = context.getSender().toPlayer().getLocation().getChunkLocation();
+                if(center.isClaimed()){
+                    Message.getMessage("command.failed.no-available-chunk").send(context.getSender());
+                    return;
+                }
+                int count = 0;
+                double playerBalance = context.getPlayer().getBalance();
+                q.add(center);
+                chunks.add(center);
+                while (!q.isEmpty()){
+                    SimpleChunkLocation cur = q.poll();
+                    count++;
+                    if(count * Config.getDouble("nation.claim-cost")>playerBalance){
+                        Message.getMessage("command.failed.not-enough-money").add("amount", count*Config.getDouble("nation.claim-cost")).send(context.getSender());
+                        return;
+                    }
+                    for(SimpleChunkLocation loc: cur.getAdjacentChunks()){
+                        if(!loc.isClaimed()&&!chunks.contains(loc)){
+                            chunks.add(loc);
+                            q.add(loc);
+                        }
+                    }
+                    if(!context.getPlayer().isOnline()) return;
+                }
+                context.getPlayer().withdrawBalance(count * Config.getDouble("nation.claim-cost"));
+                for (SimpleChunkLocation chunk : chunks) {
+                    Message message = claimWithChecks(context.getPlayer(), chunk, false);
+                    if (!message.equals(Message.getMessage("command.success.chunk-claimed"))) {
+                        message.send(context.getSender());
+                    }
+                }
+                Message.getMessage("command.success.claimed-chunks").add("count", count).send(context.getSender());
+            }
+        }.runTaskAsynchronously(BetterNations.instance);
+        return null;
         }
         return Message.getMessage("command.failed.unknown-subcommand");
     }
 
     @Override
     public List<String> tabComplete(ICommandContext context) {
-        if(context.getCurrentArg()==1) return List.of("auto", "square");
+        if(context.getCurrentArg()==1) return List.of("auto", "square", "fill");
         else if(context.getCurrentArg()==2&&context.getArg(0).equals("square")) return List.of("<radius>");
         return null;
     }

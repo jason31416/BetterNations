@@ -39,8 +39,11 @@ public class GUIEventHandler implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
         SimplePlayer player = SimplePlayer.of((event.getPlayer()));
-        if(GUISession.sessions.containsKey(player)&&GUISession.sessions.get(player).gui.lstInventory==event.getInventory()){
-            GUISession.sessions.remove(player);
+        if(GUISession.sessions.containsKey(player)) {
+            if (GUISession.sessions.get(player).gui == null || GUISession.sessions.get(player).gui.lstInventory == event.getInventory()){
+                GUISession.sessions.remove(player);
+            }
         }
     }
+
 }

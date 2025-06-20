@@ -16,8 +16,12 @@ term:
 structure:
   towncore:
     hologram: "&8-= %nation_color%%town% &7- &b城镇核心 &8=-"
-  barrack:
-    hologram: "&8-= &b兵营 &8=-"
+  graveyard:
+    hologram: "&8-= &b亡灵墓园 &8=-"
+  spiderweb:
+    hologram: "&8-= &b蛛网 &8=-"
+  ominous-outpost:
+    hologram: "&8-= &b灾厄哨塔 &8=-"
   granary:
     hologram: "&8-= &b粮仓 &7(%supply%/%max_supply% &e🌾&7) &8=-"
   outpost:
@@ -43,9 +47,11 @@ command:
     checked-holograms: "<#2288ff>清理了所有未知全息文字!"
     removed-town: "<#2288ff>成功删除了城镇 <#00ddff>%town% <#2288ff>!"
     treaty-created: "<#2288ff>成功创建了条约 <#00ddff>%treaty%<#2288ff>! <u><click:run_command:/nation treaty view %treaty%>点击编辑</click></u>"
+    treaty-removed: "<#2288ff>成功删除了条约 <#00ddff>%treaty%<#2288ff>!"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
+    chunk-claim-invalid-world: "<red>无法在该世界进行占领!"
     chunk-unclaim-failed: "<red>无法放弃占领该区块!"
     chunk-not-belong-to-nation: "<red>该区块不属于你的国家!"
     chunk-not-belong-to-town: "<red>这块地不属于任何一个城镇!"
@@ -191,6 +197,7 @@ town:
   revolt-name: "%town_name% 城邦"
   wilderness: "&8-= &2荒野 &8=-"
   cannot-build: "&8你没有权限在此处交互!"
+  cannot-fly: "&c你没有权限在此飞行!"
   teleport-countdown: "&7将在 &e&l%timer% &r&7秒后传送..."
   teleport-success: "&7传送成功!"
   teleport-canceled: "&c你移动了呢!"
@@ -243,6 +250,7 @@ treaty:
 
     add-term-button: "<green><click:suggest_command:/nation treaty addterm %treaty% >[+] 添加条款</click></green> "
     submit-button: "<green><click:run_command:/nation treaty submit %treaty%>[✅] 提交条约 </click></green> "
+    delete-button: "<red><click:run_command:/nation treaty remove %treaty%>[🗑] 删除条约 </click></red> "
     editing-term: "&c<click:run_command:/nation treaty removeterm %treaty% %id%>[-]</click> &7%id%. %content%"
 
     normal-term: "&7%id%. %content%"
@@ -296,7 +304,7 @@ combat:
 
   invalid-selection: "&c选中的单位超出了当前拥有的单位! 请尝试重新选择..."
   cannot-move-unit-during-combat: "&c无法移动战斗中部队!"
-  cannot-break-camps-in-town: "&c无法拆除处于城镇中的营地!"
+  cannot-break-camps-in-nation: "&c无法拆除处于友方领土中的营地!"
 
   item-not-edible: "&c该物品不能转换为补给点!"
 
@@ -351,4 +359,7 @@ bluemap:
   markerset:
     nation: "国家领土"
     town: "城镇领土"
-    marker: "标记"
+    poi: "标记"
+  camp-title: "%nation% 的营地 (%size% 单位, %health%/%max_health%)"
+  invasion-title: "<span style='color: red'>%nation% 的入侵 (%size% 单位, %health%/%max_health%)</span>"
+  siege-title: "<span style='color: red'>%nation% 对 %town% 的攻城 (%size% 单位, %health%/%max_health%)</span>"

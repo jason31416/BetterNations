@@ -1,75 +1,129 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
+categories:
+  ingredient:
+    name: "&b&l材料"
+    material: iron_ingot
+  resource:
+    name: "&b&l资源"
+    material: raw_iron
 
 items:
+  energy-fragment:
+    skull: "52eb13f9c099ad5007b54a517585dc26c9ecaf54632f65d5234571194dae9ea8"
+    name: "&3&l能量碎片"
+    category: resource
   pure-energy:
-    skull: "77400ea19dbd84f75c39ad6823ac4ef786f39f48fc6f84602366ac29b837422"
+    skull: "3a7cda9004fc197d66afbc2b003a5b9ef13cf4600b1fc7490067590f047181e"
     name: "&3&l纯能"
-    category: ingredient
+    lore:
+      - "&7可以转换为补给点或用于合成"
+    category: resource
+
   redstone-alloy:
-    skull: "46d81068cbdf4a364231a26453d6cd660a0095f9cd8795307c5be667427712e"
+    material: nether_brick
     name: "&3&l红石合金"
     glowing: true
-    category: ingredient
+    category: resource
+    model: 31416
+    interaction: true
   undead-essence:
     material: glowstone_dust
     name: "&4&l亡灵精华"
     glowing: true
     category: ingredient
+    model: 31417
+    interaction: true
   silicon:
     skull: "324d23f0bb3e750ae4fe10a2a8490e8a028806b8a954c457be379d02b7d46502"
     name: "&3&l硅"
     category: resource
   chip:
-    material: paper
+    material: rail
     name: "&3&l芯片"
     category: ingredient
+    model: 31418
   mechanical-chip:
     material: daylight_detector
     name: "&3&l机械芯片"
     glowing: true
     category: ingredient
+    model: 31419
   smart-chip:
     material: daylight_detector
     name: "&3&l智能芯片"
     glowing: true
     category: ingredient
+    model: 31420
   machine-core:
     skull: "6da482670ad74466081883fe7edd48dec27a698a9a52c4f870310ba035acf696"
     name: "&3&l机器核心"
     category: ingredient
   raw-steel:
     material: raw_iron
-    name: "&3&l粗钢"
+    name: "&7&l粗钢"
     glowing: true
     category: resource
+    model: 31421
+    interaction: true
   steel:
     material: iron_ingot
     name: "&3&l钢锭"
     glowing: true
     category: resource
+    model: 31422
+    interaction: true
+  steel-chunk:
+    skull: "ff16d5a96efd707e4674c07546e3cd02c3f3e4bb8b4f0678baf9701d8c95169a"
+    name: "&3&l钢块"
+    category: resource
   steel-plate:
-    material: brick
+    material: paper
     name: "&3&l钢板"
-    glowing: true
     category: ingredient
+    model: 31423
+    interaction: true
   compressed-steel-plate:
-    material: nether_brick
+    material: paper
     name: "&3&l压缩钢板"
     glowing: true
     category: ingredient
+    model: 31424
+    interaction: true
   wood:
     material: oak_wood
     name: "&7&l木材"
     category: resource
+    model: 31425
   hilt:
     material: bone
     name: "&7&l剑柄"
     category: ingredient
-  steel-sword:
-    material: iron_sword
-    name: "&7&l钢剑"
-    glowing: true
+    model: 31426
+    interaction: true
+  silk:
+    material: string
+    name: "&3&l丝绸"
+    glow: true
     category: ingredient
+    model: 31427
+    interaction: true
+  tomb:
+    material: spruce_trapdoor
+    name: "&3&l棺材"
+    category: ingredient
+    model: 31428
+  raw-nether-gold:
+    material: nether_gold_ore
+    name: "&6&l粗下界金"
+    category: ingredient
+    model: 31429
+  nether-gold:
+    material: gold_ingot
+    name: "&6&l下界金锭"
+    glow: true
+    category: ingredient
+    model: 31430
+    interaction: true
 
 recipes:
   # vvv ingredients vvv
@@ -190,8 +244,9 @@ recipes:
     type: crafting
     product: undead-essence
     shape:
-      - "ab"
-      - "bc"
+      - "aba"
+      - "bcb"
+      - "aba"
     material:
       a: bone_meal
       b: rotten_flesh
@@ -237,7 +292,9 @@ recipes:
     type: crafting
     product: raw-steel
     shape:
-      - "ab"
+      - "b"
+      - "a"
+      - "b"
     material:
       a: raw_iron
       b: coal
@@ -245,7 +302,9 @@ recipes:
     type: crafting
     product: raw-steel
     shape:
-      - "ab"
+      - "b"
+      - "a"
+      - "b"
     material:
       a: raw_iron
       b: charcoal
@@ -264,16 +323,14 @@ recipes:
     material:
       a: stick
       b: wood
-  steel-sword:
+  steel-chunk:
     type: crafting
-    product: steel-sword
+    product: steel-chunk
     shape:
-      - "a"
-      - "a"
-      - "b"
+      - "aa"
+      - "aa"
     material:
       a: steel
-      b: hilt
   steel-plate:
     type: crafting
     product: steel-plate
@@ -288,3 +345,41 @@ recipes:
       - "aaa"
     material:
       a: steel-plate
+  tomb:
+    type: crafting
+    product: tomb
+    shape:
+      - "waw"
+      - "b b"
+      - "waw"
+    material:
+      a: steel
+      b: undead-essence
+      w: wood
+  silk:
+    type: crafting
+    product: silk
+    shape:
+      - "aaa"
+      - "aba"
+      - "aaa"
+    material:
+      a: string
+      b: honey_bottle
+  raw-nether-gold:
+    type: crafting
+    product: raw-nether-gold
+    shape:
+      - "aaa"
+      - "ana"
+      - "ama"
+    material:
+      a: raw_gold
+      n: netherrack
+      m: magma_block
+  nether-gold:
+    type: smelting
+    product: nether-gold
+    ingredient: raw-nether-gold
+    exp: 1.0
+    time: 350

@@ -29,7 +29,7 @@ public class TreatyAddtermCommand extends ChildCommand {
     public Message execute(ICommandContext context) {
         if(!context.getSender().isPlayer()||!context.checkArgs(ParameterType.STRING, ParameterType.STRING, ParameterType.NATION, ParameterType.NATION)) return null;
         Treaty treaty = Treaty.treatyMap.get(context.getArg(0));
-        if(treaty==null||!treaty.proposer.equals(context.getPlayer())) return Message.getMessage("command.failed.invalid-treaty");
+        if(treaty==null||(!treaty.proposer.equals(context.getPlayer())&&!context.getPlayer().getPlayer().isOp())) return Message.getMessage("command.failed.invalid-treaty");
         if(treaty.state!= Treaty.TreatyState.EDITING) return Message.getMessage("command.failed.treaty-not-editing");
         if(context.getNationArg(2)==context.getNationArg(3)) return Message.getMessage("command.failed.invalid-term-arguments");
         switch (context.getArg(1)){

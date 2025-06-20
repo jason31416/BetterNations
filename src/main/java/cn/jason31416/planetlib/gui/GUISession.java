@@ -13,7 +13,7 @@ import java.util.Map;
 public abstract class GUISession {
     public static final Map<SimplePlayer, GUISession> sessions = new java.util.HashMap<>();
     public final SimplePlayer player;
-    public GUI gui;
+    public GUI gui=null;
     public GUISession(SimplePlayer player) {
         this.player = player;
         if(sessions.containsKey(player)) sessions.get(player).close();

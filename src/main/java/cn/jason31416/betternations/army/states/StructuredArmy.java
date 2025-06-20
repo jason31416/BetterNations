@@ -3,6 +3,7 @@ package cn.jason31416.betternations.army.states;
 import cn.jason31416.betternations.army.ArmyStack;
 import cn.jason31416.betternations.army.BreakCampRunnable;
 import cn.jason31416.betternations.manager.FromToAnimationManager;
+import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Relation;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.types.Granary;
@@ -75,6 +76,7 @@ public abstract class StructuredArmy extends AbstractStructure implements ArmySt
 
     @Override
     public boolean serialize(IDataItem dataItem) {
+        if(!stack.nation.exists()) return false;
         stack.serialize(dataItem);
         return true;
     }

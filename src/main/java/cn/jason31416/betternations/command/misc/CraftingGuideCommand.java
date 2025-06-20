@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CraftingGuideCommand extends ChildCommand {
@@ -100,22 +101,25 @@ public class CraftingGuideCommand extends ChildCommand {
                             GUI.Item itm = gui.addItem("item-"+i, t.displayName, i, t.material, 1)
                                     .setLore(t.lore);
                             if(t.glow) itm.setGlow(true);
+                            if(!t.enchantments.isEmpty()) itm.enchantments=new HashMap<>(t.enchantments);
                             if(t.customModelData!=0) itm.setCustomModelData(t.customModelData);
                             if(t.skullValue!=null) itm.setSkullID(t.skullValue);
-                            if(ItemCraftingManager.recipes.get(types.get(cur))!=null)
-                                gui.getItems("item-"+i).setClickHandler((session, action, event) -> {
-                                    if(action == InventoryAction.PICKUP_ALL) {
+                            int c = cur;
+                            gui.getItems("item-"+i).setClickHandler((session, action, event) -> {
+                                if(action == InventoryAction.PICKUP_ALL) {
+                                    if(ItemCraftingManager.recipes.get(types.get(c))!=null) {
                                         selectedType = t;
                                         recipePage = 0;
                                         session.display("recipe-display");
-                                    }else if(action == InventoryAction.PICKUP_HALF&&player.getPlayer().isOp()) {
-                                        player.getPlayer().setItemOnCursor(t.getItemStack(1));
-                                    }else if(action == InventoryAction.SWAP_WITH_CURSOR&&player.getPlayer().isOp()) {
-                                        if(ItemType.getItemType(player.getPlayer().getItemOnCursor())==t&&player.getPlayer().getItemOnCursor().getAmount()<t.material.getMaxStackSize()){
-                                            player.getPlayer().getItemOnCursor().setAmount(player.getPlayer().getItemOnCursor().getAmount()+1);
-                                        }
                                     }
-                                });
+                                }else if(action == InventoryAction.PICKUP_HALF&&player.getPlayer().isOp()) {
+                                    player.getPlayer().setItemOnCursor(t.getItemStack(1));
+                                }else if(action == InventoryAction.SWAP_WITH_CURSOR&&player.getPlayer().isOp()) {
+                                    if(ItemType.getItemType(player.getPlayer().getItemOnCursor())==t&&player.getPlayer().getItemOnCursor().getAmount()<t.material.getMaxStackSize()){
+                                        player.getPlayer().getItemOnCursor().setAmount(player.getPlayer().getItemOnCursor().getAmount()+1);
+                                    }
+                                }
+                            });
                             cur++;
                         }
                         break;

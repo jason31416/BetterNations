@@ -55,10 +55,11 @@ public class Treaty {
                 s += Message.getMessage("treaty.display.veto-button").add("treaty", name).toFormatted();
                 player.sendMessage(new StringMessage(s));
             }
-        }else if(state==TreatyState.EDITING&&proposer.equals(player)){
+        }else if(state==TreatyState.EDITING&&(proposer.equals(player)||player.getPlayer().isOp())){
             new StringMessage("").send(player);
             Message.getMessage("treaty.display.add-term-button").add("treaty", name).send(player);
             Message.getMessage("treaty.display.submit-button").add("treaty", name).send(player);
+            Message.getMessage("treaty.display.delete-button").add("treaty", name).send(player);
         }
     }
     public Set<Nation> getAffected(){

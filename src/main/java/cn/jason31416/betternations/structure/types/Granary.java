@@ -32,7 +32,7 @@ public class Granary extends PlaceableStructure {
         for(String i: section.getKeys(false)){
             try {
                 ItemType tp = ItemType.getItemType(i.toUpperCase());
-                supplyWorth.put(tp, section.getDouble(i));
+                supplyWorth.put(tp, section.getDouble(i)*Config.getDouble("multiplier.food-supply-conversion", 1.0));
             }catch (RuntimeException e){
                 Bukkit.getLogger().warning(i+" in BetterNations config is not a valid item!");
             }
@@ -65,7 +65,7 @@ public class Granary extends PlaceableStructure {
     }
     @Override
     public String getHologramText(){
-        return Message.getMessage("structure."+getID()+".hologram").add("supply", Math.round(supply*100.0)/100.0).add("max_supply", Config.getDouble("combat.granary-supply-limit")).toString();
+        return Message.getMessage("structure.granary.hologram").add("supply", Math.round(supply*100.0)/100.0).add("max_supply", Config.getDouble("combat.granary-supply-limit")).toString();
     }
 
     @Override
@@ -86,9 +86,11 @@ public class Granary extends PlaceableStructure {
             if(!location.getChunkLocation().isTownChunk()) return false;
             ItemType mainHandItem = ItemType.getItemType(player.getPlayer().getInventory().getItemInMainHand());
             if(supplyWorth.containsKey(mainHandItem)){
-                supply += supplyWorth.get(mainHandItem);
-                player.getPlayer().getInventory().getItemInMainHand().setAmount(Math.max(0, player.getPlayer().getInventory().getItemInMainHand().getAmount()-1));
-                updateHologram();
+                if(supply+supplyWorth.get(mainHandItem)<Config.getDouble("combat.granary-supply-limit")) {
+                    supply += supplyWorth.get(mainHandItem);
+                    player.getPlayer().getInventory().getItemInMainHand().setAmount(Math.max(0, player.getPlayer().getInventory().getItemInMainHand().getAmount() - 1));
+                    updateHologram();
+                }
             }else{
                 Message.getMessage("combat.item-not-edible").send(player);
             }

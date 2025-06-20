@@ -11,6 +11,7 @@ import cn.jason31416.planetlib.Utils;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
+import cn.jason31416.planetlib.item.CustomItemType;
 import cn.jason31416.planetlib.item.ItemType;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
@@ -43,7 +44,23 @@ public class UnitProductionStructure extends PlaceableStructure {
     public Material getMaterial() {
         return materialMap.get(type);
     }
-
+    @Override
+    public void breakStructure() {
+        if(Bukkit.isPrimaryThread()) {
+            hologram.removeHologram();
+            location.setBlockMaterial(Material.AIR);
+        }else{
+            new BukkitRunnable() {
+                public void run(){
+                    hologram.removeHologram();
+                    location.setBlockMaterial(Material.AIR);
+                }
+            }.runTaskLater(BetterNations.instance, 0);
+        }
+        exists = false;
+        if(location.getBukkitLocation().getWorld()==null||!CustomItemType.itemTypes.containsKey(type)) return;
+        location.getBukkitLocation().getWorld().dropItem(location.getBukkitLocation(), ItemType.getItemType(type).getItemStack());
+    }
     @Override
     public boolean serialize(IDataItem dataItem) {
         if(currentProducing!=null) dataItem.set("cp", currentProducing);
@@ -175,6 +192,7 @@ public class UnitProductionStructure extends PlaceableStructure {
             if(!armyStorage.isEmpty()) {
                 ArmyStack stack = new ArmyStack(player.getNation());
                 stack.armies = new HashMap<>(armyStorage);
+                stack.supply=stack.getMaxSupply();
                 armyStorage.clear();
                 ArmyCamp c = new ArmyCamp();
                 c.stack = stack;

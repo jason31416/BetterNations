@@ -7,6 +7,7 @@ import cn.jason31416.betternations.manager.map.MapDisplayManager;
 import cn.jason31416.betternations.structure.types.TownCore;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
+import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
@@ -43,7 +44,7 @@ public class Town implements Damageable {
                 return TownLevel.townLevels.get(i-1);
             }
         }
-        return TownLevel.townLevels.get(0);
+        return TownLevel.townLevels.get(TownLevel.townLevels.size()-1);
     }
     public UUID getId() {
         return id;
@@ -109,10 +110,12 @@ public class Town implements Damageable {
             core.breakStructure();
             core.unregister();
         }
+        townHealth=0;
         nation.towns.remove(this);
         for(SimpleChunkLocation chunk : townChunks) {
             chunkTownMap.remove(chunk);
         }
+        MapDisplayManager.updateTown(this);
         unregisterTown();
     }
     public void registerTown() {

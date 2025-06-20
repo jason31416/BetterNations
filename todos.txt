@@ -1,21 +1,10 @@
 current tasks:
-- national systems refined
-- commands:
-    - declare war
-    - revoke alliance
-    - town creation
-    - town removal
-    - claiming commands
-    - kick player/player leave
-- structures:
-    - core
-- resolution messages
-future functionality:
-- display border particles
-- army system
-- treaty system
+- Optional: fixed town core "ruins"
+- Unit cannot be manually destroyed inside ally territories [testing]
+- Transport auto convert when damaged by player [testing]
 
 known bugs:
 - FromTo animation would not update when nation relation changes or chunk belonging changes
+- Players can access entity-based stuff in town [testing]
+- map update when removing town [testing]
 
-// Unit must not move nor take damage for a while in order to convert?

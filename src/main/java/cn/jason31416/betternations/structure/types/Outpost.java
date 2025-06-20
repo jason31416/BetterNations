@@ -35,6 +35,10 @@ public class Outpost extends PlaceableStructure {
         outposts.remove(location.getChunkLocation());
     }
     @Override
+    public String getHologramText(){
+        return Message.getMessage("structure.outpost.hologram").toString();
+    }
+    @Override
     public Material getMaterial() {
         return Material.BELL;
     }

@@ -179,18 +179,21 @@ public class ArmyStack implements Damageable, DamageSource {
         GUI.Item ret = new GUI.Item("");
         ret.setMaterial(armies.keySet().stream().toList().get(0).icon)
                 .setName(getStackName())
-                .setLore(MessageLoader.getList("combat.stack-lore")
-                        .add("health", Math.round(getHealth()*10)/10.0)
-                        .add("max_health", getMaxHealth())
-                        .add("supply", Math.round(supply*100)/100.0)
-                        .add("max_supply", getMaxSupply())
-                        .add("supply_change", (getSupplyConsumption()<=supplygain?"&a+":"&c-")+Math.abs(getSupplyConsumption()-supplygain))
-                        .add("nation", nation.getColorTag()+nation.getName())
-                        .add("damage_unarmed", getDamageTowards(ArmorType.UNARMED))
-                        .add("damage_armored", getDamageTowards(ArmorType.ARMORED))
-                        .add("damage_territory", getDamageTowards(ArmorType.TERRITORY))
-                        .asList());
+                .setLore(getLore(supplygain));
         return ret.toBukkitItem();
+    }
+    public List<String> getLore(double supplygain){
+        return MessageLoader.getList("combat.stack-lore")
+                .add("health", Math.round(getHealth()*10)/10.0)
+                .add("max_health", getMaxHealth())
+                .add("supply", Math.round(supply*100)/100.0)
+                .add("max_supply", getMaxSupply())
+                .add("supply_change", (getSupplyConsumption()<=0?"&a+":"&c-")+Math.abs(Math.round((getSupplyConsumption()-supplygain)*100)/100))
+                .add("nation", nation.getColorTag()+nation.getName())
+                .add("damage_unarmed", getDamageTowards(ArmorType.UNARMED))
+                .add("damage_armored", getDamageTowards(ArmorType.ARMORED))
+                .add("damage_territory", getDamageTowards(ArmorType.TERRITORY))
+                .asList();
     }
     public ItemStack getItemDisplay(){
         return getItemDisplay(0);
@@ -259,7 +262,10 @@ public class ArmyStack implements Damageable, DamageSource {
         while (!minHeap.isEmpty()) sum += minHeap.poll();
         return sum;
     }
-    public void serialize(IDataItem dataItem){
+    public boolean serialize(IDataItem dataItem){
+        if(!Nation.nations.containsValue(nation)){
+            return false;
+        }
         List<String> armyList=new ArrayList<>();
         for(ArmyType i: armies.keySet()){
             armyList.add(i.id+":"+armies.get(i).count+":"+armies.get(i).hp);
@@ -267,6 +273,7 @@ public class ArmyStack implements Damageable, DamageSource {
         dataItem.set("a_bel", nation.getId().toString());
         dataItem.set("a_cont", String.join(";", armyList));
         dataItem.set("a_sup", supply);
+        return true;
     }
     public static ArmyStack deserialize(IDataItem dataItem){
         ArmyStack stack = new ArmyStack(Nation.getNation(UUID.fromString(dataItem.getString("a_bel"))));

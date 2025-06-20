@@ -29,7 +29,7 @@ public class MythicMob implements SimpleMob {
 
     @Override
     public boolean isAlive() {
-        return !mob.isDead();
+        return !mob.getEntity().getBukkitEntity().isDead();
     }
 
     @Override

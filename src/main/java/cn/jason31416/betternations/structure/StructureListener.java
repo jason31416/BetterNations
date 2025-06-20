@@ -1,6 +1,5 @@
 package cn.jason31416.betternations.structure;
 
-import cn.jason31416.betternations.army.states.InvasionFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.structure.types.Outpost;
@@ -11,9 +10,8 @@ import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
@@ -27,8 +25,47 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StructureListener implements Listener {
+    static Set<Material> interactable = new HashSet<>();
+    static {
+        interactable.add(Material.DARK_OAK_DOOR);
+        interactable.add(Material.ACACIA_DOOR);
+        interactable.add(Material.BIRCH_DOOR);
+        interactable.add(Material.JUNGLE_DOOR);
+        interactable.add(Material.SPRUCE_DOOR);
+        interactable.add(Material.OAK_DOOR);
+        interactable.add(Material.ACACIA_FENCE_GATE);
+        interactable.add(Material.BIRCH_FENCE_GATE);
+        interactable.add(Material.DARK_OAK_FENCE_GATE);
+        interactable.add(Material.JUNGLE_FENCE_GATE);
+        interactable.add(Material.SPRUCE_FENCE_GATE);
+        interactable.add(Material.OAK_FENCE_GATE);
+        interactable.add(Material.ACACIA_TRAPDOOR);
+        interactable.add(Material.BIRCH_TRAPDOOR);
+        interactable.add(Material.DARK_OAK_TRAPDOOR);
+        interactable.add(Material.JUNGLE_TRAPDOOR);
+        interactable.add(Material.SPRUCE_TRAPDOOR);
+        interactable.add(Material.OAK_TRAPDOOR);
+        interactable.add(Material.CRAFTING_TABLE);
+        interactable.add(Material.FURNACE);
+        interactable.add(Material.BLAST_FURNACE);
+        interactable.add(Material.SMOKER);
+        interactable.add(Material.CARTOGRAPHY_TABLE);
+        interactable.add(Material.GRINDSTONE);
+        interactable.add(Material.ANVIL);
+        interactable.add(Material.CHIPPED_ANVIL);
+        interactable.add(Material.DAMAGED_ANVIL);
+        interactable.add(Material.BREWING_STAND);
+        interactable.add(Material.CHEST);
+        interactable.add(Material.TRAPPED_CHEST);
+        interactable.add(Material.ENDER_CHEST);
+        interactable.add(Material.HOPPER);
+        interactable.add(Material.DISPENSER);
+        interactable.add(Material.DROPPER);
+    }
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event){
         SimpleChunkLocation chunk = SimpleChunkLocation.of(event.getChunk());
@@ -105,7 +142,7 @@ public class StructureListener implements Listener {
                 }
             }
         }
-        if(event.getItem()!=null&&!ItemType.getItemType(event.getItem()).allowInteraction()&&event.getAction()==Action.RIGHT_CLICK_BLOCK){
+        if(event.getItem()!=null&&!ItemType.getItemType(event.getItem()).allowInteraction()&&event.getAction()==Action.RIGHT_CLICK_BLOCK&&(event.getPlayer().isSneaking()||!interactable.contains(event.getClickedBlock().getType()))){
             event.setCancelled(true);
         }
     }

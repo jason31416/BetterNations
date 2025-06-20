@@ -1,3 +1,4 @@
+
 package cn.jason31416.betternations.command.treaty;
 
 import cn.jason31416.betternations.nation.Nation;
@@ -13,31 +14,27 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TreatyRemovetermCommand extends ChildCommand {
+public class TreatyRemoveCommand extends ChildCommand {
 
-    public TreatyRemovetermCommand(IParentCommand parent) {
-        super("removeterm", parent);
+    public TreatyRemoveCommand(IParentCommand parent) {
+        super("remove", parent);
     }
 
     @Nullable
     @Override
     public Message execute(ICommandContext context) {
-        if(!context.getSender().isPlayer()||!context.checkArgs(ParameterType.STRING, ParameterType.INTEGER)) return null;
+        if(!context.getSender().isPlayer()) return null;
         Treaty treaty = Treaty.treatyMap.get(context.getArg(0));
         if(treaty==null||(!treaty.proposer.equals(context.getPlayer())&&!context.getPlayer().getPlayer().isOp())) return Message.getMessage("command.failed.invalid-treaty");
         if(treaty.state!= Treaty.TreatyState.EDITING) return Message.getMessage("command.failed.treaty-not-editing");
-        if(context.getIntArg(1)<1||context.getIntArg(1)>treaty.terms.size()) return Message.getMessage("command.failed.invalid-term-id");
-        treaty.terms.remove(context.getIntArg(1)-1);
-        if(context.getSender().isPlayer()) treaty.display(context.getSender().toPlayer());
-        return null;
+        Treaty.treatyMap.remove(context.getArg(0));
+        return Message.getMessage("command.success.treaty-removed").add("treaty", treaty.name);
     }
 
     @Override
     public List<String> tabComplete(ICommandContext context) {
         if(!context.getArg(0).isEmpty()&&context.getCurrentArg()==1){
             return Treaty.treatyMap.keySet().stream().toList();
-        }else if(context.getCurrentArg()==2){
-            return List.of("<term id>");
         }
         return null;
     }

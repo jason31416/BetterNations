@@ -18,6 +18,7 @@ public class TreatyCommand extends ParentCommand {
         new TreatySubmitCommand(this);
         new TreatySignCommand(this);
         new TreatyVetoCommand(this);
+        new TreatyRemoveCommand(this);
     }
 
     @Override

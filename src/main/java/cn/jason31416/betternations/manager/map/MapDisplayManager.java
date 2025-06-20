@@ -1,10 +1,15 @@
 package cn.jason31416.betternations.manager.map;
 
 import cn.jason31416.betternations.BetterNations;
+import cn.jason31416.betternations.army.states.InvasionFlag;
+import cn.jason31416.betternations.army.states.SiegeFlag;
+import cn.jason31416.betternations.army.states.StructuredArmy;
+import cn.jason31416.betternations.manager.ArmyUpdateManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.message.Message;
+import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleWorld;
@@ -13,6 +18,7 @@ import de.bluecolored.bluemap.api.BlueMapAPI;
 import de.bluecolored.bluemap.api.BlueMapMap;
 import de.bluecolored.bluemap.api.markers.Marker;
 import de.bluecolored.bluemap.api.markers.MarkerSet;
+import de.bluecolored.bluemap.api.markers.POIMarker;
 import de.bluecolored.bluemap.api.markers.ShapeMarker;
 import de.bluecolored.bluemap.api.math.Color;
 import de.bluecolored.bluemap.api.math.Shape;
@@ -24,7 +30,7 @@ import org.checkerframework.checker.units.qual.C;
 import java.util.*;
 
 public class MapDisplayManager {
-    public static Map<SimpleWorld, MarkerSet> nations=new HashMap<>(), towns=new HashMap<>();
+    public static Map<SimpleWorld, MarkerSet> nations=new HashMap<>(), towns=new HashMap<>(), pois=new HashMap<>();
     private static Color adaptColor(org.bukkit.Color clr){
         return new Color(clr.getRed(), clr.getGreen(), clr.getBlue(), clr.getAlpha()/255F);
     }
@@ -261,6 +267,29 @@ public class MapDisplayManager {
             towns.get(i.corner.world()).put(town.getId().toString()+"."+i.corner.x()+"-"+i.corner.z(), marker);
         }
     }
+    public static void drawInvasions(){
+        for(SimpleChunkLocation loc: new HashSet<>(StructuredArmy.armyLocationMap.keySet())){
+            for(StructuredArmy i: new HashSet<>(StructuredArmy.armyLocationMap.get(loc))){
+                POIMarker.Builder marker;
+                if(i instanceof InvasionFlag){
+                    marker = POIMarker.builder()
+                            .label(Message.getMessage("bluemap.invasion-title").add("nation", i.stack.nation.getName()).add("size", i.stack.size()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).toString());
+                }else if(i instanceof SiegeFlag flag){
+                    marker = POIMarker.builder()
+                            .label(Message.getMessage("bluemap.siege-title").add("nation", i.stack.nation.getName()).add("size", i.stack.size()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).add("town", flag.target.getName()).toString());
+                }else{
+                    marker = POIMarker.builder()
+                            .label(Message.getMessage("bluemap.camp-title").add("nation", i.stack.nation.getName()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).add("size", i.stack.size()).toString());
+                }
+                marker.position(i.location.x(), i.location.y(), i.location.z())
+                        .maxDistance(1000);
+                if(!pois.containsKey(loc.world())){
+                    pois.put(loc.world(), MarkerSet.builder().label(Message.getMessage("bluemap.markerset.poi").toString()).build());
+                }
+                pois.get(loc.world()).put(i.uuid.toString(), marker.build());
+            }
+        }
+    }
     private static BukkitRunnable getRunnable(BlueMapAPI api){
         return new BukkitRunnable() {
             public void run() {
@@ -268,6 +297,7 @@ public class MapDisplayManager {
                 towns.clear();
                 drawNations(Nation.nations.values());
                 drawTowns(Town.towns.values());
+                drawInvasions();
                 for (SimpleWorld i : nations.keySet()) {
                     api.getWorld(i.getBukkitWorld()).ifPresent(world -> {
                         for (BlueMapMap map : world.getMaps()) {
@@ -279,6 +309,13 @@ public class MapDisplayManager {
                     api.getWorld(i.getBukkitWorld()).ifPresent(world -> {
                         for (BlueMapMap map : world.getMaps()) {
                             map.getMarkerSets().put("bn.towns", towns.get(i));
+                        }
+                    });
+                }
+                for (SimpleWorld i : pois.keySet()) {
+                    api.getWorld(i.getBukkitWorld()).ifPresent(world -> {
+                        for (BlueMapMap map : world.getMaps()) {
+                            map.getMarkerSets().put("bn.pois", pois.get(i));
                         }
                     });
                 }
@@ -294,6 +331,7 @@ public class MapDisplayManager {
             for(BlueMapMap map: api.getMaps()){
                 map.getMarkerSets().remove("bn.nations");
                 map.getMarkerSets().remove("bn.towns");
+                map.getMarkerSets().remove("bn.pois");
             }
         });
     }
@@ -330,9 +368,18 @@ public class MapDisplayManager {
                         }catch (Exception ignored){}
                     }
                 }
+                if(map.getMarkerSets().containsKey("bn.pois")){
+                    for(String marker: new HashSet<>(map.getMarkerSets().get("bn.pois").getMarkers().keySet())){
+                        try{
+                            map.getMarkerSets().get("bn.pois").remove(marker);
+                        }catch (Exception ignored){}
+                    }
+                }
             }
             drawNations(nu);
             drawTowns(tu);
+            drawInvasions();
+
         });
     }
     public static void reload(){

@@ -80,6 +80,9 @@ public class Nation {
     public NationalRank getRank(SimplePlayer player) {
         return memberRanks.get(player);
     }
+    public boolean exists(){
+        return nations.containsValue(this);
+    }
     public void disband() {
         for(Town town : new ArrayList<>(towns)){
             town.remove();

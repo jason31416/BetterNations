@@ -196,8 +196,8 @@ public class ArmyCamp extends StructuredArmy {
                     Message.getMessage("combat.cannot-move-unit-during-combat").send(player);
                 }
             }else if(stack.nation.getRelation(player.getNation()) == Relation.ENEMY&&runnable == null){
-                if(location.getChunkLocation().isTownChunk()&&location.getChunkLocation().getNation()==stack.nation){
-                    player.sendMessage(Message.getMessage("combat.cannot-break-camps-in-town"));
+                if(location.getChunkLocation().getNation()==stack.nation){
+                    player.sendMessage(Message.getMessage("combat.cannot-break-camps-in-nation"));
                 }else {
                     runnable = new BreakCampRunnable(player, this);
                     runnable.runTaskTimer(BetterNations.instance, 2, 2);

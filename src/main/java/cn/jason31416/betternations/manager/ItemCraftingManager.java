@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public class ItemCraftingManager {
     public static Map<ItemType, List<SimpleRecipe> > recipes=new HashMap<>();
     public static Map<String, ItemCategory> itemTypes=new HashMap<>();
     public static void unregisterAll(){
-        Bukkit.clearRecipes();
+        Bukkit.resetRecipes();
         itemTypes.clear();
         recipes.clear();
         CustomItemType.itemTypes.clear();
@@ -64,11 +65,21 @@ public class ItemCraftingManager {
                             new StringMessage(section.getString(i + ".name", "")).toString(),
                             Objects.requireNonNull(Material.getMaterial(section.getString(i + ".material", "").toUpperCase()), "Material is not found!"),
                             new MessageList(section.getStringList(i + ".lore")).asList(),
-                            false
+                            section.getBoolean(i + ".interaction", false)
                     );
                 }
                 if(section.contains(i+".model")) itemType.setCustomModelData(section.getInt(i+".model"));
                 if(section.contains(i+".glowing")) itemType.glow = true;
+                else if(section.contains(i+".enchant")){
+                    ConfigurationSection enchsection=section.getConfigurationSection(i+".enchant");
+                    if(enchsection!=null) for(String j: enchsection.getKeys(false)){
+                        try{
+                            itemType.enchantments.put(Enchantment.getByName(j.toUpperCase()), enchsection.getInt(j));
+                        }catch (Exception e){
+                            throw new InvalidConfigurationException("item.yml", i+".enchant");
+                        }
+                    }
+                }
                 if(section.contains(i+".category")){
                     if(itemTypes.containsKey(section.getString(i+".category"))){
                         itemTypes.get(section.getString(i+".category")).types.add(itemType);

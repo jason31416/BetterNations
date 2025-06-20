@@ -27,6 +27,8 @@ import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.data.YamlStorage;
 import cn.jason31416.planetlib.gui.GUILoader;
 import cn.jason31416.planetlib.gui.GUISession;
+import cn.jason31416.planetlib.hook.MythicMobsHook;
+import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.update.UpdateCycle;
@@ -59,6 +61,7 @@ public final class BetterNations extends JavaPlugin {
     public static BetterNations instance;
     public static YamlStorage storage;
     private void saveFolder(String name) throws URISyntaxException, IOException {
+        if(new File(getDataFolder(), name).isDirectory()) return;
         URI uri = getClassLoader().getResource(name).toURI();
         try(FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap())) {
             try(Stream<Path> walk = Files.walk(fileSystem.getPath(name), 1)) {

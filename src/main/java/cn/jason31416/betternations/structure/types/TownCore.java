@@ -110,12 +110,12 @@ public class TownCore extends AbstractStructure {
                                 if(head.getItemMeta() instanceof SkullMeta meta){
                                     meta.setOwnerProfile(p.offlinePlayer().getPlayerProfile());
                                     meta.setDisplayName("§e§l"+p.getName());
-                                    meta.setLore(MessageLoader.getList(curtown.getRole(player) == TownRole.MAYOR?"town.gui-member-lore":"town.gui-member-lore-no-permission").add("permission", curtown.getRole(p).getName()).asList());
+                                    meta.setLore(MessageLoader.getList((curtown.getRole(player) == TownRole.MAYOR||player.offlinePlayer().isOp())?"town.gui-member-lore":"town.gui-member-lore-no-permission").add("permission", curtown.getRole(p).getName()).asList());
                                     head.setItemMeta(meta);
                                 }
                                 gui.addItem("memberitem-"+i, i).setAsVanillaItemStack(head);
                                 int pos=i;
-                                if(curtown.getRole(player) == TownRole.MAYOR) {
+                                if(curtown.getRole(player) == TownRole.MAYOR||player.offlinePlayer().isOp()) {
                                     gui.getItems("memberitem-" + i).setClickHandler(new GUI.GUIRunnable() {
                                         private void updateItem(){
                                             ItemStack h = new ItemStack(Material.PLAYER_HEAD);

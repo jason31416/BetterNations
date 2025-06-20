@@ -22,4 +22,16 @@ public class ArmyType {
         armyTypes.put(id, this);
         return this;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof ArmyType tp){
+            return tp.id.equals(id);
+        }
+        return false;
+    }
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

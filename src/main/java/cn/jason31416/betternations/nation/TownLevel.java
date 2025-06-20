@@ -34,6 +34,9 @@ public class TownLevel {
         }
     }
     public TownLevel getNextLevel(){
+        if(townLevels.indexOf(this)+1>=townLevels.size()){
+            return null;
+        }
         return townLevels.get(townLevels.indexOf(this)+1);
     }
 }
