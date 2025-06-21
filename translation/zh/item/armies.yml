@@ -1,0 +1,191 @@
+categories:
+  unit:
+    name: "&b&l装备"
+    material: zombie_head
+
+items:
+  zombie-equipment:
+    # This "skull" option is the last part of the URL for the item, e.g. something like this http://textures.minecraft.net/texture/c7e6c40f68b775f2efcd7bd9916b327869dcf27e24c855d0a18e07ac04fe1
+    skull: "8288fcbda4ff85aca7ff21133d1afec9ee246dd923eca9bfd092f2333e66f"
+    name: "&f僵尸 &7装备"
+    lore: # If you want to change this, remember to do so as well in army.yml to make actual changes!
+      - "&8| &710&c❤ &7🚶"
+      - "&8| &70.02/28.8&e🌾"
+      - "&8| &73.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.5&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 亡灵]"
+      - "&7放入 &e亡灵墓园 &7中训练"
+    category: unit
+  advanced-zombie-equipment:
+    skull: "a6b8d8745f6fc7a0a77354ce1a9f3046817f66d2d3afd1bcdac6d2d10f379"
+    name: "&f高级僵尸 &7装备"
+    lore:
+      - "&8| &720&c❤ &7🚶"
+      - "&8| &70.035/28.8&e🌾"
+      - "&8| &74.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.8&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.5&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 亡灵]"
+      - "&7放入 &e亡灵墓园 &7中训练"
+    category: unit
+  zombified-piglin-equipment:
+    skull: "7eabaecc5fae5a8a49c8863ff4831aaa284198f1a2398890c765e0a8de18da8c"
+    name: "&f僵尸猪灵 &7装备"
+    lore:
+      - "&8| &720&c❤ &7🚶"
+      - "&8| &70.035/28.8&e🌾"
+      - "&8| &73.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.5&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.5&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 亡灵]"
+      - "&7放入 &e亡灵墓园 &7中训练"
+    category: unit
+  zombie-king-equipment:
+    skull: "15582ed512a8cea9b17ffc31ca12b86f2abccf83a622fb7d15b5f171f51bb64"
+    name: "&f僵王 &7装备"
+    lore:
+      - "&8| &7110&c❤ &7🛡"
+      - "&8| &70.11/28.8&e🌾"
+      - "&8| &75.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &71.0&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &71.5&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 亡灵]"
+      - "&7放入 &e亡灵墓园 &7中训练"
+    category: unit
+  spider-equipment:
+    skull: "cd541541daaff50896cd258bdbdd4cf80c3ba816735726078bfe393927e57f1"
+    name: "&f蜘蛛 &7装备"
+    lore:
+      - "&8| &710&c❤ &7🚶"
+      - "&8| &70.03/28.8&e🌾"
+      - "&8| &74.5&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.5&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 节肢]"
+      - "&7放入 &e蛛网 &7或 &e人工蛛网 &7中训练"
+    category: unit
+  cave-spider-equipment:
+    skull: "7652bd7617e56c756514f83c28dd1d96a7e5e167bf7fb593693fc65046f799"
+    name: "&f洞穴蜘蛛 &7装备"
+    lore:
+      - "&8| &75&c❤ &7🚶"
+      - "&8| &70.045/28.8&e🌾"
+      - "&8| &78.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &71.0&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.5&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 节肢]"
+      - "&7放入 &e蛛网 &7或 &e人工蛛网 &7中训练"
+    category: unit
+  vindicator-equipment:
+    skull: "6deaec344ab095b48cead7527f7dee61b063ff791f76a8fa76642c8676e2173"
+    name: "&f卫道士 &7装备"
+    lore:
+      - "&8| &775&c❤ &7🚶"
+      - "&8| &70.035/28.8&e🌾"
+      - "&8| &70.8&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.3&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 刌民]"
+      - "&7放入 &e灾厄哨塔 &7中训练"
+    category: unit
+  armored-vindicator-equipment:
+    skull: "8abebc59f2891fb975fc2b20de473e4bbdb8b4cfe246135b893699b985032756"
+    name: "&f装甲卫道士 &7装备"
+    lore:
+      - "&8| &795&c❤ &7🛡"
+      - "&8| &70.045/28.8&e🌾"
+      - "&8| &71.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &71.0&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.3&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 刌民]"
+      - "&7放入 &e灾厄哨塔 &7中训练"
+    category: unit
+  ravager-equipment:
+    skull: "5c73e16fa2926899cf18434360e2144f84ef1eb981f996148912148dd87e0b2a"
+    name: "&f劫掠兽 &7装备"
+    lore:
+      - "&8| &7215&c❤ &7🛡"
+      - "&8| &70.15/28.8&e🌾"
+      - "&8| &79.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &77.0&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.1&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 刌民]"
+      - "&7放入 &e灾厄哨塔 &7中训练"
+    category: unit
+  transportation-llama-equipment:
+    skull: "5c73e16fa2926899cf18434360e2144f84ef1eb981f996148912148dd87e0b2a"
+    name: "&f运输羊驼 &7装备"
+    lore:
+      - "&8| &75&c❤ &7🛡"
+      - "&8| &70.01/86.4&e🌾"
+      - "&8| &70.1&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.1&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.1&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 特殊]"
+      - "&7放入 &e灾厄哨塔 &7中训练"
+    category: unit
+
+
+recipes:
+  zombie:
+    type: crafting
+    product: zombie-equipment
+    shape:
+      - "uau"
+      - "edb"
+      - "ucu"
+    material:
+      u: undead-essence
+      d: diamond
+      a: iron_helmet
+      c: iron_boots
+      e: iron_chestplate
+      b: steel-sword
+  advanced-zombie:
+    type: crafting
+    product: advanced-zombie-equipment
+    shape:
+      - " d "
+      - "szs"
+      - "usu"
+    material:
+      z: zombie-equipment
+      u: undead-essence
+      d: diamond_helmet
+      s: steel-plate
+  zombified-piglin:
+    type: crafting
+    product: zombified-piglin-equipment
+    shape:
+      - " d "
+      - "gzg"
+      - "ugu"
+    material:
+      z: zombie-equipment
+      u: undead-essence
+      d: golden_helmet
+      g: nether-gold
+  vindicator:
+    type: crafting
+    product: vindicator-equipment
+    shape:
+      - "ede"
+      - "sui"
+      - " s "
+    material:
+      i: steel-axe
+      u: undead-essence
+      s: steel-plate
+      e: emerald_block
+      d: diamond

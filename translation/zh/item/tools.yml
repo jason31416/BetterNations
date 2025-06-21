@@ -1,0 +1,120 @@
+# In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
+
+categories:
+  tool:
+    name: "&b&l工具/武器"
+    material: iron_axe
+
+items:
+  steel-sword:
+    material: iron_sword
+    name: "&7&l钢剑"
+    enchant:
+      damage_all: 3
+      durability: 3
+    category: tool
+    model: 31431
+    interaction: true
+  steel-axe:
+    material: iron_axe
+    name: "&7&l钢斧"
+    enchant:
+      damage_all: 3
+      durability: 3
+    category: tool
+    model: 31432
+    interaction: true
+  steel-helmet:
+    material: iron_helmet
+    name: "&7&l钢盔"
+    enchant:
+      protection_environmental: 4
+      durability: 5
+    category: tool
+    model: 31433
+    interaction: true
+  steel-chestplate:
+    material: iron_chestplate
+    name: "&7&l钢甲"
+    enchant:
+      protection_environmental: 4
+      durability: 5
+    category: tool
+    model: 31434
+    interaction: true
+  steel-leggings:
+    material: iron_leggings
+    name: "&7&l钢护腿"
+    enchant:
+      protection_environmental: 4
+      durability: 5
+    category: tool
+    model: 31435
+    interaction: true
+  steel-boots:
+    material: iron_boots
+    name: "&7&l钢靴"
+    enchant:
+      protection_environmental: 4
+      durability: 5
+    category: tool
+    model: 31436
+    interaction: true
+
+recipes:
+  steel-sword:
+    type: crafting
+    product: steel-sword
+    shape:
+      - "a"
+      - "a"
+      - "b"
+    material:
+      a: steel
+      b: hilt
+  steel-axe:
+    type: crafting
+    product: steel-axe
+    shape:
+      - " aa"
+      - " sa"
+      - " b "
+    material:
+      a: steel
+      s: stick
+      b: hilt
+  steel-helmet:
+    type: crafting
+    product: steel-helmet
+    shape:
+      - "aaa"
+      - "a a"
+    material:
+      a: steel-plate
+  steel-chestplate:
+    type: crafting
+    product: steel-chestplate
+    shape:
+      - "a a"
+      - "aaa"
+      - "aaa"
+    material:
+      a: steel-plate
+  steel-leggings:
+    type: crafting
+    product: steel-leggings
+    shape:
+      - "aaa"
+      - "a a"
+      - "a a"
+    material:
+      a: steel-plate
+  steel-boots:
+    type: crafting
+    product: steel-boots
+    shape:
+      - "a a"
+      - "a a"
+    material:
+      a: steel-plate
+
