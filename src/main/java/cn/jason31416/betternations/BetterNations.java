@@ -75,12 +75,14 @@ public final class BetterNations extends JavaPlugin {
     public void saveAllResources() {
         savePluginResource("army.yml");
         try {
-            saveFolder("gui");
+            saveFolder("gui/zh_cn");
+            saveFolder("gui/en_us");
             saveFolder("item");
             saveFolder("lang");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        savePluginResource("gui/README.md");
     }
     public void savePluginResource(@NotNull String resourcePath) {
         if (!resourcePath.isEmpty()) {
@@ -141,7 +143,7 @@ public final class BetterNations extends JavaPlugin {
         }
     }
     public void loadGUIs(){
-        File guiFolder = new File(getDataFolder(), "gui");
+        File guiFolder = new File(getDataFolder(), "gui/"+Config.getString("lang"));
         getLogger().info("\033[34mLoading GUIs:\033[0m");
         loadGUIs(guiFolder);
     }

@@ -6,7 +6,7 @@
 
     <groupId>cn.jason31416</groupId>
     <artifactId>BetterNations</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>ALPHA-2.7.1</version>
     <packaging>jar</packaging>
 
     <name>BetterNations</name>

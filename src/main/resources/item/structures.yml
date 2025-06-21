@@ -1,62 +1,63 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
 categories:
   structure:
-    name: "&b&l结构"
+    name: "&b&lStructures"
     material: green_concrete
 
 items: # You can create your own items!
   graveyard:
     material: mossy_stone_bricks
-    name: "&b&l亡灵墓园"
+    name: "&b&lUndead Graveyard"
     lore:
-      - "&7用于生产亡灵单位的结构"
-      - "&7右键放置 (需要放置在城镇地块内)"
+      - "&7Structure for producing undead units"
+      - "&7Right-click to place (must be placed within town territory)"
       - ""
-      - "&8[BetterNations 结构]"
+      - "&8[BetterNations Structure]"
     category: structure
     model: 31437
   spiderweb:
     material: cobweb
-    name: "&b&l蛛网"
+    name: "&b&lSpider Web"
     lore:
-      - "&7用于生产节肢单位的结构"
-      - "&7右键放置 (需要放置在城镇地块内)"
+      - "&7Structure for producing arthropod units"
+      - "&7Right-click to place (must be placed within town territory)"
       - ""
-      - "&8[BetterNations 结构]"
+      - "&8[BetterNations Structure]"
     category: structure
     model: 31438
   ominous-outpost:
     material: dark_oak_wood
-    name: "&b&l灾厄哨塔"
+    name: "&b&lPillager Outpost"
     lore:
-      - "&7用于生产刌民单位的结构"
-      - "&7右键放置 (需要放置在城镇地块内)"
+      - "&7Structure for producing illager units"
+      - "&7Right-click to place (must be placed within town territory)"
       - ""
-      - "&8[BetterNations 结构]"
+      - "&8[BetterNations Structure]"
     category: structure
     model: 31439
   granary:
     material: hay_block
-    name: "&b&l粮仓"
+    name: "&b&lGranary"
     lore:
-      - "&7用于给区块内部队与生产结构提供补给"
-      - "&7通过手持食物对着该结构右键来将食物转化为补给点"
-      - "&7右键放置 (需要放置在城镇地块内)"
+      - "&7Provides supplies to troops and production structures in the chunk"
+      - "&7Convert food into supply points by right-clicking on the structure with food in hand"
+      - "&7Right-click to place (must be placed within town territory)"
       - ""
-      - "&8[BetterNations 结构]"
+      - "&8[BetterNations Structure]"
     category: structure
     model: 31440
   outpost:
     material: bell
-    name: "&b&l前哨"
+    name: "&b&lOutpost"
     lore:
-      - "&7用于维持飞地稳定性"
-      - "&7如果飞地内没有前哨，敌人只需要攻占其中一个区块就能占领整块飞地!"
+      - "&7Maintains stability of exclaves"
+      - "&7If an exclave has no outpost, enemies only need to capture one chunk to take over the entire exclave!"
       - ""
-      - "&8[BetterNations 结构]"
+      - "&8[BetterNations Structure]"
     category: structure
     model: 31441
 
+# Recipes don't need translation as they use material codes
 recipes:
   outpost:
     type: crafting

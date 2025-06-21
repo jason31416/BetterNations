@@ -1,130 +1,131 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
 categories:
   ingredient:
-    name: "&b&l材料"
+    name: "&b&lIngredients"
     material: iron_ingot
   resource:
-    name: "&b&l资源"
+    name: "&b&lResources"
     material: raw_iron
 
 items:
   energy-fragment:
     skull: "52eb13f9c099ad5007b54a517585dc26c9ecaf54632f65d5234571194dae9ea8"
-    name: "&3&l能量碎片"
+    name: "&3&lEnergy Fragment"
     category: resource
   pure-energy:
     skull: "3a7cda9004fc197d66afbc2b003a5b9ef13cf4600b1fc7490067590f047181e"
-    name: "&3&l纯能"
+    name: "&3&lPure Energy"
     lore:
-      - "&7可以转换为补给点或用于合成"
+      - "&7Can be converted to supply points or used for crafting"
     category: resource
 
   redstone-alloy:
     material: nether_brick
-    name: "&3&l红石合金"
+    name: "&3&lRedstone Alloy"
     glowing: true
     category: resource
     model: 31416
     interaction: true
   undead-essence:
     material: glowstone_dust
-    name: "&4&l亡灵精华"
+    name: "&4&lUndead Essence"
     glowing: true
     category: ingredient
     model: 31417
     interaction: true
   silicon:
     skull: "324d23f0bb3e750ae4fe10a2a8490e8a028806b8a954c457be379d02b7d46502"
-    name: "&3&l硅"
+    name: "&3&lSilicon"
     category: resource
   chip:
     material: rail
-    name: "&3&l芯片"
+    name: "&3&lChip"
     category: ingredient
     model: 31418
   mechanical-chip:
     material: daylight_detector
-    name: "&3&l机械芯片"
+    name: "&3&lMechanical Chip"
     glowing: true
     category: ingredient
     model: 31419
   smart-chip:
     material: daylight_detector
-    name: "&3&l智能芯片"
+    name: "&3&lSmart Chip"
     glowing: true
     category: ingredient
     model: 31420
   machine-core:
     skull: "6da482670ad74466081883fe7edd48dec27a698a9a52c4f870310ba035acf696"
-    name: "&3&l机器核心"
+    name: "&3&lMachine Core"
     category: ingredient
   raw-steel:
     material: raw_iron
-    name: "&7&l粗钢"
+    name: "&7&lRaw Steel"
     glowing: true
     category: resource
     model: 31421
     interaction: true
   steel:
     material: iron_ingot
-    name: "&3&l钢锭"
+    name: "&3&lSteel Ingot"
     glowing: true
     category: resource
     model: 31422
     interaction: true
   steel-chunk:
     skull: "ff16d5a96efd707e4674c07546e3cd02c3f3e4bb8b4f0678baf9701d8c95169a"
-    name: "&3&l钢块"
+    name: "&3&lSteel Block"
     category: resource
   steel-plate:
     material: paper
-    name: "&3&l钢板"
+    name: "&3&lSteel Plate"
     category: ingredient
     model: 31423
     interaction: true
   compressed-steel-plate:
     material: paper
-    name: "&3&l压缩钢板"
+    name: "&3&lCompressed Steel Plate"
     glowing: true
     category: ingredient
     model: 31424
     interaction: true
   wood:
     material: oak_wood
-    name: "&7&l木材"
+    name: "&7&lWood"
     category: resource
     model: 31425
   hilt:
     material: bone
-    name: "&7&l剑柄"
+    name: "&7&lHilt"
     category: ingredient
     model: 31426
     interaction: true
   silk:
     material: string
-    name: "&3&l丝绸"
+    name: "&3&lSilk"
     glow: true
     category: ingredient
     model: 31427
     interaction: true
   tomb:
     material: spruce_trapdoor
-    name: "&3&l棺材"
+    name: "&3&lCoffin"
     category: ingredient
     model: 31428
   raw-nether-gold:
     material: nether_gold_ore
-    name: "&6&l粗下界金"
+    name: "&6&lRaw Nether Gold"
     category: ingredient
     model: 31429
   nether-gold:
     material: gold_ingot
-    name: "&6&l下界金锭"
+    name: "&6&lNether Gold Ingot"
     glow: true
     category: ingredient
     model: 31430
     interaction: true
 
+# Recipes don't need translation as they use material codes
 recipes:
   # vvv ingredients vvv
   wood1:

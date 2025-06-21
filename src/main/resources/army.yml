@@ -1,4 +1,3 @@
-
 # This section controls the land army's types.
 # Please do not delete anything when it already has been produced in the server, or unexpected bugs may happen.
 # In addition, it is suggested to not create too much (Preferred less than 14, would still work with less than 28) types since the UI isn't really big enough.
@@ -6,7 +5,7 @@
 
 types:
   zombie:
-    name: "基础僵尸" # The display name of the army type
+    name: "Basic Zombie" # The display name of the army type
     armor: unarmed # This can be: unarmed/armored
     type: zombie # This is the entity form of the mob when defending. Can be mythic(if installed) or vanilla.
     icon: zombie_head # The item displayed on the GUI view. Not case-sensitive
@@ -19,7 +18,7 @@ types:
       armored: 1.2
       territory: 0.5 # Its damage dealt to territories such as chunks/towns
   advanced-zombie:
-    name: "高级僵尸"
+    name: "Advanced Zombie"
     armor: unarmed
     type: zombie
     icon: iron_sword
@@ -31,7 +30,7 @@ types:
       armored: 0.8
       territory: 0.5
   zombified-piglin:
-    name: "僵尸猪灵"
+    name: "Zombified Piglin"
     armor: unarmed
     type: zombified_piglin
     icon: gold_sword
@@ -43,7 +42,7 @@ types:
       armored: 0.5
       territory: 0.5
   zombie-king:
-    name: "僵王"
+    name: "Zombie King"
     armor: unarmed
     type: zombie
     icon: golden_apple
@@ -55,7 +54,7 @@ types:
       armored: 1.0
       territory: 1.5
   spider:
-    name: "蜘蛛"
+    name: "Spider"
     armor: unarmed
     type: spider
     icon: string
@@ -67,7 +66,7 @@ types:
       armored: 0.7
       territory: 0.5
   cave-spider:
-    name: "洞穴蜘蛛"
+    name: "Cave Spider"
     armor: unarmed
     type: cave_spider
     icon: spider_eye
@@ -79,7 +78,7 @@ types:
       armored: 1.0
       territory: 0.5
   vindicator:
-    name: "卫道士"
+    name: "Vindicator"
     armor: unarmed
     type: vindicator
     icon: iron_axe
@@ -91,7 +90,7 @@ types:
       armored: 0.7
       territory: 0.3
   armored-vindicator:
-    name: "装甲卫道士"
+    name: "Armored Vindicator"
     armor: armored
     type: vindicator
     icon: diamond_axe
@@ -103,7 +102,7 @@ types:
       armored: 1.0
       territory: 0.3
   ravager:
-    name: "劫掠兽"
+    name: "Ravager"
     armor: armored
     type: ravager
     icon: diamond_axe
@@ -115,7 +114,7 @@ types:
       armored: 7.0
       territory: 0.1
   transportation-llama:
-    name: "运输羊驼"
+    name: "Transportation Llama"
     armor: armored
     type: llama
     icon: chest
@@ -169,4 +168,3 @@ production:
       transportation-llama-equipment:
         type: transportation-llama
         time: 43200
-

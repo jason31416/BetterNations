@@ -1,0 +1,85 @@
+town-core:
+  window:
+    title: "&7-= &r%town_name% &7- &bTown Core &7=-"
+    size: 27
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    info:
+      slot: 4
+      name: "&f%town_name%"
+      glow: true
+      lore:
+        - "&8| %level% level town in %nation%"
+        - "&8| %level_bar% &f%dev_points%&b💡&7/&f%next_level_points%&b💡&7➡%next_level%"
+    nation:
+      slot: 0
+      name: "&fReturn to Nation: %nation%"
+      skull: "48fd7126cd670c7971a285734edfdd802572a72a3f05ea41ccda4943ba373471"
+    members:
+      name: "&f&lTown Members"
+      skull: "733a9bf9861e6bff9104252fea99c717bdd3bc84fc11fffaede054f6e3ec1bbe"
+      lore:
+        - "&7Click to manage"
+      slot: 11
+town-members:
+  window:
+    title: "&7-= &r%town_name% &7- &bMember Permissions &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 46, 47, 48, 49, 50, 51, 52 ]
+    nextpage:
+      name: "&b&lNext Page"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 53
+    prevpage:
+      name: "&b&lPrevious Page"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 45
+    back:
+      name: "&cBack"
+      skull: "5d9c93f8b9f2f8f91aa4377551c2738002a78816d612f39f142fc91a3d713ad"
+      slot: 0
+nation-towns:
+  window:
+    title: "&7-= &r%nation% &7- &bTown Management &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 46, 47, 48, 49, 50, 51, 52 ]
+    nextpage:
+      name: "&b&lNext Page"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 53
+    prevpage:
+      name: "&b&lPrevious Page"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 45
+    back:
+      name: "&cBack"
+      skull: "5d9c93f8b9f2f8f91aa4377551c2738002a78816d612f39f142fc91a3d713ad"
+      slot: 0
+nation-core:
+  window:
+    title: "&7-= &r%nation% &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    towns:
+      name: "&b&lTown Management"
+      material: OAK_SIGN
+      slot: 20
+    close:
+      name: "&cClose Menu"
+      material: BARRIER
+      slot: 0

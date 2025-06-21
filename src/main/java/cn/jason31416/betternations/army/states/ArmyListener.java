@@ -22,6 +22,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityMountEvent;
 
@@ -82,22 +83,29 @@ public class ArmyListener implements Listener {
             if(army.getStack().nation.getRelation(player.getNation())==Relation.ALLY){
                 event.setDamage(0);
                 event.setCancelled(true);
-            }else{
-                army.stack.damage(event.getDamage());
-            }
-            if(army.isActive){
-                SimpleLocation loc = army.mob.getLocation().getBlockLocation();
-                while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
-                    loc = loc.getRelative(0, 1, 0);
+                if(army.isActive){
+                    SimpleLocation loc = army.mob.getLocation().getBlockLocation();
+                    while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
+                        loc = loc.getRelative(0, 1, 0);
+                    }
+                    if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
+                    ArmyCamp c = new ArmyCamp();
+                    army.unregister();
+                    c.stack = army.stack;
+                    c.location = loc;
+                    army.stack.curHolder = c;
+                    c.place();
+                    army.mob.remove();
                 }
-                if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
-                ArmyCamp c = new ArmyCamp();
-                army.unregister();
-                c.stack = army.stack;
-                c.location = loc;
-                army.stack.curHolder = c;
-                c.place();
-                army.mob.remove();
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event){
+        for(TransportArmy army: TransportArmy.transportArmyMap.values()){
+            if(army.player.getPlayer().equals(event.getPlayer())) {
+                army.encamp();
             }
         }
     }
@@ -121,38 +129,13 @@ public class ArmyListener implements Listener {
                         case "transport-actions": {
                             gui.getItems("close").setClickHandler(new GUI.CloseGuiRunnable());
                             gui.getItems("encamp").setClickHandler((session, action, evt) -> {
-                                if(army.isActive){
-                                    SimpleLocation loc = army.mob.getLocation().getBlockLocation();
-                                    while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
-                                        loc = loc.getRelative(0, 1, 0);
-                                    }
-                                    if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
-                                    ArmyCamp c = new ArmyCamp();
-                                    army.unregister();
-                                    c.stack = army.stack;
-                                    c.location = loc;
-                                    army.stack.curHolder = c;
-                                    c.place();
-                                    army.mob.remove();
-                                }
+                                army.encamp();
                             });
                             if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation()) == Relation.ENEMY){
                                 gui.getItems("invade").setClickHandler((session, action, evt) -> {
                                     if(army.isActive){
                                         if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation())== Relation.ENEMY) {
-                                            SimpleLocation loc = army.mob.getLocation().getBlockLocation();
-                                            while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
-                                                loc = loc.getRelative(0, 1, 0);
-                                            }
-                                            if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
-                                            InvasionFlag c = new InvasionFlag();
-                                            army.unregister();
-                                            c.stack = army.stack;
-                                            c.location = loc;
-                                            army.stack.curHolder = c;
-                                            c.place();
-                                            army.mob.remove();
-                                            player.getPlayer().closeInventory();
+                                            army.encamp();
                                         }
                                     }
                                 });

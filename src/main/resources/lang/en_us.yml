@@ -1,0 +1,374 @@
+# This is the language file of the plugin
+# You shouldn't be adding/removing items from this file, but you can always edit its values.
+# Most of the messages supports both minimessage and bukkit & color format, while some only supports the bukkit color codes.
+
+# These are terms that are used across the plugin. If possible, please don't add color codes in variables in this section.
+term:
+  nation: "Nation"
+  town: "Town"
+  town-role:
+    mayor: "Mayor"
+    manager: "Manager"
+    resident: "Resident"
+    greencard: "Greencard"
+    none: "None"
+
+structure:
+  towncore:
+    hologram: "&8-= %nation_color%%town% &7- &bTown Core &8=-"
+  graveyard:
+    hologram: "&8-= &bGraveyard &8=-"
+  spiderweb:
+    hologram: "&8-= &bSpiderweb &8=-"
+  ominous-outpost:
+    hologram: "&8-= &bOminous Outpost &8=-"
+  granary:
+    hologram: "&8-= &bGranary &7(%supply%/%max_supply% &e🌾&7) &8=-"
+  outpost:
+    hologram: "&8-= &bOutpost &8=-"
+    already-exists: "&cThere is already an outpost in this chunk!"
+  townruin:
+    hologram: "&8-= &8%town% Ruins &8=-"
+    message:
+      claimed: "<red>This chunk has been claimed by another nation!"
+      no_nation: "<red>You don't have a nation! Use <yellow>/n create nation_name<red> to create one here!"
+      interact: "<#2288ff>SHIFT+click this block to create a town here! <red>(Costs %cost% gold)"
+
+# These are messages that will be displayed when players execute specific commands.
+command: 
+  success:
+    nation-created: "<#2288ff>Successfully created nation <#00ddff>%name% <#2288ff>!"
+    join-nation: "<#2288ff>Successfully joined <#00ddff>%nation_name%<#2288ff>!"
+    chunk-claimed: "<#2288ff>Successfully claimed chunk"
+    chunk-unclaimed: "<#2288ff>Successfully unclaimed chunk"
+    claimed-chunks: "<#2288ff>Successfully claimed %count% chunks"
+    town-chunk-claimed: "<#2288ff>Successfully claimed this town chunk"
+    town-chunk-unclaimed: "<#2288ff>Successfully unclaimed this town chunk"
+    sent-join-request: "<#2288ff>Successfully requested to join %nation%!"
+    color-changed: "<#2288ff>Successfully changed nation color, try sending a message!"
+    town-created: "<#2288ff>Successfully created town <#00ddff>%name% <#2288ff>!"
+    give-item: "<#2288ff>Gave %player% item: %item%"
+    moved-core: "<#2288ff>Successfully moved the core!"
+    renamed-town: "<#2288ff>Successfully renamed the town!"
+    checked-holograms: "<#2288ff>Cleaned all unknown holograms!"
+    removed-town: "<#2288ff>Successfully removed town <#00ddff>%town% <#2288ff>!"
+    treaty-created: "<#2288ff>Successfully created treaty <#00ddff>%treaty%<#2288ff>! <u><click:run_command:/nation treaty view %treaty%>Click to edit</click></u>"
+    treaty-removed: "<#2288ff>Successfully removed treaty <#00ddff>%treaty%<#2288ff>!"
+  failed:
+    owner-cannot-leave: "<red>You are the nation leader, please <click:suggest_command:/nation rank >assign a new leader</click> or <click:suggest_command:/nation disband>disband the nation</click> before leaving!"
+    chunk-claim-failed: "<red>Failed to claim this chunk!"
+    chunk-claim-invalid-world: "<red>Cannot claim in this world!"
+    chunk-unclaim-failed: "<red>Failed to unclaim this chunk!"
+    chunk-not-belong-to-nation: "<red>This chunk doesn't belong to your nation!"
+    chunk-not-belong-to-town: "<red>This chunk doesn't belong to any town!"
+    chunk-not-adjacent-to-town: "<red>This chunk is not adjacent to the selected town!"
+    chunk-not-adjacent-to-any-town: "<red>This chunk is not adjacent to any town!"
+    cannot-unclaim-connecting-chunks: "<red>Cannot unclaim this chunk as it would break town connectivity!"
+    already-claimed-by-town: "<red>This chunk is already claimed by a town!"
+    already-claimed-by-nation: "<red>This chunk is already claimed by a nation!"
+    cannot-unclaim-core-chunk: "<red>Cannot unclaim core chunk, use <gray>/nation town nexus<red> to move the core first!"
+    invalid-rank: "<red>This rank doesn't exist!"
+    invalid-target: "<red>This player doesn't exist!"
+    town-not-exist: "<red>This town doesn't exist!"
+    nation-not-exist: "<red>This nation doesn't exist!"
+    player-already-in-nation: "<red>You are already in a nation!"
+    name-already-exists: "<red>This name is already taken!"
+    no-permission: "<red>You don't have permission to do this!"
+    player-not-in-nation: "<red>You are not in a nation! (Or your nation can't do this)"
+    chunk-already-claimed: "<red>This chunk is already claimed!"
+    chunk-not-claimed: "<red>This chunk is not claimed by you!"
+    nation-already-exists: "<red>A nation with this name already exists!"
+    town-name-exists: "<red>A town with this name already exists!"
+    no-available-chunk: "<red>No available chunks for this operation!"
+    player-in-gui: "<red>You are already using another GUI!"
+    unknown-subcommand: "<red>Unknown subcommand!"
+    not-enough-money: "<red>You don't have enough<u><click:run_command:/money>gold</click></u><red>! You need <yellow>%amount%</yellow> gold for this"
+    failed-create-nation: "<red>Failed to create nation!"
+    invalid-creation-location: "<red>Cannot create a town here!"
+    resolution-not-found: "<red>This resolution doesn't exist!"
+    resolution-not-signable: "<red>You can't sign this resolution!"
+    resolution-not-signed: "<red>You haven't signed this resolution yet!"
+    unknown-item-type: "<red>This item doesn't exist!"
+    not-in-town: "<red>You are not in a town!"
+    already-enemy: "<red>This nation is already your enemy!"
+    cannot-change-self-relation: "<red>Can't change relation with yourself!"
+    cannot-unclaim-invading: "<red>Can't unclaim a chunk that's being invaded!"
+    cannot-claim-adjacent-towns: "<red>Can't claim this chunk as it's adjacent to another town!"
+    name-length-invalid: "<red>Name is too short or too long!"
+    invalid-treaty: "<red>This treaty doesn't exist!"
+    unknown-term-type: "<red>Unknown treaty term!"
+    invalid-term-id: "<red>This treaty doesn't have this term ID!"
+    cannot-propose-empty-treaty: "<red>Can't propose an empty treaty!"
+    treaty-not-editing: "<red>This treaty is not being edited!"
+    treaty-cannot-sign: "<red>Your nation can't sign/veto this treaty!"
+    invalid-term-arguments: "<red>Invalid term arguments!"
+    invalid-nation-type: "<red>Unknown nation type!"
+    info-target-not-found: "<red>This nation/town doesn't exist!"
+    not-allied: "<red>This nation is not your ally!"
+    require-ruin: "<red>Towns must be built on existing ruins! Find a ruin and right-click to create a town!"
+    ruin-exists: "<red>There is already a ruin in this chunk!"
+    no-ruin-in-chunk: "<red>Nations must be built on existing ruins! Execute this command in a chunk with a ruin"
+    nomadic-nation-cannot-claim: "<red>Must have at least one town to claim chunks!"
+
+# These are messages that are related to nations.
+nation:
+  type:
+    gui-name: "&fGovernment: %type_name%"
+    gui-lore:
+      - "&7%type_description%"
+    monarchy:
+      name: "Monarchy"
+      description: "Centralized power ensures national stability"
+      material: YELLOW_WOOL
+    democracy:
+      name: "Democracy"
+      description: "Freedom, democracy, but is it really efficient?"
+      material: BLUE_WOOL
+    republic:
+      name: "Republic"
+      description: "A balance between reality and ideals"
+      material: ORANGE_WOOL
+    autocracy:
+      name: "Autocracy"
+      description: "All power to the ruler!"
+      material: RED_WOOL
+    anarchy:
+      name: "Anarchy"
+      description: "In the whirlpool of aimless politics, let's return power to the people"
+      material: BLACK_WOOL
+  rank: # NOT ORDERED, JUST TRANSLATIONS
+    king: "King"
+    general: "General"
+    knight: "Knight"
+    peasant: "Peasant"
+    member: "Member"
+    citizen: "Citizen"
+    leader: "Leader"
+    subject: "Subject"
+    representative: "Representative"
+    president: "President"
+    officer: "Officer"
+    dictator: "Dictator"
+  resolution:
+    proposed: "<#2288ff>Player<#00ddff> %proposer% <#2288ff>proposed a resolution: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(click to view)"
+    signed: "<green>[+] <#2288ff>Player<#00ddff> %signer% <#2288ff>approved resolution: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(click to view)"
+    unsigned: "<red>[-] <#2288ff>Player<#00ddff> %signer% <#2288ff>rejected resolution: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(click to view)"
+    passed: "<#2288ff>Resolution passed: <#00ddff><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click>"
+    cannot-propose: "<red>You can't propose this resolution!"
+    duplicate-exists: "<red>There is already an identical resolution: <#00ddff><u><click:run_command:/nation resolution info %resolution_id%>%resolution_name%</click></u> &7(click to view)"
+    list:
+      header: "&7----= <#2288ff>%nation% Resolutions &7=----"
+      no-resolution: "&l&7[&e!&7] &fYour nation has no active resolutions!"
+      item-with-permission: "&7- &f%content% <u><click:run_command:/nation resolution info %resolution_id%>&a[View]</click></u>"
+      item-no-permission: "&7- &f%content% <u><click:run_command:/nation resolution info %resolution_id%>&7[View]</click></u>"
+    info:
+      - "&7<click:run_command:/nation resolution list>[<] Back to resolutions</click>"
+      - "&7----= <#2288ff>%nation% Resolution &7=----"
+      - ""
+      - "&l%content%"
+      - ""
+      - "&7Proposer: &f%proposer%"
+      - "&7Signed: &f%signed_players_count% &7/ &f%required_signers%"
+      - "&7%signed_players%"
+      - "&a<click:run_command:/nation resolution sign %resolution_id%>[Approve]</click> &7| &c<click:run_command:/nation resolution decline %resolution_id%>[Reject]</click>"
+    info-no-permission:
+      - "&7<click:run_command:/nation resolution list>[<] Back to resolutions</click>"
+      - "&7----= <#2288ff>%nation% Resolution &7=----"
+      - ""
+      - "&l%content%"
+      - ""
+      - "&7Proposer: &f%proposer%"
+      - "&7Signed: &f%signed_players_count% &7/ &f%required_signers%"
+      - "&7%signed_players%"
+    description:
+      declare-war: "%from% declares war on %to%"
+      disband-nation: "Disband %nation%"
+      revoke-alliance: "%from% revokes alliance with %to%"
+      kick-player: "Kick %player% from %nation%"
+      join-nation: "Accept %requester% into %nation%"
+      set-rank: "Set %target% as %rank%"
+      rename-nation: "Rename %name% to %new_name%"
+      sign-treaty: "%nation% signs treaty: <hover:show_text:'/nation treaty view %treaty%'>%treaty%</hover>"
+      veto-treaty: "%nation% vetoes treaty: <hover:show_text:'/nation treaty view %treaty%'>%treaty%</hover>"
+      change-type: "%nation% changes government to %type%"
+
+map:
+  header: "&7----=[ &bRegion Map &7]=----"
+  footer: "&7-------------------"
+  town-char: "<hover:show_text:'%nation_name%, %town_name%'>%kingdom_color%▣</hover>"
+  nation-char: "<hover:show_text:'%nation_name%'>%kingdom_color%▨</hover>"
+  wild-char: "<hover:show_text:'&2Wilderness'>&8▩</hover>"
+  self-chars:
+    right: "<hover:show_text:'&f%player%'>&7‣</hover>"
+    down: "<hover:show_text:'&f%player%'>&7▾</hover>"
+    left: "<hover:show_text:'&f%player%'>&7◂</hover>"
+    up: "<hover:show_text:'&f%player%'>&7▴</hover>"
+town:
+  revolt-name: "%town_name% City-State"
+  wilderness: "&8-= &2Wilderness &8=-"
+  cannot-build: "&8You don't have permission to build here!"
+  cannot-fly: "&cYou don't have permission to fly here!"
+  teleport-countdown: "&7Teleporting in &e&l%timer% &r&7seconds..."
+  teleport-success: "&7Teleported successfully!"
+  teleport-canceled: "&cYou moved!"
+  gui-member-lore-no-permission:
+    - "&7Town permissions: &f%permission%"
+  gui-member-lore:
+    - "&7Town permissions: &f%permission%"
+    - "&c&lLeft click &cdecrease permission"
+    - "&a&lRight click &aincrease permission"
+    - "&7(Promoting a manager will make them the new mayor!)"
+  day-change: "&eUpdating town development values..."
+chat:
+  with_nation: "&8[%nation_color%%nation% %title%&8] %sender% ≫ &f%message%"
+  no_nation: "&f<%sender%> &f%message%"
+auto-claiming:
+  disabled-auto-claiming: "&cDisabled auto-claiming"
+  disabled-auto-unclaiming: "&cDisabled auto-unclaiming"
+  town-claim: "&aEnabled auto-claiming for towns"
+  claim: "&aEnabled auto-claiming"
+  town-unclaim: "&aEnabled auto-unclaiming for towns"
+  unclaim: "&aEnabled auto-unclaiming"
+  cannot-start-from-wild: "&cYou must start auto-claiming from a town chunk!"
+history:
+  broadcast-message: "&7&l[&b!&7] &r&f%content%"
+  nation-creation: "%player% founded nation %nation%"
+  declare-war: "%nation% declared war on %other_nation%"
+  nation-disband: "%nation% no longer exists"
+  nation-rename: "%nation% renamed to %new_name%"
+  town-creation: "%player% founded town %town% in %nation%"
+  town-sieged: "%nation% conquered %town%"
+info:
+  nation:
+    - "&7----= <b>%nation%</b> &7=----"
+    - ""
+    - "&7Ideology: &f%type%"
+    - "&7Size: &f%size%"
+    - "&7%leader_role_name%: &f%leader%"
+    - "&7Members: &f%members_count%"
+    - "&f%members%"
+    - "&aAllies:"
+    - "&f%allies%"
+    - "&cEnemies:"
+    - "&f%enemies%"
+  town:
+    - "&7----= <b>%nation% 的 %town%</b> &7=----"
+    - ""
+    - "&7Size: &f%size%"
+    - "&7Mayor: &f%leader%"
+treaty:
+  activated: "&l&7[&e!&7] &r<#00ddff>Treaty: <#00ddff><u><click:run_command:/nation treaty view %treaty%>%treaty%</click></u> is now active!"
+  signed: "&l&7[&e!&7] &r<#00ddff> %nation% <#2288ff>signed treaty: <#00ddff><u><click:run_command:/nation treaty view %treaty%>%treaty%</click></u> !"
+  vetoed: "&l&7[&e!&7] &r<#00ddff> %nation% <#2288ff>vetoed treaty: <#00ddff><u><click:run_command:/nation treaty view %treaty%>%treaty%</click></u> !"
+  submitted: "&l&7[&e!&7] &r<#2288ff>Player<#00ddff> %proposer% <#2288ff>submitted treaty: <#00ddff><u><click:run_command:/nation treaty view %treaty%>%treaty%</click></u> &7(click to view)"
+  display:
+    header:
+    - ""
+    - "&7----= <#2288ff>%treaty% &7=----"
+    - ""
+    status-active: "&7Status: &aActive"
+    status-pending: "&7Status: &ePending signatures"
+    status-editing: "&7Status: &cEditing"
+    footer-proposed:
+    - "&aSigned: &f%signed%"
+    - "&cNeeds signing: &f%waiting%"
+    sign-button: "<green><click:run_command:/nation treaty sign %treaty%>[Sign]</click></green> "
+    signed-button: "<gray>[Signed]</gray> "
+    veto-button: "&7| <red><click:run_command:/nation treaty veto %treaty%>[Veto]</click></red> "
+
+    add-term-button: "<green><click:suggest_command:/nation treaty addterm %treaty% >[+] Add term</click></green> "
+    submit-button: "<green><click:run_command:/nation treaty submit %treaty%>[✅] Submit treaty </click></green> "
+    delete-button: "<red><click:run_command:/nation treaty remove %treaty%>[🗑] Delete treaty </click></red> "
+    editing-term: "&c<click:run_command:/nation treaty removeterm %treaty% %id%>[-]</click> &7%id%. %content%"
+
+    normal-term: "&7%id%. %content%"
+    cannot-execute-term: "&7%id%. <st><hover:show_text:'<red>This term cannot be executed, treaty cannot pass!'>%content%</hover></st>"
+    affected-term: "&7%id%. &f%content%"
+
+  term:
+    peace: "%from% makes peace with %target%"
+    ally: "%from% allies with %target%"
+
+combat:
+  stack-name: "&f%nation%'s Army &7(%count% units)"
+  stack-lore:
+    - "&8| &7%health%/%max_health%&c❤"
+    - "&8| &7%supply%/%max_supply%&e🌾 %supply_change%&7/30m"
+    - "&8| &7%damage_unarmed%&b🗡&7 ➡ &8🚶 &fRegular Infantry"
+    - "&8| &7%damage_armored%&b🗡&7 ➡ &8🛡 &fArmored Infantry"
+    - "&8| &7%damage_territory%&b🗡&7 ➡ &8🏴 &fTerritory"
+  transport-name: "&e&l%nation% &fArmy &r&7 (%units% units) &e%hp%&7/%mxhp%&c❤"
+  transport-too-far: "&8[&4!&8] &cWarning: Unit is too far from you!"
+  transport-destroyed: "&8[&4!&8] &cUnit has been destroyed!"
+  camp-name: "&e&l%nation% &fCamp &r&7 (%units% units)"
+  invasion-name: "&e&l%nation% &cInvasion &r&7 (%units% units)"
+  siege-name: "&e&l%nation% &cSiege on %town% &r&7 (%units% units)"
+  defender-name: "&l%nation% &7's &f%type%"
+
+  invalid-selection: "&cSelected units exceed what you own! Try selecting again..."
+  cannot-move-unit-during-combat: "&cCannot move units during combat!"
+  cannot-break-camps-in-nation: "&cCannot break camps in allied territory!"
+
+  item-not-edible: "&cThis item cannot be converted to supplies!"
+
+  next-update-bossbar: "&cNext combat update:&e %timer%"
+
+  breakage:
+    failed: "&cFailed to destroy enemy forces!"
+    success: "&aCamp has been destroyed!"
+  progress:
+    invasion:
+      attack:
+        name: "&cAttacker: %attacker%"
+        lore:
+        - "&fNext attack: &7%next_attack%"
+        - "&f%health% &c❤ &7| &f%damage% &b🗡&7➡🏴"
+      defend:
+        name: "&bDefender: %defender%'s chunk %chunk%"
+        lore:
+          - "&fDefending..."
+          - "&f%health% &c❤"
+      town:
+        name: "&bDefender: %defender%, %town%"
+        lore:
+          - "&fDefending..."
+          - "&f%health%/%max_health% &c❤"
+  training:
+    progress-item:
+      name: "&fTraining &b%type% &f..."
+      lore:
+        - "&7Time left &f%time%"
+  unit:
+    selecting-item-lore:
+      - "&f%health%&7/%max_health% &c❤"
+      - "&fSelected %count%&7/&f%total%"
+      - "&a+ &fLeft click to add"
+      - "&c- &fRight click to remove"
+    item-lore:
+      - "&f%health%&7/%max_health% &c❤"
+item:
+  cannot-enchant: "<red>This item cannot be modified!"
+  recipe:
+    crafting:
+      name: "&fCrafting &7(Workbench)"
+      lore:
+        - "&fCrafted in workbench"
+    smelting:
+      name: "&fSmelting &7(Furnace)"
+      lore:
+        - "&fSmelted in furnace"
+        - "&fTime: &7%smelting-time% s"
+bluemap:
+  markerset:
+    nation: "Nation Territory"
+    town: "Town Territory"
+    poi: "Points of Interest"
+  camp-title: "%nation%'s Camp (%size% units, %health%/%max_health%)"
+  invasion-title: "<span style='color: red'>%nation%'s Invasion (%size% units, %health%/%max_health%)</span>"
+  siege-title: "<span style='color: red'>%nation%'s Siege on %town% (%size% units, %health%/%max_health%)</span>"
+
+admin:
+  configuration-format-error: "&cInvalid configuration format!"
+  configuration-format-error-with-loc: "&cInvalid configuration format @%file%, %line%!"
+  reloading: "&3Reloading &bBetterNations &3..."
+  reloaded: "&3Successfully loaded &bBetterNations &3!"

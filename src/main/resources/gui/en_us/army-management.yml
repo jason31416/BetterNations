@@ -1,0 +1,231 @@
+transport-army:
+  window:
+    title: "&7-= &rArmy Transport &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    army-overview:
+      name: ""
+      material: GLASS_PANE
+      slot: 4
+    action-page:
+      name: "&aActions"
+      material: LIME_WOOL
+      slot: 8
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+transport-actions:
+  window:
+    title: "&7-= &rArmy Transport &7- &rActions &7=-"
+    size: 27
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    encamp:
+      name: "&aEncamp"
+      material: LIME_STAINED_GLASS
+      slot: 10
+    invade:
+      name: "&cInvade Chunk"
+      material: RED_BANNER
+      slot: 11
+    siege:
+      name: "&cSiege Town: &6%town%"
+      material: DISPENSER
+      slot: 12
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+join-camped:
+  window:
+    title: "&7-= &rCamp &7- &rDeposit &7=-"
+    size: 27
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    info:
+      name: "&fAvailable Units Nearby"
+      lore:
+        - "&7Within 3 blocks"
+      material: PAPER
+      slot: 4
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+combat-overview:
+  window:
+    title: "&7-= &rCamp &7- &rDeposit &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 5, 6, 7, 8, 9, 13, 22, 31, 40, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    info:
+      name: "&cIn Combat..."
+      material: PAPER
+      slot: 4
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+camped-army:
+  window:
+    title: "&7-= &rCamp &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 4, 6, 7, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    army-overview:
+      name: ""
+      material: GLASS_PANE
+      slot: 3
+    combat-overview:
+      name: "&cCombat Overview"
+      material: GOLDEN_SWORD
+      slot: 5
+    action-page:
+      name: "&aActions"
+      material: LIME_WOOL
+      slot: 8
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+camped-actions:
+  window:
+    title: "&7-= &rCamp &7- &rActions &7=-"
+    size: 27
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    extract:
+      name: "&aExtract"
+      material: ZOMBIE_HEAD
+      slot: 10
+    split:
+      name: "&aSplit"
+      material: TRIDENT
+      slot: 11
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+camped-split:
+  window:
+    title: "&7-= &rCamp &7- &rSelect &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    army-overview:
+      name: ""
+      material: GLASS_PANE
+      slot: 4
+    confirm:
+      name: "&a&lConfirm"
+      material: LIME_WOOL
+      slot: 8
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+invasion-main:
+  window:
+    title: "&7-= &rInvasion &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 9, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    army-overview:
+      name: ""
+      material: GLASS_PANE
+      slot: 22
+    action-page:
+      name: "&aActions"
+      material: LIME_WOOL
+      slot: 8
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+invasion-actions:
+  window:
+    title: "&7-= &rInvasion &7- &rActions &7=-"
+    size: 27
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    extract:
+      name: "&eRetreat"
+      lore:
+        - "&fClick to withdraw forces"
+        - "&7Note: When no units are attacking this chunk, its HP will immediately fully regenerate!"
+      material: WHITE_BANNER
+      slot: 10
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+siege-main:
+  window:
+    title: "&7-= &rSiege on %town% &7=-"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 9, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    army-overview:
+      name: ""
+      material: GLASS_PANE
+      slot: 22
+    action-page:
+      name: "&aActions"
+      material: LIME_WOOL
+      slot: 8
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0
+siege-actions:
+  window:
+    title: "&7-= &rSiege on %town% &7- &rActions &7=-"
+    size: 27
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    extract:
+      name: "&eRetreat"
+      lore:
+        - "&fClick to withdraw forces"
+        - "&7Note: When no units are attacking this chunk, its HP will immediately fully regenerate!"
+      material: WHITE_BANNER
+      slot: 10
+    close:
+      name: "&cClose"
+      material: BARRIER
+      slot: 0

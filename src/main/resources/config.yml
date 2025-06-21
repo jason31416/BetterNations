@@ -4,7 +4,7 @@
 
 # The language of the plugin
 # Please make sure the file exists in the /lang folder
-lang: zh_cn
+lang: en_us
 
 naming:
   min-length: 3
@@ -16,7 +16,7 @@ enabled-worlds: # This option controls worlds that enable claiming. Set it to []
 # Nation-related settings
 nation:
   creation-cost: 1000 # The cost of creating a nation
-  capital-name: "%nation%首都"
+  capital-name: "%nation% Capital"
   claim-cost: 10 # The cost of claiming a chunk
   unclaim-refund: 8 # The refund of unclaiming a chunk
   prevent-unfriendly-elytra: true # Should we stop unfriendly players from flying in claimed chunks
@@ -44,27 +44,27 @@ town:
     block-place: 1.0 # per block placed
   levels: # In fact, you can even create your own levels! However please make sure that all of their points are distinct.
     wildland:
-      name: "荒野"
+      name: "Wildland"
       points: 0.0
       material: GRASS_BLOCK
     settlement:
-      name: "聚居地"
+      name: "Settlement"
       points: 30.0
       material: CAMPFIRE
     village:
-      name: "村庄"
+      name: "Village"
       points: 500.0
       material: OAK_PLANKS
     town:
-      name: "小镇"
+      name: "Town"
       points: 4500.0
       material: STONE_BRICKS
     city:
-      name: "城市"
+      name: "City"
       points: 13500.0
       material: IRON_BLOCK
     metropolis:
-      name: "都市"
+      name: "Metropolis"
       points: 42500.0
       material: DIAMOND_BLOCK
 

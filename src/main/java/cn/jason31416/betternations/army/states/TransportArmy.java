@@ -78,6 +78,22 @@ public class TransportArmy implements ArmyStackHolder {
         unregister();
         if(doKill) mob.remove();
     }
+    public void encamp(){
+        if(isActive){
+            SimpleLocation loc = mob.getLocation().getBlockLocation();
+            while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
+                loc = loc.getRelative(0, 1, 0);
+            }
+            if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
+            ArmyCamp c = new ArmyCamp();
+            unregister();
+            c.stack = stack;
+            c.location = loc;
+            stack.curHolder = c;
+            c.place();
+            mob.remove();
+        }
+    }
     public ArmyStack getStack() {
         return stack;
     }

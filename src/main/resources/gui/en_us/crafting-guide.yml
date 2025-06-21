@@ -1,0 +1,107 @@
+item-categories:
+  window:
+    title: "&3BetterNations &8Recipe Guide"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 46, 47, 48, 49, 50, 51, 52]
+    nextpage:
+      name: "&b&lNext Page"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 53
+    prevpage:
+      name: "&b&lPrevious Page"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 45
+    close:
+      name: "&cClose Menu"
+      material: BARRIER
+      slot: 0
+custom-items:
+  window:
+    title: "&8Recipe Guide &7- &8%category%"
+    size: 54
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 46, 47, 48, 49, 50, 51, 52]
+    nextpage:
+      name: "&b&lNext Page"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 53
+    prevpage:
+      name: "&b&lPrevious Page"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 45
+    close:
+      name: "&cClose Menu"
+      material: BARRIER
+      slot: 0
+recipe-display:
+  window:
+    title: "&8Recipe Guide &7- &8%category% &7- &8%item%"
+    size: 45
+  container:
+    border:
+      name: " "
+      material: GRAY_STAINED_GLASS_PANE
+      slots: [1, 2, 3, 4, 5, 6, 7, 8, 37, 38, 39, 40, 41, 42, 43]
+    slot1-1:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 9
+    slot1-2:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 10
+    slot1-3:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 11
+    slot2-1:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 18
+    slot2-2:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 19
+    slot2-3:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 20
+    slot3-1:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 27
+    slot3-2:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 28
+    slot3-3:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 29
+    product:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 25
+    process:
+      name: " "
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+      slot: 22
+    nextpage:
+      name: "&b&lNext Item"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 44
+    prevpage:
+      name: "&b&lPrevious Item"
+      material: LIME_STAINED_GLASS_PANE
+      slot: 36
+    back:
+      name: "&cBack"
+      material: BARRIER
+      slot: 0
