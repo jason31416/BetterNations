@@ -2,6 +2,7 @@ package cn.jason31416.betternations.structure;
 
 import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.nation.Permission;
+import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.betternations.structure.types.Outpost;
 import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.item.CustomItemType;
@@ -127,6 +128,9 @@ public class StructureListener implements Listener {
                         ps.location = loc.getBlockLocation();
                         if(ps instanceof UnitProductionStructure ups){
                             ups.type = ItemType.getItemType(hand).getName().toLowerCase();
+                        }
+                        if(ps instanceof Machinery m){
+                            m.type = ItemType.getItemType(hand).getName().toLowerCase();
                         }
                         if((ps instanceof Outpost o)&&Outpost.outposts.contains(o.location.getChunkLocation())){
                             player.sendMessage(Message.getMessage("structure.outpost.already-exists"));

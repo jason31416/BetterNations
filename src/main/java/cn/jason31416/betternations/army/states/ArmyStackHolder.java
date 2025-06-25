@@ -6,5 +6,4 @@ import cn.jason31416.planetlib.wrapper.SimpleLocation;
 public interface ArmyStackHolder {
     ArmyStack getStack();
     SimpleLocation getLocation();
-    void update();
 }

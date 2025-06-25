@@ -70,11 +70,6 @@ public abstract class StructuredArmy extends AbstractStructure implements ArmySt
     }
 
     @Override
-    public void update() {
-        // todo: update camps
-    }
-
-    @Override
     public boolean serialize(IDataItem dataItem) {
         if(!stack.nation.exists()) return false;
         stack.serialize(dataItem);

@@ -1,6 +1,7 @@
 package cn.jason31416.betternations.structure;
 
 import cn.jason31416.betternations.structure.types.Granary;
+import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.betternations.structure.types.Outpost;
 import cn.jason31416.planetlib.item.ItemType;
 

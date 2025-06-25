@@ -33,9 +33,30 @@ structure:
       claimed: "<red>This chunk has been claimed by another nation!"
       no_nation: "<red>You don't have a nation! Use <yellow>/n create nation_name<red> to create one here!"
       interact: "<#2288ff>SHIFT+click this block to create a town here! <red>(Costs %cost% gold)"
+  machinery:
+    progress-item:
+      active:
+        name: "&aProducing..."
+        lore:
+          - "&7Time left: &a%time%"
+      inactive:
+        name: "&fIdle"
+        lore: []
+    input: "&aInput"
+    output: "&bOutput"
+
+  # Messages for the default machines
+  refinery:
+    hologram: "&bRefinery"
+  alloy-foundry:
+    hologram: "&8Alloy Forge"
+  grinder:
+    hologram: "&7Grinder"
+  soul-extractor:
+    hologram: "&aSoul Extractor"
 
 # These are messages that will be displayed when players execute specific commands.
-command: 
+command:
   success:
     nation-created: "<#2288ff>Successfully created nation <#00ddff>%name% <#2288ff>!"
     join-nation: "<#2288ff>Successfully joined <#00ddff>%nation_name%<#2288ff>!"
@@ -358,6 +379,11 @@ item:
       lore:
         - "&fSmelted in furnace"
         - "&fTime: &7%smelting-time% s"
+    machinery:
+      lore:
+        - "&fTime: &7%time% s"
+
+
 bluemap:
   markerset:
     nation: "Nation Territory"

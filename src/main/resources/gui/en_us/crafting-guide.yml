@@ -42,7 +42,7 @@ custom-items:
       slot: 0
 recipe-display:
   window:
-    title: "&8Recipe Guide &7- &8%category% &7- &8%item%"
+    title: "&8Recipe Guide &7- &8%item%"
     size: 45
   container:
     border:

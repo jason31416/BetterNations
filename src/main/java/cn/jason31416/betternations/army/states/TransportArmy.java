@@ -51,7 +51,7 @@ public class TransportArmy implements ArmyStackHolder {
                     curPenalty += 0.02;
                 }else curPenalty = 0.1;
                 if(!player.getLocation().world().equals(mob.getLocation().world())||player.getLocation().getBukkitLocation().distance(mob.getLocation().getBukkitLocation()) >= Config.getDouble("combat.transport-max-distance")){
-                    destroy();
+                    encamp();
                 }else if(player.getLocation().getBukkitLocation().distance(mob.getLocation().getBukkitLocation()) >= Config.getDouble("combat.transport-warn-distance")&
                        System.currentTimeMillis()-lstwarn>750){
                     Message.getMessage("combat.transport-too-far").send(player);
@@ -69,9 +69,6 @@ public class TransportArmy implements ArmyStackHolder {
         }
         runnable.cancel();
         isActive = false;
-    }
-    public void update(){ // This updater essentially checks for combat, etc.
-        // todo: update transport army
     }
     public void destroy(boolean doKill){
         Message.getMessage("combat.transport-destroyed").send(player);

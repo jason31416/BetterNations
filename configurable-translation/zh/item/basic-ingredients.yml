@@ -1,3 +1,5 @@
+# 别动这个文件 绝对别
+
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
 categories:
   ingredient:
@@ -383,3 +385,6 @@ recipes:
     ingredient: raw-nether-gold
     exp: 1.0
     time: 350
+
+
+    

@@ -1,6 +1,7 @@
 package cn.jason31416.betternations.command.misc;
 
 import cn.jason31416.betternations.manager.ItemCraftingManager;
+import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
@@ -181,6 +182,30 @@ public class CraftingGuideCommand extends ChildCommand {
                                             session.display("recipe-display");
                                         }
                                     });
+                            gui.getItems("slot1-1").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
+                            gui.getItems("slot1-2").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
+                            gui.getItems("slot1-3").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
+                            gui.getItems("slot2-1").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
+                            gui.getItems("slot2-3").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
+                            gui.getItems("slot3-1").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
+                            gui.getItems("slot3-2").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
+                            gui.getItems("slot3-3").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
+                        }else if(recipes.get(recipePage) instanceof Machinery.Recipe recipe){
+                            gui.getItems("process")
+                                    .setName(Message.getMessage("structure."+recipe.machineryType+".hologram").toString())
+                                    .setMaterial(Machinery.materialMap.get(recipe.machineryType))
+                                    .setLore(MessageLoader.getList("item.recipe.machinery.lore")
+                                        .add("time", recipe.duration)
+                                        .asList());
+                            gui.getItems("slot2-2").setItemStack(recipe.ingredient.getItemStack());
+                            gui.getItems("slot2-2").setClickHandler((session, action, clicktype) -> {
+                                if (ItemType.getItemType(recipe.ingredient.getItemStack()) instanceof CustomItemType tp) {
+                                    selectedType = tp;
+                                    recipePage = 0;
+                                    session.display("recipe-display");
+                                }
+                            });
+
                             gui.getItems("slot1-1").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
                             gui.getItems("slot1-2").setMaterial(Material.WHITE_STAINED_GLASS_PANE);
                             gui.getItems("slot1-3").setMaterial(Material.WHITE_STAINED_GLASS_PANE);

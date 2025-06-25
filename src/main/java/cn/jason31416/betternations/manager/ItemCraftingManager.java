@@ -1,6 +1,9 @@
 package cn.jason31416.betternations.manager;
 
 import cn.jason31416.betternations.BetterNations;
+import cn.jason31416.betternations.structure.PlaceableStructure;
+import cn.jason31416.betternations.structure.types.Machinery;
+import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.InvalidConfigurationException;
 import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.item.*;
@@ -92,6 +95,20 @@ public class ItemCraftingManager {
             }
         }
     }
+    public static void loadMachineries(ConfigurationSection section){
+        for(String i: section.getKeys(false)){
+            try{
+                ConfigurationSection machinery = section.getConfigurationSection(i);
+                if(machinery == null) throw new InvalidConfigurationException("item.yml", i);
+                Machinery.materialMap.put(i, Objects.requireNonNull(Material.getMaterial(machinery.getString("material", "").toUpperCase()), "Material is not found!"));
+                Machinery.recipes.put(i, new HashMap<>());
+                PlaceableStructure.registerClass(i, Machinery.class);
+            }catch (Exception e){
+                Message.getMessage("admin.configuration-format-error-with-loc").add("file", "items").add("line", "Machinery "+i).send(Bukkit.getConsoleSender());
+                e.printStackTrace();
+            }
+        }
+    }
     public static void loadRecipes(ConfigurationSection section){
         for(String i: section.getKeys(false)){
             try{
@@ -120,6 +137,20 @@ public class ItemCraftingManager {
                             section.getInt(i+".time")
                     );
                     recipe.register();
+                    List<SimpleRecipe> allrec = recipes.get(productType);
+                    if(allrec==null) allrec=new ArrayList<>();
+                    allrec.add(recipe);
+                    recipes.put(productType, allrec);
+                }else if(Machinery.recipes.containsKey(section.getString(i+".type", "crafting"))){
+                    Machinery.Recipe recipe = new Machinery.Recipe(ItemType.getItemType(section.getString(i+".ingredient", "")),
+                            ItemType.getItemType(section.getString(i+".product", "")),
+                            section.getInt(i+".time", 1),
+                            section.getInt(i+".product-count", 1),
+                            section.getString(i+".type", "crafting"));
+                    Machinery.recipes.get(section.getString(i+".type", "crafting")).put(section.getString(i+".ingredient"),
+                            recipe
+                    );
+                    ItemType productType = ItemType.getItemType(section.getString(i+".product", ""));
                     List<SimpleRecipe> allrec = recipes.get(productType);
                     if(allrec==null) allrec=new ArrayList<>();
                     allrec.add(recipe);
@@ -164,6 +195,20 @@ public class ItemCraftingManager {
                 if(fl.isConfigurationSection("items")){
                     loadItems(Objects.requireNonNull(fl.getConfigurationSection("items")));
                     BetterNations.instance.getLogger().info("\033[36m- Loaded "+fl.getConfigurationSection("items").getKeys(false).size()+" items from "+file.getName()+"!\033[0m");
+                }
+            }
+        }
+        for(File file: dir.listFiles()){
+            if(file.isFile() && file.getName().endsWith(".yml")){
+                YamlConfiguration fl;
+                try {
+                    fl = YamlConfiguration.loadConfiguration(file);
+                }catch (Exception e){
+                    throw new RuntimeException("Unable to load items for BetterNations!");
+                }
+                if(fl.isConfigurationSection("machinery")){
+                    loadMachineries(Objects.requireNonNull(fl.getConfigurationSection("machinery")));
+                    BetterNations.instance.getLogger().info("\033[36m- Loaded "+fl.getConfigurationSection("machinery").getKeys(false).size()+" machinery from "+file.getName()+"!\033[0m");
                 }
             }
         }

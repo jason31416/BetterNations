@@ -4,48 +4,90 @@ categories:
     name: "&b&lStructures"
     material: green_concrete
 
+machinery:
+  refinery:
+    material: iron_block
+  alloy-foundry:
+    material: nether_bricks
+  grinder:
+    material: grindstone
+  soul-extractor:
+    material: obsidian
+
 items: # You can create your own items!
+  refinery:
+    material: iron_block
+    name: "&b&lRefinery"
+    lore:
+      - "&7Structure for refining resources such as fuel"
+      - "&7Right-click to place"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
+  alloy-foundry:
+    material: nether_bricks
+    name: "&b&lAlloy Foundry"
+    lore:
+      - "&7Structure for producing alloys"
+      - "&7Right-click to place"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
+  grinder:
+    material: grindstone
+    name: "&b&lGrinder"
+    lore:
+      - "&7Structure for grinding resources"
+      - "&7Right-click to place"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
+  soul-extractor:
+    material: obsidian
+    name: "&b&lSoul Extractor"
+    lore:
+      - "&7Structure for extracting souls from undead"
+      - "&7Right-click to place"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
   graveyard:
     material: mossy_stone_bricks
     name: "&b&lUndead Graveyard"
     lore:
       - "&7Structure for producing undead units"
-      - "&7Right-click to place (must be placed within town territory)"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
-    model: 31437
   spiderweb:
     material: cobweb
     name: "&b&lSpider Web"
     lore:
       - "&7Structure for producing arthropod units"
-      - "&7Right-click to place (must be placed within town territory)"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
-    model: 31438
   ominous-outpost:
     material: dark_oak_wood
     name: "&b&lPillager Outpost"
     lore:
       - "&7Structure for producing illager units"
-      - "&7Right-click to place (must be placed within town territory)"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
-    model: 31439
   granary:
     material: hay_block
     name: "&b&lGranary"
     lore:
       - "&7Provides supplies to troops and production structures in the chunk"
       - "&7Convert food into supply points by right-clicking on the structure with food in hand"
-      - "&7Right-click to place (must be placed within town territory)"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
-    model: 31440
   outpost:
     material: bell
     name: "&b&lOutpost"
@@ -55,10 +97,52 @@ items: # You can create your own items!
       - ""
       - "&8[BetterNations Structure]"
     category: structure
-    model: 31441
 
 # Recipes don't need translation as they use material codes
 recipes:
+  refinery:
+    type: crafting
+    product: refinery
+    shape:
+      - " s "
+      - " s "
+      - "ici"
+    material:
+      i: iron_block
+      s: steel
+      c: machine-core
+  grinder:
+    type: crafting
+    product: grinder
+    shape:
+      - " s "
+      - "sgs"
+    material:
+      s: steel
+      g: grindstone
+  alloy-foundry:
+    type: crafting
+    product: alloy-foundry
+    shape:
+      - "i i"
+      - "ili"
+      - "bcb"
+    material:
+      i: iron_block
+      l: lava_bucket
+      b: reinforced-bricks
+      c: magma_block
+  soul-extractor:
+    type: crafting
+    product: soul-extractor
+    shape:
+      - "w w"
+      - "owo"
+      - " c "
+    material:
+      w: wood
+      c: cauldron
+      o: obsidian
   outpost:
     type: crafting
     product: outpost

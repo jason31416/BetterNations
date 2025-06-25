@@ -6,7 +6,7 @@
 
     <groupId>cn.jason31416</groupId>
     <artifactId>BetterNations</artifactId>
-    <version>ALPHA-2.7.1</version>
+    <version>ALPHA-2.7.2</version>
     <packaging>jar</packaging>
 
     <name>BetterNations</name>
@@ -41,49 +41,49 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.github.wvengen</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>proguard</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <options> <!-- 详细配置方式参考 ProGuard 官方文档 -->
-                        <option>-ignorewarnings</option> <!--忽略所有告警-->
-                        <option>-dontshrink</option>   <!--不做 shrink -->
-                        <option>-dontoptimize</option> <!--不做 optimize -->
-                        <option>-dontskipnonpubliclibraryclasses</option>
-                        <option>-dontskipnonpubliclibraryclassmembers</option>
+<!--            <plugin>-->
+<!--                <groupId>com.github.wvengen</groupId>-->
+<!--                <artifactId>proguard-maven-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>proguard</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <options> &lt;!&ndash; 详细配置方式参考 ProGuard 官方文档 &ndash;&gt;-->
+<!--                        <option>-ignorewarnings</option> &lt;!&ndash;忽略所有告警&ndash;&gt;-->
+<!--                        <option>-dontshrink</option>   &lt;!&ndash;不做 shrink &ndash;&gt;-->
+<!--                        <option>-dontoptimize</option> &lt;!&ndash;不做 optimize &ndash;&gt;-->
+<!--                        <option>-dontskipnonpubliclibraryclasses</option>-->
+<!--                        <option>-dontskipnonpubliclibraryclassmembers</option>-->
 
-                        <option>-keep class cn.jason31416.betternations.BetterNations { *; }</option>
+<!--                        <option>-keep class cn.jason31416.betternations.BetterNations { *; }</option>-->
 
-                        <option>-keep class cn.jason31416.betternations.structure.types.* { *; }</option>
-                        <option>-keep class cn.jason31416.betternations.army.states.ArmyCamp { *; }</option>
-                        <option>-keep class cn.jason31416.betternations.army.states.SiegeFlag { *; }</option>
-                        <option>-keep class cn.jason31416.betternations.army.states.InvasionFlag { *; }</option>
+<!--                        <option>-keep class cn.jason31416.betternations.structure.types.* { *; }</option>-->
+<!--                        <option>-keep class cn.jason31416.betternations.army.states.ArmyCamp { *; }</option>-->
+<!--                        <option>-keep class cn.jason31416.betternations.army.states.SiegeFlag { *; }</option>-->
+<!--                        <option>-keep class cn.jason31416.betternations.army.states.InvasionFlag { *; }</option>-->
 
-                        <!--JAXB NEED，具体原因不明，不加会导致 JAXB 出异常，如果不使用 JAXB 根据需要修改-->
-                        <!-- Jaxb requires generics to be available to perform xml parsing and without this option ProGuard was not retaining that information after obfuscation. That was causing the exception above. -->
+<!--                        &lt;!&ndash;JAXB NEED，具体原因不明，不加会导致 JAXB 出异常，如果不使用 JAXB 根据需要修改&ndash;&gt;-->
+<!--                        &lt;!&ndash; Jaxb requires generics to be available to perform xml parsing and without this option ProGuard was not retaining that information after obfuscation. That was causing the exception above. &ndash;&gt;-->
 
-                        <option>-keepattributes SourceFile,LineNumberTable,*Annotation*</option>
-                        <!--保持源码名与行号（异常时有明确的栈信息），注解（默认会过滤掉所有注解，会影响框架的注解）-->
+<!--                        <option>-keepattributes SourceFile,LineNumberTable,*Annotation*</option>-->
+<!--                        &lt;!&ndash;保持源码名与行号（异常时有明确的栈信息），注解（默认会过滤掉所有注解，会影响框架的注解）&ndash;&gt;-->
 
-                        <option>-keepclassmembers enum * { *;}</option>
-                        <!--保持枚举中的名子，确保枚举 valueOf 可以使用-->
+<!--                        <option>-keepclassmembers enum * { *;}</option>-->
+<!--                        &lt;!&ndash;保持枚举中的名子，确保枚举 valueOf 可以使用&ndash;&gt;-->
 
-                    </options>
-                    <injar>${project.build.finalName}.jar</injar>
-                    <outjar>${project.build.finalName}.jar</outjar>
-                    <libs>
-                        <lib>${java.home}/</lib>
-                    </libs>
-                </configuration>
-            </plugin>
+<!--                    </options>-->
+<!--                    <injar>${project.build.finalName}.jar</injar>-->
+<!--                    <outjar>${project.build.finalName}.jar</outjar>-->
+<!--                    <libs>-->
+<!--                        <lib>${java.home}/</lib>-->
+<!--                    </libs>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -213,7 +213,7 @@
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>2.13.1</version>
+            <version>2.15.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

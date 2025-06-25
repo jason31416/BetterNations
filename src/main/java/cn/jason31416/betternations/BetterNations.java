@@ -19,6 +19,7 @@ import cn.jason31416.betternations.structure.Hologram;
 import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.StructureListener;
 import cn.jason31416.betternations.structure.types.Granary;
+import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.Utils;
@@ -285,6 +286,7 @@ public final class BetterNations extends JavaPlugin {
                 }
             }
         }));
+
         UpdateCycle.registerTask("BetterNations.DayChange", new UpdateTask(86400*20, ()->{
             Message.getMessage("town.day-change").broadcast();
             for(Town i: Town.towns.values()){
@@ -292,6 +294,9 @@ public final class BetterNations extends JavaPlugin {
                 i.devPoints = Math.max(i.devPoints-Config.getDouble("town.dev-points.drop-per-day"), 0);
             }
         }));
+
+        UpdateCycle.registerTask("BetterNations.MachineryUpdate", new UpdateTask(20, Machinery::updateMachineries));
+
         new BetterNationsCommand().register();
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
         Bukkit.getPluginManager().registerEvents(new StructureListener(), this);
