@@ -24,6 +24,11 @@ town-core:
       lore:
         - "&7Click to manage"
       slot: 11
+    upgrades:
+      name: "&f&lTown Upgrades"
+      skull: "171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"
+      lore:
+        - "&7To be implemented..."
 town-members:
   window:
     title: "&7-= &r%town_name% &7- &bMember Permissions &7=-"
@@ -44,42 +49,4 @@ town-members:
     back:
       name: "&cBack"
       skull: "5d9c93f8b9f2f8f91aa4377551c2738002a78816d612f39f142fc91a3d713ad"
-      slot: 0
-nation-towns:
-  window:
-    title: "&7-= &r%nation% &7- &bTown Management &7=-"
-    size: 54
-  container:
-    border:
-      name: " "
-      material: GRAY_STAINED_GLASS_PANE
-      slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 46, 47, 48, 49, 50, 51, 52 ]
-    nextpage:
-      name: "&b&lNext Page"
-      material: LIME_STAINED_GLASS_PANE
-      slot: 53
-    prevpage:
-      name: "&b&lPrevious Page"
-      material: LIME_STAINED_GLASS_PANE
-      slot: 45
-    back:
-      name: "&cBack"
-      skull: "5d9c93f8b9f2f8f91aa4377551c2738002a78816d612f39f142fc91a3d713ad"
-      slot: 0
-nation-core:
-  window:
-    title: "&7-= &r%nation% &7=-"
-    size: 54
-  container:
-    border:
-      name: " "
-      material: GRAY_STAINED_GLASS_PANE
-      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
-    towns:
-      name: "&b&lTown Management"
-      material: OAK_SIGN
-      slot: 20
-    close:
-      name: "&cClose Menu"
-      material: BARRIER
       slot: 0

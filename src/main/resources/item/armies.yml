@@ -4,15 +4,28 @@ categories:
     material: zombie_head
 
 items:
-  zombie-equipment:
-    skull: "8288fcbda4ff85aca7ff21133d1afec9ee246dd923eca9bfd092f2333e66f"
-    name: "&fZombie &7Equipment"
+  basic-zombie-equipment:
+    skull: "56fc854bb84cf4b7697297973e02b79bc10698460b51a639c60e5e417734e11"
+    name: "&fBasic Zombie &7Equipment"
     lore:
       - "&8| &710&c❤ &7🚶"
-      - "&8| &70.02/28.8&e🌾"
+      - "&8| &70.01/22.0&e🌾"
+      - "&8| &70.5&b🗡&7 ➡ &8🚶 &fNormal Army"
+      - "&8| &70.1&b🗡&7 ➡ &8🛡 &fArmored Army"
+      - "&8| &70.5&b🗡&7 ➡ &8🏴 &fTerritory"
+      - ""
+      - "&8&o[Infantry · Undead]"
+      - "&7Train in &eUndead Graveyard"
+    category: unit
+  trained-zombie-equipment:
+    skull: "8288fcbda4ff85aca7ff21133d1afec9ee246dd923eca9bfd092f2333e66f"
+    name: "&fTrained Zombie &7Equipment"
+    lore:
+      - "&8| &710&c❤ &7🚶"
+      - "&8| &70.015/28.8&e🌾"
       - "&8| &73.0&b🗡&7 ➡ &8🚶 &fNormal Army"
       - "&8| &70.7&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.5&b🗡&7 ➡ &8🏴 &fTerritory"
+      - "&8| &70.7&b🗡&7 ➡ &8🏴 &fTerritory"
       - ""
       - "&8&o[Infantry · Undead]"
       - "&7Train in &eUndead Graveyard"
@@ -25,7 +38,7 @@ items:
       - "&8| &70.035/28.8&e🌾"
       - "&8| &74.0&b🗡&7 ➡ &8🚶 &fNormal Army"
       - "&8| &70.8&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.5&b🗡&7 ➡ &8🏴 &fTerritory"
+      - "&8| &70.7&b🗡&7 ➡ &8🏴 &fTerritory"
       - ""
       - "&8&o[Infantry · Undead]"
       - "&7Train in &eUndead Graveyard"
@@ -38,7 +51,7 @@ items:
       - "&8| &70.035/28.8&e🌾"
       - "&8| &73.0&b🗡&7 ➡ &8🚶 &fNormal Army"
       - "&8| &70.5&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.5&b🗡&7 ➡ &8🏴 &fTerritory"
+      - "&8| &70.7&b🗡&7 ➡ &8🏴 &fTerritory"
       - ""
       - "&8&o[Infantry · Undead]"
       - "&7Train in &eUndead Graveyard"
@@ -136,54 +149,121 @@ items:
     category: unit
 
 recipes:
-  zombie:
+  basic-zombie:
     type: crafting
-    product: zombie-equipment
+    product: basic-zombie-equipment
     shape:
-      - "uau"
-      - "edb"
-      - "ucu"
+      - "s"
+      - "u"
+      - "u"
     material:
       u: undead-essence
-      d: diamond
-      a: iron_helmet
-      c: iron_boots
+      s: steel-helmet
+  trained-zombie:
+    type: crafting
+    product: trained-zombie-equipment
+    shape:
+      - "u u"
+      - "eab"
+      - "u u"
+    material:
+      u: undead-essence
       e: iron_chestplate
-      b: steel-sword
+      a: steel-axe
+      b: steel-boots
   advanced-zombie:
     type: crafting
     product: advanced-zombie-equipment
     shape:
-      - " d "
+      - "t t"
       - "szs"
-      - "usu"
+      - "u u"
     material:
-      z: zombie-equipment
-      u: undead-essence
-      d: diamond_helmet
+      t: titanium-alloy
       s: steel-plate
+      z: trained-zombie-equipment
+      u: undead-essence
   zombified-piglin:
     type: crafting
     product: zombified-piglin-equipment
     shape:
-      - " d "
-      - "gzg"
-      - "ugu"
+      - "n u"
+      - "nzg"
+      - "n u"
     material:
-      z: zombie-equipment
+      n: nether-gold
+      g: golden_sword
+      z: trained-zombie-equipment
       u: undead-essence
-      d: golden_helmet
-      g: nether-gold
+  zombie-king:
+    type: crafting
+    product: zombie-king-equipment
+    shape:
+      - "r r"
+      - "kzc"
+      - "ucu"
+    material:
+      r: reinforced-alloy
+      k: machine-core
+      c: compressed-steel-plate
+      z: advanced-zombie-equipment
+      u: undead-essence
+  spider:
+    type: crafting
+    product: spider-equipment
+    shape:
+      - "s s"
+      - "tct"
+      - "s s"
+    material:
+      s: silk
+      t: titanium-alloy
+      c: cobweb
+  cave-spider:
+    type: crafting
+    product: cave-spider-equipment
+    shape:
+      - "kkk"
+      - "psp"
+      - "kkk"
+    material:
+      s: spider-equipment
+      p: undead-mixture
+      k: silk
   vindicator:
     type: crafting
     product: vindicator-equipment
     shape:
-      - "ede"
-      - "sui"
-      - " s "
+      - "e e"
+      - "sri"
+      - "sss"
     material:
       i: steel-axe
-      u: undead-essence
       s: steel-plate
+      r: reinforced-alloy
       e: emerald_block
-      d: diamond
+  armored-vindicator:
+    type: crafting
+    product: armored-vindicator-equipment
+    shape:
+      - "e e"
+      - "ava"
+      - "tst"
+    material:
+      e: emerald_block
+      a: reinforced-alloy
+      v: vindicator-equipment
+      s: compressed-steel-plate
+      t: titanium-alloy
+  ravager:
+    type: crafting
+    product: ravager-equipment
+    shape:
+      - "rvr"
+      - "sbs"
+      - "rsr"
+    material:
+      r: reinforced-alloy
+      b: blazing-alloy
+      v: vindicator-equipment
+      s: steel-chunk

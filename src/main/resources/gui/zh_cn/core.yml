@@ -6,7 +6,7 @@ town-core:
     border:
       name: " "
       material: GRAY_STAINED_GLASS_PANE
-      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+      slots: [0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
     info:
       slot: 4
       name: "&f%town_name%"
@@ -14,16 +14,17 @@ town-core:
       lore:
         - "&8| %nation% &f的 %level%"
         - "&8| %level_bar% &f%dev_points%&b💡&7/&f%next_level_points%&b💡&7➡%next_level%" # Do not delete this line and make sure its on the second line!!!
-    nation:
-      slot: 0
-      name: "&f返回 %nation%"
-      skull: "48fd7126cd670c7971a285734edfdd802572a72a3f05ea41ccda4943ba373471"
     members:
       name: "&f&l成员权限"
       skull: "733a9bf9861e6bff9104252fea99c717bdd3bc84fc11fffaede054f6e3ec1bbe"
       lore:
         - "&7点击管理"
       slot: 11
+    upgrades:
+      name: "&f&l城镇升级"
+      skull: "171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"
+      lore:
+        - "&7制作中..."
 town-members:
   window:
     title: "&7-= &r%town_name% &7- &r权限管理 &7=-"
@@ -44,42 +45,4 @@ town-members:
     back:
       name: "&c返回"
       skull: "5d9c93f8b9f2f8f91aa4377551c2738002a78816d612f39f142fc91a3d713ad"
-      slot: 0
-nation-towns: # todo
-  window:
-    title: "&7-= &r%nation% &7- &r城镇管理 &7=-"
-    size: 54
-  container:
-    border:
-      name: " "
-      material: GRAY_STAINED_GLASS_PANE
-      slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 46, 47, 48, 49, 50, 51, 52 ]
-    nextpage:
-      name: "&b&l下一页"
-      material: LIME_STAINED_GLASS_PANE
-      slot: 53
-    prevpage:
-      name: "&b&l上一页"
-      material: LIME_STAINED_GLASS_PANE
-      slot: 45
-    back:
-      name: "&c返回"
-      skull: "5d9c93f8b9f2f8f91aa4377551c2738002a78816d612f39f142fc91a3d713ad"
-      slot: 0
-nation-core:
-  window:
-    title: "&7-= &r%nation% &7=-"
-    size: 54
-  container:
-    border:
-      name: " "
-      material: GRAY_STAINED_GLASS_PANE
-      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
-    towns:
-      name: "&b&l城镇管理"
-      material: OAK_SIGN
-      slot: 20
-    close:
-      name: "&c关闭菜单"
-      material: BARRIER
       slot: 0

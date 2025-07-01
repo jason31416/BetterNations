@@ -34,6 +34,28 @@ structure:
       no_nation: "<red>你还没有一个国家！请使用<yellow>/n create 国名<red>在此创建国家!"
       interact: "<#2288ff>SHIFT+点击本方块来在此处创建一个城镇! <red>(需要花费%cost%金币)"
 
+  machinery:
+    progress-item:
+      active:
+        name: "&a生产中..."
+        lore:
+          - "&7剩余时间: &a%time%"
+      inactive:
+        name: "&f闲置中"
+        lore: []
+    input: "&a输入"
+    output: "&b输出"
+
+  # Messages for the default machines
+  refinery:
+    hologram: "&b精炼厂"
+  alloy-foundry:
+    hologram: "&8合金熔炉"
+  grinder:
+    hologram: "&7研磨机"
+  soul-extractor:
+    hologram: "&a灵魂提取器"
+
 # These are messages that will be displayed when players execute specific commands.
 command: 
   success:
@@ -365,6 +387,10 @@ item:
       lore:
         - "&f通过熔炉烧制"
         - "&f耗时: &7%smelting-time% s"
+    machinery:
+      lore:
+        - "&f耗时: &7%time% s"
+
 bluemap:
   markerset:
     nation: "国家领土"
