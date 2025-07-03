@@ -1,29 +1,21 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
+
+# NOTE: YOU SHOULD CHANGE THIS AS IT IS LIKELY NOT SUITABLE AND BALANCED FOR COMPLEX SERVERS!
+
+# This is just an example of how to create custom items and categories. You can delete this and create your own items and categories.
+# Also, there is a preset configuration made for 1.21+ servers in the git repository (https://gitee.com/jason31416/betternations/tree/main/configurable-translation) for you.
+# You can ask for help on jason31416@163.com or on the BetterNations QQ group (458787362)
+
 categories:
   structure:
-    name: "&b&lStructures"
+    name: "&b&lStructures &7- EXAMPLE"
     material: green_concrete
 
 machinery:
-  refinery:
-    material: iron_block
   alloy-foundry:
     material: nether_bricks
-  grinder:
-    material: grindstone
-  soul-extractor:
-    material: obsidian
 
 items: # You can create your own items!
-  refinery:
-    material: iron_block
-    name: "&b&lRefinery"
-    lore:
-      - "&7Structure for refining resources such as fuel"
-      - "&7Right-click to place"
-      - ""
-      - "&8[BetterNations Structure]"
-    category: structure
   alloy-foundry:
     material: nether_bricks
     name: "&b&lAlloy Foundry"
@@ -33,47 +25,11 @@ items: # You can create your own items!
       - ""
       - "&8[BetterNations Structure]"
     category: structure
-  grinder:
-    material: grindstone
-    name: "&b&lGrinder"
-    lore:
-      - "&7Structure for grinding resources"
-      - "&7Right-click to place"
-      - ""
-      - "&8[BetterNations Structure]"
-    category: structure
-  soul-extractor:
-    material: obsidian
-    name: "&b&lSoul Extractor"
-    lore:
-      - "&7Structure for extracting souls from undead"
-      - "&7Right-click to place"
-      - ""
-      - "&8[BetterNations Structure]"
-    category: structure
   graveyard:
     material: mossy_stone_bricks
     name: "&b&lUndead Graveyard"
     lore:
       - "&7Structure for producing undead units"
-      - "&7Right-click to place"
-      - ""
-      - "&8[BetterNations Structure]"
-    category: structure
-  spiderweb:
-    material: cobweb
-    name: "&b&lSpider Web"
-    lore:
-      - "&7Structure for producing arthropod units"
-      - "&7Right-click to place"
-      - ""
-      - "&8[BetterNations Structure]"
-    category: structure
-  ominous-outpost:
-    material: dark_oak_wood
-    name: "&b&lPillager Outpost"
-    lore:
-      - "&7Structure for producing illager units"
       - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
@@ -100,26 +56,6 @@ items: # You can create your own items!
 
 # Recipes don't need translation as they use material codes
 recipes:
-  refinery:
-    type: crafting
-    product: refinery
-    shape:
-      - " s "
-      - " s "
-      - "ici"
-    material:
-      i: iron_block
-      s: steel
-      c: machine-core
-  grinder:
-    type: crafting
-    product: grinder
-    shape:
-      - " s "
-      - "sgs"
-    material:
-      s: steel
-      g: grindstone
   alloy-foundry:
     type: crafting
     product: alloy-foundry
@@ -132,17 +68,6 @@ recipes:
       l: lava_bucket
       b: reinforced-bricks
       c: magma_block
-  soul-extractor:
-    type: crafting
-    product: soul-extractor
-    shape:
-      - "w w"
-      - "owo"
-      - " c "
-    material:
-      w: wood
-      c: cauldron
-      o: obsidian
   outpost:
     type: crafting
     product: outpost
@@ -177,28 +102,3 @@ recipes:
       t: tomb
       u: undead-essence
       d: dirt
-  spiderweb:
-    type: crafting
-    product: spiderweb
-    shape:
-      - "sws"
-      - "wfw"
-      - "sws"
-    material:
-      w: cobweb
-      f: fermented_spider_eye
-      s: silk
-  ominous-outpost:
-    type: crafting
-    product: ominous-outpost
-    shape:
-      - "ese"
-      - "wlw"
-      - "fmf"
-    material:
-      w: dark_oak_wood
-      s: steel-chunk
-      e: emerald_block
-      f: dark_oak_fence
-      m: mechanical-chip
-      l: white_wool

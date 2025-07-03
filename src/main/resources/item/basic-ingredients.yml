@@ -1,87 +1,40 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
+
+# NOTE: YOU SHOULD CHANGE THIS AS IT IS LIKELY NOT SUITABLE AND BALANCED FOR COMPLEX SERVERS!
+
+# This is just an example of how to create custom items and categories. You can delete this and create your own items and categories.
+# Also, there is a preset configuration made for 1.21+ servers in the git repository (https://gitee.com/jason31416/betternations/tree/main/configurable-translation) for you.
+# You can ask for help on jason31416@163.com or on the BetterNations QQ group (458787362)
+
 categories:
   ingredient:
-    name: "&b&lIngredients"
+    name: "&b&lIngredients &7- EXAMPLE"
     material: iron_ingot
   resource:
-    name: "&b&lResources"
+    name: "&b&lResources &7- EXAMPLE"
     material: raw_iron
 
 items:
-  energy-fragment:
-    skull: "52eb13f9c099ad5007b54a517585dc26c9ecaf54632f65d5234571194dae9ea8"
-    name: "&3&lEnergy Fragment"
-    category: resource
   pure-energy:
     skull: "3a7cda9004fc197d66afbc2b003a5b9ef13cf4600b1fc7490067590f047181e"
     name: "&3&lPure Energy"
     lore:
       - "&7Can be converted to supply points or used for crafting"
     category: resource
-  oil:
-    material: water_bucket
-    name: "&3&lOil"
-    category: resource
-    glowing: true
-  fuel:
-    material: lava_bucket
-    name: "&3&lFuel"
-    category: resource
-    glowing: true
-  oil-essence:
-    material: coal
-    name: "&3&lOil Essence"
-    category: ingredient
-    interaction: true
-  redstone-alloy:
-    material: nether_brick
-    name: "&3&lRedstone Alloy"
-    glowing: true
-    category: resource
-    interaction: true
   biomass:
     material: pitcher_pod
     name: "&3&lBiomass"
     category: resource
     interaction: true
-  undead-mixture:
-    material: nether_wart
-    name: "&4&lUndead Mixture"
-    glowing: true
-    category: ingredient
   undead-essence:
     material: glowstone_dust
     name: "&4&lUndead Essence"
     glowing: true
     category: ingredient
     interaction: true
-  purified-quartz:
-    material: quartz
-    name: "&3&lPurified Quartz"
-    category: resource
-    glow: true
-    interaction: true
   silicon:
     skull: "324d23f0bb3e750ae4fe10a2a8490e8a028806b8a954c457be379d02b7d46502"
     name: "&3&lSilicon"
-    category: resource
-  glass-pieces:
-    material: sugar
-    name: "&3&lFine-Grained Glass"
-    category: resource
-  melted-crystal:
-    material: lava_bucket
-    name: "&3&lMelted Crystal"
-    category: resource
-    glowing: true
-  hardened-glass-pieces:
-    material: sugar
-    name: "&3&lHardened Glass"
-    category: resource
-    glowing: true
-  hardened-glass-board:
-    material: black_stained_glass_pane
-    name: "&3&lHarnessed Glass Board"
     category: resource
   chip:
     material: rail
@@ -113,43 +66,6 @@ items:
     glowing: true
     category: resource
     interaction: true
-  aluminum-powder:
-    material: sugar
-    name: "&7&lAluminum Powder"
-    category: ingredient
-    interaction: true
-  aluminum-alloy:
-    material: iron_ingot
-    name: "&7&lAluminum Alloy"
-    category: resource
-  titanium-alloy:
-    skull: "8df232457030a6667e4c65ff92e93c6ceffb20c133110844012e0a90fba786b4"
-    name: "&7&lTitanium Alloy"
-    category: resource
-  reinforced-alloy:
-    material: iron_ingot
-    name: "&3&lReinforced Alloy"
-    lore:
-      - "&7&oSuper strong and firm"
-    glowing: true
-    category: resource
-    interaction: true
-  superconductor:
-    skull: "97658bde554d4cf3a7e588d7dbeba55434c69f779925038da6d7f1db219d5165"
-    name: "&3&lSuperconductor"
-    category: resource
-  charged-superconductor:
-    skull: "e368021658bfc21ccc44cf11e4058fd17f335c26a8265dd870d1924a1a8d6d65"
-    name: "&3&lCharged Superconductor"
-    category: resource
-  blazing-alloy:
-    material: copper_ingot
-    name: "&6&lBlazing Alloy"
-    lore:
-      - "&7&oBlazing with the power of the fire!"
-    glowing: true
-    category: resource
-    interaction: true
   steel-chunk:
     skull: "ff16d5a96efd707e4674c07546e3cd02c3f3e4bb8b4f0678baf9701d8c95169a"
     name: "&7&lSteel Block"
@@ -173,18 +89,6 @@ items:
   wood:
     material: oak_wood
     name: "&7&lWood"
-    category: resource
-  hilt:
-    material: bone
-    name: "&7&lHilt"
-    category: ingredient
-    interaction: true
-  steel-hilt:
-    material: bone
-    name: "&7&lSteel Hilt"
-    glowing: true
-    category: ingredient
-    interaction: true
   silk:
     material: string
     name: "&3&lSilk"
@@ -194,17 +98,6 @@ items:
   tomb:
     material: spruce_trapdoor
     name: "&3&lCoffin"
-    category: ingredient
-  raw-nether-gold:
-    material: nether_gold_ore
-    name: "&6&lRaw Nether Gold"
-    category: ingredient
-  nether-gold:
-    material: gold_ingot
-    name: "&6&lNether Gold Ingot"
-    glow: true
-    category: ingredient
-    interaction: true
 
 # Recipes don't need translation as they use material codes
 recipes:
@@ -333,14 +226,9 @@ recipes:
       a: bone_meal
       b: rotten_flesh
       c: fermented_spider_eye
-  undead-essence-2:
-    type: soul-extractor
-    product: undead-essence
-    ingredient: undead-mixture
-    time: 300
   undead-essence-3:
     type: crafting
-    product: undead-mixture
+    product: undead-essence
     product-count: 2
     shape:
       - " a "
@@ -349,62 +237,12 @@ recipes:
     material:
       a: soul_sand
       b: biomass
-  melted-crystal:
+  silicon:
     type: smelting
-    product: melted-crystal
-    ingredient: amethyst_shard
-    exp: 0.5
-    time: 50
-  glass-pieces:
-    type: grinder
-    product: glass-pieces
-    product-count: 4
-    ingredient: glass
-    time: 10
-  hardened-glass-pieces:
-    type: crafting
-    product: hardened-glass-pieces
-    product-count: 8
-    shape:
-      - "aaa"
-      - "ama"
-      - "aaa"
-    material:
-      a: glass-pieces
-      m: melted-crystal
-  hardened-glass-board:
-    type: smelting
-    product: hardened-glass-board
-    ingredient: hardened-glass-pieces
-    exp: 0.5
-    time: 80
-  reinforced-bricks:
-    type: crafting
-    product: reinforced-bricks
-    product-count: 8
-    shape:
-      - "cac"
-      - "aba"
-      - "cac"
-    material:
-      a: brick
-      b: iron_ingot
-      c: nether_brick
-  purified-quartz:
-    type: smelting
-    product: purified-quartz
+    product: silicon
     ingredient: glass
     exp: 0.5
     time: 150
-  silicon:
-    type: crafting
-    product: silicon
-    shape:
-      - " a "
-      - "aaa"
-      - " a "
-    material:
-      a: purified-quartz
   chip:
     type: crafting
     product: chip
@@ -438,7 +276,7 @@ recipes:
       a: redstone
       b: bookshelf
       c: chip
-      l: aluminum-alloy
+      l: steel
       d: netherite_scrap
   raw-steel:
     type: crafting
@@ -460,89 +298,10 @@ recipes:
     material:
       a: raw_iron
       b: charcoal
-  steel-hilt:
-    type: crafting
-    product: steel-hilt
-    shape:
-      - "b"
-      - "a"
-    material:
-      a: hilt
-      b: steel
-  titanium:
-    type: crafting
-    product: titanium-alloy
-    shape:
-      - "bdb"
-    material:
-      b: steel
-      d: diamond
-  aluminum-powder:
-    type: grinder
-    product: aluminum-powder
-    product-count: 4
-    ingredient: ghast_tear
-    time: 10
-  aluminum-alloy:
-    type: alloy-foundry
-    product: aluminum-alloy
-    ingredient: aluminum-powder
-    time: 300
-  reinforced-alloy:
-    type: crafting
-    product: reinforced-alloy
-    shape:
-      - "aaa"
-      - "bbc"
-    material:
-      a: steel
-      b: titanium-alloy
-      c: aluminum-alloy
-  blazing-alloy:
-    type: crafting
-    product: blazing-alloy
-    shape:
-      - "asa"
-      - "ncn"
-      - "fff"
-    material:
-      a: blaze_powder
-      c: copper_ingot
-      s: silicon
-      n: nether-gold
-      f: fire_charge
-  superconductor:
-    type: crafting
-    product: superconductor
-    shape:
-      - "aaa"
-      - "bbb"
-      - "aaa"
-    material:
-      a: titanium-alloy
-      b: copper_ingot
-  charged-superconductor:
-    type: crafting
-    product: charged-superconductor
-    shape:
-      - "ab"
-    material:
-      a: superconductor
-      b: pure-energy
   steel:
     type: alloy-foundry
     product: steel
     ingredient: raw-steel
-    time: 240
-  hilt:
-    type: crafting
-    product: hilt
-    shape:
-      - "b"
-      - "a"
-    material:
-      a: stick
-      b: wood
   steel-chunk:
     type: crafting
     product: steel-chunk
@@ -586,56 +345,3 @@ recipes:
     material:
       a: string
       b: honey_bottle
-  raw-nether-gold:
-    type: crafting
-    product: raw-nether-gold
-    product-count: 2
-    shape:
-      - "aaa"
-      - "ana"
-      - "ama"
-    material:
-      a: raw_gold
-      n: netherrack
-      m: magma_block
-  nether-gold:
-    type: alloy-foundry
-    product: nether-gold
-    ingredient: raw-nether-gold
-    time: 360
-  fuel:
-    type: refinery
-    product: fuel
-    ingredient: oil
-    time: 240
-  oil-synthesis:
-    type: smelting
-    product: oil-essence
-    ingredient: coal_block
-    exp: 5.0
-    time: 1200
-  oil-synthesis-2:
-    type: crafting
-    product: oil
-    product-count: 8
-    shape:
-      - "aaa"
-      - "aba"
-      - "aaa"
-    material:
-      a: lava_bucket
-      b: oil-essence
-  energy-1:
-    type: refinery
-    product: energy-fragment
-    ingredient: fuel
-    time: 200
-  pure-energy:
-    type: crafting
-    product: pure-energy
-    shape:
-      - "aaa"
-      - "aaa"
-      - "aaa"
-    material:
-      a: energy-fragment

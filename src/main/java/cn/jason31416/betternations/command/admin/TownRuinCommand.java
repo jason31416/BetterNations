@@ -1,4 +1,4 @@
-package cn.jason31416.betternations.command.ruin;
+package cn.jason31416.betternations.command.admin;
 
 import cn.jason31416.betternations.structure.types.TownRuin;
 import cn.jason31416.planetlib.command.ChildCommand;

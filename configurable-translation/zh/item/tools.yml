@@ -10,8 +10,8 @@ items:
     material: iron_sword
     name: "&7&l钢剑"
     enchant:
-      damage_all: 3
-      durability: 3
+      sharpness: 3
+      unbreaking: 3
     category: tool
     model: 31431
     interaction: true
@@ -19,26 +19,26 @@ items:
     material: iron_axe
     name: "&7&l钢斧"
     enchant:
-      damage_all: 3
-      durability: 3
+      sharpness: 3
+      unbreaking: 3
     category: tool
     model: 31432
     interaction: true
   steel-helmet:
     material: iron_helmet
-    name: "&7&l钢盔"
+    name: "&7&l钢头盔"
     enchant:
-      protection_environmental: 4
-      durability: 5
+      protection: 4
+      unbreaking: 5
     category: tool
     model: 31433
     interaction: true
   steel-chestplate:
     material: iron_chestplate
-    name: "&7&l钢甲"
+    name: "&7&l钢胸甲"
     enchant:
-      protection_environmental: 4
-      durability: 5
+      protection: 4
+      unbreaking: 5
     category: tool
     model: 31434
     interaction: true
@@ -46,21 +46,202 @@ items:
     material: iron_leggings
     name: "&7&l钢护腿"
     enchant:
-      protection_environmental: 4
-      durability: 5
+      protection: 4
+      unbreaking: 5
     category: tool
     model: 31435
     interaction: true
   steel-boots:
     material: iron_boots
-    name: "&7&l钢靴"
+    name: "&7&l钢靴子"
     enchant:
-      protection_environmental: 4
-      durability: 5
+      protection: 4
+      unbreaking: 5
     category: tool
     model: 31436
     interaction: true
 
+  # Nether Gold Set
+  molten-edge:
+    material: golden_sword
+    name: "&6&l熔火之刃"
+    enchant:
+      sharpness: 5
+      fire_aspect: 2
+      looting: 2
+      unbreaking: 8
+    category: tool
+    model: 31437
+    interaction: true
+  hellforged-helmet:
+    material: golden_helmet
+    name: "&6&l地狱锻造头盔"
+    enchant:
+      fire_protection: 5
+      thorns: 2
+      unbreaking: 8
+    category: tool
+    model: 31438
+    interaction: true
+  hellforged-chestplate:
+    material: golden_chestplate
+    name: "&6&l地狱锻造胸甲"
+    enchant:
+      fire_protection: 5
+      thorns: 2
+      unbreaking: 8
+    category: tool
+    model: 31439
+    interaction: true
+  hellforged-leggings:
+    material: golden_leggings
+    name: "&6&l地狱锻造护腿"
+    enchant:
+      fire_protection: 5
+      thorns: 2
+      unbreaking: 8
+    category: tool
+    model: 31440
+    interaction: true
+  hellforged-boots:
+    material: golden_boots
+    name: "&6&l地狱锻造靴子"
+    enchant:
+      fire_protection: 5
+      thorns: 2
+      unbreaking: 8
+    category: tool
+    model: 31441
+    interaction: true
+  nethers-grasp:
+    material: golden_pickaxe
+    name: "&6&l下界之握"
+    enchant:
+      unbreaking: 10
+      efficiency: 4
+      fortune: 3
+    category: tool
+    model: 31442
+    interaction: true
+
+  # Reinforced Alloy Set
+  titans-ward:
+    material: shield
+    name: "&3&l泰坦之盾"
+    enchant:
+      unbreaking: 10
+    category: tool
+    model: 31443
+    interaction: true
+  reinforced-helmet:
+    material: diamond_helmet
+    name: "&3&l强化头盔"
+    enchant:
+      protection: 4
+      unbreaking: 5
+    category: tool
+    model: 31444
+    interaction: true
+  reinforced-chestplate:
+    material: diamond_chestplate
+    name: "&3&l强化胸甲"
+    enchant:
+      protection: 4
+      unbreaking: 5
+    category: tool
+    model: 31445
+    interaction: true
+  reinforced-leggings:
+    material: diamond_leggings
+    name: "&3&l强化护腿"
+    enchant:
+      protection: 4
+      unbreaking: 5
+    category: tool
+    model: 31446
+    interaction: true
+  reinforced-boots:
+    material: diamond_boots
+    name: "&3&l强化靴子"
+    enchant:
+      protection: 4
+      unbreaking: 5
+    category: tool
+    model: 31447
+    interaction: true
+  indomitable-sword:
+    material: diamond_sword
+    name: "&3&l强化之刃"
+    enchant:
+      sharpness: 5
+      unbreaking: 5
+    category: tool
+    model: 31448
+    interaction: true
+
+  # Charged Superconductor Upgrades
+  thunderstrike:
+    material: diamond_sword
+    name: "&b&l雷霆之刃"
+    enchant:
+      sharpness: 6
+      channeling: 1
+      unbreaking: 3
+    category: tool
+    model: 31449
+    interaction: true
+  stormguard-helmet:
+    material: diamond_helmet
+    name: "&b&l风暴守卫头盔"
+    enchant:
+      protection: 5
+      thorns: 3
+      unbreaking: 5
+    category: tool
+    model: 31450
+    interaction: true
+  stormguard-chestplate:
+    material: diamond_chestplate
+    name: "&b&l风暴守卫胸甲"
+    enchant:
+      protection: 5
+      thorns: 3
+      unbreaking: 5
+    category: tool
+    model: 31451
+    interaction: true
+  stormguard-leggings:
+    material: diamond_leggings
+    name: "&b&l风暴守卫护腿"
+    enchant:
+      protection: 5
+      thorns: 3
+      unbreaking: 5
+    category: tool
+    model: 31452
+    interaction: true
+  stormguard-boots:
+    material: diamond_boots
+    name: "&b&l风暴守卫靴子"
+    enchant:
+      protection: 5
+      thorns: 3
+      unbreaking: 5
+    category: tool
+    model: 31453
+    interaction: true
+  lightning-conductor:
+    material: bow
+    name: "&b&l闪电传导者"
+    enchant:
+      power: 7
+      flame: 1
+      unbreaking: 5
+    category: tool
+    model: 31454
+    interaction: true
+
+# Recipes don't need translation as they use material codes
 recipes:
   steel-sword:
     type: crafting
@@ -118,3 +299,176 @@ recipes:
     material:
       a: steel-plate
 
+  # Nether Gold Recipes
+  molten-edge:
+    type: crafting
+    product: molten-edge
+    shape:
+      - "a"
+      - "a"
+      - "b"
+    material:
+      a: nether-gold
+      b: steel-hilt
+  hellforged-helmet:
+    type: crafting
+    product: hellforged-helmet
+    shape:
+      - "aba"
+      - "a a"
+    material:
+      a: nether-gold
+      b: blaze_powder
+  hellforged-chestplate:
+    type: crafting
+    product: hellforged-chestplate
+    shape:
+      - "a a"
+      - "aba"
+      - "aaa"
+    material:
+      a: nether-gold
+      b: blaze_powder
+  hellforged-leggings:
+    type: crafting
+    product: hellforged-leggings
+    shape:
+      - "bab"
+      - "a a"
+      - "a a"
+    material:
+      b: blaze_powder
+      a: nether-gold
+  hellforged-boots:
+    type: crafting
+    product: hellforged-boots
+    shape:
+      - "b b"
+      - "a a"
+    material:
+      a: nether-gold
+      b: blaze_powder
+  nethers-grasp:
+    type: crafting
+    product: nethers-grasp
+    shape:
+      - "aaa"
+      - " b "
+      - " b "
+    material:
+      a: nether-gold
+      b: blaze_rod
+
+  # Reinforced Alloy Recipes
+  titans-ward:
+    type: crafting
+    product: titans-ward
+    shape:
+      - "aba"
+      - "cdc"
+      - " a "
+    material:
+      a: reinforced-alloy
+      b: compressed-steel-plate
+      c: steel-plate
+      d: blaze_rod
+  reinforced-helmet:
+    type: crafting
+    product: reinforced-helmet
+    shape:
+      - "asa"
+      - "a a"
+    material:
+      a: reinforced-alloy
+      s: steel-plate
+  reinforced-chestplate:
+    type: crafting
+    product: reinforced-chestplate
+    shape:
+      - "a a"
+      - "asa"
+      - "aaa"
+    material:
+      a: reinforced-alloy
+      s: steel-plate
+  reinforced-leggings:
+    type: crafting
+    product: reinforced-leggings
+    shape:
+      - "asa"
+      - "a a"
+      - "a a"
+    material:
+      a: reinforced-alloy
+      s: steel-plate
+  reinforced-boots:
+    type: crafting
+    product: reinforced-boots
+    shape:
+      - "s s"
+      - "a a"
+    material:
+      a: reinforced-alloy
+      s: steel-plate
+  indomitable-sword:
+    type: crafting
+    product: indomitable-sword
+    shape:
+      - "a"
+      - "a"
+      - "b"
+    material:
+      a: reinforced-alloy
+      b: steel-hilt
+
+  # Charged Superconductor Upgrade Recipes
+  thunderstrike:
+    type: crafting
+    product: thunderstrike
+    shape:
+      - "ba"
+    material:
+      a: charged-superconductor
+      b: indomitable-sword
+  stormguard-helmet:
+    type: crafting
+    product: stormguard-helmet
+    shape:
+      - "ba"
+    material:
+      a: charged-superconductor
+      b: reinforced-helmet
+  stormguard-chestplate:
+    type: crafting
+    product: stormguard-chestplate
+    shape:
+      - "ba"
+    material:
+      a: charged-superconductor
+      b: reinforced-chestplate
+  stormguard-leggings:
+    type: crafting
+    product: stormguard-leggings
+    shape:
+      - "ba"
+    material:
+      a: charged-superconductor
+      b: reinforced-leggings
+  stormguard-boots:
+    type: crafting
+    product: stormguard-boots
+    shape:
+      - "ba"
+    material:
+      a: charged-superconductor
+      b: reinforced-helmet
+  lightning-conductor:
+    type: crafting
+    product: lightning-conductor
+    shape:
+      - " ab"
+      - "a b"
+      - " ab"
+    material:
+      a: charged-superconductor
+      b: reinforced-alloy

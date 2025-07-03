@@ -76,6 +76,7 @@ command:
     removed-town: "<#2288ff>成功删除了城镇 <#00ddff>%town% <#2288ff>!"
     treaty-created: "<#2288ff>成功创建了条约 <#00ddff>%treaty%<#2288ff>! <u><click:run_command:/nation treaty view %treaty%>点击编辑</click></u>"
     treaty-removed: "<#2288ff>成功删除了条约 <#00ddff>%treaty%<#2288ff>!"
+    set-natural-resource: "<#2288ff>成功设置了该区块的自然资源!"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
@@ -131,6 +132,7 @@ command:
     ruin-exists: "<red>该区块已经有一个遗迹了!"
     no-ruin-in-chunk: "<red>国家必须基于已有遗迹建立! 请在一个有遗迹的区块内执行本命令"
     nomadic-nation-cannot-claim: "<red>必须拥有至少一个城镇才能占领区块!"
+    invalid-item-type: "<red>无效的物品类型!"
 
 # These are messages that are related to nations.
 nation:
@@ -217,14 +219,17 @@ nation:
 map:
   header: "&7----=[ &b地区地图 &7]=----"
   footer: "&7-------------------"
-  town-char: "<hover:show_text:'%nation_name%, %town_name%'>%kingdom_color%▣</hover>"
-  nation-char: "<hover:show_text:'%nation_name%'>%kingdom_color%▨</hover>"
-  wild-char: "<hover:show_text:'&2荒野'>&8▩</hover>"
+  town-char: "<hover:show_text:'%nation_name%, %town_name% <gray>| %natural_resource%'>%kingdom_color%▣</hover>"
+  nation-char: "<hover:show_text:'%nation_name% <gray>| %natural_resource%'>%kingdom_color%▨</hover>"
+  wild-char: "<hover:show_text:'&2荒野 <gray>| %natural_resource%'>&8▩</hover>"
   self-chars:
-    right: "<hover:show_text:'&f%player%'>&7‣</hover>"
-    down: "<hover:show_text:'&f%player%'>&7▾</hover>"
-    left: "<hover:show_text:'&f%player%'>&7◂</hover>"
-    up: "<hover:show_text:'&f%player%'>&7▴</hover>"
+    right: "<hover:show_text:'&f%player% <gray>| %natural_resource%'>&7‣</hover>"
+    down: "<hover:show_text:'&f%player% <gray>| %natural_resource%'>&7▾</hover>"
+    left: "<hover:show_text:'&f%player% <gray>| %natural_resource%'>&7◂</hover>"
+    up: "<hover:show_text:'&f%player% <gray>| %natural_resource%'>&7▴</hover>"
+  natural-resource:
+    none: "&8无自然资源"
+    contains: "&f产出: &7%resource%"
 town:
   revolt-name: "%town_name% 城邦"
   wilderness: "&8-= &2荒野 &8=-"

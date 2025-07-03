@@ -75,6 +75,7 @@ command:
     removed-town: "<#2288ff>Successfully removed town <#00ddff>%town% <#2288ff>!"
     treaty-created: "<#2288ff>Successfully created treaty <#00ddff>%treaty%<#2288ff>! <u><click:run_command:/nation treaty view %treaty%>Click to edit</click></u>"
     treaty-removed: "<#2288ff>Successfully removed treaty <#00ddff>%treaty%<#2288ff>!"
+    set-natural-resource: "<#2288ff>Successfully set natural resource for the current chunk!"
   failed:
     owner-cannot-leave: "<red>You are the nation leader, please <click:suggest_command:/nation rank >assign a new leader</click> or <click:suggest_command:/nation disband>disband the nation</click> before leaving!"
     chunk-claim-failed: "<red>Failed to claim this chunk!"
@@ -130,6 +131,7 @@ command:
     ruin-exists: "<red>There is already a ruin in this chunk!"
     no-ruin-in-chunk: "<red>Nations must be built on existing ruins! Execute this command in a chunk with a ruin"
     nomadic-nation-cannot-claim: "<red>Must have at least one town to claim chunks!"
+    invalid-item-type: "<red>Invalid item type!"
 
 # These are messages that are related to nations.
 nation:

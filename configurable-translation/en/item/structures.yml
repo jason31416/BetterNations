@@ -1,7 +1,7 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
 categories:
   structure:
-    name: "&b&l结构"
+    name: "&b&lStructures"
     material: green_concrete
 
 machinery:
@@ -17,83 +17,83 @@ machinery:
 items: # You can create your own items!
   refinery:
     material: iron_block
-    name: "&b&l精炼厂"
+    name: "&b&lRefinery"
     lore:
-      - "&7用于精炼燃料等资源的建筑"
-      - "&7右键点击放置"
+      - "&7Structure for refining resources such as fuel"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   alloy-foundry:
     material: nether_bricks
-    name: "&b&l合金熔炉"
+    name: "&b&lAlloy Foundry"
     lore:
-      - "&7用于生产合金的建筑"
-      - "&7右键点击放置"
+      - "&7Structure for producing alloys"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   grinder:
     material: grindstone
-    name: "&b&l研磨机"
+    name: "&b&lGrinder"
     lore:
-      - "&7用于研磨资源的建筑"
-      - "&7右键点击放置"
+      - "&7Structure for grinding resources"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   soul-extractor:
     material: obsidian
-    name: "&b&l灵魂提取器"
+    name: "&b&lSoul Extractor"
     lore:
-      - "&7用于从不死生物提取灵魂的建筑"
-      - "&7右键点击放置"
+      - "&7Structure for extracting souls from undead"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   graveyard:
     material: mossy_stone_bricks
-    name: "&b&l亡灵墓园"
+    name: "&b&lUndead Graveyard"
     lore:
-      - "&7用于生产亡灵单位的建筑"
-      - "&7右键点击放置"
+      - "&7Structure for producing undead units"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   spiderweb:
     material: cobweb
-    name: "&b&l蛛网"
+    name: "&b&lSpider Web"
     lore:
-      - "&7用于生产节肢单位的建筑"
-      - "&7右键点击放置"
+      - "&7Structure for producing arthropod units"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   ominous-outpost:
     material: dark_oak_wood
-    name: "&b&l灾厄哨塔"
+    name: "&b&lPillager Outpost"
     lore:
-      - "&7用于生产灾厄单位的建筑"
-      - "&7右键点击放置"
+      - "&7Structure for producing illager units"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   granary:
     material: hay_block
-    name: "&b&l粮仓"
+    name: "&b&lGranary"
     lore:
-      - "&7为区块内的部队和生产建筑提供补给"
-      - "&7手持食物右键点击可将食物转换为补给点"
-      - "&7右键点击放置"
+      - "&7Provides supplies to troops and production structures in the chunk"
+      - "&7Convert food into supply points by right-clicking on the structure with food in hand"
+      - "&7Right-click to place"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   outpost:
     material: bell
-    name: "&b&l前哨站"
+    name: "&b&lOutpost"
     lore:
-      - "&7维持飞地的稳定性"
-      - "&7如果飞地没有前哨站，敌人只需占领一个区块就能接管整个飞地！"
+      - "&7Maintains stability of exclaves"
+      - "&7If an exclave has no outpost, enemies only need to capture one chunk to take over the entire exclave!"
       - ""
       - "&8[BetterNations Structure]"
     category: structure

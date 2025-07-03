@@ -1,5 +1,6 @@
 current tasks:
 - AI nomadic nations
+- Extractor structure & call the load&save methods in the manager
 
 known bugs:
 - FromTo animation would not update when nation relation changes or chunk belonging changes

@@ -1,23 +1,34 @@
-
 # This section controls the land army's types.
 # Please do not delete anything when it already has been produced in the server, or unexpected bugs may happen.
 # In addition, it is suggested to not create too much (Preferred less than 14, would still work with less than 28) types since the UI isn't really big enough.
 # However, if you are fine with display issues when stacking over 14 types, it shouldn't cause any further issue.
 
 types:
-  zombie:
+  basic-zombie:
     name: "基础僵尸" # The display name of the army type
     armor: unarmed # This can be: unarmed/armored
     type: zombie # This is the entity form of the mob when defending. Can be mythic(if installed) or vanilla.
-    icon: zombie_head # The item displayed on the GUI view. Not case-sensitive
+    icon: wooden_sword # The item displayed on the GUI view. Not case-sensitive
     hp: 10.0 # The health of the unit
-    supply: 28.8 # The max. supply one unit can carry in the army. This will sustain this unit for 2 days exactly
-    consume: 0.015 # How many supply does it consume every army tick (default 5 minutes)
+    supply: 22.0 # The max. supply one unit can carry in the army.
+    consume: 0.01 # How many supply does it consume every army tick (default 5 minutes)
     damage: # The damages dealt to other armor types when engaging in virtual combats. If not listed, the default is 0
       # If you want to change these, remember to do so as well in items.yml for display!
-      unarmed: 2.0
-      armored: 1.2
+      unarmed: 0.5
+      armored: 0.1
       territory: 0.5 # Its damage dealt to territories such as chunks/towns
+  trained-zombie:
+    name: "士兵僵尸"
+    armor: unarmed
+    type: zombie
+    icon: stone_sword
+    hp: 10.0
+    supply: 28.8
+    consume: 0.015
+    damage:
+      unarmed: 3.0
+      armored: 0.7
+      territory: 0.7
   advanced-zombie:
     name: "高级僵尸"
     armor: unarmed
@@ -29,21 +40,21 @@ types:
     damage:
       unarmed: 4.0
       armored: 0.8
-      territory: 0.5
+      territory: 0.7
   zombified-piglin:
     name: "僵尸猪灵"
     armor: unarmed
     type: zombified_piglin
-    icon: gold_sword
+    icon: golden_sword
     hp: 20.0
     supply: 28.8
     consume: 0.035
     damage:
       unarmed: 3.0
       armored: 0.5
-      territory: 0.5
+      territory: 0.7
   zombie-king:
-    name: "僵王"
+    name: "僵尸王"
     armor: unarmed
     type: zombie
     icon: golden_apple
@@ -133,8 +144,11 @@ production:
   graveyard: # The ID of the production facility structure. An item with the same id should exist as well!
     material: MOSSY_STONE_BRICKS # The block used for the structure. Not case-sensitive
     recipes:
-      zombie-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
-        type: zombie # The unit ID of the army type listed above.
+      basic-zombie-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
+        type: basic-zombie # The unit ID of the army type listed above.
+        time: 2400 # How long does it take to produce it? (in seconds)
+      trained-zombie-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
+        type: trained-zombie # The unit ID of the army type listed above.
         time: 7200 # How long does it take to produce it? (in seconds)
       advanced-zombie-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
         type: advanced-zombie # The unit ID of the army type listed above.
@@ -169,4 +183,3 @@ production:
       transportation-llama-equipment:
         type: transportation-llama
         time: 43200
-

@@ -1,12 +1,15 @@
 package cn.jason31416.betternations.command.nation;
 
 import cn.jason31416.betternations.manager.EventListener;
+import cn.jason31416.betternations.manager.NaturalResourcesManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
+import cn.jason31416.planetlib.item.ItemType;
+import cn.jason31416.planetlib.item.VanillaItemType;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.message.StringMessage;
@@ -36,28 +39,43 @@ public class NationMapCommand extends ChildCommand {
             StringBuilder msg = new StringBuilder();
             for(int x=center.x()-Config.getInt("map.width",4);x<center.x()+Config.getInt("map.width",4);x++){
                 SimpleChunkLocation chunk = SimpleChunkLocation.of(x, z);
+                String addmsg="";
                 if(chunk.equals(center)){
                     float direction = context.getPlayer().getPlayer().getLocation().getYaw();
                     if((-180 <= direction && direction <= -135) || (135 < direction && direction <= 180)) {
-                        msg.append(MessageLoader.instance.getRawMessage("map.self-chars.up", "").replace("%player%", context.getPlayer().getName()));
+                        addmsg = MessageLoader.instance.getRawMessage("map.self-chars.up", "").replace("%player%", context.getPlayer().getName());
                     } else if(-135 < direction && direction <= -45) {
-                        msg.append(MessageLoader.instance.getRawMessage("map.self-chars.right", "").replace("%player%", context.getPlayer().getName()));
+                        addmsg = MessageLoader.instance.getRawMessage("map.self-chars.right", "").replace("%player%", context.getPlayer().getName());
                     } else if(-45 < direction && direction <= 45) {
-                        msg.append(MessageLoader.instance.getRawMessage("map.self-chars.down", "").replace("%player%", context.getPlayer().getName()));
+                        addmsg = MessageLoader.instance.getRawMessage("map.self-chars.down", "").replace("%player%", context.getPlayer().getName());
                     } else if(45 <= direction && direction < 135) {
-                        msg.append(MessageLoader.instance.getRawMessage("map.self-chars.left", "").replace("%player%", context.getPlayer().getName()));
+                        addmsg = MessageLoader.instance.getRawMessage("map.self-chars.left", "").replace("%player%", context.getPlayer().getName());
                     }
                 } else if(!chunk.isClaimed())
-                    msg.append(MessageLoader.instance.getRawMessage("map.wild-char", ""));
+                    addmsg = MessageLoader.instance.getRawMessage("map.wild-char", "");
                 else if(chunk.isTownChunk())
-                    msg.append(MessageLoader.instance.getRawMessage("map.town-char", "")
+                    addmsg = MessageLoader.instance.getRawMessage("map.town-char", "")
                             .replace("%kingdom_color%", Objects.requireNonNull(chunk.getNation()).getColorTag())
                             .replace("%nation_name%", Objects.requireNonNull(chunk.getNation()).getColorTag()+chunk.getNation().getName())
-                            .replace("%town_name%", Objects.requireNonNull(chunk.getTown()).getName()));
+                            .replace("%town_name%", Objects.requireNonNull(chunk.getTown()).getName());
                 else
-                    msg.append(MessageLoader.instance.getRawMessage("map.nation-char", "")
+                    addmsg = MessageLoader.instance.getRawMessage("map.nation-char", "")
                             .replace("%kingdom_color%", Objects.requireNonNull(chunk.getNation()).getColorTag())
-                            .replace("%nation_name%", Objects.requireNonNull(chunk.getNation()).getColorTag()+chunk.getNation().getName()));
+                            .replace("%nation_name%", Objects.requireNonNull(chunk.getNation()).getColorTag()+chunk.getNation().getName());
+                if(!NaturalResourcesManager.naturalResourcesMap.containsKey(chunk)) addmsg = addmsg.replace("%natural_resource%", MessageLoader.instance.getRawMessage("map.natural-resource.none", ""));
+                else{
+                    ItemType type = NaturalResourcesManager.naturalResourcesMap.get(chunk);
+                    String itemName;
+                    if(type instanceof VanillaItemType){
+                        itemName = "<lang:"+type.getMaterial().getItemTranslationKey()+">";
+                    }else{
+                        itemName = type.getItemStack().getItemMeta().getDisplayName();
+                    }
+                    addmsg = addmsg.replace("%natural_resource%", MessageLoader.instance.getRawMessage("map.natural-resource.contains", "")
+                            .replace("%resource%", itemName)
+                    );
+                }
+                msg.append(addmsg);
             }
             new StringMessage(msg.toString()).send(context.getSender());
         }

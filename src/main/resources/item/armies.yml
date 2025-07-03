@@ -1,6 +1,12 @@
+# NOTE: YOU SHOULD CHANGE THIS AS IT IS LIKELY NOT SUITABLE AND BALANCED FOR COMPLEX SERVERS!
+
+# This is just an example of how to create custom items and categories. You can delete this and create your own items and categories.
+# Also, there is a preset configuration made for 1.21+ servers in the git repository (https://gitee.com/jason31416/betternations/tree/main/configurable-translation) for you.
+# You can ask for help on jason31416@163.com or on the BetterNations QQ group (458787362)
+
 categories:
   unit:
-    name: "&b&lEquipment"
+    name: "&b&lEquipment &7- EXAMPLE"
     material: zombie_head
 
 items:
@@ -43,110 +49,6 @@ items:
       - "&8&o[Infantry · Undead]"
       - "&7Train in &eUndead Graveyard"
     category: unit
-  zombified-piglin-equipment:
-    skull: "7eabaecc5fae5a8a49c8863ff4831aaa284198f1a2398890c765e0a8de18da8c"
-    name: "&fZombified Piglin &7Equipment"
-    lore:
-      - "&8| &720&c❤ &7🚶"
-      - "&8| &70.035/28.8&e🌾"
-      - "&8| &73.0&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &70.5&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.7&b🗡&7 ➡ &8🏴 &fTerritory"
-      - ""
-      - "&8&o[Infantry · Undead]"
-      - "&7Train in &eUndead Graveyard"
-    category: unit
-  zombie-king-equipment:
-    skull: "15582ed512a8cea9b17ffc31ca12b86f2abccf83a622fb7d15b5f171f51bb64"
-    name: "&fZombie King &7Equipment"
-    lore:
-      - "&8| &7110&c❤ &7🛡"
-      - "&8| &70.11/28.8&e🌾"
-      - "&8| &75.0&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &71.0&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &71.5&b🗡&7 ➡ &8🏴 &fTerritory"
-      - ""
-      - "&8&o[Infantry · Undead]"
-      - "&7Train in &eUndead Graveyard"
-    category: unit
-  spider-equipment:
-    skull: "cd541541daaff50896cd258bdbdd4cf80c3ba816735726078bfe393927e57f1"
-    name: "&fSpider &7Equipment"
-    lore:
-      - "&8| &710&c❤ &7🚶"
-      - "&8| &70.03/28.8&e🌾"
-      - "&8| &74.5&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &70.7&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.5&b🗡&7 ➡ &8🏴 &fTerritory"
-      - ""
-      - "&8&o[Infantry · Arthropod]"
-      - "&7Train in &eCobweb &7or &eArtificial Cobweb"
-    category: unit
-  cave-spider-equipment:
-    skull: "7652bd7617e56c756514f83c28dd1d96a7e5e167bf7fb593693fc65046f799"
-    name: "&fCave Spider &7Equipment"
-    lore:
-      - "&8| &75&c❤ &7🚶"
-      - "&8| &70.045/28.8&e🌾"
-      - "&8| &78.0&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &71.0&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.5&b🗡&7 ➡ &8🏴 &fTerritory"
-      - ""
-      - "&8&o[Infantry · Arthropod]"
-      - "&7Train in &eCobweb &7or &eArtificial Cobweb"
-    category: unit
-  vindicator-equipment:
-    skull: "6deaec344ab095b48cead7527f7dee61b063ff791f76a8fa76642c8676e2173"
-    name: "&fVindicator &7Equipment"
-    lore:
-      - "&8| &775&c❤ &7🚶"
-      - "&8| &70.035/28.8&e🌾"
-      - "&8| &70.8&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &70.7&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.3&b🗡&7 ➡ &8🏴 &fTerritory"
-      - ""
-      - "&8&o[Infantry · Illager]"
-      - "&7Train in &ePillager Outpost"
-    category: unit
-  armored-vindicator-equipment:
-    skull: "8abebc59f2891fb975fc2b20de473e4bbdb8b4cfe246135b893699b985032756"
-    name: "&fArmored Vindicator &7Equipment"
-    lore:
-      - "&8| &795&c❤ &7🛡"
-      - "&8| &70.045/28.8&e🌾"
-      - "&8| &71.0&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &71.0&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.3&b🗡&7 ➡ &8🏴 &fTerritory"
-      - ""
-      - "&8&o[Infantry · Illager]"
-      - "&7Train in &ePillager Outpost"
-    category: unit
-  ravager-equipment:
-    skull: "5c73e16fa2926899cf18434360e2144f84ef1eb981f996148912148dd87e0b2a"
-    name: "&fRavager &7Equipment"
-    lore:
-      - "&8| &7215&c❤ &7🛡"
-      - "&8| &70.15/28.8&e🌾"
-      - "&8| &79.0&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &77.0&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.1&b🗡&7 ➡ &8🏴 &fTerritory"
-      - ""
-      - "&8&o[Infantry · Illager]"
-      - "&7Train in &ePillager Outpost"
-    category: unit
-  transportation-llama-equipment:
-    skull: "5c73e16fa2926899cf18434360e2144f84ef1eb981f996148912148dd87e0b2a"
-    name: "&fTransportation Llama &7Equipment"
-    lore:
-      - "&8| &75&c❤ &7🛡"
-      - "&8| &70.01/86.4&e🌾"
-      - "&8| &70.1&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &70.1&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.1&b🗡&7 ➡ &8🏴 &fTerritory"
-      - ""
-      - "&8&o[Infantry · Special]"
-      - "&7Train in &ePillager Outpost"
-    category: unit
 
 recipes:
   basic-zombie:
@@ -158,7 +60,7 @@ recipes:
       - "u"
     material:
       u: undead-essence
-      s: steel-helmet
+      s: iron_helmet
   trained-zombie:
     type: crafting
     product: trained-zombie-equipment
@@ -169,8 +71,8 @@ recipes:
     material:
       u: undead-essence
       e: iron_chestplate
-      a: steel-axe
-      b: steel-boots
+      a: iron_axe
+      b: iron_boots
   advanced-zombie:
     type: crafting
     product: advanced-zombie-equipment
@@ -179,91 +81,7 @@ recipes:
       - "szs"
       - "u u"
     material:
-      t: titanium-alloy
+      t: steel
       s: steel-plate
       z: trained-zombie-equipment
       u: undead-essence
-  zombified-piglin:
-    type: crafting
-    product: zombified-piglin-equipment
-    shape:
-      - "n u"
-      - "nzg"
-      - "n u"
-    material:
-      n: nether-gold
-      g: golden_sword
-      z: trained-zombie-equipment
-      u: undead-essence
-  zombie-king:
-    type: crafting
-    product: zombie-king-equipment
-    shape:
-      - "r r"
-      - "kzc"
-      - "ucu"
-    material:
-      r: reinforced-alloy
-      k: machine-core
-      c: compressed-steel-plate
-      z: advanced-zombie-equipment
-      u: undead-essence
-  spider:
-    type: crafting
-    product: spider-equipment
-    shape:
-      - "s s"
-      - "tct"
-      - "s s"
-    material:
-      s: silk
-      t: titanium-alloy
-      c: cobweb
-  cave-spider:
-    type: crafting
-    product: cave-spider-equipment
-    shape:
-      - "kkk"
-      - "psp"
-      - "kkk"
-    material:
-      s: spider-equipment
-      p: undead-mixture
-      k: silk
-  vindicator:
-    type: crafting
-    product: vindicator-equipment
-    shape:
-      - "e e"
-      - "sri"
-      - "sss"
-    material:
-      i: steel-axe
-      s: steel-plate
-      r: reinforced-alloy
-      e: emerald_block
-  armored-vindicator:
-    type: crafting
-    product: armored-vindicator-equipment
-    shape:
-      - "e e"
-      - "ava"
-      - "tst"
-    material:
-      e: emerald_block
-      a: reinforced-alloy
-      v: vindicator-equipment
-      s: compressed-steel-plate
-      t: titanium-alloy
-  ravager:
-    type: crafting
-    product: ravager-equipment
-    shape:
-      - "rvr"
-      - "sbs"
-      - "rsr"
-    material:
-      r: reinforced-alloy
-      b: blazing-alloy
-      v: vindicator-equipment
-      s: steel-chunk
