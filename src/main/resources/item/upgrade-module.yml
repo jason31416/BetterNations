@@ -1,0 +1,116 @@
+items:
+  fuel-efficiency-upgrade-I:
+    name: "&a&l燃料能效升级 I"
+    lore:
+      - "&7这个物品可以使你的燃料机器的燃料效率提高20%"
+    upgrade-info:
+      type: EFFICIENCY
+      value: 20
+  fuel-efficiency-upgrade-II:
+    name: "&a&l燃料能效升级 II"
+    lore:
+      - "&7这个物品可以使你的燃料机器的燃料效率提高40%"
+    upgrade-info:
+      type: EFFICIENCY
+      value: 40
+  fuel-efficiency-upgrade-III:
+    name: "&a&l燃料能效升级 III"
+    lore:
+      - "&7这个物品可以使你的燃料机器的燃料效率提高60%"
+    upgrade-info:
+      type: EFFICIENCY
+      value: 60
+  fuel-efficiency-upgrade-IV:
+    name: "&a&l燃料能效升级 IV"
+    lore:
+      - "&7这个物品可以使你的燃料机器的燃料效率提高80%"
+    upgrade-info:
+      type: EFFICIENCY
+      value: 80
+  fuel-efficiency-upgrade-V:
+    name: "&a&l燃料能效升级 V"
+    lore:
+      - "&7这个物品可以使你的燃料机器的燃料效率提高100%"
+    upgrade-info:
+      type: EFFICIENCY
+      value: 100
+
+  speed-upgrade-I:
+    name: "&d&l速率升级 I"
+    lore:
+      - "&7这个物品可以使你的机器速率提高20%"
+    upgrade-info:
+      type: SPEED
+      value: 20
+  speed-upgrade-II:
+    name: "&d&l速率升级 II"
+    lore:
+      - "&7这个物品可以使你的机器速率提高40%"
+    upgrade-info:
+      type: SPEED
+      value: 40
+  speed-upgrade-III:
+    name: "&d&l速率升级 III"
+    lore:
+      - "&7这个物品可以使你的机器速率提高60%"
+    upgrade-info:
+      type: SPEED
+      value: 60
+  speed-upgrade-IV:
+    name: "&d&l速率升级 IV"
+    lore:
+      - "&7这个物品可以使你的机器速率提高80%"
+    upgrade-info:
+      type: SPEED
+      value: 80
+  speed-upgrade-V:
+    name: "&d&l速率升级 V"
+    lore:
+      - "&7这个物品可以使你的机器速率提高100%"
+    upgrade-info:
+      type: SPEED
+      value: 100
+
+  solar-upgrade-I:
+    name: "&d&l太阳能升级 I"
+    lore:
+      - "&7这个物品可以使你的太阳能机器在雨天运作"
+    upgrade-info:
+      type: SPEED
+      value: 1
+  solar-upgrade-II:
+    name: "&d&l太阳能升级 II"
+    lore:
+      - "&7这个物品可以使你的太阳能机器在黑夜运作"
+    upgrade-info:
+      type: SPEED
+      value: 2
+  solar-upgrade-III:
+    name: "&d&l太阳能升级 III"
+    lore:
+      - "&7这个物品可以使你的太阳能机器在任意维度运作"
+    upgrade-info:
+      type: SPEED
+      value: 3
+
+  slot-upgrade-I:
+    name: "&d&l升级槽升级 I"
+    lore:
+      - "&7这个物品可以使你的机器增加2个升级槽"
+    upgrade-info:
+      type: SLOT
+      value: 2
+  slot-upgrade-II:
+    name: "&d&l升级槽升级 II"
+    lore:
+      - "&7这个物品可以使你的机器增加3个升级槽"
+    upgrade-info:
+      type: SLOT
+      value: 3
+  slot-upgrade-III:
+    name: "&d&l升级槽升级 III"
+    lore:
+      - "&7这个物品可以使你的机器增加4个升级槽"
+    upgrade-info:
+      type: SLOT
+      value: 4

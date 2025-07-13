@@ -4,7 +4,10 @@ import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.types.FueledMachinery;
 import cn.jason31416.betternations.structure.types.Machinery;
+import cn.jason31416.betternations.structure.types.SolarMachinery;
 import cn.jason31416.betternations.structure.types.UnitProductionStructure;
+import cn.jason31416.betternations.structure.upgrade.UpgradeInfo;
+import cn.jason31416.betternations.structure.upgrade.UpgradeType;
 import cn.jason31416.planetlib.InvalidConfigurationException;
 import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.item.*;
@@ -35,6 +38,7 @@ public class ItemCraftingManager {
     }
     public static Map<ItemType, List<SimpleRecipe> > recipes=new HashMap<>();
     public static Map<String, ItemCategory> itemTypes=new HashMap<>();
+    public static final Map<String, UpgradeInfo> upgradeInfoMap = new HashMap<>();
     public static void unregisterAll(){
         Bukkit.resetRecipes();
         itemTypes.clear();
@@ -90,6 +94,9 @@ public class ItemCraftingManager {
                     }else throw new InvalidConfigurationException("item.yml", i+".category");
                 }
                 itemType.register();
+                if(section.contains(i+".upgrade-info")) {
+                    upgradeInfoMap.put(itemType.getName(), new UpgradeInfo(UpgradeType.valueOf(section.getString(i+".upgrade-info.type")), section.getInt(i+".upgrade-info.value")));
+                }
             }catch (Exception e){
                 Message.getMessage("admin.configuration-format-error-with-loc").add("file", "items").add("line", "Item "+i).send(Bukkit.getConsoleSender());
                 e.printStackTrace();
@@ -109,6 +116,8 @@ public class ItemCraftingManager {
                 }else if(type.equalsIgnoreCase("fueled")){
                     FueledMachinery.fuelCapacityMap.put(i, machinery.getInt("fuel-capacity", 100));
                     PlaceableStructure.registerClass(i, FueledMachinery.class);
+                }else if(type.equalsIgnoreCase("solar")){
+                    PlaceableStructure.registerClass(i, SolarMachinery.class);
                 }
 
             }catch (Exception e){

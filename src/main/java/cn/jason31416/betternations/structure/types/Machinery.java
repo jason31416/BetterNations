@@ -5,9 +5,12 @@ import cn.jason31416.betternations.army.ArmyStack;
 import cn.jason31416.betternations.army.ArmyType;
 import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.TransportArmy;
+import cn.jason31416.betternations.manager.ItemCraftingManager;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.PlaceableStructure;
+import cn.jason31416.betternations.structure.upgrade.UpgradeInfo;
+import cn.jason31416.betternations.structure.upgrade.UpgradeType;
 import cn.jason31416.planetlib.Utils;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
@@ -21,6 +24,7 @@ import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,13 +36,13 @@ public class Machinery extends PlaceableStructure {
 
     public static Map<String, Map<String, Recipe>> recipes = new HashMap<>();
     public static Map<String, Material> materialMap = new HashMap<>();
+    public static Set<UpgradeType> usableUpgrades = new HashSet<>();
     public static class Recipe implements SimpleRecipe {
         public final ItemType product, ingredient;
         public final long duration;
         public final String machineryType;
         public final int productAmount;
         public Recipe(ItemType ingredient, ItemType product, long duration, int productAmount, String machineryType) {
-//            System.out.println("new recipe: "+ingredient.getName()+" -> "+product.getName()+" in "+duration+" ticks for "+machineryType);
             this.product = product;
             this.duration = duration;
             this.ingredient = ingredient;
@@ -103,7 +107,9 @@ public class Machinery extends PlaceableStructure {
         dataItem.set("os", outputSlot);
         return true;
     }
-    public void onGUIOpen(GUI gui){}
+    public void onGUIOpen(GUI gui){
+        
+    }
     @Override
     public void deserialize(IDataItem dataItem) {
         currentProducing = dataItem.getString("cp");

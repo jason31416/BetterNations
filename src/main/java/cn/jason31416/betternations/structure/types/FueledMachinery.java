@@ -1,11 +1,15 @@
 package cn.jason31416.betternations.structure.types;
 
+import cn.jason31416.betternations.manager.ItemCraftingManager;
+import cn.jason31416.betternations.structure.upgrade.UpgradeInfo;
+import cn.jason31416.betternations.structure.upgrade.UpgradeType;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.item.ItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -15,6 +19,11 @@ public class FueledMachinery extends Machinery {
     public static Map<String, Integer> fuelCapacityMap=new HashMap<>();
     public int fuel=0;
     public long lastCheckFuel=0L;
+
+    static {
+        usableUpgrades.add(UpgradeType.SPEED);
+        usableUpgrades.add(UpgradeType.EFFICIENCY);
+    }
 
     @Override
     public boolean serialize(IDataItem dataItem) {
@@ -32,6 +41,7 @@ public class FueledMachinery extends Machinery {
     }
     @Override
     public void onGUIOpen(GUI gui){
+        super.onGUIOpen(gui);
         if(guiFuelLore==null&&!gui.getItems("fuel-slot").items.isEmpty()){
             guiFuelLore = gui.getItems("fuel-slot").items.get(0).lore;
         }
@@ -39,14 +49,14 @@ public class FueledMachinery extends Machinery {
                 .setLore(new ArrayList<>(guiFuelLore))
                 .placeholder("fuel_amount", ""+fuel)
                 .placeholder("fuel_capacity", ""+fuelCapacityMap.get(type))
-                .setClickHandler((session, a, c) -> {
+                .setClickHandler((session, action, event) -> {
                     Player player = session.player.getPlayer();
-                    if(a == InventoryAction.SWAP_WITH_CURSOR && fuel < fuelCapacityMap.get(type)){
+                    if(action == InventoryAction.SWAP_WITH_CURSOR && fuel < fuelCapacityMap.get(type)) {
                         String itemType = ItemType.getItemType(player.getItemOnCursor()).getName().toLowerCase(Locale.ROOT);
-                        if(fuelPointMap.containsKey(itemType)){
+                        if (fuelPointMap.containsKey(itemType)) {
                             int count = player.getItemOnCursor().getAmount();
-                            while(count>0 && fuel < fuelCapacityMap.getOrDefault(type, 100)){
-                                fuel = Math.min(fuel+fuelPointMap.get(itemType), fuelCapacityMap.getOrDefault(type, 100));
+                            while (count > 0 && fuel < fuelCapacityMap.getOrDefault(type, 100)) {
+                                fuel = Math.min(fuel + fuelPointMap.get(itemType), fuelCapacityMap.getOrDefault(type, 100));
                                 count--;
                             }
                             player.getItemOnCursor().setAmount(count);
@@ -67,11 +77,6 @@ public class FueledMachinery extends Machinery {
                 }
             }
             if (fuel == 0) {
-//            if(inputSlot == null || inputSlot.getType() == Material.AIR){
-//                inputSlot = recipes.get(type).get(currentProducing).ingredient.getItemStack();
-//            }else if(ItemType.getItemType(inputSlot) == recipes.get(type).get(currentProducing).ingredient && inputSlot.getAmount()+1<=inputSlot.getMaxStackSize()){
-//                inputSlot.setAmount(inputSlot.getAmount()+1);
-//            }
                 currentProducing = null;
                 finishTime = 0L;
             }
