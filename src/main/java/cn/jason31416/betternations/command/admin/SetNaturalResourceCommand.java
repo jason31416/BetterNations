@@ -30,6 +30,7 @@ public class SetNaturalResourceCommand extends ChildCommand {
         if(!context.args().isEmpty()){
             try {
                 itemType = ItemType.getItemType(context.getArg(0));
+                assert itemType != null && itemType.getMaterial()!= null;
             }catch (Exception e){
                 return Message.getMessage("command.failed.invalid-item-type");
             }
@@ -39,6 +40,7 @@ public class SetNaturalResourceCommand extends ChildCommand {
         }else{
             NaturalResourcesManager.naturalResourcesMap.put(context.getPlayer().getLocation().getChunkLocation(), itemType);
         }
+        NaturalResourcesManager.save();
         return Message.getMessage("command.success.set-natural-resource").add("resource", context.getArg(0));
     }
 

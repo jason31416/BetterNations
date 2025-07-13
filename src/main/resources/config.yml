@@ -84,6 +84,9 @@ border-display: # [Most options in this section require restart to take effect]
   interval: 15 # in ticks
   particle-size: 1.5
 
+structure:
+  extractor-tick-interval: 1200 # How long in ticks does the extractor update?
+
 combat:
   damage-units: 10 # top 10 units are counted toward the stack's total damage
   defend-units: 10 # 10 entities can be spawned at the same time to defend camps/invasions

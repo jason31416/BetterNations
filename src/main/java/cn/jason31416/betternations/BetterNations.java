@@ -18,6 +18,7 @@ import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.betternations.structure.Hologram;
 import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.betternations.structure.StructureListener;
+import cn.jason31416.betternations.structure.types.Extractor;
 import cn.jason31416.betternations.structure.types.Granary;
 import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.planetlib.Config;
@@ -263,6 +264,7 @@ public final class BetterNations extends JavaPlugin {
             ToggleArmyUpdateCommand.bossBar.setProgress(Math.min(1, Math.max(0, (ArmyUpdateManager.nextUpdate-System.currentTimeMillis())/1000.0/Config.getInt("combat.army-tick-interval"))));
             ToggleArmyUpdateCommand.bossBar.setTitle(Message.getMessage("combat.next-update-bossbar").add("timer", Utils.formatSeconds((int)(ArmyUpdateManager.nextUpdate-System.currentTimeMillis())/1000)).toString());
         }));
+        UpdateCycle.registerTask("BetterNations.ExtractorUpdate", new UpdateTask(Config.getInt("structure.extractor-tick-interval"), Extractor::tickAll));
         UpdateCycle.registerTask("BetterNations.MapUpdate", new UpdateTask(Config.getInt("bluemap.check-interval"), MapDisplayManager::update));
         ArmyUpdateManager.nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
         UpdateCycle.registerTask("BetterNations.ClaimingActionbar", new UpdateTask(20, ()->{
@@ -322,6 +324,9 @@ public final class BetterNations extends JavaPlugin {
 
         UpdateCycle.unregisterTask("BetterNations.BorderDisplay");
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
+
+        UpdateCycle.unregisterTask("BetterNations.ExtractorUpdate");
+        UpdateCycle.registerTask("BetterNations.ExtractorUpdate", new UpdateTask(Config.getInt("structure.extractor-tick-interval"), Extractor::tickAll));
 
         UpdateCycle.unregisterTask("BetterNations.FromToParticlesUpdate");
         if(Config.getBoolean("combat.enable-animation")) UpdateCycle.registerTask("BetterNations.FromToParticlesUpdate", new UpdateTask(Config.getInt("combat.particle-interval"), FromToAnimationManager::updateAll));

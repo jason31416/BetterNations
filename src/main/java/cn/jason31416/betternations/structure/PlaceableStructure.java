@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.structure;
 
+import cn.jason31416.betternations.structure.types.Extractor;
 import cn.jason31416.betternations.structure.types.Granary;
 import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.betternations.structure.types.Outpost;
@@ -25,6 +26,6 @@ public abstract class PlaceableStructure extends AbstractStructure {
     public static void registerAll() {
         registerClass("granary", Granary.class);
         registerClass("outpost", Outpost.class);
-        registerClass("extractor", Machinery.class);
+        registerClass("extractor", Extractor.class);
     }
 }

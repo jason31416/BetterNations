@@ -28,8 +28,9 @@ structure:
     hologram: "&8-= &b前哨 &8=-"
     already-exists: "&c该区块已经有一个前哨了!"
   extractor:
-    hologram: "&8-= &b资源开采机 &8=-"
+    hologram: "&8-= &b资源开采机 &7(+%current%) &8=-"
     already-exists: "&c该区块已经有一个资源开采机了!"
+    no-resources: "&c该区块没有可供开采的资源!"
   townruin:
     hologram: "&8-= &8%town% 城镇遗迹 &8=-"
     message:

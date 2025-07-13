@@ -110,7 +110,6 @@ public class ItemCraftingManager {
                     FueledMachinery.fuelCapacityMap.put(i, machinery.getInt("fuel-capacity", 100));
                     PlaceableStructure.registerClass(i, FueledMachinery.class);
                 }
-
             }catch (Exception e){
                 Message.getMessage("admin.configuration-format-error-with-loc").add("file", "items").add("line", "Machinery "+i).send(Bukkit.getConsoleSender());
                 e.printStackTrace();

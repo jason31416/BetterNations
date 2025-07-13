@@ -1,7 +1,9 @@
 package cn.jason31416.betternations.structure;
 
 import cn.jason31416.betternations.army.states.StructuredArmy;
+import cn.jason31416.betternations.manager.NaturalResourcesManager;
 import cn.jason31416.betternations.nation.Permission;
+import cn.jason31416.betternations.structure.types.Extractor;
 import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.betternations.structure.types.Outpost;
 import cn.jason31416.betternations.structure.types.UnitProductionStructure;
@@ -135,6 +137,16 @@ public class StructureListener implements Listener {
                         if((ps instanceof Outpost o)&&Outpost.outposts.contains(o.location.getChunkLocation())){
                             player.sendMessage(Message.getMessage("structure.outpost.already-exists"));
                             return;
+                        }
+                        if((ps instanceof Extractor e)){
+                            if(Extractor.extractors.containsKey(e.location.getChunkLocation())){
+                                player.sendMessage(Message.getMessage("structure.extractor.already-exists"));
+                                return;
+                            }
+                            if(!NaturalResourcesManager.naturalResourcesMap.containsKey(e.location.getChunkLocation())){
+                                player.sendMessage(Message.getMessage("structure.extractor.no-resources"));
+                                return;
+                            }
                         }
                         ps.place();
                     } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |

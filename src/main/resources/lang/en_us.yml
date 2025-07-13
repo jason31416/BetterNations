@@ -36,6 +36,7 @@ structure:
   extractor:
     hologram: "&8-= &bExtractor &8=-"
     already-exists: "&cThere is already an extractor in this chunk!"
+    no-resources: "&cThere are no resource in the chunk to extract!"
   machinery:
     progress-item:
       active:

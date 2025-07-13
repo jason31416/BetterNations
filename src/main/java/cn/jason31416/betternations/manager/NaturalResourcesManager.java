@@ -17,12 +17,12 @@ public class NaturalResourcesManager {
     public static Map<SimpleChunkLocation, ItemType> naturalResourcesMap=new HashMap<>();
     public static void load(){
         naturalResourcesMap.clear();
-        if(!new File("naturalresources.yml").exists()){
+        if(!new File(BetterNations.instance.getDataFolder(), "naturalresources.yml").exists()){
             return;
         }
         YamlConfiguration nrconf = new YamlConfiguration();
         try {
-            nrconf.load(new File("naturalresources.yml"));
+            nrconf.load(new File(BetterNations.instance.getDataFolder(), "naturalresources.yml"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -37,6 +37,7 @@ public class NaturalResourcesManager {
                 e.printStackTrace();
             }
         }
+        BetterNations.instance.getLogger().info("\033[34mLoaded "+naturalResourcesMap.size()+" natural resources.\033[0m");
     }
     public static void save(){
         YamlConfiguration nrconf = new YamlConfiguration();
@@ -45,7 +46,7 @@ public class NaturalResourcesManager {
             nrconf.set(key, naturalResourcesMap.get(chunkLocation).getName());
         }
         try {
-            nrconf.save(new File("naturalresources.yml"));
+            nrconf.save(new File(BetterNations.instance.getDataFolder(), "naturalresources.yml"));
         } catch (IOException e) {
             BetterNations.instance.getLogger().severe("Error saving natural resources!");
             e.printStackTrace();
