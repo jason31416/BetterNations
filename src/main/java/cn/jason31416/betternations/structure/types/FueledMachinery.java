@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -19,11 +20,6 @@ public class FueledMachinery extends Machinery {
     public static Map<String, Integer> fuelCapacityMap=new HashMap<>();
     public int fuel=0;
     public long lastCheckFuel=0L;
-
-    static {
-        usableUpgrades.add(UpgradeType.SPEED);
-        usableUpgrades.add(UpgradeType.EFFICIENCY);
-    }
 
     @Override
     public boolean serialize(IDataItem dataItem) {
@@ -82,5 +78,11 @@ public class FueledMachinery extends Machinery {
             }
         }
         lastCheckFuel = System.currentTimeMillis()/1000;
+    }
+
+    @Override
+    @NotNull
+    public Set<UpgradeType> getUsableUpgrades() {
+        return Set.of(UpgradeType.SLOT, UpgradeType.EFFICIENCY, UpgradeType.SPEED);
     }
 }

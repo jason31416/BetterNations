@@ -5,12 +5,12 @@ import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
+import java.util.Set;
 
 public class SolarMachinery extends Machinery {
-    static {
-        usableUpgrades.add(UpgradeType.SPEED);
-        usableUpgrades.add(UpgradeType.SOLAR);
-    }
     @Override
     public boolean serialize(IDataItem dataItem) {
         return super.serialize(dataItem);
@@ -45,5 +45,11 @@ public class SolarMachinery extends Machinery {
         return location.world().getBukkitWorld().getEnvironment() == World.Environment.NORMAL &&
                 location.world().getBukkitWorld().isClearWeather() &&
                 (location.world().getBukkitWorld().getTime() % 24000 + 24000) % 24000 < 12000;
+    }
+
+    @Override
+    @NotNull
+    public Set<UpgradeType> getUsableUpgrades() {
+        return Set.of(UpgradeType.SLOT, UpgradeType.SPEED, UpgradeType.SOLAR);
     }
 }

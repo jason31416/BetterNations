@@ -1,114 +1,151 @@
+categories:
+  upgrade-modules:
+    name: "&b&lUpgrade Modules &7- EXAMPLE"
+    material: MUSIC_DISC_OTHERSIDE
+
 items:
-  fuel-efficiency-upgrade-I:
+  fuel-efficiency-upgrade-i:
     name: "&a&l燃料能效升级 I"
+    material: MUSIC_DISC_OTHERSIDE
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的燃料机器的燃料效率提高20%"
     upgrade-info:
       type: EFFICIENCY
       value: 20
-  fuel-efficiency-upgrade-II:
+  fuel-efficiency-upgrade-ii:
     name: "&a&l燃料能效升级 II"
+    material: MUSIC_DISC_OTHERSIDE
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的燃料机器的燃料效率提高40%"
     upgrade-info:
       type: EFFICIENCY
       value: 40
-  fuel-efficiency-upgrade-III:
+  fuel-efficiency-upgrade-iii:
     name: "&a&l燃料能效升级 III"
+    material: MUSIC_DISC_OTHERSIDE
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的燃料机器的燃料效率提高60%"
     upgrade-info:
       type: EFFICIENCY
       value: 60
-  fuel-efficiency-upgrade-IV:
+  fuel-efficiency-upgrade-iv:
+    material: MUSIC_DISC_OTHERSIDE
     name: "&a&l燃料能效升级 IV"
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的燃料机器的燃料效率提高80%"
     upgrade-info:
       type: EFFICIENCY
       value: 80
-  fuel-efficiency-upgrade-V:
+  fuel-efficiency-upgrade-v:
     name: "&a&l燃料能效升级 V"
+    material: MUSIC_DISC_OTHERSIDE
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的燃料机器的燃料效率提高100%"
     upgrade-info:
       type: EFFICIENCY
       value: 100
 
-  speed-upgrade-I:
+  speed-upgrade-i:
     name: "&d&l速率升级 I"
+    material: MUSIC_DISC_CAT
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的机器速率提高20%"
     upgrade-info:
       type: SPEED
       value: 20
-  speed-upgrade-II:
+  speed-upgrade-ii:
     name: "&d&l速率升级 II"
+    material: MUSIC_DISC_CAT
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的机器速率提高40%"
     upgrade-info:
       type: SPEED
       value: 40
-  speed-upgrade-III:
+  speed-upgrade-iii:
     name: "&d&l速率升级 III"
+    material: MUSIC_DISC_CAT
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的机器速率提高60%"
     upgrade-info:
       type: SPEED
       value: 60
-  speed-upgrade-IV:
+  speed-upgrade-iv:
     name: "&d&l速率升级 IV"
+    material: MUSIC_DISC_CAT
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的机器速率提高80%"
     upgrade-info:
       type: SPEED
       value: 80
-  speed-upgrade-V:
+  speed-upgrade-v:
     name: "&d&l速率升级 V"
+    material: MUSIC_DISC_CAT
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的机器速率提高100%"
     upgrade-info:
       type: SPEED
       value: 100
 
-  solar-upgrade-I:
+  solar-upgrade-i:
     name: "&d&l太阳能升级 I"
+    material: MUSIC_DISC_13
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的太阳能机器在雨天运作"
     upgrade-info:
-      type: SPEED
+      type: SOLAR
       value: 1
-  solar-upgrade-II:
+  solar-upgrade-ii:
     name: "&d&l太阳能升级 II"
+    material: MUSIC_DISC_13
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的太阳能机器在黑夜运作"
     upgrade-info:
-      type: SPEED
+      type: SOLAR
       value: 2
-  solar-upgrade-III:
+  solar-upgrade-iii:
     name: "&d&l太阳能升级 III"
+    material: MUSIC_DISC_13
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的太阳能机器在任意维度运作"
     upgrade-info:
-      type: SPEED
+      type: SOLAR
       value: 3
 
-  slot-upgrade-I:
+  slot-upgrade-i:
     name: "&d&l升级槽升级 I"
+    material: MUSIC_DISC_11
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的机器增加2个升级槽"
     upgrade-info:
       type: SLOT
       value: 2
-  slot-upgrade-II:
+  slot-upgrade-ii:
     name: "&d&l升级槽升级 II"
+    material: MUSIC_DISC_11
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的机器增加3个升级槽"
     upgrade-info:
       type: SLOT
       value: 3
-  slot-upgrade-III:
+  slot-upgrade-iii:
     name: "&d&l升级槽升级 III"
+    material: MUSIC_DISC_11
+    category: upgrade-modules
     lore:
       - "&7这个物品可以使你的机器增加4个升级槽"
     upgrade-info:

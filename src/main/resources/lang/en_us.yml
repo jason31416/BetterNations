@@ -57,6 +57,13 @@ structure:
     hologram: "&7Grinder"
   soul-extractor:
     hologram: "&aSoul Extractor"
+  upgrade:
+    usable-slot-name: "&a&lUpgrade Slot"
+    usable-slot-lore:
+      - "&7You can put your upgrade slot here"
+    unusable-slot-name: "&c&lLocked upgrade slot"
+    unusable-slot-lore:
+      - "&7You need to use a slot upgrade to unlock this slot"
 
 # These are messages that will be displayed when players execute specific commands.
 command:

@@ -93,10 +93,10 @@ public class ItemCraftingManager {
                         itemTypes.get(section.getString(i+".category")).types.add(itemType);
                     }else throw new InvalidConfigurationException("item.yml", i+".category");
                 }
-                itemType.register();
                 if(section.contains(i+".upgrade-info")) {
                     upgradeInfoMap.put(itemType.getName(), new UpgradeInfo(UpgradeType.valueOf(section.getString(i+".upgrade-info.type")), section.getInt(i+".upgrade-info.value")));
                 }
+                itemType.register();
             }catch (Exception e){
                 Message.getMessage("admin.configuration-format-error-with-loc").add("file", "items").add("line", "Item "+i).send(Bukkit.getConsoleSender());
                 e.printStackTrace();
