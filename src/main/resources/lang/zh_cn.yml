@@ -60,6 +60,14 @@ structure:
   soul-extractor:
     hologram: "&a灵魂提取器"
 
+  upgrade:
+    usable-slot-name: "&a&l升级槽"
+    usable-slot-lore:
+      - "&7你可以在这里放置升级模块"
+    unusable-slot-name: "&c&l锁定的升级槽"
+    unusable-slot-lore:
+      - "&7你需要使用升级槽升级模块解锁此槽"
+
 # These are messages that will be displayed when players execute specific commands.
 command: 
   success:
