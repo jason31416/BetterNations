@@ -33,6 +33,9 @@ structure:
       claimed: "<red>This chunk has been claimed by another nation!"
       no_nation: "<red>You don't have a nation! Use <yellow>/n create nation_name<red> to create one here!"
       interact: "<#2288ff>SHIFT+click this block to create a town here! <red>(Costs %cost% gold)"
+  extractor:
+    hologram: "&8-= &bExtractor &8=-"
+    already-exists: "&cThere is already an extractor in this chunk!"
   machinery:
     progress-item:
       active:

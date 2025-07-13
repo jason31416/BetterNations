@@ -2,6 +2,7 @@ package cn.jason31416.betternations.manager;
 
 import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.structure.PlaceableStructure;
+import cn.jason31416.betternations.structure.types.FueledMachinery;
 import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.InvalidConfigurationException;
@@ -102,7 +103,14 @@ public class ItemCraftingManager {
                 if(machinery == null) throw new InvalidConfigurationException("item.yml", i);
                 Machinery.materialMap.put(i, Objects.requireNonNull(Material.getMaterial(machinery.getString("material", "").toUpperCase()), "Material is not found!"));
                 Machinery.recipes.put(i, new HashMap<>());
-                PlaceableStructure.registerClass(i, Machinery.class);
+                String type = machinery.getString("machinery-type", "normal");
+                if(type.equalsIgnoreCase("normal")){
+                    PlaceableStructure.registerClass(i, Machinery.class);
+                }else if(type.equalsIgnoreCase("fueled")){
+                    FueledMachinery.fuelCapacityMap.put(i, machinery.getInt("fuel-capacity", 100));
+                    PlaceableStructure.registerClass(i, FueledMachinery.class);
+                }
+
             }catch (Exception e){
                 Message.getMessage("admin.configuration-format-error-with-loc").add("file", "items").add("line", "Machinery "+i).send(Bukkit.getConsoleSender());
                 e.printStackTrace();
@@ -209,6 +217,11 @@ public class ItemCraftingManager {
                 if(fl.isConfigurationSection("machinery")){
                     loadMachineries(Objects.requireNonNull(fl.getConfigurationSection("machinery")));
                     BetterNations.instance.getLogger().info("\033[36m- Loaded "+fl.getConfigurationSection("machinery").getKeys(false).size()+" machinery from "+file.getName()+"!\033[0m");
+                }
+                if(fl.isConfigurationSection("fuels")){
+                    for(String i: fl.getConfigurationSection("fuels").getKeys(false)){
+                        FueledMachinery.fuelPointMap.put(i.toLowerCase(Locale.ROOT), fl.getInt("fuels."+i));
+                    }
                 }
             }
         }

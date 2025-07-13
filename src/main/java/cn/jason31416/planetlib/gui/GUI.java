@@ -52,7 +52,7 @@ public class GUI {
         }
     }
     public static class ItemGroup {
-        List<Item> items=new ArrayList<>();
+        public List<Item> items=new ArrayList<>();
         public ItemGroup(List<Item> items){
             this.items=items;
         }

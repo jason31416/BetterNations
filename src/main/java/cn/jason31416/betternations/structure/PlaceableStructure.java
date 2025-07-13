@@ -25,5 +25,6 @@ public abstract class PlaceableStructure extends AbstractStructure {
     public static void registerAll() {
         registerClass("granary", Granary.class);
         registerClass("outpost", Outpost.class);
+        registerClass("extractor", Machinery.class);
     }
 }

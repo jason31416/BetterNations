@@ -41,6 +41,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -253,6 +254,7 @@ public final class BetterNations extends JavaPlugin {
         ToggleArmyUpdateCommand.bossBar=Bukkit.createBossBar(Message.getMessage("combat.next-update-bossbar").toString(), BarColor.RED, BarStyle.SOLID);
         ToggleArmyUpdateCommand.bossBar.setVisible(true);
         TownLevel.loadLevels();
+        NaturalResourcesManager.load();
 
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
         UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
@@ -313,6 +315,7 @@ public final class BetterNations extends JavaPlugin {
         LandArmyManager.loadAll();
         Granary.loadSupplyWorth();
         TownLevel.loadLevels();
+        NaturalResourcesManager.load();
 
         GUILoader.loadedGUIs.clear();
         loadGUIs();

@@ -10,8 +10,8 @@ items:
     material: iron_sword
     name: "&7&l钢剑"
     enchant:
-      sharpness: 3
-      unbreaking: 3
+      DAMAGE_ALL: 3
+      DURABILITY: 3
     category: tool
     model: 31431
     interaction: true
@@ -19,8 +19,8 @@ items:
     material: iron_axe
     name: "&7&l钢斧"
     enchant:
-      sharpness: 3
-      unbreaking: 3
+      DAMAGE_ALL: 3
+      DURABILITY: 3
     category: tool
     model: 31432
     interaction: true
@@ -28,8 +28,8 @@ items:
     material: iron_helmet
     name: "&7&l钢头盔"
     enchant:
-      protection: 4
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 4
+      DURABILITY: 5
     category: tool
     model: 31433
     interaction: true
@@ -37,8 +37,8 @@ items:
     material: iron_chestplate
     name: "&7&l钢胸甲"
     enchant:
-      protection: 4
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 4
+      DURABILITY: 5
     category: tool
     model: 31434
     interaction: true
@@ -46,8 +46,8 @@ items:
     material: iron_leggings
     name: "&7&l钢护腿"
     enchant:
-      protection: 4
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 4
+      DURABILITY: 5
     category: tool
     model: 31435
     interaction: true
@@ -55,8 +55,8 @@ items:
     material: iron_boots
     name: "&7&l钢靴子"
     enchant:
-      protection: 4
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 4
+      DURABILITY: 5
     category: tool
     model: 31436
     interaction: true
@@ -66,10 +66,10 @@ items:
     material: golden_sword
     name: "&6&l熔火之刃"
     enchant:
-      sharpness: 5
-      fire_aspect: 2
-      looting: 2
-      unbreaking: 8
+      DAMAGE_ALL: 5
+      FIRE_ASPECT: 2
+      LOOT_BONUS_MOBS: 2
+      DURABILITY: 8
     category: tool
     model: 31437
     interaction: true
@@ -77,9 +77,9 @@ items:
     material: golden_helmet
     name: "&6&l地狱锻造头盔"
     enchant:
-      fire_protection: 5
-      thorns: 2
-      unbreaking: 8
+      PROTECTION_FIRE: 5
+      THORNS: 2
+      DURABILITY: 8
     category: tool
     model: 31438
     interaction: true
@@ -87,9 +87,9 @@ items:
     material: golden_chestplate
     name: "&6&l地狱锻造胸甲"
     enchant:
-      fire_protection: 5
-      thorns: 2
-      unbreaking: 8
+      PROTECTION_FIRE: 5
+      THORNS: 2
+      DURABILITY: 8
     category: tool
     model: 31439
     interaction: true
@@ -97,9 +97,9 @@ items:
     material: golden_leggings
     name: "&6&l地狱锻造护腿"
     enchant:
-      fire_protection: 5
-      thorns: 2
-      unbreaking: 8
+      PROTECTION_FIRE: 5
+      THORNS: 2
+      DURABILITY: 8
     category: tool
     model: 31440
     interaction: true
@@ -107,9 +107,9 @@ items:
     material: golden_boots
     name: "&6&l地狱锻造靴子"
     enchant:
-      fire_protection: 5
-      thorns: 2
-      unbreaking: 8
+      PROTECTION_FIRE: 5
+      THORNS: 2
+      DURABILITY: 8
     category: tool
     model: 31441
     interaction: true
@@ -117,9 +117,9 @@ items:
     material: golden_pickaxe
     name: "&6&l下界之握"
     enchant:
-      unbreaking: 10
-      efficiency: 4
-      fortune: 3
+      DURABILITY: 10
+      DIG_SPEED: 4
+      LOOT_BONUS_BLOCKS: 3
     category: tool
     model: 31442
     interaction: true
@@ -129,7 +129,7 @@ items:
     material: shield
     name: "&3&l泰坦之盾"
     enchant:
-      unbreaking: 10
+      DURABILITY: 10
     category: tool
     model: 31443
     interaction: true
@@ -137,8 +137,8 @@ items:
     material: diamond_helmet
     name: "&3&l强化头盔"
     enchant:
-      protection: 4
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 4
+      DURABILITY: 5
     category: tool
     model: 31444
     interaction: true
@@ -146,8 +146,8 @@ items:
     material: diamond_chestplate
     name: "&3&l强化胸甲"
     enchant:
-      protection: 4
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 4
+      DURABILITY: 5
     category: tool
     model: 31445
     interaction: true
@@ -155,8 +155,8 @@ items:
     material: diamond_leggings
     name: "&3&l强化护腿"
     enchant:
-      protection: 4
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 4
+      DURABILITY: 5
     category: tool
     model: 31446
     interaction: true
@@ -164,8 +164,8 @@ items:
     material: diamond_boots
     name: "&3&l强化靴子"
     enchant:
-      protection: 4
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 4
+      DURABILITY: 5
     category: tool
     model: 31447
     interaction: true
@@ -173,8 +173,8 @@ items:
     material: diamond_sword
     name: "&3&l强化之刃"
     enchant:
-      sharpness: 5
-      unbreaking: 5
+      DAMAGE_ALL: 5
+      DURABILITY: 5
     category: tool
     model: 31448
     interaction: true
@@ -184,9 +184,9 @@ items:
     material: diamond_sword
     name: "&b&l雷霆之刃"
     enchant:
-      sharpness: 6
-      channeling: 1
-      unbreaking: 3
+      DAMAGE_ALL: 6
+      CHANNELING: 1
+      DURABILITY: 3
     category: tool
     model: 31449
     interaction: true
@@ -194,9 +194,9 @@ items:
     material: diamond_helmet
     name: "&b&l风暴守卫头盔"
     enchant:
-      protection: 5
-      thorns: 3
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 5
+      THORNS: 3
+      DURABILITY: 5
     category: tool
     model: 31450
     interaction: true
@@ -204,9 +204,9 @@ items:
     material: diamond_chestplate
     name: "&b&l风暴守卫胸甲"
     enchant:
-      protection: 5
-      thorns: 3
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 5
+      THORNS: 3
+      DURABILITY: 5
     category: tool
     model: 31451
     interaction: true
@@ -214,9 +214,9 @@ items:
     material: diamond_leggings
     name: "&b&l风暴守卫护腿"
     enchant:
-      protection: 5
-      thorns: 3
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 5
+      THORNS: 3
+      DURABILITY: 5
     category: tool
     model: 31452
     interaction: true
@@ -224,9 +224,9 @@ items:
     material: diamond_boots
     name: "&b&l风暴守卫靴子"
     enchant:
-      protection: 5
-      thorns: 3
-      unbreaking: 5
+      PROTECTION_ENVIRONMENTAL: 5
+      THORNS: 3
+      DURABILITY: 5
     category: tool
     model: 31453
     interaction: true
@@ -234,9 +234,9 @@ items:
     material: bow
     name: "&b&l闪电传导者"
     enchant:
-      power: 7
-      flame: 1
-      unbreaking: 5
+      ARROW_DAMAGE: 7
+      ARROW_FIRE: 1
+      DURABILITY: 5
     category: tool
     model: 31454
     interaction: true

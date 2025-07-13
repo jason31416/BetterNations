@@ -103,6 +103,7 @@ public class Machinery extends PlaceableStructure {
         dataItem.set("os", outputSlot);
         return true;
     }
+    public void onGUIOpen(GUI gui){}
     @Override
     public void deserialize(IDataItem dataItem) {
         currentProducing = dataItem.getString("cp");
@@ -117,6 +118,9 @@ public class Machinery extends PlaceableStructure {
         long minutes = (time%3600000)/60000;
         long seconds = (time%60000)/1000;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+    public String getGUIName(){
+        return "machinery-1-1";
     }
     @Override
     public boolean processInteraction(AbstractStructure.InteractionType t, SimplePlayer player) {
@@ -158,67 +162,64 @@ public class Machinery extends PlaceableStructure {
                                     .setSkullID(null)
                                     .setQuantity(1);
                         }
+                        onGUIOpen(gui);
                     }
                     @Override
                     public void constructGUI(String guiID, GUI gui) {
-                        updateMachineries();
-                        switch (guiID){
-                            case "machinery-1-1":{
-                                gui.getItems("close").setClickHandler(new GUI.CloseGuiRunnable());
-                                loadItems(gui);
-                                gui.getItems("input-slot").setClickHandler((session, a, c)-> {
+                        updateMachinery();
+                        gui.getItems("close").setClickHandler(new GUI.CloseGuiRunnable());
+                        loadItems(gui);
+                        gui.getItems("input-slot").setClickHandler((session, a, c)-> {
 //                                    BetterNations.instance.getLogger().info("input slot clicked: "+a.name());
-                                    if (a == InventoryAction.PICKUP_ALL && inputSlot != null) {
-                                        player.getPlayer().setItemOnCursor(inputSlot.clone());
-                                        inputSlot = null;
-                                        loadItems(gui);
-                                        gui.update();
-                                        if(currentProducing!=null){
-                                            currentProducing = null;
-                                            finishTime = 0;
-                                        }
-                                    }else if(a == InventoryAction.SWAP_WITH_CURSOR && inputSlot == null){
-                                        inputSlot = player.getPlayer().getItemOnCursor().clone();
-                                        player.getPlayer().setItemOnCursor(null);
-                                        loadItems(gui);
-                                        gui.update();
-                                    }else if(a == InventoryAction.SWAP_WITH_CURSOR && inputSlot != null){
+                            if (a == InventoryAction.PICKUP_ALL && inputSlot != null) {
+                                player.getPlayer().setItemOnCursor(inputSlot.clone());
+                                inputSlot = null;
+                                loadItems(gui);
+                                gui.update();
+                                if(currentProducing!=null){
+                                    currentProducing = null;
+                                    finishTime = 0;
+                                }
+                            }else if(a == InventoryAction.SWAP_WITH_CURSOR && inputSlot == null){
+                                inputSlot = player.getPlayer().getItemOnCursor().clone();
+                                player.getPlayer().setItemOnCursor(null);
+                                loadItems(gui);
+                                gui.update();
+                            }else if(a == InventoryAction.SWAP_WITH_CURSOR && inputSlot != null){
 //                                        BetterNations.instance.getLogger().info(ItemType.getItemType(inputSlot).getName()+" "+ItemType.getItemType(player.getPlayer().getItemOnCursor().clone()).getName());
-                                        if(ItemType.getItemType(inputSlot).getName().equals(ItemType.getItemType(player.getPlayer().getItemOnCursor().clone()).getName())){
-                                            int transfer = Math.min(inputSlot.getMaxStackSize()-inputSlot.getAmount(), player.getPlayer().getItemOnCursor().getAmount());
-                                            inputSlot.setAmount(inputSlot.getAmount()+transfer);
-                                            player.getPlayer().getItemOnCursor().setAmount(player.getPlayer().getItemOnCursor().getAmount()-transfer);
-                                            loadItems(gui);
-                                            gui.update();
-                                        }
-                                    }
-                                });
-                                gui.getItems("output-slot").setClickHandler((session, a, c) -> {
-                                    if (a == InventoryAction.PICKUP_ALL && outputSlot != null) {
-                                        player.getPlayer().setItemOnCursor(outputSlot.clone());
-                                        outputSlot = null;
-                                        loadItems(gui);
-                                        gui.update();
-                                    }
-                                });
-                                gui.placeholder("structure_name", Message.getMessage("structure."+type+".hologram").toString());
-
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        if(!GUISession.sessions.containsKey(player)||
-                                                GUISession.sessions.get(player).gui!=gui){
-                                            cancel();
-                                            return;
-                                        }
-                                        loadItems(gui);
-                                        gui.update();
-                                    }
-                                }.runTaskTimer(BetterNations.instance, 5L,5L);
+                                if(ItemType.getItemType(inputSlot).getName().equals(ItemType.getItemType(player.getPlayer().getItemOnCursor().clone()).getName())){
+                                    int transfer = Math.min(inputSlot.getMaxStackSize()-inputSlot.getAmount(), player.getPlayer().getItemOnCursor().getAmount());
+                                    inputSlot.setAmount(inputSlot.getAmount()+transfer);
+                                    player.getPlayer().getItemOnCursor().setAmount(player.getPlayer().getItemOnCursor().getAmount()-transfer);
+                                    loadItems(gui);
+                                    gui.update();
+                                }
                             }
-                        }
+                        });
+                        gui.getItems("output-slot").setClickHandler((session, a, c) -> {
+                            if (a == InventoryAction.PICKUP_ALL && outputSlot != null) {
+                                player.getPlayer().setItemOnCursor(outputSlot.clone());
+                                outputSlot = null;
+                                loadItems(gui);
+                                gui.update();
+                            }
+                        });
+                        gui.placeholder("structure_name", Message.getMessage("structure."+type+".hologram").toString());
+
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if(!GUISession.sessions.containsKey(player)||
+                                        GUISession.sessions.get(player).gui!=gui){
+                                    cancel();
+                                    return;
+                                }
+                                loadItems(gui);
+                                gui.update();
+                            }
+                        }.runTaskTimer(BetterNations.instance, 5L,5L);
                     }
-                }.display("machinery-1-1");
+                }.display(getGUIName());
             }else{
                 Message.getMessage("town.cannot-build").sendActionbar(player);
             }
