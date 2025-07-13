@@ -34,7 +34,7 @@ structure:
       no_nation: "<red>You don't have a nation! Use <yellow>/n create nation_name<red> to create one here!"
       interact: "<#2288ff>SHIFT+click this block to create a town here! <red>(Costs %cost% gold)"
   extractor:
-    hologram: "&8-= &bExtractor &8=-"
+    hologram: "&8-= &bExtractor &7(%item% &r&7x%current%) &8=-"
     already-exists: "&cThere is already an extractor in this chunk!"
     no-resources: "&cThere are no resource in the chunk to extract!"
   machinery:
@@ -395,6 +395,7 @@ bluemap:
     nation: "Nation Territory"
     town: "Town Territory"
     poi: "Points of Interest"
+  resource-title: "%type% Natural Resource"
   camp-title: "%nation%'s Camp (%size% units, %health%/%max_health%)"
   invasion-title: "<span style='color: red'>%nation%'s Invasion (%size% units, %health%/%max_health%)</span>"
   siege-title: "<span style='color: red'>%nation%'s Siege on %town% (%size% units, %health%/%max_health%)</span>"

@@ -53,6 +53,14 @@ items: # You can create your own items!
       - ""
       - "&8[BetterNations Structure]"
     category: structure
+  extractor:
+    material: iron_block
+    name: "&b&lExtractor"
+    lore:
+      - "&7Extract resources from certain chunks"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
 
 # Recipes don't need translation as they use material codes
 recipes:

@@ -28,7 +28,7 @@ structure:
     hologram: "&8-= &b前哨 &8=-"
     already-exists: "&c该区块已经有一个前哨了!"
   extractor:
-    hologram: "&8-= &b资源开采机 &7(+%current%) &8=-"
+    hologram: "&8-= &b资源开采机 &7(%item% &r&7x%current%) &8=-"
     already-exists: "&c该区块已经有一个资源开采机了!"
     no-resources: "&c该区块没有可供开采的资源!"
   townruin:
@@ -61,7 +61,7 @@ structure:
     hologram: "&a灵魂提取器"
 
 # These are messages that will be displayed when players execute specific commands.
-command: 
+command:
   success:
     nation-created: "<#2288ff>成功创建了国家 <#00ddff>%name% <#2288ff>!"
     join-nation: "<#2288ff>成功加入了 <#00ddff>%nation_name%<#2288ff> !"
@@ -405,6 +405,7 @@ bluemap:
     nation: "国家领土"
     town: "城镇领土"
     poi: "标记"
+  resource-title: "%type% 自然资源"
   camp-title: "%nation% 的营地 (%size% 单位, %health%/%max_health%)"
   invasion-title: "<span style='color: red'>%nation% 的入侵 (%size% 单位, %health%/%max_health%)</span>"
   siege-title: "<span style='color: red'>%nation% 对 %town% 的攻城 (%size% 单位, %health%/%max_health%)</span>"

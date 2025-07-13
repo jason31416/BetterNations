@@ -14,10 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Extractor extends PlaceableStructure {
     public static Map<SimpleChunkLocation, Extractor> extractors = new HashMap<>();
@@ -36,7 +33,14 @@ public class Extractor extends PlaceableStructure {
     }
     @Override
     public String getHologramText(){
-        return Message.getMessage("structure.extractor.hologram").add("current", produced).toString();
+        String name="";
+        if(getItemType()!=null){
+            name = Objects.requireNonNull(getItemType().getItemStack().getItemMeta()).getDisplayName();
+        }
+        return Message.getMessage("structure.extractor.hologram")
+                .add("current", produced)
+                .add("item", name.replaceAll("§.", ""))
+                .toString();
     }
     @Override
     public Material getMaterial() {

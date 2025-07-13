@@ -166,3 +166,5 @@ bluemap:
   town-max-view-distance: 100000 # As well as this one
   line-width: 5
   check-interval: 20 # in ticks, how frequent should the plugin update the map (almost completely async ;) )
+  resource-img:
+    steel: /assets/betternations/steel.png

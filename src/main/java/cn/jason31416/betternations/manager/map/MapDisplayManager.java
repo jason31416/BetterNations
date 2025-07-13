@@ -5,6 +5,7 @@ import cn.jason31416.betternations.army.states.InvasionFlag;
 import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.manager.ArmyUpdateManager;
+import cn.jason31416.betternations.manager.NaturalResourcesManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.planetlib.Config;
@@ -14,6 +15,7 @@ import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleWorld;
 import com.flowpowered.math.vector.Vector2d;
+import com.flowpowered.math.vector.Vector2i;
 import de.bluecolored.bluemap.api.BlueMapAPI;
 import de.bluecolored.bluemap.api.BlueMapMap;
 import de.bluecolored.bluemap.api.markers.Marker;
@@ -277,10 +279,11 @@ public class MapDisplayManager {
                 }else if(i instanceof SiegeFlag flag){
                     marker = POIMarker.builder()
                             .label(Message.getMessage("bluemap.siege-title").add("nation", i.stack.nation.getName()).add("size", i.stack.size()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).add("town", flag.target.getName()).toString());
-                }else{
-                    marker = POIMarker.builder()
-                            .label(Message.getMessage("bluemap.camp-title").add("nation", i.stack.nation.getName()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).add("size", i.stack.size()).toString());
-                }
+                }else continue;
+//                else{
+//                    marker = POIMarker.builder()
+//                            .label(Message.getMessage("bluemap.camp-title").add("nation", i.stack.nation.getName()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).add("size", i.stack.size()).toString());
+//                }
                 marker.position(i.location.x(), i.location.y(), i.location.z())
                         .maxDistance(1000);
                 if(!pois.containsKey(loc.world())){
@@ -290,14 +293,33 @@ public class MapDisplayManager {
             }
         }
     }
+    public static void drawResources(){
+        for(SimpleChunkLocation loc: new HashSet<>(NaturalResourcesManager.naturalResourcesMap.keySet())){
+            double x=loc.x()*16+8, z=loc.z()*16+8, y=loc.world().getBukkitWorld().getHighestBlockYAt((int)x, (int)z)+1;
+            POIMarker.Builder marker = POIMarker.builder()
+                    .label(Message.getMessage("bluemap.resource-title").add("type", Objects.requireNonNull(NaturalResourcesManager.naturalResourcesMap.get(loc).getItemStack().getItemMeta()).getDisplayName().replaceAll("§.", "")).toString())
+                    .position(x, y, z)
+                    .maxDistance(500);
+            String type = NaturalResourcesManager.naturalResourcesMap.get(loc).getName();
+            if(Config.contains("bluemap.resource-img."+type)){
+                marker.icon(Config.getString("bluemap.resource-img."+type), new Vector2i(0, 0));
+            }
+            if(!pois.containsKey(loc.world())){
+                pois.put(loc.world(), MarkerSet.builder().label(Message.getMessage("bluemap.markerset.poi").toString()).build());
+            }
+            pois.get(loc.world()).put(loc.toString(), marker.build());
+        }
+    }
     private static BukkitRunnable getRunnable(BlueMapAPI api){
         return new BukkitRunnable() {
             public void run() {
                 nations.clear();
                 towns.clear();
+                pois.clear();
                 drawNations(Nation.nations.values());
                 drawTowns(Town.towns.values());
                 drawInvasions();
+                drawResources();
                 for (SimpleWorld i : nations.keySet()) {
                     api.getWorld(i.getBukkitWorld()).ifPresent(world -> {
                         for (BlueMapMap map : world.getMaps()) {
@@ -379,7 +401,7 @@ public class MapDisplayManager {
             drawNations(nu);
             drawTowns(tu);
             drawInvasions();
-
+            drawResources();
         });
     }
     public static void reload(){
