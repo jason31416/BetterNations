@@ -1,7 +1,7 @@
 machinery-1-1:
   window:
     title: "&7-= &r%structure_name% &7=-"
-    size: 27
+    size: 36
   container:
     input-border:
       name: " "
@@ -30,7 +30,7 @@ machinery-1-1:
 machinery-1-1-fueled:
   window:
     title: "&7-= &r%structure_name% &7=-"
-    size: 27
+    size: 36
   container:
     input-border:
       name: " "
@@ -65,3 +65,36 @@ machinery-1-1-fueled:
       slot: 13
       name: "&7进度"
       material: ORANGE_STAINED_GLASS_PANE
+machinery-1-1-solar:
+  window:
+    title: "&7-= &r%structure_name% &7=-"
+    size: 36
+  container:
+    input-border:
+      name: " "
+      slots: [0, 1, 2, 9, 11, 18, 19, 20 ]
+      material: LIME_STAINED_GLASS_PANE
+    output-border:
+      name: " "
+      slots: [6, 7, 8, 15, 17, 24, 25, 26]
+      material: LIGHT_BLUE_STAINED_GLASS_PANE
+    input-slot:
+      slot: 10
+      name: "&7输入"
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+    output-slot:
+      slot: 16
+      name: "&7输出"
+      material: LIGHT_GRAY_STAINED_GLASS_PANE
+    progress-border:
+      name: " "
+      slots: [3, 4, 5, 12, 14, 21, 23]
+      material: GRAY_STAINED_GLASS_PANE
+    progress-item:
+      slot: 13
+      name: "&7进度"
+      material: ORANGE_STAINED_GLASS_PANE
+    solar-state:
+      name: " "
+      slot: 22
+      material: SLIME_BALL
