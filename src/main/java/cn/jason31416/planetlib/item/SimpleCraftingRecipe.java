@@ -21,40 +21,51 @@ public class SimpleCraftingRecipe implements SimpleRecipe {
     public static class recipeListener implements Listener {
         @EventHandler
         public void preCrafting(PrepareItemCraftEvent event) {
-            if(event.getInventory().getMatrix().length!=9) return;
-            ItemType productType = ItemType.getItemType(event.getInventory().getResult());
-            if(!recipes.containsKey(productType)){
-                for(ItemStack i: event.getInventory().getMatrix()){
-                    if(ItemType.getItemType(i) instanceof CustomItemType){
-                        event.getInventory().setResult(null);
-                        return;
+            if(event.getInventory().getMatrix().length==9) {
+                ItemType productType = ItemType.getItemType(event.getInventory().getResult());
+                if (!recipes.containsKey(productType)) {
+                    for (ItemStack i : event.getInventory().getMatrix()) {
+                        if (ItemType.getItemType(i) instanceof CustomItemType) {
+                            event.getInventory().setResult(null);
+                            return;
+                        }
                     }
+                    return;
                 }
-                return;
-            }
-            for (SimpleCraftingRecipe r : recipes.get(productType)) {
-                for (int i = 0; i < 4 - r.recipe.size(); i++) {
-                    for (int j = 0; j < 4 - r.recipe.get(0).size(); j++) {
-                        outer:
-                        {
-                            for (int k = i; k < i + r.recipe.size(); k++) {
-                                for (int l = j; l < j + r.recipe.get(0).size(); l++) {
-                                    if(ItemType.getItemType(event.getInventory().getMatrix()[k * 3 + l]).getMaterial() != r.recipe.get(k - i).get(l - j).getMaterial()) {
-                                        break outer;
+                for (SimpleCraftingRecipe r : recipes.get(productType)) {
+                    for (int i = 0; i < 4 - r.recipe.size(); i++) {
+                        for (int j = 0; j < 4 - r.recipe.get(0).size(); j++) {
+                            outer:
+                            {
+                                for (int k = i; k < i + r.recipe.size(); k++) {
+                                    for (int l = j; l < j + r.recipe.get(0).size(); l++) {
+                                        if (ItemType.getItemType(event.getInventory().getMatrix()[k * 3 + l]).getMaterial() != r.recipe.get(k - i).get(l - j).getMaterial()) {
+                                            break outer;
+                                        }
                                     }
                                 }
-                            }
-                            for (int k = i; k < i + r.recipe.size(); k++) {
-                                for (int l = j; l < j + r.recipe.get(0).size(); l++) {
-                                    if (!ItemType.getItemType(event.getInventory().getMatrix()[k * 3 + l]).equals(r.recipe.get(k - i).get(l - j))) {
-                                        event.getInventory().setResult(null);
-                                        break outer;
+                                for (int k = i; k < i + r.recipe.size(); k++) {
+                                    for (int l = j; l < j + r.recipe.get(0).size(); l++) {
+                                        if (!ItemType.getItemType(event.getInventory().getMatrix()[k * 3 + l]).equals(r.recipe.get(k - i).get(l - j))) {
+                                            event.getInventory().setResult(null);
+                                            break outer;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+            }else if(event.getInventory().getMatrix().length==4){
+                ItemType productType = ItemType.getItemType(event.getInventory().getResult());
+                if (!recipes.containsKey(productType)) {
+                    for (ItemStack i : event.getInventory().getMatrix()) {
+                        if (ItemType.getItemType(i) instanceof CustomItemType) {
+                            event.getInventory().setResult(null);
+                            return;
+                        }
+                    }
+                }else event.getInventory().setResult(null);
             }
         }
     }

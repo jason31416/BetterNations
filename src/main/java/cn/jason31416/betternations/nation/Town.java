@@ -245,8 +245,11 @@ public class Town implements Damageable {
             String[] roleInfo = role.split(":");
             SimplePlayer player = SimplePlayer.of(UUID.fromString(roleInfo[0]));
             TownRole townRole = TownRole.valueOf(roleInfo[1]);
-            town.roles.put(player, townRole);
+            if(!player.equals(mayor)&&townRole==TownRole.MAYOR){
+                town.roles.put(player, TownRole.NONE);
+            }else town.roles.put(player, townRole);
         }
+        town.roles.put(mayor, TownRole.MAYOR);
         nation.towns.add(town);
         town.registerTown();
         return town;

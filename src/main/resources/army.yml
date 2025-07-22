@@ -57,9 +57,3 @@ production:
       advanced-zombie-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
         type: advanced-zombie # The unit ID of the army type listed above.
         time: 14400 # How long does it take to produce it? (in seconds)
-      zombified-piglin-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
-        type: zombified-piglin # The unit ID of the army type listed above.
-        time: 14400 # How long does it take to produce it? (in seconds)
-      zombie-king-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
-        type: zombie-king # The unit ID of the army type listed above.
-        time: 86400 # How long does it take to produce it? (in seconds)

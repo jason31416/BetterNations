@@ -55,6 +55,7 @@ public class Machinery extends PlaceableStructure {
     public ItemStack inputSlot=null, outputSlot=null;
     public String currentProducing=null;
     public long finishTime=0;
+    public int speedRate=100;
     public String type;
     public String[] upgrades = new String[]{"", "", "", "", "", "", "", "", ""};
 
@@ -241,16 +242,16 @@ public class Machinery extends PlaceableStructure {
         return true;
     }
 
-    public synchronized void updateMachinery(){
-        int speed = 100;
-        for (int i = 0; i < 9; i++) {
-            if(upgrades[i].isEmpty())
-                continue;
-            UpgradeInfo info = ItemCraftingManager.upgradeInfoMap.get(upgrades[i]);
-            if(info.type() == UpgradeType.SPEED)
-                speed += info.value();
+    public void updateRate(int oldRate, int newRate){
+        if(oldRate == newRate) return;
+        speedRate = newRate;
+        long timeLeft = finishTime-System.currentTimeMillis();
+        if(timeLeft>0){
+            finishTime = System.currentTimeMillis() + (timeLeft/newRate*oldRate);
         }
+    }
 
+    public synchronized void updateMachinery() {
         if(currentProducing!=null){
             Recipe recipe = recipes.get(type).get(currentProducing);
             if(recipe == null ||
@@ -285,8 +286,8 @@ public class Machinery extends PlaceableStructure {
             if(outputSlot!=null && (outputSlot.getAmount()+recipe.productAmount>outputSlot.getMaxStackSize() || !recipe.product.equals(ItemType.getItemType(outputSlot)))) return;
 //            System.out.println("!");
             currentProducing = inputName;
-            finishTime = System.currentTimeMillis() + (long)(recipe.duration*1000L/(speed/100.0));
-            // TODO:动态计算时间
+            speedRate = calcSpeedRate();
+            finishTime = System.currentTimeMillis() + (long)(recipe.duration*1000L/(speedRate/100.0));
         }
     }
 
@@ -347,39 +348,10 @@ public class Machinery extends PlaceableStructure {
                     gui.addItem(UUID.randomUUID().toString(), i + 27, getUpgradeSlotItem(false));
                 }
             }
-            gui.update();
-
-//            if(!usable) {
-//                if(!upgrades[i].isEmpty())
-//                    returnToPlayer(Objects.requireNonNull(argument), ItemType.getItemType(upgrades[i]).getItemStack());
-//                upgrades[i] = "";
-//                if(gui.getItem(i + 27) != null)
-//                    gui.removeItem(i + 27);
-//                gui.addItem(UUID.randomUUID().toString(), i + 27, getUpgradeSlotItem(false));
-//            } else if(upgrades[i].isEmpty()) {
-//                if(gui.getItem(i + 27) != null)
-//                    gui.removeItem(i + 27);
-//                gui.addItem(UUID.randomUUID().toString(), i + 27, getUpgradeSlotItem(true));
-//            }
-//            GUI.Item item = gui.getItem(i + 27);
-//            item.setClickHandler(usable ? (session, a, c) -> {
-//                Player player = session.player.getPlayer();
-//                GUI.Item slotItem = gui.getItem(c.getSlot());
-//                ItemType cursorItem = ItemType.getItemType(player.getItemOnCursor());
-//                UpgradeInfo upgradeInfo = ItemCraftingManager.upgradeInfoMap.get(cursorItem.getName());
-//                if (a == InventoryAction.SWAP_WITH_CURSOR && slotItem.material == Material.GREEN_STAINED_GLASS_PANE && upgradeInfo != null && usableUpgrades.contains(upgradeInfo.type())) {
-//                    slotItem.setItemStack(player.getItemOnCursor());
-//                    upgrades[c.getSlot() - 27] = ItemType.getItemType(player.getItemOnCursor()).getName();
-//                    player.setItemOnCursor(null);
-//                    flushUpgradeSlot(session.gui, player);
-//                } else if (a == InventoryAction.PICKUP_ALL && !(slotItem.material == Material.GREEN_STAINED_GLASS_PANE || slotItem.material == Material.BARRIER)) {
-//                    player.setItemOnCursor(ItemType.getItemType(upgrades[c.getSlot() - 27]).getItemStack());
-//                    upgrades[c.getSlot() - 27] = "";
-//                    slotItem.setItemStack(getUpgradeSlotItem(true));
-//                    flushUpgradeSlot(gui, player);
-//                }
-//            } : ((session, a, c) -> {}));
         }
+
+        updateRate(speedRate, calcSpeedRate());
+        gui.update();
     }
 
     public static void updateMachineries() {
@@ -410,5 +382,29 @@ public class Machinery extends PlaceableStructure {
         meta.setLore(MessageLoader.getList(usable ? "structure.upgrade.usable-slot-lore" : "structure.upgrade.unusable-slot-lore").asList());
         item.setItemMeta(meta);
         return item;
+    }
+
+    public int calcSpeedRate() {
+        int speed = 100;
+        for (int i = 0; i < 9; i++) {
+            if(upgrades[i].isEmpty())
+                continue;
+            UpgradeInfo info = ItemCraftingManager.upgradeInfoMap.get(upgrades[i]);
+            if(info.type() == UpgradeType.SPEED)
+                speed += info.value();
+        }
+        return speed;
+    }
+
+    public int calcFuelEfficiency() {
+        int efficiency = 100;
+        for (int i = 0; i < 9; i++) {
+            if(upgrades[i].isEmpty())
+                continue;
+            UpgradeInfo info = ItemCraftingManager.upgradeInfoMap.get(upgrades[i]);
+            if(info.type() == UpgradeType.EFFICIENCY)
+                efficiency += info.value();
+        }
+        return efficiency;
     }
 }

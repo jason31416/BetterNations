@@ -43,7 +43,9 @@ public class PlanetLib {
         instance.getServer().getPluginManager().registerEvents(new SimpleCraftingRecipe.recipeListener(), plugin);
 
         VaultHook.init();
-        MythicMobsHook.init();
+        try {
+            MythicMobsHook.init();
+        }catch (Exception ignored){}
     }
     public static void reload(JavaPlugin plugin) {
         plugin.saveDefaultConfig();

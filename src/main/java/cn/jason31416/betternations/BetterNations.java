@@ -243,7 +243,9 @@ public final class BetterNations extends JavaPlugin {
         saveAllResources();
         printAsciiArt();
         PlanetLib.initialize(this, "1"); // this is the data's version
-        BlueMapHook.init();
+        try {
+            BlueMapHook.init();
+        }catch (Exception ignored){}
         ItemCraftingManager.loadAll();
         LandArmyManager.loadAll();
         PlaceableStructure.registerAll();

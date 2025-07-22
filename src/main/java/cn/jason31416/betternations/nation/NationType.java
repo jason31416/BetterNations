@@ -52,8 +52,9 @@ public enum NationType {
             new NationalRank("Leader", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
         if(!(resolution instanceof OutsiderResolution)&&resolution.proposer.getRank() == NationalRank.getRank("member")) return false;
+        resolution.setRequiredSigners(List.of(NationalRank.getRank("citizen"), NationalRank.getRank("leader")));
         resolution.setRequiredRatio(0);
-        resolution.setMinimalSigners(0);
+        resolution.setMinimalSigners(1);
         return true;
     }),
     REPUBLIC("Republic", new ArrayList<>(List.of(

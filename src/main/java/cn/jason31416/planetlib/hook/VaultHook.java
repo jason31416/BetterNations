@@ -6,6 +6,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 
@@ -13,12 +14,12 @@ import javax.annotation.Nonnull;
 public class VaultHook {
     private static RegisteredServiceProvider<Economy> rsp=null;
     public static void init() {
-        if(Bukkit.getPluginManager().getPlugin("Vault") == null || Bukkit.getServer().getServicesManager().getRegistration(Economy.class) == null) {
+        rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+        if(rsp == null) {
             PlanetLib.instance.getLogger().info("\033[31mFailed to hook Vault, disabling plugin...\033[0m");
             Bukkit.getPluginManager().disablePlugin(PlanetLib.instance);
             return;
         }
-        rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
         PlanetLib.instance.getLogger().info("\033[32mHook Vault successfully\033[0m");
     }
     public static void end() {

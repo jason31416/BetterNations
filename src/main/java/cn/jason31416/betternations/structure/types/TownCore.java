@@ -108,7 +108,9 @@ public class TownCore extends AbstractStructure {
                                 SimplePlayer p = members.get(cur);
                                 ItemStack head = new ItemStack(Material.PLAYER_HEAD);
                                 if(head.getItemMeta() instanceof SkullMeta meta){
-                                    meta.setOwnerProfile(p.offlinePlayer().getPlayerProfile());
+                                    try {
+                                        meta.setOwnerProfile(p.offlinePlayer().getPlayerProfile());
+                                    }catch (Exception ignored){}
                                     meta.setDisplayName("§e§l"+p.getName());
                                     meta.setLore(MessageLoader.getList((curtown.getRole(player) == TownRole.MAYOR||player.offlinePlayer().isOp())?"town.gui-member-lore":"town.gui-member-lore-no-permission").add("permission", curtown.getRole(p).getName()).asList());
                                     head.setItemMeta(meta);
@@ -120,7 +122,9 @@ public class TownCore extends AbstractStructure {
                                         private void updateItem(){
                                             ItemStack h = new ItemStack(Material.PLAYER_HEAD);
                                             if(h.getItemMeta() instanceof SkullMeta meta){
-                                                meta.setOwnerProfile(p.offlinePlayer().getPlayerProfile());
+                                                try {
+                                                    meta.setOwnerProfile(p.offlinePlayer().getPlayerProfile());
+                                                }catch(Exception ignored){}
                                                 meta.setDisplayName("§e§l"+p.getName());
                                                 meta.setLore(MessageLoader.getList(curtown.getRole(player) == TownRole.MAYOR?"town.gui-member-lore":"town.gui-member-lore-no-permission").add("permission", curtown.getRole(p).getName()).asList());
                                                 h.setItemMeta(meta);
@@ -130,6 +134,7 @@ public class TownCore extends AbstractStructure {
                                         }
                                         @Override
                                         public void run(GUISession session, InventoryAction action, InventoryClickEvent event) {
+                                            if(curtown.getRole(player) != TownRole.MAYOR) return;
                                             if (action == InventoryAction.PICKUP_ALL) {
                                                 if (curtown.getRole(p) != TownRole.NONE&&curtown.getRole(p) != TownRole.MAYOR) {
                                                     curtown.setRole(p, curtown.getRole(p).demote());

@@ -18,7 +18,7 @@ public class FueledMachinery extends Machinery {
     public static Map<String, Integer> fuelPointMap=new HashMap<>();
     public static List<String> guiFuelLore = null;
     public static Map<String, Integer> fuelCapacityMap=new HashMap<>();
-    public int fuel=0;
+    public double fuel=0;
     public long lastCheckFuel=0L;
 
     @Override
@@ -28,7 +28,7 @@ public class FueledMachinery extends Machinery {
     }
     @Override
     public void deserialize(IDataItem dataItem) {
-        fuel = dataItem.getInteger("fuel");
+        fuel = dataItem.getDouble("fuel");
         super.deserialize(dataItem);
     }
     @Override
@@ -36,14 +36,14 @@ public class FueledMachinery extends Machinery {
         return "machinery-1-1-fueled";
     }
     @Override
-    public void onGUIOpen(GUI gui){
+    public void onGUIOpen(GUI gui) {
         super.onGUIOpen(gui);
         if(guiFuelLore==null&&!gui.getItems("fuel-slot").items.isEmpty()){
             guiFuelLore = gui.getItems("fuel-slot").items.get(0).lore;
         }
         gui.getItems("fuel-slot")
                 .setLore(new ArrayList<>(guiFuelLore))
-                .placeholder("fuel_amount", ""+fuel)
+                .placeholder("fuel_amount", ""+Math.round(fuel*100.0)/100.0)
                 .placeholder("fuel_capacity", ""+fuelCapacityMap.get(type))
                 .setClickHandler((session, action, event) -> {
                     Player player = session.player.getPlayer();
@@ -64,12 +64,12 @@ public class FueledMachinery extends Machinery {
         else gui.getItems("fuel-slot").setMaterial(Material.LAVA_BUCKET);
     }
     @Override
-    public synchronized void updateMachinery(){
+    public synchronized void updateMachinery() {
         super.updateMachinery();
         if(currentProducing!=null) {
             if (lastCheckFuel != 0) {
                 if (System.currentTimeMillis()/1000 > lastCheckFuel) {
-                    fuel = Math.max(0, fuel - (int) (System.currentTimeMillis()/1000 - lastCheckFuel));
+                    fuel = Math.max(0, fuel - (System.currentTimeMillis() / 1000 - lastCheckFuel) * (calcSpeedRate() / 100.0) / (calcFuelEfficiency() / 100.0));
                 }
             }
             if (fuel == 0) {

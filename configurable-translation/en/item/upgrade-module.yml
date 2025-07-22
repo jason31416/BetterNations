@@ -96,6 +96,34 @@ items:
       type: SPEED
       value: 100
 
+  solar-upgrade-i:
+    name: "&d&lSolar Upgrade I"
+    material: MUSIC_DISC_13
+    category: upgrade-modules
+    lore:
+      - "&7Allows solar machines to work in rain"
+    upgrade-info:
+      type: SOLAR
+      value: 1
+  solar-upgrade-ii:
+    name: "&d&lSolar Upgrade II"
+    material: MUSIC_DISC_13
+    category: upgrade-modules
+    lore:
+      - "&7Allows solar machines to work at night"
+    upgrade-info:
+      type: SOLAR
+      value: 2
+  solar-upgrade-iii:
+    name: "&d&lSolar Upgrade III"
+    material: MUSIC_DISC_13
+    category: upgrade-modules
+    lore:
+      - "&7Allows solar machines to work in any dimension"
+    upgrade-info:
+      type: SOLAR
+      value: 3
+
   slot-upgrade-i:
     name: "&d&lSlot Upgrade I"
     material: MUSIC_DISC_11

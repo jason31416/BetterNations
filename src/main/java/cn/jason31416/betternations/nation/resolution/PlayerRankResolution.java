@@ -17,6 +17,14 @@ public class PlayerRankResolution extends PlayerResolution {
     @Override
     public void execute() {
         if(target.getNation() != nation) return;
+
+        if(!nation.getType().allRanks.contains(rank)) return;
+
+        if(rank == nation.getType().getOwnerRank()){
+            nation.setRank(nation.getOwner(), nation.getType().getDefaultRank());
+            nation.setOwner(target);
+        }
+
         nation.setRank(target, rank);
     }
 

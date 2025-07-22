@@ -38,8 +38,10 @@ public class TownRuin extends AbstractStructure {
         if(type == InteractionType.INTERACT){
             player.sendMessage(Message.getMessage("structure.townruin.message.interact").add("cost", Config.getDouble("town.creation-cost")));
         }else if(type == InteractionType.BREAK) {
-            breakStructure();
-            unregister();
+            if(player.getPlayer().isOp()) {
+                breakStructure();
+                unregister();
+            }
             return false;
         }else if(type == InteractionType.SNEAK_CLICK){
             if(location.getChunkLocation().isClaimed()&&player.getNation()!=location.getChunkLocation().getNation()){

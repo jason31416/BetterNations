@@ -275,7 +275,11 @@ public class Nation {
             if (memberStr.isEmpty()) continue;
             String[] memberArr = memberStr.split(":");
             SimplePlayer player = SimplePlayer.of(UUID.fromString(memberArr[0]));
-            nation.memberRanks.put(player, NationalRank.getRank(memberArr[1]));
+            if(nation.getType().getOwnerRank()==NationalRank.getRank(memberArr[1])&&!nation.owner.equals(player)){
+                nation.memberRanks.put(player, nation.getType().getDefaultRank());
+            }else {
+                nation.memberRanks.put(player, NationalRank.getRank(memberArr[1]));
+            }
             playerNationMap.put(player, nation);
         }
         nation.registerNation();

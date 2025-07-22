@@ -14,6 +14,11 @@ categories:
 machinery:
   alloy-foundry:
     material: nether_bricks
+    machinery-type: fueled
+    fuel-capacity: 1200
+
+fuels:
+  coal: 100
 
 items: # You can create your own items!
   alloy-foundry:

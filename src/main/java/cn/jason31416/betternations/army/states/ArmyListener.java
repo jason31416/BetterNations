@@ -73,6 +73,12 @@ public class ArmyListener implements Listener {
         }
     }
     @EventHandler
+    public void onTransportTeleportWorld(EntityPortalEvent event){
+        if(TransportArmy.transportArmyMap.containsKey(event.getEntity())){
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
     public void onTransportDamagePlayer(EntityDamageByEntityEvent event){
         if(TransportArmy.transportArmyMap.containsKey(event.getDamager()) && event.getEntity() instanceof Player){
             event.setCancelled(true);

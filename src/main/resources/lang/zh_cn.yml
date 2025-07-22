@@ -417,3 +417,5 @@ bluemap:
   camp-title: "%nation% 的营地 (%size% 单位, %health%/%max_health%)"
   invasion-title: "<span style='color: red'>%nation% 的入侵 (%size% 单位, %health%/%max_health%)</span>"
   siege-title: "<span style='color: red'>%nation% 对 %town% 的攻城 (%size% 单位, %health%/%max_health%)</span>"
+  ruin-title: "%name% 城镇遗迹"
+  town-core-title: "%name% 城镇核心"

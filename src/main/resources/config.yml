@@ -166,5 +166,11 @@ bluemap:
   town-max-view-distance: 100000 # As well as this one
   line-width: 5
   check-interval: 20 # in ticks, how frequent should the plugin update the map (almost completely async ;) )
+  display-camps: true
   resource-img:
     steel: /assets/betternations/steel.png
+    town-ruin: /assets/betternations/town_ruin.png
+    town-core: /assets/betternations/town_core.png
+    invasion-flag: /assets/betternations/invasion_flag.png
+    siege-flag: /assets/betternations/siege_flag.png
+    camp: /assets/betternations/camp.png

@@ -300,6 +300,7 @@ recipes:
       b: charcoal
   steel:
     type: alloy-foundry
+    time: 600
     product: steel
     ingredient: raw-steel
   steel-chunk:

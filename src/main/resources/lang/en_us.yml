@@ -229,14 +229,17 @@ nation:
 map:
   header: "&7----=[ &bRegion Map &7]=----"
   footer: "&7-------------------"
-  town-char: "<hover:show_text:'%nation_name%, %town_name%'>%kingdom_color%▣</hover>"
-  nation-char: "<hover:show_text:'%nation_name%'>%kingdom_color%▨</hover>"
-  wild-char: "<hover:show_text:'&2Wilderness'>&8▩</hover>"
+  town-char: "<hover:show_text:'%nation_name%, %town_name% <gray>| %natural_resource%'>%kingdom_color%▣</hover>"
+  nation-char: "<hover:show_text:'%nation_name% <gray>| %natural_resource%'>%kingdom_color%▨</hover>"
+  wild-char: "<hover:show_text:'&2Wilderness <gray>| %natural_resource%'>&8▩</hover>"
   self-chars:
-    right: "<hover:show_text:'&f%player%'>&7‣</hover>"
-    down: "<hover:show_text:'&f%player%'>&7▾</hover>"
-    left: "<hover:show_text:'&f%player%'>&7◂</hover>"
-    up: "<hover:show_text:'&f%player%'>&7▴</hover>"
+    right: "<hover:show_text:'&f%player% <gray>| %natural_resource%'>&7‣</hover>"
+    down: "<hover:show_text:'&f%player% <gray>| %natural_resource%'>&7▾</hover>"
+    left: "<hover:show_text:'&f%player% <gray>| %natural_resource%'>&7◂</hover>"
+    up: "<hover:show_text:'&f%player% <gray>| %natural_resource%'>&7▴</hover>"
+  natural-resource:
+    none: "&8No natural resources"
+    contains: "&fProduces: &7%resource%"
 town:
   revolt-name: "%town_name% City-State"
   wilderness: "&8-= &2Wilderness &8=-"
@@ -254,7 +257,7 @@ town:
     - "&7(Promoting a manager will make them the new mayor!)"
   day-change: "&eUpdating town development values..."
 chat:
-  with_nation: "&8[%nation_color%%nation% %title%&8] %sender% ≫ &f%message%"
+  with_nation: "&8[%nation_color%%title% of %nation%&8] %sender% ≫ &f%message%"
   no_nation: "&f<%sender%> &f%message%"
 auto-claiming:
   disabled-auto-claiming: "&cDisabled auto-claiming"
@@ -406,6 +409,8 @@ bluemap:
   camp-title: "%nation%'s Camp (%size% units, %health%/%max_health%)"
   invasion-title: "<span style='color: red'>%nation%'s Invasion (%size% units, %health%/%max_health%)</span>"
   siege-title: "<span style='color: red'>%nation%'s Siege on %town% (%size% units, %health%/%max_health%)</span>"
+  ruin-title: "%name% Town Ruin"
+  town-core-title: "%name% Town Core"
 
 admin:
   configuration-format-error: "&cInvalid configuration format!"

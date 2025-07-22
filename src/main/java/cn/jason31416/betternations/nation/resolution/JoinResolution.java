@@ -16,7 +16,7 @@ public class JoinResolution extends AbstractResolution implements DailyResolutio
     public void execute() {
         if(proposer.getNation()==null){
             nation.addPlayer(proposer);
-            proposer.sendMessage(Message.getMessage("command.success.join-nation"));
+            proposer.sendMessage(Message.getMessage("command.success.join-nation").add("nation_name", nation.getName()));
         }
     }
 

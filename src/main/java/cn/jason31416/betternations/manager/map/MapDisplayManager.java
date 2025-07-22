@@ -8,11 +8,14 @@ import cn.jason31416.betternations.manager.ArmyUpdateManager;
 import cn.jason31416.betternations.manager.NaturalResourcesManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Town;
+import cn.jason31416.betternations.structure.types.TownCore;
+import cn.jason31416.betternations.structure.types.TownRuin;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
+import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimpleWorld;
 import com.flowpowered.math.vector.Vector2d;
 import com.flowpowered.math.vector.Vector2i;
@@ -276,14 +279,23 @@ public class MapDisplayManager {
                 if(i instanceof InvasionFlag){
                     marker = POIMarker.builder()
                             .label(Message.getMessage("bluemap.invasion-title").add("nation", i.stack.nation.getName()).add("size", i.stack.size()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).toString());
+                    if(Config.contains("bluemap.resource-img.invasion-flag")){
+                        marker.icon(Config.getString("bluemap.resource-img.invasion-flag"), new Vector2i(0, 0));
+                    }
                 }else if(i instanceof SiegeFlag flag){
                     marker = POIMarker.builder()
                             .label(Message.getMessage("bluemap.siege-title").add("nation", i.stack.nation.getName()).add("size", i.stack.size()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).add("town", flag.target.getName()).toString());
-                }else continue;
-//                else{
-//                    marker = POIMarker.builder()
-//                            .label(Message.getMessage("bluemap.camp-title").add("nation", i.stack.nation.getName()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).add("size", i.stack.size()).toString());
-//                }
+                    if(Config.contains("bluemap.resource-img.siege-flag")){
+                        marker.icon(Config.getString("bluemap.resource-img.siege-flag"), new Vector2i(0, 0));
+                    }
+                } else{
+                    if(!Config.getBoolean("bluemap.display-camps", true)) continue;
+                    marker = POIMarker.builder()
+                            .label(Message.getMessage("bluemap.camp-title").add("nation", i.stack.nation.getName()).add("health", Math.round(i.stack.getHealth()*10)/10.0).add("max_health", i.stack.getMaxHealth()).add("size", i.stack.size()).toString());
+                    if(Config.contains("bluemap.resource-img.camp")){
+                        marker.icon(Config.getString("bluemap.resource-img.camp"), new Vector2i(0, 0));
+                    }
+                }
                 marker.position(i.location.x(), i.location.y(), i.location.z())
                         .maxDistance(1000);
                 if(!pois.containsKey(loc.world())){
@@ -308,6 +320,36 @@ public class MapDisplayManager {
                 pois.put(loc.world(), MarkerSet.builder().label(Message.getMessage("bluemap.markerset.poi").toString()).build());
             }
             pois.get(loc.world()).put(loc.toString(), marker.build());
+        }
+        for(TownRuin i: new HashSet<>(TownRuin.ruins.values())){
+            if(i.location==null) continue;
+            POIMarker.Builder marker = POIMarker.builder()
+                    .label(Message.getMessage("bluemap.ruin-title").add("name", i.name).toString())
+                    .position(i.location.x(), i.location.y(), i.location.z())
+                    .maxDistance(5000);
+            if(Config.contains("bluemap.resource-img.town-ruin")){
+                marker.icon(Config.getString("bluemap.resource-img.town-ruin"), new Vector2i(0, 0));
+            }
+            if(!pois.containsKey(i.location.world())){
+                pois.put(i.location.world(), MarkerSet.builder().label(Message.getMessage("bluemap.markerset.poi").toString()).build());
+            }
+            pois.get(i.location.world()).put(i.location.toString(), marker.build());
+        }
+
+        for(Town i_: new HashSet<>(Town.towns.values())){
+            TownCore i = i_.getCore();
+            if(i.location==null) continue;
+            POIMarker.Builder marker = POIMarker.builder()
+                    .label(Message.getMessage("bluemap.town-core-title").add("name", i_.getName()).toString())
+                    .position(i.location.x(), i.location.y(), i.location.z())
+                    .maxDistance(5000);
+            if(Config.contains("bluemap.resource-img.town-core")){
+                marker.icon(Config.getString("bluemap.resource-img.town-core"), new Vector2i(0, 0));
+            }
+            if(!pois.containsKey(i.location.world())){
+                pois.put(i.location.world(), MarkerSet.builder().label(Message.getMessage("bluemap.markerset.poi").toString()).build());
+            }
+            pois.get(i.location.world()).put(i.location.toString(), marker.build());
         }
     }
     private static BukkitRunnable getRunnable(BlueMapAPI api){
