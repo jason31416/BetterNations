@@ -4,6 +4,7 @@ import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationalRank;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
 

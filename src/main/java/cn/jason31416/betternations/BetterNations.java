@@ -314,8 +314,8 @@ public final class BetterNations extends JavaPlugin {
         storage.save();
         PlanetLib.reload(this);
         ItemCraftingManager.unregisterAll();
-        LandArmyManager.unregisterAll();
         ItemCraftingManager.loadAll();
+        LandArmyManager.unregisterAll();
         LandArmyManager.loadAll();
         Granary.loadSupplyWorth();
         TownLevel.loadLevels();

@@ -28,6 +28,7 @@ import de.bluecolored.bluemap.api.markers.ShapeMarker;
 import de.bluecolored.bluemap.api.math.Color;
 import de.bluecolored.bluemap.api.math.Shape;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.checkerframework.checker.units.qual.C;
@@ -335,7 +336,6 @@ public class MapDisplayManager {
             }
             pois.get(i.location.world()).put(i.location.toString(), marker.build());
         }
-
         for(Town i_: new HashSet<>(Town.towns.values())){
             TownCore i = i_.getCore();
             if(i.location==null) continue;

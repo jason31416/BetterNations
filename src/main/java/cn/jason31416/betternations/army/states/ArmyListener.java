@@ -141,7 +141,19 @@ public class ArmyListener implements Listener {
                                 gui.getItems("invade").setClickHandler((session, action, evt) -> {
                                     if(army.isActive){
                                         if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation())== Relation.ENEMY) {
-                                            army.encamp();
+                                            SimpleLocation loc = army.mob.getLocation().getBlockLocation();
+                                            while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
+                                                loc = loc.getRelative(0, 1, 0);
+                                            }
+                                            if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
+                                            InvasionFlag c = new InvasionFlag();
+                                            army.unregister();
+                                            c.stack = army.stack;
+                                            c.location = loc;
+                                            army.stack.curHolder = c;
+                                            c.place();
+                                            army.mob.remove();
+                                            player.getPlayer().closeInventory();
                                         }
                                     }
                                 });
