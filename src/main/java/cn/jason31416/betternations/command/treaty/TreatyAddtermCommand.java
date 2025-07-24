@@ -2,6 +2,7 @@ package cn.jason31416.betternations.command.treaty;
 
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.treaty.AllyTerm;
+import cn.jason31416.betternations.nation.treaty.AnnexTerm;
 import cn.jason31416.betternations.nation.treaty.PeaceTerm;
 import cn.jason31416.betternations.nation.treaty.Treaty;
 import cn.jason31416.planetlib.command.ChildCommand;
@@ -11,6 +12,7 @@ import cn.jason31416.planetlib.command.ParameterType;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.message.StringMessage;
+import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -43,6 +45,11 @@ public class TreatyAddtermCommand extends ChildCommand {
                 if(context.getSender().isPlayer()) treaty.display(context.getSender().toPlayer());
                 break;
             }
+            case "annex": {
+                treaty.terms.add(new AnnexTerm(context.getNationArg(2), context.getNationArg(3)));
+                if(context.getSender().isPlayer()) treaty.display(context.getSender().toPlayer());
+                break;
+            }
             default: {
                 Message.getMessage("command.failed.unknown-term-type").send(context.getSender());
             }
@@ -55,7 +62,7 @@ public class TreatyAddtermCommand extends ChildCommand {
         if(!context.getArg(0).isEmpty()&&context.getCurrentArg()==1){
             return Treaty.treatyMap.keySet().stream().toList();
         }else if(context.getCurrentArg()==2){
-            return List.of("peace", "ally");
+            return List.of("peace", "ally", "annex");
         }else if(context.getCurrentArg()==3||context.getCurrentArg()==4){
             return Nation.nations.values().stream().map(Nation::getName).toList();
         }

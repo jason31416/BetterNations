@@ -16,7 +16,7 @@ enabled-worlds: # This option controls worlds that enable claiming. Set it to []
 # Nation-related settings
 nation:
   creation-cost: 1000 # The cost of creating a nation
-  capital-name: "%nation% Capital"
+  capital-name: "%nation%_Capital"
   claim-cost: 10 # The cost of claiming a chunk
   unclaim-refund: 8 # The refund of unclaiming a chunk
   prevent-unfriendly-elytra: true # Should we stop unfriendly players from flying in claimed chunks
@@ -28,6 +28,8 @@ town:
   unclaim-refund: 10 # The refund of unclaiming a chunk as a town chunk
   teleport-countdown: 5 # The countdown for /k tp
   hp-recover-speed: 1.5 # How many HP to recover per update?
+
+  max-distance-from-core: 16 # The max. distance from the town core (in chunks) that a town chunk can be claimed
 
   # Should we require a ruin to create a town? (Useful for more RPG-like servers, require server owner to manually place ruins via /n ruin)
   # If you are willing to enable this, you should probably also remove the outpost item from the item/structures file to force players to orient around the ruins.

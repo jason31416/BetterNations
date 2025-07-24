@@ -260,7 +260,7 @@ public class ArmyStack implements Damageable, DamageSource {
         }
         double sum = 0;
         while (!minHeap.isEmpty()) sum += minHeap.poll();
-        return sum;
+        return Math.round(sum*1000)/1000.0;
     }
     public boolean serialize(IDataItem dataItem){
         if(!Nation.nations.containsValue(nation)){

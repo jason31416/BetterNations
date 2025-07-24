@@ -49,11 +49,14 @@ public class Extractor extends PlaceableStructure {
 
     @Override
     public boolean serialize(IDataItem dataItem) {
+        dataItem.set("produced", produced);
         return true;
     }
 
     @Override
     public void deserialize(IDataItem dataItem) {
+        if(dataItem.getInteger("produced")!=null)
+            produced = dataItem.getInteger("produced");
     }
 
     @Override

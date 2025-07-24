@@ -25,6 +25,9 @@ public class TownClaimCommand extends ChildCommand {
         if(!NationClaimCommand.checkWorld(chunkLocation.world())){
             return Message.getMessage("command.failed.chunk-claim-invalid-world");
         }
+        if(town.core.location.getChunkLocation().distance(chunkLocation)>Config.getDouble("town.max-distance-from-core", 24)){
+            return Message.getMessage("command.failed.too-far-from-core");
+        }
         if(!chunkLocation.isClaimed()){
             Message res = NationClaimCommand.claimWithChecks(player, chunkLocation);
             if(!res.equals(Message.getMessage("command.success.chunk-claimed"))){

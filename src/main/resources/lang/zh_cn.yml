@@ -120,6 +120,7 @@ command:
     not-enough-money: "<red>你没有足够的<u><click:run_command:/money>金币</click></u><red>! 需要 <yellow>%amount%</yellow> 金币才能执行本操作"
     failed-create-nation: "<red>创建国家失败!"
     invalid-creation-location: "<red>不能在此处创建城镇!"
+    too-far-from-core: "<red>距离城镇核心太远!"
     resolution-not-found: "<red>该决议不存在!"
     resolution-not-signable: "<red>你无法签署该协议!"
     resolution-not-signed: "<red>该协议还没有被你签署!"
@@ -145,6 +146,7 @@ command:
     no-ruin-in-chunk: "<red>国家必须基于已有遗迹建立! 请在一个有遗迹的区块内执行本命令"
     nomadic-nation-cannot-claim: "<red>必须拥有至少一个城镇才能占领区块!"
     invalid-item-type: "<red>无效的物品类型!"
+    cannot-unclaim-siege-chunk: "<red>无法取消占领正在被入侵的区块!"
 
 # These are messages that are related to nations.
 nation:
@@ -220,7 +222,7 @@ nation:
       declare-war: "%from% 向 %to% 宣战"
       disband-nation: "解散 %nation%"
       revoke-alliance: "%from% 取消与 %to% 的盟约"
-      kick-player: "将 %player% 踢出 %nation%"
+      kick-player: "将 %target% 踢出 %nation%"
       join-nation: "同意 %requester% 加入 %nation%"
       set-rank: "将 %target% 设置为 %rank%"
       rename-nation: "将 %name% 改名为 %new_name%"
@@ -243,7 +245,7 @@ map:
     none: "&8无自然资源"
     contains: "&f产出: &7%resource%"
 town:
-  revolt-name: "%town_name% 城邦"
+  revolt-name: "%town_name%城邦"
   wilderness: "&8-= &2荒野 &8=-"
   cannot-build: "&8你没有权限在此处交互!"
   cannot-fly: "&c你没有权限在此飞行!"
@@ -312,6 +314,7 @@ treaty:
   term:
     peace: "%from% 与 %target% 停战"
     ally: "%from% 与 %target% 结盟"
+    annex: "%from% 吞并 %target% (%target% 所有领地,人员,城镇将由 %from% 控制)"
 info:
   nation:
     - "&7----= <b>%nation%</b> &7=----"
@@ -329,6 +332,7 @@ info:
     - "&7----= <b>%nation% 的 %town%</b> &7=----"
     - ""
     - "&7领地数: &f%size%"
+    - "&7血量: &f%health%/%max_health% &c❤"
     - "&7镇长: &f%leader%"
 admin:
   configuration-format-error: "&c错误的配置格式!"

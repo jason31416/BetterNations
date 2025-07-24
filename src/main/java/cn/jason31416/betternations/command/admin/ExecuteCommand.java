@@ -27,9 +27,10 @@ public class ExecuteCommand extends ChildCommand {
         if(target==null) return Message.getMessage("command.failed.invalid-target");
         ICommandContext ctx = new CommandContext(context.args().subList(2, context.args().size()), context.getSender(), target, "k admin execute");
         if(!BetterNationsCommand.instance.subCommands.containsKey(context.getArg(1))) return StaticMessages.UNKNOWN_COMMAND;
-        context.getSender().sendMessage(new StringMessage("&cNOTE THAT THIS COMMAND ISN'T SAFE AT ALL"));
-        context.getSender().sendMessage(new StringMessage("&cONLY FOR TESTING!!! USE IT AT YOUR OWN RISK!!!"));
-        return BetterNationsCommand.instance.subCommands.get(context.getArg(1)).execute(ctx);
+        context.getSender().sendMessage(new StringMessage("&cNOTE THAT THIS COMMAND ISN'T SAFE AT ALL. USE IT AT YOUR OWN RISK!!!"));
+        Message ret = BetterNationsCommand.instance.subCommands.get(context.getArg(1)).execute(ctx);
+        if(ret == null) return null;
+        return Message.of(ret.toFormatted().replace("<click:run_command:/nation resolution", "<click:run_command:/nation admin execute "+target.getName()+" resolution"));
     }
 
     @Override

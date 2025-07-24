@@ -1,5 +1,7 @@
 package cn.jason31416.betternations.command.town;
 
+import cn.jason31416.betternations.army.states.SiegeFlag;
+import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.manager.EventListener;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Town;
@@ -21,6 +23,15 @@ public class TownUnclaimCommand extends ChildCommand {
         if(!town.getRole(player).hasPermission(Permission.TOWN_UNCLAIM)) return Message.getMessage("command.failed.no-permission");
         if(!town.unclaimChecks(chunkLocation)) return Message.getMessage("command.failed.cannot-unclaim-connecting-chunks");
         if(town.getCore().location.getChunkLocation().equals(chunkLocation)) return Message.getMessage("command.failed.cannot-unclaim-core-chunk");
+        for(SimpleChunkLocation adj: chunkLocation.getAdjacentChunks()) {
+            if (StructuredArmy.armyLocationMap.containsKey(adj)) {
+                for (StructuredArmy i: StructuredArmy.armyLocationMap.get(adj)){
+                    if(i instanceof SiegeFlag flag && flag.target == town){
+                        return Message.getMessage("command.failed.cannot-unclaim-siege-chunk");
+                    }
+                }
+            }
+        }
         if(town.unclaim(chunkLocation)){
             player.addBalance(Config.getDouble("unclaim-refund"));
             if(player.isOnline()&&player.getLocation().getChunkLocation().equals(chunkLocation))

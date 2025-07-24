@@ -82,13 +82,13 @@ public class Town implements Damageable {
 
     public void transferNation(Nation newNation){
         nation.towns.remove(this);
-        for(SimpleChunkLocation i: townChunks){
+        for(SimpleChunkLocation i: new HashSet<>(townChunks)){
             nation.forceUnclaim(i);
             newNation.claim(i);
         }
         nation = newNation;
         newNation.addTown(this);
-        for(SimplePlayer player : roles.keySet()){
+        for(SimplePlayer player : new HashSet<>(roles.keySet())){
             if(player.getNation() != newNation){
                 setRole(player, TownRole.NONE);
             }

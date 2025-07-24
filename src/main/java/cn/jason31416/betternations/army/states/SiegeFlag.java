@@ -17,11 +17,14 @@ import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
+import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class SiegeFlag extends StructuredArmy {

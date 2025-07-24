@@ -1,6 +1,8 @@
 package cn.jason31416.betternations.manager;
 
 import cn.jason31416.betternations.BetterNations;
+import cn.jason31416.betternations.army.states.InvasionFlag;
+import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.command.nation.NationClaimCommand;
 import cn.jason31416.betternations.command.nation.NationUnclaimCommand;
@@ -30,6 +32,7 @@ import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -225,12 +228,32 @@ public class EventListener implements Listener {
             }
         }
     }
+    private void handleExplosion(List<Block> blocks){
+        Map<SimpleChunkLocation, Boolean> isInvasionCache = new HashMap<>();
+        blocks.removeIf(block -> {
+            SimpleLocation loc = SimpleLocation.of(block);
+            if(StructuredArmy.armyLocationMap.containsKey(loc.getChunkLocation())){
+                if(!isInvasionCache.containsKey(loc.getChunkLocation())) {
+                    for (StructuredArmy i : StructuredArmy.armyLocationMap.get(loc.getChunkLocation())) {
+                        if (i instanceof InvasionFlag || i instanceof SiegeFlag) {
+                            isInvasionCache.put(loc.getChunkLocation(), true);
+                            return true;
+                        }
+                    }
+                    isInvasionCache.put(loc.getChunkLocation(), false);
+                }else if(isInvasionCache.get(loc.getChunkLocation())){
+                    return true;
+                }
+            }
+            return loc.getChunkLocation().isTownChunk()||AbstractStructure.structures.containsKey(loc);
+        });
+    }
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event){
-        event.blockList().removeIf(i -> (SimpleLocation.of(i).getChunkLocation().isClaimed()||AbstractStructure.structures.containsKey(SimpleLocation.of(i))));
+        handleExplosion(event.blockList());
     }
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event){
-        event.blockList().removeIf(i -> (SimpleLocation.of(i).getChunkLocation().isClaimed()||AbstractStructure.structures.containsKey(SimpleLocation.of(i))));
+        handleExplosion(event.blockList());
     }
 }

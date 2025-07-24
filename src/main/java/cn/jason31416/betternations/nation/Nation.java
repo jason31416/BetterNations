@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.nation;
 
+import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
 import cn.jason31416.betternations.manager.map.MapDisplayManager;
 import cn.jason31416.betternations.nation.resolution.AbstractResolution;
 import cn.jason31416.planetlib.Config;
@@ -23,7 +24,7 @@ public class Nation {
 
     List<Town> towns = new ArrayList<>();
     public Set<SimpleChunkLocation> nationalChunks = new HashSet<>();
-    Map<SimplePlayer, NationalRank> memberRanks = new HashMap<>();
+    public Map<SimplePlayer, NationalRank> memberRanks = new HashMap<>();
     UUID id;
     String name;
     SimplePlayer owner;
@@ -120,7 +121,7 @@ public class Nation {
         playerNationMap.remove(player);
         List<Town> ownedTowns = new ArrayList<>();
         for(Town town : towns){
-            if(town.getMayor() == player){
+            if(town.getMayor().equals(player)){
                 ownedTowns.add(town);
             }else{
                 town.removeResident(player);
@@ -134,11 +135,17 @@ public class Nation {
             }
             Nation newNation = createNation(player, initname);
             for(Town town : ownedTowns){
-                if(newNation.getTowns().contains(town)) town.nation = newNation;
-                else newNation.addTown(town);
+                town.transferNation(newNation);
             }
             newNation.setRelation(this, Relation.ENEMY);
-            // todo: war declaration message
+            HistoricalBroadcastManager.broadcast(Message.getMessage("history.nation-creation")
+                            .add("player", player.getName())
+                            .add("nation", newNation.getName()),
+                    List.of(newNation));
+            HistoricalBroadcastManager.broadcast(Message.getMessage("history.declare-war")
+                    .add("nation", newNation.getName())
+                    .add("other_nation", this.getName()),
+                    List.of(newNation, this));
         }
     }
     public void removePlayer(SimplePlayer player){
@@ -148,7 +155,7 @@ public class Nation {
         memberRanks.remove(player);
         playerNationMap.remove(player);
         for(Town town : towns){
-            town.setRole(owner, TownRole.MAYOR);
+            if(town.getMayor() == player) town.setRole(owner, TownRole.MAYOR);
             town.removeResident(player);
         }
     }
