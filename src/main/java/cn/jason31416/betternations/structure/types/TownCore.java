@@ -134,13 +134,14 @@ public class TownCore extends AbstractStructure {
                                         }
                                         @Override
                                         public void run(GUISession session, InventoryAction action, InventoryClickEvent event) {
-                                            if (action == InventoryAction.PICKUP_ALL&&(curtown.getRole(player) == TownRole.MAYOR||curtown.getRole(p) == TownRole.RESIDENT)) {
+                                            if (action == InventoryAction.PICKUP_ALL&&(curtown.getRole(player) == TownRole.MAYOR||(curtown.getRole(player) == TownRole.MANAGER&&(curtown.getRole(p) == TownRole.RESIDENT||curtown.getRole(p) == TownRole.GREENCARD)))) {
                                                 if (curtown.getRole(p) != TownRole.NONE&&curtown.getRole(p) != TownRole.MAYOR) {
                                                     curtown.setRole(p, curtown.getRole(p).demote());
                                                     updateItem();
                                                 }
                                             }else if (action == InventoryAction.PICKUP_HALF) {
-                                                if(curtown.getRole(p) == TownRole.NONE || curtown.getRole(player) == TownRole.MAYOR) {
+                                                if(p.getNation()!= curtown.getNation()) return;
+                                                if((curtown.getRole(player) == TownRole.MANAGER&&curtown.getRole(p) == TownRole.NONE) || curtown.getRole(player) == TownRole.MAYOR) {
                                                     if (curtown.getRole(p) != TownRole.MAYOR) {
                                                         curtown.setRole(p, curtown.getRole(p).promote());
                                                         if (curtown.getRole(p) == TownRole.MAYOR) {

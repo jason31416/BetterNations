@@ -57,8 +57,12 @@ public enum NationType {
     )), (resolution) -> {
         if(!(resolution instanceof OutsiderResolution)&&resolution.proposer.getRank() == NationalRank.getRank("member")) return false;
         resolution.setRequiredSigners(List.of(NationalRank.getRank("citizen"), NationalRank.getRank("leader")));
-        resolution.setRequiredRatio(0);
-        resolution.setMinimalSigners(1);
+        if(resolution instanceof DisbandResolution || resolution instanceof ChangeTypeResolution) {
+            resolution.setRequiredRatio(0.5);
+        }else{
+            resolution.setRequiredRatio(0);
+            resolution.setMinimalSigners(1);
+        }
         return true;
     }),
     REPUBLIC("Republic", new ArrayList<>(List.of(
@@ -77,7 +81,7 @@ public enum NationType {
             }
             resolution.addRequiredSigners(signers); // President & Town leaders must sign to disband a nation
             resolution.setRequiredRatio(1);
-        }else if (resolution instanceof ImportantResolution) {
+        }else if (resolution instanceof ImportantResolution && !(resolution instanceof PlayerRankResolution)) {
             resolution.setRequiredSigners(List.of(NationalRank.getRank("president"))); // President must sign to pass important resolutions such as war declaration
             resolution.setRequiredRatio(1);
         } else if (resolution instanceof DailyResolution){

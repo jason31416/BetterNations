@@ -87,6 +87,7 @@ command:
     treaty-created: "<#2288ff>Successfully created treaty <#00ddff>%treaty%<#2288ff>! <u><click:run_command:/nation treaty view %treaty%>Click to edit</click></u>"
     treaty-removed: "<#2288ff>Successfully removed treaty <#00ddff>%treaty%<#2288ff>!"
     set-natural-resource: "<#2288ff>Successfully set natural resource for the current chunk!"
+    granted-greencard: "<#2288ff>Successfully granted <#00ddff>%player% <#2288ff>a greencard for town %town%!"
   failed:
     owner-cannot-leave: "<red>You are the nation leader, please <click:suggest_command:/nation rank >assign a new leader</click> or <click:suggest_command:/nation disband>disband the nation</click> before leaving!"
     chunk-claim-failed: "<red>Failed to claim this chunk!"
@@ -104,6 +105,7 @@ command:
     invalid-target: "<red>This player doesn't exist!"
     town-not-exist: "<red>This town doesn't exist!"
     nation-not-exist: "<red>This nation doesn't exist!"
+    player-in-nation: "<red>The player is already in your nation!"
     player-already-in-nation: "<red>You are already in a nation!"
     name-already-exists: "<red>This name is already taken!"
     no-permission: "<red>You don't have permission to do this!"

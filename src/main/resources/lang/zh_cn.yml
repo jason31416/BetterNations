@@ -89,6 +89,7 @@ command:
     treaty-created: "<#2288ff>成功创建了条约 <#00ddff>%treaty%<#2288ff>! <u><click:run_command:/nation treaty view %treaty%>点击编辑</click></u>"
     treaty-removed: "<#2288ff>成功删除了条约 <#00ddff>%treaty%<#2288ff>!"
     set-natural-resource: "<#2288ff>成功设置了该区块的自然资源!"
+    granted-greencard: "<#2288ff>成功授予了 <#00ddff>%player% <#2288ff> 在 %town% 城镇的绿卡!"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
@@ -107,6 +108,7 @@ command:
     town-not-exist: "<red>该城镇不存在!"
     nation-not-exist: "<red>该国家不存在!"
     player-already-in-nation: "<red>你已经在一个国家里了!"
+    player-in-nation: "<red>该玩家已经在你的国家了!"
     name-already-exists: "<red>该名称已被使用!"
     no-permission: "<red>你没有足够的权限执行该操作!"
     player-not-in-nation: "<red>你不在一个国家中! (或你的国家无法这么做)"

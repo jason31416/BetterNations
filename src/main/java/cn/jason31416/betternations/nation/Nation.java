@@ -155,7 +155,7 @@ public class Nation {
         memberRanks.remove(player);
         playerNationMap.remove(player);
         for(Town town : towns){
-            if(town.getMayor() == player) town.setRole(owner, TownRole.MAYOR);
+            if(town.getMayor().equals(player)) town.setRole(owner, TownRole.MAYOR);
             town.removeResident(player);
         }
     }

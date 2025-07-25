@@ -8,7 +8,7 @@ import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
 
-public class PlayerRankResolution extends PlayerResolution {
+public class PlayerRankResolution extends PlayerResolution implements ImportantResolution {
     NationalRank rank;
     public PlayerRankResolution(Nation nation, SimplePlayer proposer, SimplePlayer target, NationalRank rank) {
         super(nation, proposer, target);

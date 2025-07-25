@@ -220,6 +220,7 @@ public class Town implements Damageable {
         SimplePlayer mayor = SimplePlayer.of(UUID.fromString(dataItem.getString("mayor")));
         Town town = new Town(id, name, nation);
         town.townHealth = dataItem.getDouble("hp");
+        if(mayor.getNation() != nation) mayor = nation.getOwner();
         town.mayor = mayor;
         town.devPoints = dataItem.getDouble("devpoints");
         String[] townChunks = dataItem.getString("chunks").split(";");
@@ -247,7 +248,11 @@ public class Town implements Damageable {
             TownRole townRole = TownRole.valueOf(roleInfo[1]);
             if(!player.equals(mayor)&&townRole==TownRole.MAYOR){
                 town.roles.put(player, TownRole.NONE);
-            }else town.roles.put(player, townRole);
+            }else if(!nation.getMembers().contains(player)&&townRole!=TownRole.GREENCARD){
+                town.roles.put(player, TownRole.NONE);
+            }else{
+                town.roles.put(player, townRole);
+            }
         }
         town.roles.put(mayor, TownRole.MAYOR);
         nation.towns.add(town);
