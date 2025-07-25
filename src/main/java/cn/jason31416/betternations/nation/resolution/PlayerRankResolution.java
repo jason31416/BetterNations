@@ -8,11 +8,19 @@ import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
 
-public class PlayerRankResolution extends PlayerResolution implements ImportantResolution {
-    NationalRank rank;
+public class PlayerRankResolution extends PlayerResolution {
+    public NationalRank rank;
     public PlayerRankResolution(Nation nation, SimplePlayer proposer, SimplePlayer target, NationalRank rank) {
         super(nation, proposer, target);
         this.rank = rank;
+    }
+
+    @Override
+    public int importance() {
+        if(nation.getRank(target).weight()>=500 || rank.weight() >= 500){
+            return 3;
+        }
+        return 2;
     }
 
     @Override
@@ -20,6 +28,8 @@ public class PlayerRankResolution extends PlayerResolution implements ImportantR
         if(target.getNation() != nation) return;
 
         if(!nation.getType().allRanks.contains(rank)) return;
+
+        if(target.getRank() == nation.getType().getOwnerRank()) return;
 
         if(rank == nation.getType().getOwnerRank()){
             nation.setRank(nation.getOwner(), nation.getType().getDefaultRank());

@@ -12,6 +12,12 @@ public class KickPlayerResolution extends PlayerResolution {
     }
 
     @Override
+    public int importance() {
+        if(nation.getRank(target).weight()>=500) return 3;
+        else return 2;
+    }
+
+    @Override
     public void execute() {
         nation.kickPlayer(target);
     }

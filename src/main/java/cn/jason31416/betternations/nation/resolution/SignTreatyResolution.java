@@ -10,11 +10,16 @@ import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class SignTreatyResolution extends AbstractResolution implements ImportantResolution {
+public class SignTreatyResolution extends AbstractResolution {
     Treaty treaty;
     public SignTreatyResolution(Nation nation, SimplePlayer proposer, Treaty treaty) {
         super(nation, proposer);
         this.treaty = treaty;
+    }
+
+    @Override
+    public int importance() {
+        return 4;
     }
 
     @Override

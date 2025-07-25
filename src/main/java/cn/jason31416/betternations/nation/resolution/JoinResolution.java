@@ -6,10 +6,15 @@ import cn.jason31416.planetlib.wrapper.SimplePlayer;
 
 import javax.annotation.Nonnull;
 
-public class JoinResolution extends AbstractResolution implements DailyResolution, OutsiderResolution {
+public class JoinResolution extends AbstractResolution implements OutsiderResolution {
     public JoinResolution(Nation nation, SimplePlayer proposer) {
         // Note that proposer is the player who wants to join the nation (not in the nation yet)
         super(nation, proposer);
+    }
+
+    @Override
+    public int importance() {
+        return 2;
     }
 
     @Override

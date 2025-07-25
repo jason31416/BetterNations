@@ -9,9 +9,14 @@ import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class DeclareWarResolution extends NationResolution implements ImportantResolution {
+public class DeclareWarResolution extends NationResolution {
     public DeclareWarResolution(Nation nation, SimplePlayer proposer, Nation otherNation) {
         super(nation, proposer, otherNation);
+    }
+
+    @Override
+    public int importance() {
+        return 4;
     }
 
     @Override

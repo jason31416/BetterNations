@@ -8,10 +8,14 @@ import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class DisbandResolution extends AbstractResolution implements ImportantResolution {
-
+public class DisbandResolution extends AbstractResolution {
     public DisbandResolution(Nation nation, SimplePlayer proposer) {
         super(nation, proposer);
+    }
+
+    @Override
+    public int importance() {
+        return 5;
     }
 
     @Override

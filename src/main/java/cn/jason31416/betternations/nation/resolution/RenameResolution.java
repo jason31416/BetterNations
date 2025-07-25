@@ -9,11 +9,16 @@ import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class RenameResolution extends AbstractResolution implements DailyResolution {
+public class RenameResolution extends AbstractResolution {
     String name;
     public RenameResolution(Nation nation, SimplePlayer proposer, String newName) {
         super(nation, proposer);
         name = newName;
+    }
+
+    @Override
+    public int importance() {
+        return 1;
     }
 
     @Override

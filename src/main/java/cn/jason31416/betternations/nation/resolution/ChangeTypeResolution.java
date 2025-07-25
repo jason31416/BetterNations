@@ -9,12 +9,17 @@ import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ChangeTypeResolution extends AbstractResolution implements ImportantResolution {
+public class ChangeTypeResolution extends AbstractResolution {
 
     NationType type;
     public ChangeTypeResolution(Nation nation, SimplePlayer proposer, NationType type) {
         super(nation, proposer);
         this.type=type;
+    }
+
+    @Override
+    public int importance() {
+        return 5;
     }
 
     @Override

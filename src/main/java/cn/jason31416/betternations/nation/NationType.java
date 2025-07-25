@@ -14,10 +14,7 @@ public enum NationType {
             new NationalRank("Officer", 400, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.STRUCTURE, Permission.MANAGE_ARMY)),
             new NationalRank("Dictator", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if(!(resolution instanceof OutsiderResolution)&&!resolution.proposer.getRank().hasPermission(Permission.CHANGE_NATION_ATTRIBUTE)) return false;
-        resolution.setRequiredSigners(List.of(NationalRank.getRank("dictator")));
-        resolution.setRequiredRatio(1);
-        return true;
+        return checkCount(resolution, List.of(resolution.nation.owner), 1);
     }),
     MONARCHY("Monarchy", new ArrayList<>(List.of(
             new NationalRank("Peasant", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
@@ -25,78 +22,73 @@ public enum NationType {
             new NationalRank("General", 500, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("King", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if(!(resolution instanceof OutsiderResolution)&&!resolution.proposer.getRank().hasPermission(Permission.CHANGE_NATION_ATTRIBUTE)) return false;
-        if(resolution instanceof DailyResolution){
-            resolution.setRequiredSigners(List.of(NationalRank.getRank("king"), NationalRank.getRank("general")));
-            resolution.setMinimalSigners(1); // As long as a kings or generals sign, the resolution can pass
-            resolution.setRequiredRatio(0);
-        }else if(resolution instanceof ImportantResolution){
-            resolution.setRequiredSigners(List.of(NationalRank.getRank("king")));
-            resolution.setRequiredRatio(1);
-        }else{
-            resolution.setRequiredSigners(List.of(NationalRank.getRank("king"), NationalRank.getRank("general")));
-            resolution.setMinimalSigners(2); // As long as two or more kings or generals sign, the resolution can pass
-            resolution.setRequiredRatio(0);
-        }
-        return true;
+        if(resolution.importance() >= 3) return checkCount(resolution, List.of(resolution.nation.owner), 1);
+        return checkRatio(resolution, getAllPlayersOfRanks(resolution.nation,
+                List.of(NationalRank.getRank("King"), NationalRank.getRank("General"))), 0.5);
     }),
     DEMOCRACY("Democracy", new ArrayList<>(List.of(
             new NationalRank("Member", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
             new NationalRank("Citizen", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("Leader", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if(!(resolution instanceof OutsiderResolution)&&resolution.proposer.getRank() == NationalRank.getRank("member")) return false;
-        resolution.setRequiredSigners(List.of(NationalRank.getRank("citizen"), NationalRank.getRank("leader")));
-        resolution.setRequiredRatio(0.5);
-        return true;
+        if(resolution.importance() <= 1) return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
+                List.of(NationalRank.getRank("Citizen"), NationalRank.getRank("Leader"))), 1);
+        return checkRatio(resolution, getAllPlayersOfRanks(resolution.nation,
+                List.of(NationalRank.getRank("Citizen"), NationalRank.getRank("Leader"))), 0.5);
     }),
     ANARCHY("Anarchy", new ArrayList<>(List.of(
             new NationalRank("Member", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
             new NationalRank("Citizen", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("Leader", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if(!(resolution instanceof OutsiderResolution)&&resolution.proposer.getRank() == NationalRank.getRank("member")) return false;
-        resolution.setRequiredSigners(List.of(NationalRank.getRank("citizen"), NationalRank.getRank("leader")));
-        if(resolution instanceof DisbandResolution || resolution instanceof ChangeTypeResolution) {
-            resolution.setRequiredRatio(0.5);
-        }else{
-            resolution.setRequiredRatio(0);
-            resolution.setMinimalSigners(1);
-        }
-        return true;
+        if(resolution.importance() == 5) return checkCount(resolution, List.of(resolution.nation.owner), 1);
+        return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
+                List.of(NationalRank.getRank("Citizen"), NationalRank.getRank("Leader"))), 1);
     }),
     REPUBLIC("Republic", new ArrayList<>(List.of(
             NationalRank.getRank("Member"),
             new NationalRank("Representative", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("President", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if (!(resolution instanceof OutsiderResolution)&&resolution.proposer.getRank() == NationalRank.getRank("member")) {
-            return false;
-        }
-        if(resolution instanceof DisbandResolution){
-            List<SimplePlayer> signers = new ArrayList<>();
-            signers.add(resolution.nation.owner);
-            for(Town i: resolution.nation.getTowns()){
-                signers.add(i.getMayor());
-            }
-            resolution.addRequiredSigners(signers); // President & Town leaders must sign to disband a nation
-            resolution.setRequiredRatio(1);
-        }else if (resolution instanceof ImportantResolution && !(resolution instanceof PlayerRankResolution)) {
-            resolution.setRequiredSigners(List.of(NationalRank.getRank("president"))); // President must sign to pass important resolutions such as war declaration
-            resolution.setRequiredRatio(1);
-        } else if (resolution instanceof DailyResolution){
-            resolution.setRequiredSigners(List.of(NationalRank.getRank("representative"), NationalRank.getRank("president")));
-            resolution.setRequiredRatio(0);
-            resolution.setMinimalSigners(2); // As long as two or more representatives sign, the resolution can pass
-        }else{
-            resolution.setRequiredSigners(List.of(NationalRank.getRank("representative"), NationalRank.getRank("president")));
-            resolution.setRequiredRatio(0.5); // If half of representatives sign, the resolution can pass
-        }
-        return true;
+        if(resolution instanceof PlayerRankResolution && ((PlayerRankResolution) resolution).rank == NationalRank.getRank("President")) return checkRatio(resolution, getAllPlayersOfRanks(resolution.nation,
+                List.of(NationalRank.getRank("Representative"), NationalRank.getRank("President"))), 0.5);
+        if(resolution.importance() >= 4) return checkCount(resolution, List.of(resolution.nation.owner), 1);
+        if(resolution.importance() == 3) return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
+                List.of(NationalRank.getRank("Representative"))), 1) && checkCount(resolution,List.of(resolution.nation.owner), 1);
+        return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
+                List.of(NationalRank.getRank("Representative"), NationalRank.getRank("President"))), 1);
     });
 
+    private static List<SimplePlayer> getAllPlayersOfRanks(Nation nation, List<NationalRank> ranks){
+        List<SimplePlayer> ret = new ArrayList<>();
+        for(SimplePlayer player: nation.getMembers()){
+            if(ranks.contains(player.getRank())){
+                ret.add(player);
+            }
+        }
+        return ret;
+    }
+    private static boolean checkRatio(AbstractResolution resolution, List<SimplePlayer> requiredSigners, double ratio){
+        int count = 0;
+        for(SimplePlayer player: requiredSigners){
+            if(resolution.signedPlayers.contains(player)){
+                count++;
+            }
+        }
+        return count >= requiredSigners.size() * ratio;
+    }
+    private static boolean checkCount(AbstractResolution resolution, List<SimplePlayer> requiredSigners, int count){
+        int cnt = 0;
+        for(SimplePlayer player: requiredSigners){
+            if(resolution.signedPlayers.contains(player)){
+                count++;
+            }
+        }
+        return cnt >= count;
+    }
+
     public interface DecisionMaker {
-        boolean makeDecision(AbstractResolution resolution);
+        boolean checkPass(AbstractResolution resolution);
     }
 
     public final String name;

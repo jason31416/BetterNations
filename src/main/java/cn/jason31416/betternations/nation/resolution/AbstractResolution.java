@@ -20,18 +20,18 @@ public abstract class AbstractResolution {
     public long deadline;
     public String resolutionId;
     public boolean isExecuted=false;
-    public double requiredRatio=0.5; // 50% required by default
-    public int minimalSigners=1; // 1 by default
     public AbstractResolution(Nation nation, SimplePlayer proposer) {
-        this.requiredSigners=new HashSet<>();
-        if(proposer.getNation() == nation) this.requiredSigners.add(proposer);
+        requiredSigners = new HashSet<>();
+        for(SimplePlayer member: nation.getMembers()){
+            if(member.getRank().weight()>=500) requiredSigners.add(member);
+        }
         this.nation=nation;
         this.proposer=proposer;
         deadline=System.currentTimeMillis()+1000L*60*60*24*3; // 3 days
         resolutionId=UUID.randomUUID().toString();
     }
     public void propose(){
-        if(nation.getType().decisionMaker.makeDecision(this)) {
+        if((this instanceof OutsiderResolution) || nation.getRank(proposer).weight() >= 500) {
             for(AbstractResolution res: nation.resolutions.values()){
                 if(res.equals(this)){
                     proposer.sendMessage(Message.getMessage("nation.resolution.duplicate-exists")
@@ -46,11 +46,17 @@ public abstract class AbstractResolution {
                     .add("resolution_id", resolutionId)
                     .add("resolution_name", getResolutionContent().toFormatted())
                     .send(nation.getMembers());
-            if(!(this instanceof ImportantResolution)&&!(this instanceof OutsiderResolution)) sign(proposer);
+            if(importance()<=3&&!(this instanceof OutsiderResolution)) sign(proposer);
         }else{
             proposer.sendMessage(Message.getMessage("nation.resolution.cannot-propose"));
         }
     }
+    // 1=little effect such as rename
+    // 2=changing ranks (to&from <500)/ kicking players / inviting players
+    // 3=changing ranks/kicking players (500-900)
+    // 4=diplomatic ones such as declaring war/changing relation/signing treaty
+    // 5=disbanding nation/changing owner/changing type
+    public abstract int importance();
     public boolean checkDate(){
         return System.currentTimeMillis()<=deadline;
     }
@@ -94,24 +100,8 @@ public abstract class AbstractResolution {
     public void cancel(){
         nation.resolutions.remove(resolutionId);
     }
-    public void setRequiredSigners(List<NationalRank> requiredSigners){
-        for(SimplePlayer player: nation.getMembers()){
-            if(requiredSigners.contains(player.getRank())){
-                this.requiredSigners.add(player);
-            }
-        }
-    }
-    public void addRequiredSigners(List<SimplePlayer> requiredSigners){
-        this.requiredSigners.addAll(requiredSigners);
-    }
-    public void setRequiredRatio(double requiredRatio){
-        this.requiredRatio=requiredRatio;
-    }
-    public void setMinimalSigners(int minimalSigners){
-        this.minimalSigners=minimalSigners;
-    }
     public boolean checkPass(){
-        return !isExecuted&&((signedPlayers.size()>=requiredSigners.size()*requiredRatio&&signedPlayers.size()>=Math.min(minimalSigners, requiredSigners.size()))||(signedPlayers.contains(nation.getOwner())&&nation.getType()==NationType.MONARCHY)); // Over half of the required signers have signed/Monarch signed
+        return !isExecuted&&nation.getType().decisionMaker.checkPass(this);
     }
     public abstract void execute();
     @Nonnull

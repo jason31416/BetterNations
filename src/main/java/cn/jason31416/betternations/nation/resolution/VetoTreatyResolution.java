@@ -7,11 +7,16 @@ import cn.jason31416.planetlib.wrapper.SimplePlayer;
 
 import javax.annotation.Nonnull;
 
-public class VetoTreatyResolution extends AbstractResolution implements ImportantResolution {
+public class VetoTreatyResolution extends AbstractResolution {
     Treaty treaty;
     public VetoTreatyResolution(Nation nation, SimplePlayer proposer, Treaty treaty) {
         super(nation, proposer);
         this.treaty = treaty;
+    }
+
+    @Override
+    public int importance() {
+        return 4;
     }
 
     @Override

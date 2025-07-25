@@ -24,6 +24,8 @@ structure:
     hologram: "&8-= &b灾厄哨塔 &8=-"
   granary:
     hologram: "&8-= &b粮仓 &7(%supply%/%max_supply% &e🌾&7) &8=-"
+  fortress:
+    hologram: "&8-= &b要塞 &8=-"
   outpost:
     hologram: "&8-= &b前哨 &8=-"
     already-exists: "&c该区块已经有一个前哨了!"
@@ -208,7 +210,7 @@ nation:
       - "&l%content%"
       - ""
       - "&7发起者: &f%proposer%"
-      - "&7已签署: &f%signed_players_count% &7/ &f%required_signers%"
+      - "&7已签署: &f%signed_players_count%"
       - "&7%signed_players%"
       - "&a<click:run_command:/nation resolution sign %resolution_id%>[同意]</click> &7| &c<click:run_command:/nation resolution decline %resolution_id%>[拒绝]</click>"
     info-no-permission:

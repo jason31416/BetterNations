@@ -40,8 +40,7 @@ public class ResolutionInfoCommand extends ChildCommand {
                 .add("resolution_id", resolution.resolutionId)
                 .add("content", resolution.getResolutionContent().toFormatted())
                 .add("signed_players", String.join(",", resolution.signedPlayers.stream().map(SimplePlayer::getName).toList()))
-                .add("signed_players_count", ""+resolution.signedPlayers.size())
-                .add("required_signers", (int)Math.max(Math.ceil(resolution.requiredSigners.size()*resolution.requiredRatio), resolution.minimalSigners));
+                .add("signed_players_count", ""+resolution.signedPlayers.size());
         else
             message = MessageLoader.getList("nation.resolution.info-no-permission")
                     .add("proposer", resolution.proposer.getName())
@@ -49,8 +48,7 @@ public class ResolutionInfoCommand extends ChildCommand {
                     .add("resolution_id", resolution.resolutionId)
                     .add("content", resolution.getResolutionContent().toFormatted())
                     .add("signed_players", String.join(",", resolution.signedPlayers.stream().map(SimplePlayer::getName).toList()))
-                    .add("signed_players_count", ""+resolution.signedPlayers.size())
-                    .add("required_signers", (int)Math.max(Math.ceil(resolution.requiredSigners.size()*resolution.requiredRatio), Math.min(resolution.minimalSigners, resolution.requiredSigners.size())));
+                    .add("signed_players_count", ""+resolution.signedPlayers.size());
         message.send(player);
         return null;
     }

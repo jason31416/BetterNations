@@ -206,7 +206,7 @@ nation:
       - "&l%content%"
       - ""
       - "&7Proposer: &f%proposer%"
-      - "&7Signed: &f%signed_players_count% &7/ &f%required_signers%"
+      - "&7Signed: &f%signed_players_count%"
       - "&7%signed_players%"
       - "&a<click:run_command:/nation resolution sign %resolution_id%>[Approve]</click> &7| &c<click:run_command:/nation resolution decline %resolution_id%>[Reject]</click>"
     info-no-permission:

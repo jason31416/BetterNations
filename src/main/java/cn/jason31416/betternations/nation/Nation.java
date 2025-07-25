@@ -100,6 +100,7 @@ public class Nation {
         for(SimplePlayer player : memberRanks.keySet()){
             playerNationMap.remove(player);
         }
+        MapDisplayManager.updateNation(this);
         unregisterNation();
     }
     public void setRank(SimplePlayer player, NationalRank rank) {

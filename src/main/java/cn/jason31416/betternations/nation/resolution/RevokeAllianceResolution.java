@@ -13,6 +13,11 @@ public class RevokeAllianceResolution extends NationResolution {
     }
 
     @Override
+    public int importance() {
+        return 4;
+    }
+
+    @Override
     public void execute() {
         if(nation.getRelation(otherNation) == Relation.ALLY) {
             nation.setRelation(otherNation, Relation.NEUTRAL);
