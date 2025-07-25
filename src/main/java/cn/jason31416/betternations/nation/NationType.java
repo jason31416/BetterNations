@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.nation;
 
+import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.nation.resolution.*;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
@@ -14,7 +15,7 @@ public enum NationType {
             new NationalRank("Officer", 400, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.STRUCTURE, Permission.MANAGE_ARMY)),
             new NationalRank("Dictator", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        return checkCount(resolution, List.of(resolution.nation.owner), 1);
+        return resolution.signedPlayers.contains(resolution.nation.owner);
     }),
     MONARCHY("Monarchy", new ArrayList<>(List.of(
             new NationalRank("Peasant", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
@@ -22,9 +23,9 @@ public enum NationType {
             new NationalRank("General", 500, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("King", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if(resolution.importance() >= 3) return checkCount(resolution, List.of(resolution.nation.owner), 1);
-        return checkRatio(resolution, getAllPlayersOfRanks(resolution.nation,
-                List.of(NationalRank.getRank("King"), NationalRank.getRank("General"))), 0.5);
+        if(resolution.importance() >= 3) return resolution.signedPlayers.contains(resolution.nation.owner);
+        return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
+                List.of(NationalRank.getRank("King"), NationalRank.getRank("General"))), 1);
     }),
     DEMOCRACY("Democracy", new ArrayList<>(List.of(
             new NationalRank("Member", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
@@ -41,7 +42,7 @@ public enum NationType {
             new NationalRank("Citizen", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("Leader", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if(resolution.importance() == 5) return checkCount(resolution, List.of(resolution.nation.owner), 1);
+        if(resolution.importance() == 5) return resolution.signedPlayers.contains(resolution.nation.owner);
         return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
                 List.of(NationalRank.getRank("Citizen"), NationalRank.getRank("Leader"))), 1);
     }),
@@ -52,9 +53,9 @@ public enum NationType {
     )), (resolution) -> {
         if(resolution instanceof PlayerRankResolution && ((PlayerRankResolution) resolution).rank == NationalRank.getRank("President")) return checkRatio(resolution, getAllPlayersOfRanks(resolution.nation,
                 List.of(NationalRank.getRank("Representative"), NationalRank.getRank("President"))), 0.5);
-        if(resolution.importance() >= 4) return checkCount(resolution, List.of(resolution.nation.owner), 1);
+        if(resolution.importance() >= 4) return resolution.signedPlayers.contains(resolution.nation.owner);
         if(resolution.importance() == 3) return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
-                List.of(NationalRank.getRank("Representative"))), 1) && checkCount(resolution,List.of(resolution.nation.owner), 1);
+                List.of(NationalRank.getRank("Representative"))), 1) && resolution.signedPlayers.contains(resolution.nation.owner);
         return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
                 List.of(NationalRank.getRank("Representative"), NationalRank.getRank("President"))), 1);
     });
@@ -81,10 +82,11 @@ public enum NationType {
         int cnt = 0;
         for(SimplePlayer player: requiredSigners){
             if(resolution.signedPlayers.contains(player)){
-                count++;
+                cnt++;
             }
         }
-        return cnt >= count;
+//        BetterNations.instance.getLogger().info("checkCount: requiredSigners: "+requiredSigners+", count: "+count+", cnt: "+cnt);
+        return cnt >= count || cnt == requiredSigners.size();
     }
 
     public interface DecisionMaker {
