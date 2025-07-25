@@ -134,20 +134,21 @@ public class TownCore extends AbstractStructure {
                                         }
                                         @Override
                                         public void run(GUISession session, InventoryAction action, InventoryClickEvent event) {
-                                            if(curtown.getRole(player) != TownRole.MAYOR) return;
-                                            if (action == InventoryAction.PICKUP_ALL) {
+                                            if (action == InventoryAction.PICKUP_ALL&&(curtown.getRole(player) == TownRole.MAYOR||curtown.getRole(p) == TownRole.RESIDENT)) {
                                                 if (curtown.getRole(p) != TownRole.NONE&&curtown.getRole(p) != TownRole.MAYOR) {
                                                     curtown.setRole(p, curtown.getRole(p).demote());
                                                     updateItem();
                                                 }
                                             }else if (action == InventoryAction.PICKUP_HALF) {
-                                                if (curtown.getRole(p) != TownRole.MAYOR) {
-                                                    curtown.setRole(p, curtown.getRole(p).promote());
-                                                    if(curtown.getRole(p)==TownRole.MAYOR){
-                                                        curtown.setRole(curtown.getMayor(), TownRole.MAYOR.demote());
-                                                        curtown.mayor = p;
-                                                        session.display("town-members");
-                                                    }else updateItem();
+                                                if(curtown.getRole(p) == TownRole.NONE || curtown.getRole(player) == TownRole.MAYOR) {
+                                                    if (curtown.getRole(p) != TownRole.MAYOR) {
+                                                        curtown.setRole(p, curtown.getRole(p).promote());
+                                                        if (curtown.getRole(p) == TownRole.MAYOR) {
+                                                            curtown.setRole(curtown.getMayor(), TownRole.MAYOR.demote());
+                                                            curtown.mayor = p;
+                                                            session.display("town-members");
+                                                        } else updateItem();
+                                                    }
                                                 }
                                             }
                                         }

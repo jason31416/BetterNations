@@ -13,3 +13,4 @@ public enum Permission {
     TOWN_CREATE,
     MANAGE_ARMY
 }
+

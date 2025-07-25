@@ -10,7 +10,7 @@ import java.util.Set;
 
 public enum NationType {
     AUTOCRACY("Autocracy", new ArrayList<>(List.of(
-            new NationalRank("Peasant", 10, Set.of(Permission.BUILD)),
+            new NationalRank("Peasant", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
             new NationalRank("Officer", 400, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.STRUCTURE, Permission.MANAGE_ARMY)),
             new NationalRank("Dictator", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
@@ -20,7 +20,7 @@ public enum NationType {
         return true;
     }),
     MONARCHY("Monarchy", new ArrayList<>(List.of(
-            new NationalRank("Peasant", 10, Set.of(Permission.BUILD)),
+            new NationalRank("Peasant", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
             new NationalRank("Knight", 100, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.STRUCTURE, Permission.MANAGE_ARMY)),
             new NationalRank("General", 500, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("King", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
@@ -28,16 +28,20 @@ public enum NationType {
         if(!(resolution instanceof OutsiderResolution)&&!resolution.proposer.getRank().hasPermission(Permission.CHANGE_NATION_ATTRIBUTE)) return false;
         if(resolution instanceof DailyResolution){
             resolution.setRequiredSigners(List.of(NationalRank.getRank("king"), NationalRank.getRank("general")));
-            resolution.setMinimalSigners(2); // As long as two or more kings or generals sign, the resolution can pass
+            resolution.setMinimalSigners(1); // As long as a kings or generals sign, the resolution can pass
             resolution.setRequiredRatio(0);
-        }else{
+        }else if(resolution instanceof ImportantResolution){
             resolution.setRequiredSigners(List.of(NationalRank.getRank("king")));
             resolution.setRequiredRatio(1);
+        }else{
+            resolution.setRequiredSigners(List.of(NationalRank.getRank("king"), NationalRank.getRank("general")));
+            resolution.setMinimalSigners(2); // As long as two or more kings or generals sign, the resolution can pass
+            resolution.setRequiredRatio(0);
         }
         return true;
     }),
     DEMOCRACY("Democracy", new ArrayList<>(List.of(
-            new NationalRank("Member", 10, Set.of(Permission.BUILD)),
+            new NationalRank("Member", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
             new NationalRank("Citizen", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("Leader", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
@@ -47,7 +51,7 @@ public enum NationType {
         return true;
     }),
     ANARCHY("Anarchy", new ArrayList<>(List.of(
-            new NationalRank("Member", 10, Set.of(Permission.BUILD)),
+            new NationalRank("Member", 10, Set.of(Permission.BUILD, Permission.STRUCTURE)),
             new NationalRank("Citizen", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("Leader", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {

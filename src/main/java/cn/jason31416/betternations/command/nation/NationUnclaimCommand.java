@@ -50,6 +50,7 @@ public class NationUnclaimCommand extends ChildCommand {
             if(!Objects.requireNonNull(chunkLocation.getTown()).unclaim(chunkLocation)){
                 return Message.getMessage("command.failed.chunk-unclaim-failed");
             }
+            player.addBalance(Config.getDouble("town.unclaim-refund"));
         }
         if(nation.unclaim(chunkLocation)){
             if(player.isOnline()&&player.getLocation().getChunkLocation().equals(chunkLocation))

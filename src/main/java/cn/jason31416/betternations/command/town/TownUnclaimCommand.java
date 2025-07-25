@@ -33,7 +33,7 @@ public class TownUnclaimCommand extends ChildCommand {
             }
         }
         if(town.unclaim(chunkLocation)){
-            player.addBalance(Config.getDouble("unclaim-refund"));
+            player.addBalance(Config.getDouble("town.unclaim-refund"));
             if(player.isOnline()&&player.getLocation().getChunkLocation().equals(chunkLocation))
                 EventListener.sendCrossChunkMessage(player, player.getLocation().getChunkLocation(), player.getLocation().getChunkLocation());
             return Message.getMessage("command.success.town-chunk-unclaimed");

@@ -6,8 +6,8 @@ import java.util.Set;
 
 public enum TownRole {
     NONE(),
-    GREENCARD(Permission.BUILD),
-    RESIDENT(Permission.BUILD),
+    GREENCARD(Permission.BUILD, Permission.STRUCTURE),
+    RESIDENT(Permission.BUILD, Permission.STRUCTURE),
     MANAGER(Permission.BUILD, Permission.STRUCTURE, Permission.TOWN_CLAIM, Permission.TOWN_UNCLAIM),
     MAYOR(Permission.BUILD, Permission.STRUCTURE, Permission.TOWN_CLAIM, Permission.TOWN_UNCLAIM);
     public final Set<Permission> permissions;
