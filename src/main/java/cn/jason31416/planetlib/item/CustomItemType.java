@@ -57,7 +57,7 @@ public class CustomItemType extends ItemType {
         if(customModelData != 0) itemMeta.setCustomModelData(customModelData);
         try {
             if(itemMeta instanceof SkullMeta meta&&skullValue!=null){
-                PlayerProfile profile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID());
+                PlayerProfile profile = Bukkit.getServer().createPlayerProfile(UUID.nameUUIDFromBytes(registryName.getBytes()));
                 PlayerTextures textures = profile.getTextures();
                 textures.setSkin(new URL("https://textures.minecraft.net/texture/"+skullValue));
                 profile.setTextures(textures);

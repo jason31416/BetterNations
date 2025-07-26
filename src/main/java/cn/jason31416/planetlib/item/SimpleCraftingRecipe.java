@@ -1,5 +1,6 @@
 package cn.jason31416.planetlib.item;
 
+import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.planetlib.InvalidConfigurationException;
 import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.message.StaticMessages;
