@@ -40,7 +40,7 @@ public class ItemCraftingManager {
     public static Map<String, ItemCategory> itemTypes=new HashMap<>();
     public static final Map<String, UpgradeInfo> upgradeInfoMap = new HashMap<>();
     public static void unregisterAll(){
-        Bukkit.resetRecipes();
+        SimpleCraftingRecipe.recipes.clear();
         itemTypes.clear();
         recipes.clear();
         CustomItemType.itemTypes.clear();
@@ -57,6 +57,7 @@ public class ItemCraftingManager {
         }
     }
     public static void loadItems(ConfigurationSection section){
+        List<Exception> exceptions = new ArrayList<>();
         for(String i: section.getKeys(false)){
             try{
                 CustomItemType itemType;
@@ -99,11 +100,16 @@ public class ItemCraftingManager {
                 itemType.register();
             }catch (Exception e){
                 Message.getMessage("admin.configuration-format-error-with-loc").add("file", "items").add("line", "Item "+i).send(Bukkit.getConsoleSender());
-                e.printStackTrace();
+                exceptions.add(e);
             }
+        }
+        if(!exceptions.isEmpty()){
+            BetterNations.instance.getLogger().severe("One of the stack-trace of the exception caught during loading items is shown below:");
+            exceptions.get(0).printStackTrace();
         }
     }
     public static void loadMachineries(ConfigurationSection section){
+        List<Exception> exceptions = new ArrayList<>();
         for(String i: section.getKeys(false)){
             try{
                 ConfigurationSection machinery = section.getConfigurationSection(i);
@@ -121,11 +127,16 @@ public class ItemCraftingManager {
                 }
             }catch (Exception e){
                 Message.getMessage("admin.configuration-format-error-with-loc").add("file", "items").add("line", "Machinery "+i).send(Bukkit.getConsoleSender());
-                e.printStackTrace();
+                exceptions.add(e);
             }
+        }
+        if(!exceptions.isEmpty()){
+            BetterNations.instance.getLogger().severe("One of the stack-trace of the exception caught during loading machineries is shown below:");
+            exceptions.get(0).printStackTrace();
         }
     }
     public static void loadRecipes(ConfigurationSection section){
+        List<Exception> exceptions = new ArrayList<>();
         for(String i: section.getKeys(false)){
             try{
                 if(section.getString(i+".type", "crafting").equalsIgnoreCase("crafting")){
@@ -176,8 +187,12 @@ public class ItemCraftingManager {
                 }
             }catch (Exception e){
                 Message.getMessage("admin.configuration-format-error-with-loc").add("file", "items").add("line", "Recipe "+i).send(Bukkit.getConsoleSender());
-                e.printStackTrace();
+                exceptions.add(e);
             }
+        }
+        if(!exceptions.isEmpty()){
+            BetterNations.instance.getLogger().severe("One of the stack-trace of the exception caught during loading recipes is shown below:");
+            exceptions.get(0).printStackTrace();
         }
     }
     public static void loadAll(){
