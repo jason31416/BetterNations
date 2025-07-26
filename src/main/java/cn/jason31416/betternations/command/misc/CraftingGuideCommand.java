@@ -148,16 +148,16 @@ public class CraftingGuideCommand extends ChildCommand {
                                     .setName(Message.getMessage("item.recipe.crafting.name").toString())
                                     .setMaterial(Material.CRAFTING_TABLE)
                                     .setLore(MessageLoader.getList("item.recipe.crafting.lore").asList());
-                            SimpleCraftingRecipe.RecipeMatrix rcp = recipe.recipeMatrix;
-                            for(int i=0;i<rcp.recipe.length;i++){
-                                for(int j=0;j<rcp.recipe[i].length;j++){
-                                    if(rcp.recipe[i][j] == null){
+                            List<List<ItemType>> rcp = recipe.recipe;
+                            for(int i=0;i<rcp.size();i++){
+                                for(int j=0;j<rcp.get(i).size();j++){
+                                    if(rcp.get(i).get(j).getMaterial()==Material.AIR){
                                         gui.getItems("slot"+(i+1)+"-"+(j+1)).setMaterial(Material.AIR);
                                         continue;
                                     }
                                     gui.getItems("slot"+(i+1)+"-"+(j+1))
-                                            .setItemStack(rcp.recipe[i][j].getItemStack());
-                                    if(rcp.recipe[i][j] instanceof CustomItemType rc){
+                                            .setItemStack(rcp.get(i).get(j).getItemStack());
+                                    if(rcp.get(i).get(j) instanceof CustomItemType rc){
                                         gui.getItems("slot"+(i+1)+"-"+(j+1))
                                                 .setClickHandler((session, action, clicktype) -> {
                                                     selectedType = rc;

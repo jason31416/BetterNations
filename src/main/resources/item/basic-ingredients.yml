@@ -247,7 +247,6 @@ recipes:
     type: crafting
     product: chip
     shape:
-      - "   "
       - "ccc"
       - "aaa"
     material:
@@ -283,9 +282,9 @@ recipes:
     type: crafting
     product: raw-steel
     shape:
-      - " b "
-      - " a "
-      - " b "
+      - "b"
+      - "a"
+      - "b"
     material:
       a: raw_iron
       b: coal
@@ -293,9 +292,9 @@ recipes:
     type: crafting
     product: raw-steel
     shape:
-      - " b "
-      - " a "
-      - " b "
+      - "b"
+      - "a"
+      - "b"
     material:
       a: raw_iron
       b: charcoal
@@ -308,9 +307,8 @@ recipes:
     type: crafting
     product: steel-chunk
     shape:
-      - "aa "
-      - "aa "
-      - "   "
+      - "aa"
+      - "aa"
     material:
       a: steel
   steel-plate:
@@ -318,8 +316,6 @@ recipes:
     product: steel-plate
     shape:
       - "aaa"
-      - "   "
-      - "   "
     material:
       a: steel
   compressed-steel-plate:
@@ -327,8 +323,6 @@ recipes:
     product: compressed-steel-plate
     shape:
       - "aaa"
-      - "   "
-      - "   "
     material:
       a: steel-plate
   tomb:

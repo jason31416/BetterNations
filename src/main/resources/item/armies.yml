@@ -55,9 +55,9 @@ recipes:
     type: crafting
     product: basic-zombie-equipment
     shape:
-      - " s "
-      - " u "
-      - " u "
+      - "s"
+      - "u"
+      - "u"
     material:
       u: undead-essence
       s: iron_helmet
