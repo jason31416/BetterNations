@@ -21,7 +21,7 @@ public class NationLeaveCommand extends ChildCommand {
         if(nation==null){
             return Message.getMessage("command.failed.player-not-in-nation");
         }
-        if(nation.getOwner()==context.getPlayer()){
+        if(nation.getOwner().equals(context.getPlayer())){
             return Message.getMessage("command.failed.owner-cannot-leave");
         }
         nation.removePlayer(context.getPlayer());
