@@ -347,6 +347,9 @@ combat:
   siege-name: "&e&l%nation% &cSiege on %town% &r&7 (%units% units)"
   defender-name: "&l%nation% &7's &f%type%"
 
+  barbarian-invasion-started: "&cBarbarian invasion has started in %location%, %nation%!"
+  invasion-started: "&c%nation% is invading your territory at %location%!"
+
   invalid-selection: "&cSelected units exceed what you own! Try selecting again..."
   cannot-move-unit-during-combat: "&cCannot move units during combat!"
   cannot-break-camps-in-nation: "&cCannot break camps in allied territory!"

@@ -17,6 +17,7 @@ public class PlayerRankResolution extends PlayerResolution {
 
     @Override
     public int importance() {
+        if(rank == nation.getType().getOwnerRank()) return 5;
         if(nation.getRank(target).weight()>=500 || rank.weight() >= 500){
             return 3;
         }

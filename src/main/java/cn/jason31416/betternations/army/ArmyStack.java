@@ -67,6 +67,7 @@ public class ArmyStack implements Damageable, DamageSource {
         }
     }
     public void addArmy(ArmyType type, Integer count){
+        if(type==null) return;
         if(armies.containsKey(type)){
             armies.get(type).count+=count;
             armies.get(type).hp+=type.health*count;
@@ -78,7 +79,7 @@ public class ArmyStack implements Damageable, DamageSource {
         if(armies.containsKey(unit.type)){
             armies.get(unit.type).count += unit.count;
             armies.get(unit.type).hp += unit.hp;
-        }else{
+        }else if(unit.hp > 0 && unit.count > 0){
             armies.put(unit.type, unit.copy());
         }
     }
@@ -86,6 +87,16 @@ public class ArmyStack implements Damageable, DamageSource {
         if(armies.containsKey(armyType)){
             if(armies.get(armyType).count>count) armies.get(armyType).count-=count;
             else if(armies.get(armyType).count==count) armies.remove(armyType);
+            else return false;
+            return true;
+        }else return false;
+    }
+    public boolean removeArmy(Unit unit){
+        if(armies.containsKey(unit.type)){
+            if(armies.get(unit.type).count>unit.count) {
+                armies.get(unit.type).count-=unit.count;
+                armies.get(unit.type).hp-=unit.hp;
+            } else if(armies.get(unit.type).count==unit.count) armies.remove(unit.type);
             else return false;
             return true;
         }else return false;
@@ -239,7 +250,7 @@ public class ArmyStack implements Damageable, DamageSource {
     }
     @Override
     public boolean isAlive() {
-        return armies.isEmpty();
+        return !armies.isEmpty();
     }
     @Override
     public double getDamageTowards(ArmorType type){

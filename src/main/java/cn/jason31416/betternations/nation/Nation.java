@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.nation;
 
+import cn.jason31416.betternations.manager.BarbarianInvasionManager;
 import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
 import cn.jason31416.betternations.manager.map.MapDisplayManager;
 import cn.jason31416.betternations.nation.resolution.AbstractResolution;
@@ -86,6 +87,9 @@ public class Nation {
     }
     public boolean isNomad(){
         return towns.isEmpty();
+    }
+    public boolean isBarbarian(){
+        return this==BarbarianInvasionManager.getBarbarianNation();
     }
     public void disband() {
         for(Town town : new ArrayList<>(towns)){

@@ -6,7 +6,7 @@
 
     <groupId>cn.jason31416</groupId>
     <artifactId>BetterNations</artifactId>
-    <version>BETA-2.8.2</version>
+    <version>BETA-2.8.3</version>
     <packaging>jar</packaging>
 
     <name>BetterNations</name>
@@ -184,7 +184,7 @@
             <groupId>de.bluecolored.bluemap</groupId>
             <artifactId>BlueMapAPI</artifactId>
             <version>2.7.2</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>

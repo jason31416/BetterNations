@@ -2,6 +2,8 @@ package cn.jason31416.betternations.manager;
 
 import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.army.ArmorType;
+import cn.jason31416.betternations.army.ArmyStack;
+import cn.jason31416.betternations.army.ArmyType;
 import cn.jason31416.betternations.army.states.*;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Relation;
@@ -23,6 +25,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
     public static Map<SimpleChunkLocation, Double> chunkHealths = new HashMap<>();
     public static long nextUpdate=0;
     private void checkChunkAfterInvasion(SimpleChunkLocation origchunk, Nation winner, Nation loser){
+        if(loser.isBarbarian()) return;
         Set<SimpleChunkLocation> encircled = new HashSet<>();
         outer: for(SimpleChunkLocation adj: origchunk.getAdjacentChunks()) {
             if (adj.getNation() == loser && !encircled.contains(adj)) {
@@ -77,7 +80,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
             try {
                 Set<StructuredArmy> armies = StructuredArmy.armyLocationMap.get(chunk);
                 for (StructuredArmy army : armies) {
-                    if (Config.getBoolean("combat.enable-supply-system")) {
+                    if (Config.getBoolean("combat.enable-supply-system") && !army.stack.nation.isBarbarian()) {
                         army.stack.supply -= army.stack.getSupplyConsumption();
                         if (army.stack.nation.getRelation(chunk.getNation()) == Relation.ALLY &&
                                 Granary.granaries.containsKey(chunk)) {
@@ -122,7 +125,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                             continue;
                         }
                         if (!chunkHealths.containsKey(chunk)) {
-                            chunkHealths.put(chunk, Config.getDouble("combat.chunk-hp", 20));
+                            chunkHealths.put(chunk, Config.getDouble((chunk.getNation().isBarbarian()?"barbarian.barbarian-chunk-hp":"combat.chunk-hp"), 20));
                         }
                         chunkHealths.put(chunk, chunkHealths.get(chunk) - invasion.stack.getDamageTowards(ArmorType.TERRITORY));
                     }else if(army instanceof SiegeFlag siege){
@@ -160,18 +163,83 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                             }
                         }
                     }
+                    if(army.stack.nation.isBarbarian() && Math.random()<Config.getDouble("barbarian.army.recover-chance", 0.1) && army.stack.size()<Config.getInt("barbarian.army.max-count", 15)){
+                        List<String> possibleTypes = new ArrayList<>(Config.config.getConfigurationSection("barbarian.army.units").getKeys(false));
+                        int tot = 0;
+                        for(String type:possibleTypes){
+                            tot += Config.getInt("barbarian.army.units."+type, 0);
+                        }
+                        int num = new Random().nextInt(tot), cur=0;
+                        while(cur<possibleTypes.size()&&num>=Config.getInt("barbarian.army.units."+possibleTypes.get(cur), 0)){
+                            num -= Config.getInt("barbarian.army.units."+possibleTypes.get(cur), 0);
+                            cur++;
+                        }
+                        String type = possibleTypes.get(cur);
+                        army.stack.addArmy(ArmyType.armyTypes.get(type), 1);
+                    }
                 }
                 if (chunkHealths.containsKey(chunk) && chunkHealths.get(chunk) <= 0) {
                     new BukkitRunnable() {
                         public void run() {
                             double mxatt = -1;
                             Nation tnation = null;
-                            for (StructuredArmy army : new HashSet<>(StructuredArmy.armyLocationMap.get(chunk))) {
+                            for (StructuredArmy army : new HashSet<>(StructuredArmy.armyLocationMap.getOrDefault(chunk, new HashSet<>()))) {
+                                if(!army.stack.isAlive()) continue;
                                 if (army instanceof InvasionFlag invasion) {
-                                    invasion.convertToCamp();
                                     if (invasion.stack.getDamageTowards(ArmorType.TERRITORY) > mxatt) {
                                         mxatt = invasion.stack.getDamageTowards(ArmorType.TERRITORY);
                                         tnation = invasion.stack.nation;
+                                    }
+                                    if(army.stack.nation.isBarbarian()) {
+                                        List<SimpleChunkLocation> locs = new ArrayList<>();
+                                        Town adjTown = null;
+                                        outerFor:
+                                        for (SimpleChunkLocation adj : chunk.getAdjacentChunks()) {
+                                            if (adj.isTownChunk()&&!adj.getTown().getNation().isBarbarian()) {
+                                                adjTown = adj.getTown();
+                                            }
+                                            if (adj.isClaimed() && !adj.isTownChunk() && !adj.getNation().isBarbarian()) {
+                                                for(StructuredArmy other: StructuredArmy.armyLocationMap.getOrDefault(adj, new HashSet<>())){
+                                                    if(other instanceof InvasionFlag && other.stack.nation.isBarbarian()){
+                                                        continue outerFor;
+                                                    }
+                                                }
+                                                locs.add(adj);
+                                            }
+                                        }
+                                        if (adjTown != null){
+                                            invasion.breakStructure();
+                                            invasion.unregister();
+                                            BarbarianInvasionManager.startBarbarianSiege(chunk, invasion.stack, adjTown);
+                                            continue;
+                                        }else if(locs.isEmpty()) {
+                                            invasion.convertToCamp();
+                                            continue;
+                                        }
+                                        invasion.breakStructure();
+                                        invasion.unregister();
+                                        ArmyStack stack = invasion.stack, newStack = new ArmyStack(stack.nation);
+
+                                        SimpleChunkLocation loc1 = locs.get(new Random().nextInt(locs.size())), loc2 = locs.get(new Random().nextInt(locs.size()));
+
+                                        stack.supply = 100;
+
+                                        if(loc1.equals(loc2)){
+                                            BarbarianInvasionManager.startBarbarianInvasionAt(loc1, stack);
+                                        }else {
+                                            newStack.supply = 100;
+
+                                            for (ArmyStack.Unit i : new HashSet<>(stack.armies.values())) {
+                                                // split the army into two parts
+                                                ArmyStack.Unit transfer = new ArmyStack.Unit(i.type, i.count / 2, i.hp * ((i.count / 2) * 1.0d / i.count));
+                                                newStack.addArmy(transfer);
+                                                stack.removeArmy(transfer);
+                                            }
+                                            BarbarianInvasionManager.startBarbarianInvasionAt(loc1, stack);
+                                            BarbarianInvasionManager.startBarbarianInvasionAt(loc2, newStack);
+                                        }
+                                    }else {
+                                        invasion.convertToCamp();
                                     }
                                 }
                             }
@@ -195,6 +263,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                 e.printStackTrace();
             }
         }
+        if(Config.getBoolean("barbarian.enable-barbarians", false)&&Math.random()<Config.getDouble("barbarian.barbarian-invasion-chance")) BarbarianInvasionManager.attemptStartBarbarianInvasion();
         nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
     }
 }

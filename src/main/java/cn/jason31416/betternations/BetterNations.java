@@ -252,7 +252,7 @@ public final class BetterNations extends JavaPlugin {
         AbstractStructure.registerAllStructures();
         registerDataLists();
         loadGUIs();
-        MapDisplayManager.init();
+        if(BlueMapHook.enabled) MapDisplayManager.init();
         Granary.loadSupplyWorth();
         ToggleArmyUpdateCommand.bossBar=Bukkit.createBossBar(Message.getMessage("combat.next-update-bossbar").toString(), BarColor.RED, BarStyle.SOLID);
         ToggleArmyUpdateCommand.bossBar.setVisible(true);
@@ -267,7 +267,7 @@ public final class BetterNations extends JavaPlugin {
             ToggleArmyUpdateCommand.bossBar.setTitle(Message.getMessage("combat.next-update-bossbar").add("timer", Utils.formatSeconds((int)(ArmyUpdateManager.nextUpdate-System.currentTimeMillis())/1000)).toString());
         }));
         UpdateCycle.registerTask("BetterNations.ExtractorUpdate", new UpdateTask(Config.getInt("structure.extractor-tick-interval"), Extractor::tickAll));
-        UpdateCycle.registerTask("BetterNations.MapUpdate", new UpdateTask(Config.getInt("bluemap.check-interval"), MapDisplayManager::update));
+        if(BlueMapHook.enabled) UpdateCycle.registerTask("BetterNations.MapUpdate", new UpdateTask(Config.getInt("bluemap.check-interval"), MapDisplayManager::update));
         ArmyUpdateManager.nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
         UpdateCycle.registerTask("BetterNations.ClaimingActionbar", new UpdateTask(20, ()->{
             for(SimplePlayer i: new ArrayList<>(EventListener.autoClaiming.keySet())){
@@ -334,8 +334,8 @@ public final class BetterNations extends JavaPlugin {
         if(Config.getBoolean("combat.enable-animation")) UpdateCycle.registerTask("BetterNations.FromToParticlesUpdate", new UpdateTask(Config.getInt("combat.particle-interval"), FromToAnimationManager::updateAll));
 
         UpdateCycle.unregisterTask("BetterNations.MapUpdate");
-        MapDisplayManager.reload();
-        UpdateCycle.registerTask("BetterNations.MapUpdate", new UpdateTask(Config.getInt("bluemap.check-interval"), MapDisplayManager::update));
+        if(BlueMapHook.enabled) MapDisplayManager.reload();
+        if(BlueMapHook.enabled) UpdateCycle.registerTask("BetterNations.MapUpdate", new UpdateTask(Config.getInt("bluemap.check-interval"), MapDisplayManager::update));
 
         UpdateCycle.unregisterTask("BetterNations.ArmyUpdate");
         UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));

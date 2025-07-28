@@ -96,69 +96,70 @@ public class StructureListener implements Listener {
     }
     @EventHandler
     public void onStructureInteract(PlayerInteractEvent event) {
-        if (event.getClickedBlock() == null) return;
-        AbstractStructure structure = AbstractStructure.structures.get(SimpleLocation.of(event.getClickedBlock()));
-        if (structure!=null&&event.getAction()==Action.LEFT_CLICK_BLOCK&&event.getPlayer().isSneaking()){
-            SimplePlayer player = SimplePlayer.of(event.getPlayer());
-            event.setCancelled(true);
-            if((structure instanceof StructuredArmy)||player.hasPermission(Permission.STRUCTURE, SimpleLocation.of(event.getClickedBlock()))){
-                structure.processInteraction(AbstractStructure.InteractionType.SNEAK_CLICK, SimplePlayer.of(event.getPlayer()));
-            }
-        }else if(structure!= null&&!event.getPlayer().isSneaking()){
-            if(event.getAction()== Action.RIGHT_CLICK_BLOCK) {
+        if (event.getClickedBlock() != null) {
+            AbstractStructure structure = AbstractStructure.structures.get(SimpleLocation.of(event.getClickedBlock()));
+            if (structure != null && event.getAction() == Action.LEFT_CLICK_BLOCK && event.getPlayer().isSneaking()) {
                 SimplePlayer player = SimplePlayer.of(event.getPlayer());
                 event.setCancelled(true);
-                if((structure instanceof StructuredArmy)||player.hasPermission(Permission.STRUCTURE, SimpleLocation.of(event.getClickedBlock()))){
-                    structure.processInteraction(AbstractStructure.InteractionType.INTERACT, SimplePlayer.of(event.getPlayer()));
+                if ((structure instanceof StructuredArmy) || player.hasPermission(Permission.STRUCTURE, SimpleLocation.of(event.getClickedBlock()))) {
+                    structure.processInteraction(AbstractStructure.InteractionType.SNEAK_CLICK, SimplePlayer.of(event.getPlayer()));
                 }
-            }
-        }else if(event.getAction()== Action.RIGHT_CLICK_BLOCK) {
-            SimpleLocation loc = SimpleLocation.of(event.getClickedBlock().getRelative(event.getBlockFace()));
-            SimplePlayer player = SimplePlayer.of(event.getPlayer());
-            if(!player.hasPermission(Permission.STRUCTURE, SimpleLocation.of(event.getClickedBlock()))){
-                event.setCancelled(true);
-                return;
-            }
-            if(loc.getBlockMaterial().isAir()){
-                ItemStack hand = event.getItem();
-                if(hand==null) return;
-                Class<?> clazz = PlaceableStructure.placeableStructures.get(ItemType.getItemType(hand).getName().toLowerCase());
-                if(clazz != null){
+            } else if (structure != null && !event.getPlayer().isSneaking()) {
+                if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    SimplePlayer player = SimplePlayer.of(event.getPlayer());
                     event.setCancelled(true);
-                    try {
-                        PlaceableStructure ps = (PlaceableStructure) clazz.getDeclaredConstructor().newInstance();
-                        ps.location = loc.getBlockLocation();
-                        if(ps instanceof UnitProductionStructure ups){
-                            ups.type = ItemType.getItemType(hand).getName().toLowerCase();
-                        }
-                        if(ps instanceof Machinery m){
-                            m.type = ItemType.getItemType(hand).getName().toLowerCase();
-                        }
-                        if((ps instanceof Outpost o)&&Outpost.outposts.contains(o.location.getChunkLocation())){
-                            player.sendMessage(Message.getMessage("structure.outpost.already-exists"));
-                            return;
-                        }
-                        if((ps instanceof Extractor e)){
-                            if(Extractor.extractors.containsKey(e.location.getChunkLocation())){
-                                player.sendMessage(Message.getMessage("structure.extractor.already-exists"));
-                                return;
-                            }
-                            if(!NaturalResourcesManager.naturalResourcesMap.containsKey(e.location.getChunkLocation())){
-                                player.sendMessage(Message.getMessage("structure.extractor.no-resources"));
-                                return;
-                            }
-                        }
-                        ps.place();
-                    } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
-                             InvocationTargetException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException("Failed to create structure instance!");
+                    if ((structure instanceof StructuredArmy) || player.hasPermission(Permission.STRUCTURE, SimpleLocation.of(event.getClickedBlock()))) {
+                        structure.processInteraction(AbstractStructure.InteractionType.INTERACT, SimplePlayer.of(event.getPlayer()));
                     }
-                    hand.setAmount(hand.getAmount()-1);
+                }
+            } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                SimpleLocation loc = SimpleLocation.of(event.getClickedBlock().getRelative(event.getBlockFace()));
+                SimplePlayer player = SimplePlayer.of(event.getPlayer());
+                if (!player.hasPermission(Permission.STRUCTURE, SimpleLocation.of(event.getClickedBlock()))) {
+                    event.setCancelled(true);
+                    return;
+                }
+                if (loc.getBlockMaterial().isAir()) {
+                    ItemStack hand = event.getItem();
+                    if (hand == null) return;
+                    Class<?> clazz = PlaceableStructure.placeableStructures.get(ItemType.getItemType(hand).getName().toLowerCase());
+                    if (clazz != null) {
+                        event.setCancelled(true);
+                        try {
+                            PlaceableStructure ps = (PlaceableStructure) clazz.getDeclaredConstructor().newInstance();
+                            ps.location = loc.getBlockLocation();
+                            if (ps instanceof UnitProductionStructure ups) {
+                                ups.type = ItemType.getItemType(hand).getName().toLowerCase();
+                            }
+                            if (ps instanceof Machinery m) {
+                                m.type = ItemType.getItemType(hand).getName().toLowerCase();
+                            }
+                            if ((ps instanceof Outpost o) && Outpost.outposts.contains(o.location.getChunkLocation())) {
+                                player.sendMessage(Message.getMessage("structure.outpost.already-exists"));
+                                return;
+                            }
+                            if ((ps instanceof Extractor e)) {
+                                if (Extractor.extractors.containsKey(e.location.getChunkLocation())) {
+                                    player.sendMessage(Message.getMessage("structure.extractor.already-exists"));
+                                    return;
+                                }
+                                if (!NaturalResourcesManager.naturalResourcesMap.containsKey(e.location.getChunkLocation())) {
+                                    player.sendMessage(Message.getMessage("structure.extractor.no-resources"));
+                                    return;
+                                }
+                            }
+                            ps.place();
+                        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
+                                 InvocationTargetException e) {
+                            e.printStackTrace();
+                            throw new RuntimeException("Failed to create structure instance!");
+                        }
+                        hand.setAmount(hand.getAmount() - 1);
+                    }
                 }
             }
         }
-        if(event.getItem()!=null&&!ItemType.getItemType(event.getItem()).allowInteraction()&&event.getAction()==Action.RIGHT_CLICK_BLOCK&&(event.getPlayer().isSneaking()||!interactable.contains(event.getClickedBlock().getType()))){
+        if(event.getItem()!=null&&!ItemType.getItemType(event.getItem()).allowInteraction()&&(event.getAction()==Action.RIGHT_CLICK_BLOCK||event.getAction()==Action.RIGHT_CLICK_AIR)&&(event.getPlayer().isSneaking()||event.getClickedBlock()==null||!interactable.contains(event.getClickedBlock().getType()))){
             event.setCancelled(true);
         }
     }

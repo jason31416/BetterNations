@@ -359,6 +359,9 @@ combat:
   siege-name: "&e&l%nation% &c对 %town% &c的攻城 &r&7 (%units% 个单位)"
   defender-name: "&l%nation% &7的 &f%type%"
 
+  barbarian-invasion-started: "&c蛮族正在入侵 %nation% 的区块: %location%!"
+  invasion-started: "&c%nation% 正在入侵属于你的国家的领地: %location%!"
+
   invalid-selection: "&c选中的单位超出了当前拥有的单位! 请尝试重新选择..."
   cannot-move-unit-during-combat: "&c无法移动战斗中部队!"
   cannot-break-camps-in-nation: "&c无法拆除处于友方领土中的营地!"
