@@ -92,6 +92,7 @@ command:
     treaty-removed: "<#2288ff>成功删除了条约 <#00ddff>%treaty%<#2288ff>!"
     set-natural-resource: "<#2288ff>成功设置了该区块的自然资源!"
     granted-greencard: "<#2288ff>成功授予了 <#00ddff>%player% <#2288ff> 在 %town% 城镇的绿卡!"
+    chat-changed: "<#2288ff>已经将聊天类型修改为 %chat_type%"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
@@ -151,6 +152,7 @@ command:
     nomadic-nation-cannot-claim: "<red>必须拥有至少一个城镇才能占领区块!"
     invalid-item-type: "<red>无效的物品类型!"
     cannot-unclaim-siege-chunk: "<red>无法取消占领正在被入侵的区块!"
+    invalid-chat-type: "<red>无效的聊天类型 %chat_type%! 可用值: nation, town, global"
 
 # These are messages that are related to nations.
 nation:
@@ -265,8 +267,14 @@ town:
     - "&7(将管理者提升一级后该玩家将成为新的镇长!)"
   day-change: "&e刷新城镇发展值中..."
 chat:
-  with_nation: "&8[%nation_color%%nation% %title%&8] %sender% ≫ &f%message%"
+  with_nation: "%domain%&8[%nation_color%%nation% %title%&8] %sender% ≫ &f%message%"
   no_nation: "&f<%sender%> &f%message%"
+  global: "全局"
+  town: "城镇 %town%"
+  nation: "国家"
+  prefix_global: ""
+  prefix_nation: "&a[国家] &r"
+  prefix_town: "&b[城镇 %town%] &r"
 auto-claiming:
   disabled-auto-claiming: "&c关闭了自动占领区块"
   disabled-auto-unclaiming: "&c关闭了自动放弃区块"
