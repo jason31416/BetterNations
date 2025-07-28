@@ -88,6 +88,7 @@ command:
     treaty-removed: "<#2288ff>Successfully removed treaty <#00ddff>%treaty%<#2288ff>!"
     set-natural-resource: "<#2288ff>Successfully set natural resource for the current chunk!"
     granted-greencard: "<#2288ff>Successfully granted <#00ddff>%player% <#2288ff>a greencard for town %town%!"
+    chat-changed: "<#2288ff>Chat type changed to %chat_type%"
   failed:
     owner-cannot-leave: "<red>You are the nation leader, please <click:suggest_command:/nation rank >assign a new leader</click> or <click:suggest_command:/nation disband>disband the nation</click> before leaving!"
     chunk-claim-failed: "<red>Failed to claim this chunk!"
@@ -263,6 +264,12 @@ town:
 chat:
   with_nation: "&8[%nation_color%%title% of %nation%&8] %sender% ≫ &f%message%"
   no_nation: "&f<%sender%> &f%message%"
+  global: "Global"
+  town: "Town %town%"
+  nation: "Nation"
+  prefix_global: ""
+  prefix_nation: "&a[Nation] &r"
+  prefix_town: "&b[Town %town%] &r"
 auto-claiming:
   disabled-auto-claiming: "&cDisabled auto-claiming"
   disabled-auto-unclaiming: "&cDisabled auto-unclaiming"

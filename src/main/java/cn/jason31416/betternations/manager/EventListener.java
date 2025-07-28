@@ -1,17 +1,14 @@
 package cn.jason31416.betternations.manager;
 
-import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.army.states.InvasionFlag;
 import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
+import cn.jason31416.betternations.command.chat.ChatCommand;
 import cn.jason31416.betternations.command.nation.NationClaimCommand;
 import cn.jason31416.betternations.command.nation.NationUnclaimCommand;
 import cn.jason31416.betternations.command.town.TownClaimCommand;
 import cn.jason31416.betternations.command.town.TownUnclaimCommand;
-import cn.jason31416.betternations.nation.Nation;
-import cn.jason31416.betternations.nation.Permission;
-import cn.jason31416.betternations.nation.Relation;
-import cn.jason31416.betternations.nation.Town;
+import cn.jason31416.betternations.nation.*;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.message.Message;
@@ -19,6 +16,7 @@ import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -29,7 +27,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +52,7 @@ public class EventListener implements Listener {
     )
     public void onChat(PlayerChatEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
+        ChatCommand.ChatInfo ci = (ChatCommand.playerChatMap.getOrDefault(player.getName(), ChatCommand.CTGlobal));
         Nation nation = player.getNation();
         event.setCancelled(true);
         Message message;
@@ -70,7 +68,31 @@ public class EventListener implements Listener {
                     .add("sender", player.getName())
                     .add("message", event.getMessage().replace("<", "\\<"));
         }
-        message.broadcast();
+        a: if (ci.type == ChatCommand.ChatType.NATION) {
+            if (player.getNation() == null) break a;
+            message = message.add("domain", Message.getMessage("chat.prefix_nation"));
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (Nation.getNation(p.getName()) == player.getNation()) {
+                    message.send(p);
+                }
+            }
+            return;
+        } else
+        b: if (ci.type == ChatCommand.ChatType.TOWN) {
+            Town t = ci.town;
+            if (t == null || t.getRole(player) == TownRole.NONE) {
+                ChatCommand.playerChatMap.put(player.getName(), ChatCommand.CTGlobal);
+                break b;
+            }
+            message = message.add("domain", Message.getMessage("chat.prefix_town").add("town", ci.town));
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (!t.getRole(SimplePlayer.of(p)).equals(TownRole.NONE)) {
+                    message.send(p);
+                }
+            }
+            return;
+        }
+        message.add("domain", Message.getMessage("chat.prefix_global")).broadcast();
     }
     public static void sendCrossChunkMessage(SimplePlayer player, SimpleChunkLocation from, SimpleChunkLocation to){
         String title, subtitle;
