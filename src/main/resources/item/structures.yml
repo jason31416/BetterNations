@@ -79,7 +79,7 @@ recipes:
     material:
       i: iron_block
       l: lava_bucket
-      b: reinforced-bricks
+      b: bricks
       c: magma_block
   outpost:
     type: crafting
@@ -91,7 +91,7 @@ recipes:
     material:
       g: granary
       w: wood
-      s: steel-chunk
+      s: steel-plate
       n: beacon
   granary:
     type: crafting
@@ -108,10 +108,9 @@ recipes:
     product: graveyard
     shape:
       - " u "
-      - "wtw"
+      - "www"
       - "ddd"
     material:
       w: wood
-      t: tomb
       u: undead-essence
       d: dirt

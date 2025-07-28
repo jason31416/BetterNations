@@ -1,11 +1,11 @@
 categories:
   upgrade-modules:
-    name: "&b&lUpgrade Modules &7- EXAMPLE"
+    name: "&b&lUpgrade Modules"
     material: MUSIC_DISC_OTHERSIDE
 
 items:
   fuel-efficiency-upgrade-i:
-    name: "&a&lFuel Efficiency Upgrade I"
+    name: "&a&lFuel Efficiency Upgrade"
     material: MUSIC_DISC_OTHERSIDE
     category: upgrade-modules
     lore:
@@ -31,24 +31,6 @@ items:
     upgrade-info:
       type: EFFICIENCY
       value: 60
-  fuel-efficiency-upgrade-iv:
-    material: MUSIC_DISC_OTHERSIDE
-    name: "&a&lFuel Efficiency Upgrade IV"
-    category: upgrade-modules
-    lore:
-      - "&7Increases fuel machine efficiency by 80%"
-    upgrade-info:
-      type: EFFICIENCY
-      value: 80
-  fuel-efficiency-upgrade-v:
-    name: "&a&lFuel Efficiency Upgrade V"
-    material: MUSIC_DISC_OTHERSIDE
-    category: upgrade-modules
-    lore:
-      - "&7Increases fuel machine efficiency by 100%"
-    upgrade-info:
-      type: EFFICIENCY
-      value: 100
 
   speed-upgrade-i:
     name: "&d&lSpeed Upgrade I"
@@ -77,24 +59,6 @@ items:
     upgrade-info:
       type: SPEED
       value: 60
-  speed-upgrade-iv:
-    name: "&d&lSpeed Upgrade IV"
-    material: MUSIC_DISC_CAT
-    category: upgrade-modules
-    lore:
-      - "&7Increases machine speed by 80%"
-    upgrade-info:
-      type: SPEED
-      value: 80
-  speed-upgrade-v:
-    name: "&d&lSpeed Upgrade V"
-    material: MUSIC_DISC_CAT
-    category: upgrade-modules
-    lore:
-      - "&7Increases machine speed by 100%"
-    upgrade-info:
-      type: SPEED
-      value: 100
 
   slot-upgrade-i:
     name: "&d&lSlot Upgrade I"

@@ -8,96 +8,36 @@
 
 categories:
   ingredient:
-    name: "&b&lIngredients &7- EXAMPLE"
+    name: "&b&lIngredients"
     material: iron_ingot
-  resource:
-    name: "&b&lResources &7- EXAMPLE"
-    material: raw_iron
 
 items:
-  pure-energy:
-    skull: "3a7cda9004fc197d66afbc2b003a5b9ef13cf4600b1fc7490067590f047181e"
-    name: "&3&lPure Energy"
-    lore:
-      - "&7Can be converted to supply points or used for crafting"
-    category: resource
-  biomass:
-    material: pitcher_pod
-    name: "&3&lBiomass"
-    category: resource
-    interaction: true
   undead-essence:
     material: glowstone_dust
     name: "&4&lUndead Essence"
     glowing: true
     category: ingredient
     interaction: true
-  silicon:
-    skull: "324d23f0bb3e750ae4fe10a2a8490e8a028806b8a954c457be379d02b7d46502"
-    name: "&3&lSilicon"
-    category: resource
-  chip:
-    material: rail
-    name: "&3&lChip"
-    category: ingredient
-  mechanical-chip:
-    material: daylight_detector
-    name: "&3&lMechanical Chip"
-    glowing: true
-    category: ingredient
-  smart-chip:
-    material: daylight_detector
-    name: "&3&lSmart Chip"
-    glowing: true
-    category: ingredient
-  machine-core:
-    skull: "6da482670ad74466081883fe7edd48dec27a698a9a52c4f870310ba035acf696"
-    name: "&3&lMachine Core"
-    category: ingredient
   raw-steel:
     material: raw_iron
     name: "&7&lRaw Steel"
     glowing: true
-    category: resource
+    category: ingredient
     interaction: true
   steel:
     material: iron_ingot
     name: "&7&lSteel Ingot"
     glowing: true
-    category: resource
+    category: ingredient
     interaction: true
-  steel-chunk:
-    skull: "ff16d5a96efd707e4674c07546e3cd02c3f3e4bb8b4f0678baf9701d8c95169a"
-    name: "&7&lSteel Block"
-    category: resource
   steel-plate:
     material: paper
     name: "&7&lSteel Plate"
     category: ingredient
     interaction: true
-  compressed-steel-plate:
-    material: paper
-    name: "&7&lCompressed Steel Plate"
-    glowing: true
-    category: ingredient
-    interaction: true
-  reinforced-bricks:
-    material: bricks
-    name: "&3&lReinforced Bricks"
-    category: resource
-    glowing: true
   wood:
     material: oak_wood
     name: "&7&lWood"
-  silk:
-    material: string
-    name: "&3&lSilk"
-    glow: true
-    category: ingredient
-    interaction: true
-  tomb:
-    material: spruce_trapdoor
-    name: "&3&lCoffin"
 
 # Recipes don't need translation as they use material codes
 recipes:
@@ -217,7 +157,7 @@ recipes:
       e: diamond
   undead-essence-1:
     type: crafting
-    product: biomass
+    product: undead-essence
     shape:
       - "aba"
       - "bcb"
@@ -226,58 +166,6 @@ recipes:
       a: bone_meal
       b: rotten_flesh
       c: fermented_spider_eye
-  undead-essence-3:
-    type: crafting
-    product: undead-essence
-    product-count: 2
-    shape:
-      - " a "
-      - "aba"
-      - " a "
-    material:
-      a: soul_sand
-      b: biomass
-  silicon:
-    type: smelting
-    product: silicon
-    ingredient: glass
-    exp: 0.5
-    time: 150
-  chip:
-    type: crafting
-    product: chip
-    shape:
-      - "ccc"
-      - "aaa"
-    material:
-      a: silicon
-      c: copper_ingot
-  mechanical-chip:
-    type: crafting
-    product: mechanical-chip
-    shape:
-      - " d "
-      - "aba"
-      - "ici"
-    material:
-      a: redstone
-      b: iron_block
-      c: chip
-      i: iron_ingot
-      d: netherite_scrap
-  smart-chip:
-    type: crafting
-    product: smart-chip
-    shape:
-      - " d "
-      - "aba"
-      - "lcl"
-    material:
-      a: redstone
-      b: bookshelf
-      c: chip
-      l: steel
-      d: netherite_scrap
   raw-steel:
     type: crafting
     product: raw-steel
@@ -303,14 +191,6 @@ recipes:
     time: 600
     product: steel
     ingredient: raw-steel
-  steel-chunk:
-    type: crafting
-    product: steel-chunk
-    shape:
-      - "aa"
-      - "aa"
-    material:
-      a: steel
   steel-plate:
     type: crafting
     product: steel-plate
@@ -318,31 +198,3 @@ recipes:
       - "aaa"
     material:
       a: steel
-  compressed-steel-plate:
-    type: crafting
-    product: compressed-steel-plate
-    shape:
-      - "aaa"
-    material:
-      a: steel-plate
-  tomb:
-    type: crafting
-    product: tomb
-    shape:
-      - "waw"
-      - "b b"
-      - "waw"
-    material:
-      a: steel
-      b: undead-essence
-      w: wood
-  silk:
-    type: crafting
-    product: silk
-    shape:
-      - "aaa"
-      - "aba"
-      - "aaa"
-    material:
-      a: string
-      b: honey_bottle

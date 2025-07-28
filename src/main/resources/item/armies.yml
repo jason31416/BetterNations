@@ -6,7 +6,7 @@
 
 categories:
   unit:
-    name: "&b&lEquipment &7- EXAMPLE"
+    name: "&b&lEquipment"
     material: zombie_head
 
 items:
@@ -71,8 +71,8 @@ recipes:
     material:
       u: undead-essence
       e: iron_chestplate
-      a: iron_axe
-      b: iron_boots
+      a: steel
+      b: iron_axe
   advanced-zombie:
     type: crafting
     product: advanced-zombie-equipment
