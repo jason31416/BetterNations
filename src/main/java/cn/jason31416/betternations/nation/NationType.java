@@ -42,7 +42,7 @@ public enum NationType {
             new NationalRank("Citizen", 900, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY)),
             new NationalRank("Leader", 1000, Set.of(Permission.BUILD, Permission.NATION_CLAIM, Permission.NATION_UNCLAIM, Permission.CHANGE_NATION_ATTRIBUTE, Permission.STRUCTURE, Permission.CHANGE_RANK, Permission.TOWN_CREATE, Permission.MANAGE_ARMY))
     )), (resolution) -> {
-        if(resolution.importance() == 5) return resolution.signedPlayers.contains(resolution.nation.owner);
+        if(resolution.importance() == 5||resolution instanceof SignTreatyResolution) return resolution.signedPlayers.contains(resolution.nation.owner);
         return checkCount(resolution, getAllPlayersOfRanks(resolution.nation,
                 List.of(NationalRank.getRank("Citizen"), NationalRank.getRank("Leader"))), 1);
     }),

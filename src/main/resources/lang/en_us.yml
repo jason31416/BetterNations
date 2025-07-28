@@ -262,7 +262,7 @@ town:
     - "&7(Promoting a manager will make them the new mayor!)"
   day-change: "&eUpdating town development values..."
 chat:
-  with_nation: "&8[%nation_color%%title% of %nation%&8] %sender% ≫ &f%message%"
+  with_nation: "%domain%&8[%nation_color%%title% of %nation%&8] %sender% ≫ &f%message%"
   no_nation: "&f<%sender%> &f%message%"
   global: "Global"
   town: "Town %town%"
@@ -354,6 +354,9 @@ combat:
   siege-name: "&e&l%nation% &cSiege on %town% &r&7 (%units% units)"
   defender-name: "&l%nation% &7's &f%type%"
 
+  barbarian-invasion-started: "&cBarbarian invasion has started in %location%, %nation%!"
+  invasion-started: "&c%nation% is invading your territory at %location%!"
+
   invalid-selection: "&cSelected units exceed what you own! Try selecting again..."
   cannot-move-unit-during-combat: "&cCannot move units during combat!"
   cannot-break-camps-in-nation: "&cCannot break camps in allied territory!"
@@ -429,3 +432,7 @@ admin:
   configuration-format-error-with-loc: "&cInvalid configuration format @%file%, %line%!"
   reloading: "&3Reloading &bBetterNations &3..."
   reloaded: "&3Successfully loaded &bBetterNations &3!"
+
+placeholder:
+  none: "None"
+  wilderness: "Wilderness"

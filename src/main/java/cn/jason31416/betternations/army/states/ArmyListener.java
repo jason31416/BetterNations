@@ -7,6 +7,7 @@ import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
+import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
@@ -145,7 +146,9 @@ public class ArmyListener implements Listener {
                                             while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!=Material.AIR){
                                                 loc = loc.getRelative(0, 1, 0);
                                             }
-                                            if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()) return;
+                                            if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()){
+                                                loc = loc.getRelative(0, -1, 0);
+                                            }
                                             InvasionFlag c = new InvasionFlag();
                                             army.unregister();
                                             c.stack = army.stack;
@@ -154,6 +157,7 @@ public class ArmyListener implements Listener {
                                             c.place();
                                             army.mob.remove();
                                             player.getPlayer().closeInventory();
+                                            Message.getMessage("combat.invasion-started").add("nation", army.stack.nation.getName()).add("location", loc.x()+","+loc.y()+","+loc.z()).send(army.getLocation().getChunkLocation().getNation().getMembers());
                                         }
                                     }
                                 });

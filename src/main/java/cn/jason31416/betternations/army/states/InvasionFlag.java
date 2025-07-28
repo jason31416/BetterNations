@@ -20,6 +20,7 @@ import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -144,11 +145,15 @@ public class InvasionFlag extends StructuredArmy {
     }
 
     public void convertToCamp(){
-        ArmyCamp camp = new ArmyCamp();
-        camp.stack = stack;
-        camp.location = location;
-        breakStructure();
-        unregister();
-        camp.place();
+        if(Bukkit.isPrimaryThread()) {
+            ArmyCamp camp = new ArmyCamp();
+            camp.stack = stack;
+            camp.location = location;
+            breakStructure();
+            unregister();
+            camp.place();
+        }else{
+            Bukkit.getScheduler().runTask(BetterNations.instance, this::convertToCamp);
+        }
     }
 }

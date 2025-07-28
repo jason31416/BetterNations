@@ -4,6 +4,7 @@ import cn.jason31416.planetlib.command.tempAction.PlanetLibRootCommand;
 import cn.jason31416.planetlib.command.tempAction.TempAction;
 import cn.jason31416.planetlib.gui.GUIEventHandler;
 import cn.jason31416.planetlib.hook.MythicMobsHook;
+import cn.jason31416.planetlib.hook.PAPIHook;
 import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.item.SimpleCraftingRecipe;
 import cn.jason31416.planetlib.message.MessageLoader;
@@ -43,6 +44,7 @@ public class PlanetLib {
         instance.getServer().getPluginManager().registerEvents(new SimpleCraftingRecipe.recipeListener(), plugin);
 
         VaultHook.init();
+        PAPIHook.init();
         try {
             MythicMobsHook.init();
         }catch (Exception ignored){}
