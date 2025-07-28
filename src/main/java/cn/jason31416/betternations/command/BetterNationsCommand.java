@@ -2,6 +2,7 @@ package cn.jason31416.betternations.command;
 
 import cn.jason31416.betternations.command.admin.AdminCommand;
 import cn.jason31416.betternations.command.admin.ReloadCommand;
+import cn.jason31416.betternations.command.chat.ChatCommand;
 import cn.jason31416.betternations.command.misc.BNFSCKCommand;
 import cn.jason31416.betternations.command.misc.CraftingGuideCommand;
 import cn.jason31416.betternations.command.nation.*;
@@ -47,6 +48,8 @@ public class BetterNationsCommand extends RootCommand {
         new AdminCommand(this);
         new ReloadCommand(this);
         new TreatyCommand(this);
+
+        new ChatCommand(this);
         instance = this;
     }
 
