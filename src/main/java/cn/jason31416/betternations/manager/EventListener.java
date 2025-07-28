@@ -1,6 +1,5 @@
 package cn.jason31416.betternations.manager;
 
-import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.army.states.InvasionFlag;
 import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
@@ -28,7 +27,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +52,7 @@ public class EventListener implements Listener {
     )
     public void onChat(PlayerChatEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
-        ChatCommand.ChatType ct = (ChatCommand.playerChatMap.getOrDefault(player.getName(), ChatCommand.CTGlobal));
+        ChatCommand.ChatInfo ci = (ChatCommand.playerChatMap.getOrDefault(player.getName(), ChatCommand.CTGlobal));
         Nation nation = player.getNation();
         event.setCancelled(true);
         Message message;
@@ -70,39 +68,31 @@ public class EventListener implements Listener {
                     .add("sender", player.getName())
                     .add("message", event.getMessage().replace("<", "\\<"));
         }
-        if (ct.type == ChatCommand.ChatType.Type.GLOBAL) {
-            message.add("domain", "").broadcast();
-        }
-        if (ct.type == ChatCommand.ChatType.Type.NATION) {
-            message = message.add("domain", Message.getMessage("chat.nation"));
+        a: if (ci.type == ChatCommand.ChatType.NATION) {
+            if (player.getNation() == null) break a;
+            message = message.add("domain", Message.getMessage("chat.prefix_nation"));
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (Nation.getNation(p.getName()) == player.getNation()) {
                     message.send(p);
                 }
             }
-        }
-        if (ct.type == ChatCommand.ChatType.Type.TOWN) {
-            Town t = Town.getTown(ct.town);
-            if (t == null) {
-                for (String s : ChatCommand.playerChatMap.keySet()) {
-                    if (Objects.equals(ct.town, ChatCommand.playerChatMap.get(s).town)) {
-                        ChatCommand.playerChatMap.put(s, ChatCommand.CTGlobal);
-                    }
-                }
-                ChatCommand.CTTownMap.remove(ct.town);
-                message.add("domain", "").broadcast();
-            }
-            if (t.getRole(player) == TownRole.NONE) {
+            return;
+        } else
+        b: if (ci.type == ChatCommand.ChatType.TOWN) {
+            Town t = ci.town;
+            if (t == null || t.getRole(player) == TownRole.NONE) {
                 ChatCommand.playerChatMap.put(player.getName(), ChatCommand.CTGlobal);
-                message.add("domain", "").broadcast();
+                break b;
             }
-            message = message.add("domain", Message.getMessage("chat.town").add("town", ct.town));
+            message = message.add("domain", Message.getMessage("chat.prefix_town").add("town", ci.town));
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (!t.getRole(SimplePlayer.of(p)).equals(TownRole.NONE)) {
                     message.send(p);
                 }
             }
+            return;
         }
+        message.add("domain", Message.getMessage("chat.prefix_global")).broadcast();
     }
     public static void sendCrossChunkMessage(SimplePlayer player, SimpleChunkLocation from, SimpleChunkLocation to){
         String title, subtitle;
