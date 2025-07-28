@@ -2,17 +2,16 @@ package cn.jason31416.betternations.command.chat;
 
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.nation.TownRole;
-import cn.jason31416.planetlib.command.ICommandContext;
-import cn.jason31416.planetlib.command.IParentCommand;
-import cn.jason31416.planetlib.command.ParentCommand;
+import cn.jason31416.planetlib.command.*;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class ChatCommand extends ParentCommand {
+public class ChatCommand extends ChildCommand {
     public ChatCommand(IParentCommand parent) {
         super("chat", parent);
     }
@@ -57,11 +56,11 @@ public class ChatCommand extends ParentCommand {
 
     @Override
     @Nullable
-    public Message executeRaw(ICommandContext context) {
-        if (context.getArg(0).isEmpty()) return null;
+    public Message execute(ICommandContext context) {
+        if (!context.checkArgs(ParameterType.STRING)) return null;
         switch (context.getArg(0)) {
             case "town" -> {
-                if (context.getArg(1).isEmpty()) return null;
+                if (!context.checkArgs(ParameterType.STRING, ParameterType.STRING)) return null;
                 Town t = Town.getTown(context.getArg(1));
                 if (t == null) {
                     return Message.getMessage("command.failed.town-not-exist");
@@ -72,24 +71,30 @@ public class ChatCommand extends ParentCommand {
                 if (!CTTownMap.containsKey(context.getArg(1)))
                     CTTownMap.put(context.getArg(1), new ChatInfo(Town.getTown(context.getArg(1))));
                 playerChatMap.put(context.player().getName(), CTTownMap.get(context.getArg(1)));
-                MessageLoader.getMessage("command.success.chat-changed")
-                        .add("chat", Message.getMessage("chats.town")
+                return MessageLoader.getMessage("command.success.chat-changed")
+                        .add("chat_type", Message.getMessage("chat.town")
                                 .add("town", context.getArg(1)));
             }
             case "nation" -> {
                 playerChatMap.put(context.player().getName(), CTNation);
-                MessageLoader.getMessage("command.success.chat-changed")
-                        .add("chat", Message.getMessage("chats.nation"));
+                return MessageLoader.getMessage("command.success.chat-changed")
+                        .add("chat_type", Message.getMessage("chat.nation"));
             }
             case "global" -> {
                 playerChatMap.put(context.player().getName(), CTGlobal);
-                MessageLoader.getMessage("command.success.chat-changed")
-                        .add("chat", Message.getMessage("chats.global"));
+                return MessageLoader.getMessage("command.success.chat-changed")
+                        .add("chat_type", Message.getMessage("chat.global"));
             }
             default -> {
                 return Message.getMessage("command.failed.invalid-chat-type");
             }
         }
-        return null;
     }
+
+    @Override
+    public List<String> tabComplete(ICommandContext context) {
+        if(context.getArg(0).equals("town")) return Town.towns.values().stream().map(Town::getName).toList();
+        return List.of("nation", "town", "global");
+    }
+
 }

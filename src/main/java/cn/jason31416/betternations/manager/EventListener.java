@@ -43,6 +43,7 @@ public class EventListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
         autoClaiming.remove(SimplePlayer.of(event.getPlayer()));
+        ChatCommand.playerChatMap.remove(event.getPlayer().getName());
     }
     @SuppressWarnings("deprecation")
     @EventHandler(
@@ -66,25 +67,30 @@ public class EventListener implements Listener {
             message = Message.getMessage("chat.no_nation")
                     .add("sender", player.getName())
                     .add("message", event.getMessage().replace("<", "\\<"));
+            message.broadcast();
+            return;
         }
         a: if (ci.type == ChatCommand.ChatType.NATION) {
-            if (player.getNation() == null) break a;
-            Message message1 = message.add("domain", Message.getMessage("chat.prefix_nation"));
+            if (player.getNation() == null){
+                ChatCommand.playerChatMap.put(player.getName(), ChatCommand.CTGlobal);
+                break a;
+            }
+            message.add("domain", Message.getMessage("chat.prefix_nation").toFormatted());
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (Nation.getNation(p.getName()) == player.getNation()) {
-                    message1.send(p);
+                if (SimplePlayer.of(p).getNation() == player.getNation()) {
+                    message.send(p);
                 }
             }
-            message.add("domain", player.getNation()).send(Bukkit.getConsoleSender());
+            message.send(Bukkit.getConsoleSender());
             return;
-        } else
+        }
         b: if (ci.type == ChatCommand.ChatType.TOWN) {
             Town t = ci.town;
             if (t == null || t.getRole(player) == TownRole.NONE) {
                 ChatCommand.playerChatMap.put(player.getName(), ChatCommand.CTGlobal);
                 break b;
             }
-            message = message.add("domain", Message.getMessage("chat.prefix_town").add("town", ci.town));
+            message = message.add("domain", Message.getMessage("chat.prefix_town").add("town", ci.town.getName()).toFormatted());
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (!t.getRole(SimplePlayer.of(p)).equals(TownRole.NONE)) {
                     message.send(p);

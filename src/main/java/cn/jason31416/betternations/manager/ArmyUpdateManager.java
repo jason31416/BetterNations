@@ -118,6 +118,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                         army.unregister();
                     }
                 }
+                mostOuter:
                 for (StructuredArmy army : new HashSet<>(armies)) {
                     if (army instanceof InvasionFlag invasion) {
                         if (!chunk.isClaimed() || chunk.isTownChunk() || army.stack.nation.getRelation(chunk.getNation()) != Relation.ENEMY) {
@@ -160,6 +161,25 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                             Town town = chunk.getTown();
                             if(town!=null) {
                                 town.townHealth = Math.min(town.townHealth + camp.stack.getDamageTowards(ArmorType.TERRITORY)/2.0, town.getMaxHealth());
+                            }
+                        }
+                        if(army.stack.nation.isBarbarian()){
+                            List<SimpleChunkLocation> adjs = new ArrayList<>();
+                            adjs.add(chunk);
+                            adjs.addAll(chunk.getAdjacentChunks());
+                            outer:
+                            for(SimpleChunkLocation adj: adjs){
+                                if(adj.getNation()!=null && !adj.getNation().isBarbarian()){
+                                    for(StructuredArmy other: StructuredArmy.armyLocationMap.getOrDefault(adj, new HashSet<>())){
+                                        if(other.stack.nation.isBarbarian()){
+                                            continue outer;
+                                        }
+                                    }
+                                    camp.breakStructure();
+                                    camp.unregister();
+                                    BarbarianInvasionManager.startBarbarianInvasionAt(adj, army.stack);
+                                    continue mostOuter;
+                                }
                             }
                         }
                     }

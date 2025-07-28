@@ -273,8 +273,8 @@ chat:
   town: "城镇 %town%"
   nation: "国家"
   prefix_global: ""
-  prefix_nation: "&a[国家] &r"
-  prefix_town: "&b[城镇 %town%] &r"
+  prefix_nation: "&7[国家] "
+  prefix_town: "&7[城镇 %town%] "
 auto-claiming:
   disabled-auto-claiming: "&c关闭了自动占领区块"
   disabled-auto-unclaiming: "&c关闭了自动放弃区块"

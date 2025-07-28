@@ -262,7 +262,7 @@ town:
     - "&7(Promoting a manager will make them the new mayor!)"
   day-change: "&eUpdating town development values..."
 chat:
-  with_nation: "&8[%nation_color%%title% of %nation%&8] %sender% ≫ &f%message%"
+  with_nation: "%domain%&8[%nation_color%%title% of %nation%&8] %sender% ≫ &f%message%"
   no_nation: "&f<%sender%> &f%message%"
   global: "Global"
   town: "Town %town%"
