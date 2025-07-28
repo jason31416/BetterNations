@@ -76,6 +76,14 @@ public class Town implements Damageable {
             roles.remove(player);
             return;
         }
+        if (role == TownRole.MAYOR) {
+            for (SimplePlayer p: roles.keySet()) {
+                if (roles.get(p) == TownRole.MAYOR) {
+                    roles.put(p, TownRole.MANAGER);
+                }
+            }
+            mayor = player;
+        }
         roles.put(player, role);
     }
     // Methods
