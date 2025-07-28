@@ -18,6 +18,7 @@ import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -70,12 +71,13 @@ public class EventListener implements Listener {
         }
         a: if (ci.type == ChatCommand.ChatType.NATION) {
             if (player.getNation() == null) break a;
-            message = message.add("domain", Message.getMessage("chat.prefix_nation"));
+            Message message1 = message.add("domain", Message.getMessage("chat.prefix_nation"));
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (Nation.getNation(p.getName()) == player.getNation()) {
-                    message.send(p);
+                    message1.send(p);
                 }
             }
+            message.add("domain", player.getNation()).send(Bukkit.getConsoleSender());
             return;
         } else
         b: if (ci.type == ChatCommand.ChatType.TOWN) {
@@ -90,6 +92,7 @@ public class EventListener implements Listener {
                     message.send(p);
                 }
             }
+            message.send(Bukkit.getConsoleSender());
             return;
         }
         message.add("domain", Message.getMessage("chat.prefix_global")).broadcast();
