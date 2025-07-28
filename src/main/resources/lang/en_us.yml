@@ -425,3 +425,7 @@ admin:
   configuration-format-error-with-loc: "&cInvalid configuration format @%file%, %line%!"
   reloading: "&3Reloading &bBetterNations &3..."
   reloaded: "&3Successfully loaded &bBetterNations &3!"
+
+placeholder:
+  none: "None"
+  wilderness: "Wilderness"

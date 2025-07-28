@@ -30,6 +30,7 @@ import cn.jason31416.planetlib.data.YamlStorage;
 import cn.jason31416.planetlib.gui.GUILoader;
 import cn.jason31416.planetlib.gui.GUISession;
 import cn.jason31416.planetlib.hook.MythicMobsHook;
+import cn.jason31416.planetlib.hook.PAPIHook;
 import cn.jason31416.planetlib.hook.VaultHook;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StaticMessages;
@@ -258,6 +259,7 @@ public final class BetterNations extends JavaPlugin {
         ToggleArmyUpdateCommand.bossBar.setVisible(true);
         TownLevel.loadLevels();
         NaturalResourcesManager.load();
+        BStatsManager.initialize();
 
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
         UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
@@ -308,6 +310,8 @@ public final class BetterNations extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new StructureListener(), this);
         Bukkit.getPluginManager().registerEvents(new ArmyListener(), this);
         Bukkit.getPluginManager().registerEvents(new BreakCampRunnable.CampBreakingListener(), this);
+
+        if(PAPIHook.enabled) new PlaceholderExtensionManager().register();
     }
     public void reload(){
         saveAllResources();

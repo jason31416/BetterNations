@@ -9,15 +9,28 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
 @SuppressWarnings("unused")
 public class Config {
     public static FileConfiguration config;
-    public static void start(JavaPlugin plugin) {
-        config = plugin.getConfig();
+    public static JavaPlugin plugin;
+
+    public static void start(JavaPlugin pl) {
+        config = pl.getConfig();
+        plugin = pl;
+
+//        try(InputStream fis = plugin.getClass().getClassLoader().getResourceAsStream("config.yml")){
+//            if(fis == null) {
+//                throw new RuntimeException("Failed to load default config file.");
+//            }
+//            defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(fis, StandardCharsets.UTF_8));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
     public static FileConfiguration getFile(File file) {
         return YamlConfiguration.loadConfiguration(file);
@@ -25,6 +38,17 @@ public class Config {
     public static FileConfiguration getConfig() {
         return config;
     }
+//    public static void attemptUpdateConfigValue(String path) {
+//        plugin.getLogger().info(path+" "+config.contains(path));
+//        if(!config.contains(path)) {
+//            plugin.reloadConfig();
+//            config = plugin.getConfig();
+//            config.set(path, defaultConfig.get(path));
+//            plugin.saveConfig();
+//
+//            plugin.getLogger().warning("Found & updated missing config entry: " + path + " = " + defaultConfig.get(path));
+//        }
+//    }
 
     public static Object get(String path) {
         return config.get(path);
@@ -51,7 +75,7 @@ public class Config {
         return config.getDouble(path, def);
     }
     public static boolean getBoolean(String path){
-        return config.getBoolean(path);
+        return getBoolean(path, false);
     }
     public static boolean getBoolean(String path, boolean def){
         return config.getBoolean(path, def);

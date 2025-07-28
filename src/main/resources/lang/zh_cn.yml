@@ -430,3 +430,7 @@ bluemap:
   siege-title: "<span style='color: red'>%nation% 对 %town% 的攻城 (%size% 单位, %health%/%max_health%)</span>"
   ruin-title: "%name% 城镇遗迹"
   town-core-title: "%name% 城镇核心"
+
+placeholder:
+  none: "无"
+  wilderness: "荒野"

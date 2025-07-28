@@ -1,5 +1,7 @@
 package cn.jason31416.betternations.command.nation;
 
+import cn.jason31416.betternations.army.states.InvasionFlag;
+import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.command.town.TownUnclaimCommand;
 import cn.jason31416.betternations.manager.ArmyUpdateManager;
@@ -15,8 +17,10 @@ import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.jetbrains.annotations.Nullable;
 
+import java.sql.Struct;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class NationUnclaimCommand extends ChildCommand {
     public static Message unclaimWithChecks(SimplePlayer player, SimpleChunkLocation chunkLocation){
@@ -39,8 +43,10 @@ public class NationUnclaimCommand extends ChildCommand {
         if(!player.getRank().hasPermission(Permission.NATION_UNCLAIM)){
             return Message.getMessage("command.failed.no-permission");
         }
-        if(ArmyUpdateManager.chunkHealths.containsKey(chunkLocation)){
-            return Message.getMessage("command.failed.cannot-unclaim-invading");
+        for(StructuredArmy army: StructuredArmy.armyLocationMap.getOrDefault(chunkLocation, Set.of())){
+            if(army instanceof InvasionFlag || army instanceof SiegeFlag){
+                return Message.getMessage("command.failed.cannot-unclaim-invading");
+            }
         }
         if(chunkLocation.isTownChunk()){
             if(!player.getRank().hasPermission(Permission.TOWN_UNCLAIM)&&

@@ -32,10 +32,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class EventListener implements Listener {
     public enum AutoClaimingMode {
@@ -87,7 +84,16 @@ public class EventListener implements Listener {
             subtitle = Message.getMessage("town.wilderness").toString();
         }
         player.sendTitle(title, subtitle, 10, 20, 10);
-
+    }
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent event){
+        if(event.getTo() == null) return;
+        SimplePlayer player = SimplePlayer.of(event.getPlayer());
+        SimpleChunkLocation from = SimpleLocation.of(event.getFrom()).getChunkLocation();
+        SimpleChunkLocation to = SimpleLocation.of(event.getTo()).getChunkLocation();
+        if(from.isTownChunk()!=to.isTownChunk()||from.getTown()!=to.getTown()||from.getNation()!=to.getNation()||from.isClaimed()!=to.isClaimed()) {
+            sendCrossChunkMessage(player, from, to);
+        }
     }
     @EventHandler
     public void onMove(PlayerMoveEvent event){
@@ -95,10 +101,19 @@ public class EventListener implements Listener {
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
         SimpleChunkLocation from = SimpleLocation.of(event.getFrom()).getChunkLocation();
         SimpleChunkLocation to = SimpleLocation.of(event.getTo()).getChunkLocation();
-        if(Config.getBoolean("nation.prevent-unfriendly-elytra", false)&&to.getNation()!=null&&to.getNation().getRelation(player.getNation())!=Relation.ALLY){
-            if(event.getPlayer().isGliding()){
-                event.getPlayer().setGliding(false);
-                Message.getMessage("town.cannot-fly").sendActionbar(player);
+        if(to.getNation() != null) {
+            boolean bb = to.getNation().getRelation(player.getNation()) != Relation.ALLY;
+            if (!bb) for (StructuredArmy i : StructuredArmy.armyLocationMap.getOrDefault(to, new HashSet<>())) {
+                if (i.stack.nation.getRelation(to.getNation()) != Relation.ALLY){
+                    bb = true;
+                    break;
+                }
+            }
+            if (Config.getBoolean("nation.prevent-unfriendly-elytra", false) && bb) {
+                if (event.getPlayer().isGliding()) {
+                    event.getPlayer().setGliding(false);
+                    Message.getMessage("town.cannot-fly").sendActionbar(player);
+                }
             }
         }
         if(!from.equals(to)){
@@ -113,6 +128,12 @@ public class EventListener implements Listener {
                 sendCrossChunkMessage(player, from, to);
             }
         }
+    }
+    @EventHandler
+    public void onWaterFlow(BlockFromToEvent event){
+        SimpleChunkLocation to = SimpleLocation.of(event.getToBlock()).getChunkLocation();
+        SimpleChunkLocation from = SimpleLocation.of(event.getBlock()).getChunkLocation();
+        if(to.getNation()!=from.getNation()) event.setCancelled(true);
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){

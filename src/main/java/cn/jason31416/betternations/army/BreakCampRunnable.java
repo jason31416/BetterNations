@@ -75,6 +75,14 @@ public class BreakCampRunnable extends BukkitRunnable {
             }
         }
         @EventHandler
+        public void onPlayerTeleport(PlayerTeleportEvent event) {
+            SimplePlayer player = SimplePlayer.of(event.getPlayer());
+            if(event.getTo()==null) return;
+            if (breakingPlayers.containsKey(player) && !breakingPlayers.get(player).camp.location.getChunkLocation().equals(SimpleLocation.of(event.getTo()).getChunkLocation())) {
+                breakingPlayers.get(player).failed();
+            }
+        }
+        @EventHandler
         public void onPlayerDeath(PlayerDeathEvent event){
             SimplePlayer player = SimplePlayer.of(event.getEntity());
             if(breakingPlayers.containsKey(player)){
@@ -126,7 +134,7 @@ public class BreakCampRunnable extends BukkitRunnable {
             }
         }
         camp.hologram.setText(camp.getHologramText());
-        camp.stack.processDamageQueue(); // to process all of the damages accumulated during the time
+        camp.stack.processDamageQueue(); // to process all the damages accumulated during the time
         cancel();
     }
     @Override
