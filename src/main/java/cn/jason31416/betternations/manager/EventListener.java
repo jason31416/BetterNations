@@ -4,14 +4,12 @@ import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.army.states.InvasionFlag;
 import cn.jason31416.betternations.army.states.SiegeFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
+import cn.jason31416.betternations.command.chat.ChatCommand;
 import cn.jason31416.betternations.command.nation.NationClaimCommand;
 import cn.jason31416.betternations.command.nation.NationUnclaimCommand;
 import cn.jason31416.betternations.command.town.TownClaimCommand;
 import cn.jason31416.betternations.command.town.TownUnclaimCommand;
-import cn.jason31416.betternations.nation.Nation;
-import cn.jason31416.betternations.nation.Permission;
-import cn.jason31416.betternations.nation.Relation;
-import cn.jason31416.betternations.nation.Town;
+import cn.jason31416.betternations.nation.*;
 import cn.jason31416.betternations.structure.AbstractStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.message.Message;
@@ -19,6 +17,7 @@ import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -55,6 +54,7 @@ public class EventListener implements Listener {
     )
     public void onChat(PlayerChatEvent event){
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
+        ChatCommand.ChatType ct = (ChatCommand.playerChatMap.getOrDefault(player.getName(), ChatCommand.CTGlobal));
         Nation nation = player.getNation();
         event.setCancelled(true);
         Message message;
@@ -70,7 +70,39 @@ public class EventListener implements Listener {
                     .add("sender", player.getName())
                     .add("message", event.getMessage().replace("<", "\\<"));
         }
-        message.broadcast();
+        if (ct.type == ChatCommand.ChatType.Type.GLOBAL) {
+            message.add("domain", "").broadcast();
+        }
+        if (ct.type == ChatCommand.ChatType.Type.NATION) {
+            message = message.add("domain", Message.getMessage("chat.nation"));
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (Nation.getNation(p.getName()) == player.getNation()) {
+                    message.send(p);
+                }
+            }
+        }
+        if (ct.type == ChatCommand.ChatType.Type.TOWN) {
+            Town t = Town.getTown(ct.town);
+            if (t == null) {
+                for (String s : ChatCommand.playerChatMap.keySet()) {
+                    if (Objects.equals(ct.town, ChatCommand.playerChatMap.get(s).town)) {
+                        ChatCommand.playerChatMap.put(s, ChatCommand.CTGlobal);
+                    }
+                }
+                ChatCommand.CTTownMap.remove(ct.town);
+                message.add("domain", "").broadcast();
+            }
+            if (t.getRole(player) == TownRole.NONE) {
+                ChatCommand.playerChatMap.put(player.getName(), ChatCommand.CTGlobal);
+                message.add("domain", "").broadcast();
+            }
+            message = message.add("domain", Message.getMessage("chat.town").add("town", ct.town));
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (!t.getRole(SimplePlayer.of(p)).equals(TownRole.NONE)) {
+                    message.send(p);
+                }
+            }
+        }
     }
     public static void sendCrossChunkMessage(SimplePlayer player, SimpleChunkLocation from, SimpleChunkLocation to){
         String title, subtitle;
