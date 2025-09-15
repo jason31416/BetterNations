@@ -148,6 +148,8 @@ command:
     nomadic-nation-cannot-claim: "<red>Must have at least one town to claim chunks!"
     invalid-item-type: "<red>Invalid item type!"
     cannot-unclaim-siege-chunk: "<red>Cannot unclaim a chunk that's being sieged!"
+    nation-max-claims-reached: "<red>Reached maximum number of claims: %max%!"
+    war-disabled: "<red>Cannot do this since war is disabled!"
 
 # These are messages that are related to nations.
 nation:
@@ -364,6 +366,7 @@ combat:
   item-not-edible: "&cThis item cannot be converted to supplies!"
 
   next-update-bossbar: "&cNext combat update:&e %timer%"
+  war-disabled-bossbar: "&cWar is disabled!"
 
   breakage:
     failed: "&cFailed to destroy enemy forces!"

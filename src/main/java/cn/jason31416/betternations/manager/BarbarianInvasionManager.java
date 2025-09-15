@@ -85,23 +85,9 @@ public class BarbarianInvasionManager {
             }
         }.runTaskLater(BetterNations.instance, 1);
     }
-    public static void attemptStartBarbarianInvasion() {
-        if(Nation.chunkNationMap.isEmpty()) return;
-        List<SimpleChunkLocation> chunkLocations = new ArrayList<>(Nation.chunkNationMap.keySet());
-        SimpleChunkLocation rand = chunkLocations.get(new Random().nextInt(chunkLocations.size()));
-        if(rand.isTownChunk()) return;
-        if(getBarbarianNation().nationalChunks.contains(rand)) return;
-        outer:
-        {
-            for (SimpleChunkLocation adj : rand.getAdjacentChunks()) {
-                if (!adj.isClaimed()|| Objects.equals(adj.getNation(), getBarbarianNation())) break outer;
-            }
-            return;
-        }
-
+    private static ArmyStack createArmyStack(){
         ArmyStack stack = new ArmyStack(getBarbarianNation());
         stack.supply = 100;
-        if(!Config.config.contains("barbarian.army.units")) return;
 
         List<String> possibleTypes = new ArrayList<>(Config.config.getConfigurationSection("barbarian.army.units").getKeys(false));
         int tot = 0;
@@ -117,6 +103,37 @@ public class BarbarianInvasionManager {
             String type = possibleTypes.get(cur);
             stack.addArmy(ArmyType.armyTypes.get(type), 1);
         }
-        startBarbarianInvasionAt(rand, stack);
+        return stack;
+    }
+    public static void attemptStartBarbarianInvasion() {
+        if(Nation.chunkNationMap.isEmpty()) return;
+        List<SimpleChunkLocation> chunkLocations = new ArrayList<>(Nation.chunkNationMap.keySet());
+        SimpleChunkLocation rand = chunkLocations.get(new Random().nextInt(chunkLocations.size()));
+//        if(rand.isTownChunk()) return;
+        if(getBarbarianNation().nationalChunks.contains(rand)) return;
+        if(rand.isTownChunk()){
+            List<SimpleChunkLocation> adjs = rand.getAdjacentChunks();
+            Collections.shuffle(adjs);
+            for (SimpleChunkLocation adj : adjs) {
+                if (!adj.isClaimed()){
+                    getBarbarianNation().claim(adj);
+                }
+                if(Objects.equals(adj.getNation(), getBarbarianNation())&&!adj.isTownChunk()){
+                    startBarbarianSiege(adj, createArmyStack(), rand.getTown());
+                    break;
+                }
+            }
+            return;
+        }
+        outer:
+        {
+            for (SimpleChunkLocation adj : rand.getAdjacentChunks()) {
+                if (!adj.isClaimed()|| Objects.equals(adj.getNation(), getBarbarianNation())) break outer;
+            }
+            return;
+        }
+        if(!Config.config.contains("barbarian.army.units")) return;
+
+        startBarbarianInvasionAt(rand, createArmyStack());
     }
 }

@@ -6,12 +6,18 @@
 # Please make sure the file exists in the /lang folder
 lang: en_us
 
+# Disabling this will not stop existing wars, but new invasion/sieges will not be possible
+# Remember to /n reload to apply changes
+allow-war: true
+
 naming:
   min-length: 3
   max-length: 18
 
 enabled-worlds: # This option controls worlds that enable claiming. Set it to [] to enable in everywhere
   - world
+
+enable-chat: true # Should we enable chat formatting?
 
 # Nation-related settings
 nation:
@@ -20,6 +26,8 @@ nation:
   claim-cost: 10 # The cost of claiming a chunk
   unclaim-refund: 8 # The refund of unclaiming a chunk
   prevent-unfriendly-elytra: true # Should we stop unfriendly players from flying in claimed chunks
+
+  max-claims: -1 # The max. number of claims a nation can have. -1 = unlimited
 
 # Town-related settings
 town:
@@ -181,7 +189,7 @@ bluemap:
   town-layer-height: 96 # The height that the town markers should be on
   max-view-distance: 100000 # Usually this is fine :D
   town-max-view-distance: 100000 # As well as this one
-  line-width: 5
+  line-width: 3
   check-interval: 20 # in ticks, how frequent should the plugin update the map (almost completely async ;) )
   display-camps: true
   resource-img:

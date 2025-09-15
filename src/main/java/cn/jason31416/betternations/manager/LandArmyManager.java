@@ -8,6 +8,7 @@ import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.InvalidConfigurationException;
 import cn.jason31416.planetlib.PlanetLib;
+import cn.jason31416.planetlib.item.ItemType;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class LandArmyManager {
+    public static Map<String, ArmyType> directPlacements = new HashMap<>();
     public static void loadTypes(ConfigurationSection section){
         for(String i: section.getKeys(false)){
             ConfigurationSection typeSection = section.getConfigurationSection(i);
@@ -54,6 +56,17 @@ public class LandArmyManager {
         }
         return cnt;
     }
+    public static int loadDirectPlacements(ConfigurationSection section){
+        int cnt = 0;
+        for(String i: section.getKeys(false)){
+            if(ItemType.getItemType(i)!=null&&ItemType.getItemType(i).getMaterial()!=Material.AIR){
+                if(!ArmyType.armyTypes.containsKey(section.getString(i).toLowerCase())) continue;
+                directPlacements.put(i, ArmyType.armyTypes.get(section.getString(i).toLowerCase()));
+                cnt++;
+            }
+        }
+        return cnt;
+    }
     public static void unregisterAll(){
         ArmyType.armyTypes.clear();
         UnitProductionStructure.recipes.clear();
@@ -74,6 +87,10 @@ public class LandArmyManager {
         if(file.isConfigurationSection("production")){
             int cnt = loadProductions(Objects.requireNonNull(file.getConfigurationSection("production")));
             BetterNations.instance.getLogger().info("\033[36m- Loaded "+ cnt +" production recipes!\033[0m");
+        }
+        if(file.isConfigurationSection("direct-placement")){
+            int cnt = loadDirectPlacements(Objects.requireNonNull(file.getConfigurationSection("direct-placement")));
+            BetterNations.instance.getLogger().info("\033[36m- Loaded "+ cnt +" direct placement recipes!\033[0m");
         }
     }
 }

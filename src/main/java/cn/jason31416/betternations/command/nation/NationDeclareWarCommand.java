@@ -6,6 +6,7 @@ import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Relation;
 import cn.jason31416.betternations.nation.resolution.DeclareWarResolution;
 import cn.jason31416.betternations.nation.resolution.PlayerRankResolution;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
@@ -28,6 +29,9 @@ public class NationDeclareWarCommand extends ChildCommand {
         Nation nation = context.getPlayer().getNation();
         if(nation==null){
             return Message.getMessage("command.failed.player-not-in-nation");
+        }
+        if(!Config.getBoolean("allow-war")) {
+            return Message.getMessage("command.failed.war-disabled");
         }
         Nation target = context.getNationArg(0);
         if(nation==target) return Message.getMessage("command.failed.cannot-change-self-relation");

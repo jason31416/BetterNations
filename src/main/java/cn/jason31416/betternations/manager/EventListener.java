@@ -51,6 +51,7 @@ public class EventListener implements Listener {
             ignoreCancelled = true
     )
     public void onChat(PlayerChatEvent event){
+        if(!Config.getBoolean("enable-chat", true)) return;
         SimplePlayer player = SimplePlayer.of(event.getPlayer());
         ChatCommand.ChatInfo ci = (ChatCommand.playerChatMap.getOrDefault(player.getName(), ChatCommand.CTGlobal));
         Nation nation = player.getNation();
@@ -62,11 +63,13 @@ public class EventListener implements Listener {
                     .add("nation", nation.getName())
                     .add("nation_color", nation.getColorTag())
                     .add("title", player.getRank().getDisplayName())
-                    .add("message", event.getMessage().replace("<", "\\<"));
+                    .add("message", event.getMessage().replace("<", "\\<"))
+                    .addContext(player);
         }else{
             message = Message.getMessage("chat.no_nation")
                     .add("sender", player.getName())
-                    .add("message", event.getMessage().replace("<", "\\<"));
+                    .add("message", event.getMessage().replace("<", "\\<"))
+                    .addContext(player);
             message.broadcast();
             return;
         }
@@ -108,11 +111,11 @@ public class EventListener implements Listener {
             if(to.getTown()!=null) {
                 subtitle = to.getTown().getName();
             }else{
-                subtitle = Message.getMessage("town.wilderness").toString();
+                subtitle = Message.getMessage("town.wilderness").addContext(player).toString();
             }
         }else{
             title = "";
-            subtitle = Message.getMessage("town.wilderness").toString();
+            subtitle = Message.getMessage("town.wilderness").addContext(player).toString();
         }
         player.sendTitle(title, subtitle, 10, 20, 10);
     }
@@ -143,7 +146,7 @@ public class EventListener implements Listener {
             if (Config.getBoolean("nation.prevent-unfriendly-elytra", false) && bb) {
                 if (event.getPlayer().isGliding()) {
                     event.getPlayer().setGliding(false);
-                    Message.getMessage("town.cannot-fly").sendActionbar(player);
+                    Message.getMessage("town.cannot-fly").addContext(player).sendActionbar(player);
                 }
             }
         }

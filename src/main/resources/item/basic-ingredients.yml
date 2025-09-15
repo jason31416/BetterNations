@@ -187,8 +187,9 @@ recipes:
       a: raw_iron
       b: charcoal
   steel:
-    type: alloy-foundry
+    type: smelting
     time: 600
+    exp: 15
     product: steel
     ingredient: raw-steel
   steel-plate:

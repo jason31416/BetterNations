@@ -2,6 +2,7 @@ package cn.jason31416.betternations.nation;
 
 import cn.jason31416.betternations.manager.BarbarianInvasionManager;
 import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
+import cn.jason31416.betternations.manager.map.BlueMapHook;
 import cn.jason31416.betternations.manager.map.MapDisplayManager;
 import cn.jason31416.betternations.nation.resolution.AbstractResolution;
 import cn.jason31416.planetlib.Config;
@@ -104,7 +105,7 @@ public class Nation {
         for(SimplePlayer player : memberRanks.keySet()){
             playerNationMap.remove(player);
         }
-        MapDisplayManager.updateNation(this);
+        if(BlueMapHook.enabled) MapDisplayManager.updateNation(this);
         unregisterNation();
     }
     public void setRank(SimplePlayer player, NationalRank rank) {
@@ -180,7 +181,7 @@ public class Nation {
 //        if(!claimChecks(chunk)) return false;
         nationalChunks.add(chunk);
         chunkNationMap.put(chunk, this);
-        MapDisplayManager.updateNation(this);
+        if(BlueMapHook.enabled) MapDisplayManager.updateNation(this);
         return true;
     }
     public synchronized boolean unclaim(SimpleChunkLocation chunk){
@@ -193,14 +194,14 @@ public class Nation {
         }
         nationalChunks.remove(chunk);
         chunkNationMap.remove(chunk);
-        MapDisplayManager.updateNation(this);
+        if(BlueMapHook.enabled) MapDisplayManager.updateNation(this);
         return true;
     }
     public synchronized boolean forceUnclaim(SimpleChunkLocation chunk){ // Note that this method is unsafe, use carefully
         if(!nationalChunks.contains(chunk)) return false;
         nationalChunks.remove(chunk);
         chunkNationMap.remove(chunk);
-        MapDisplayManager.updateNation(this);
+        if(BlueMapHook.enabled) MapDisplayManager.updateNation(this);
         return true;
     }
     public void registerNation() {

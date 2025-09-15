@@ -57,3 +57,11 @@ production:
       advanced-zombie-equipment: # The item ID of the material that is used to produce this recipe. It should exist in items.yml. NEVER SET THIS TO AIR!!!!!!!
         type: advanced-zombie # The unit ID of the army type listed above.
         time: 14400 # How long does it take to produce it? (in seconds)
+
+# This section controls the units that doesn't need to be produced in the server, but can be placed directly in the world.
+# If you doesn't want trainings of these units, you can uncomment this section
+
+#direct-placement:
+#  basic-zombie-equipment: basic-zombie # item id: unit id
+#  trained-zombie-equipment: trained-zombie # item id: unit id
+#  advanced-zombie-equipment: advanced-zombie # item id: unit id

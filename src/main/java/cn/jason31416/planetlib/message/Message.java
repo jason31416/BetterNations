@@ -10,6 +10,9 @@ import java.util.Collection;
 
 public interface Message {
     Message add(String key, Object value);
+    default Message addContext(SimplePlayer player){
+        return this;
+    }
     String toString();
     default String toFormatted(){
         return toString();

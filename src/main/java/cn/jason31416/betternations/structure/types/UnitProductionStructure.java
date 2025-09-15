@@ -190,7 +190,7 @@ public class UnitProductionStructure extends PlaceableStructure {
         }else if(type == InteractionType.BREAK){
             breakStructure();
             unregister();
-            if(!armyStorage.isEmpty()) {
+            if(!armyStorage.isEmpty()&&player.getNation()!=null) {
                 ArmyStack stack = new ArmyStack(player.getNation());
                 stack.armies = new HashMap<>(armyStorage);
                 stack.supply=stack.getMaxSupply();

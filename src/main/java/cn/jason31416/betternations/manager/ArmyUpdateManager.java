@@ -116,6 +116,10 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                     if (!army.stack.nation.exists() || (army.stack.size() <= 0 || army.stack.supply <= 0) && army.runnable == null) {
                         army.breakStructure();
                         army.unregister();
+                    }else if(army.location.getBlockMaterial().isAir()&&army.exists){
+                        Bukkit.getScheduler().runTask(BetterNations.instance, () -> {
+                            army.location.setBlockMaterial(army.getMaterial());
+                        });
                     }
                 }
                 mostOuter:
@@ -283,7 +287,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                 e.printStackTrace();
             }
         }
-        if(Config.getBoolean("barbarian.enable-barbarians", false)&&Math.random()<Config.getDouble("barbarian.barbarian-invasion-chance")) BarbarianInvasionManager.attemptStartBarbarianInvasion();
+        if(Config.getBoolean("allow-war")&&Config.getBoolean("barbarian.enable-barbarians", false)&&Math.random()<Config.getDouble("barbarian.barbarian-invasion-chance")) BarbarianInvasionManager.attemptStartBarbarianInvasion();
         nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
     }
 }

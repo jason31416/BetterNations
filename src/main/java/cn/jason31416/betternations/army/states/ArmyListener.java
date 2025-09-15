@@ -5,6 +5,7 @@ import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Relation;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.betternations.structure.AbstractStructure;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
 import cn.jason31416.planetlib.message.Message;
@@ -27,6 +28,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityMountEvent;
 
+import java.util.HashSet;
+
 public class ArmyListener implements Listener {
     @EventHandler
     public void onTransportDeath(EntityDeathEvent event){
@@ -34,6 +37,12 @@ public class ArmyListener implements Listener {
             TransportArmy.transportArmyMap.get(event.getEntity()).destroy(false);
             event.getDrops().clear();
             event.setDroppedExp(0);
+        }
+    }
+    @EventHandler
+    public void onTransportTransform(EntityTransformEvent event){
+        if(TransportArmy.transportArmyMap.containsKey(event.getEntity())){
+            event.setCancelled(true);
         }
     }
     @EventHandler(
@@ -138,7 +147,14 @@ public class ArmyListener implements Listener {
                             gui.getItems("encamp").setClickHandler((session, action, evt) -> {
                                 army.encamp();
                             });
-                            if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation()) == Relation.ENEMY){
+                            boolean flag=true;
+                            for(StructuredArmy i: StructuredArmy.armyLocationMap.getOrDefault(army.getLocation().getChunkLocation(), new HashSet<>())){
+                                if (i instanceof InvasionFlag) {
+                                    flag = false;
+                                    break;
+                                }
+                            }
+                            if(Config.getBoolean("allow-war")&&flag&&army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation()) == Relation.ENEMY){
                                 gui.getItems("invade").setClickHandler((session, action, evt) -> {
                                     if(army.isActive){
                                         if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation())== Relation.ENEMY) {
@@ -169,7 +185,12 @@ public class ArmyListener implements Listener {
                                     break;
                                 }
                             }
-                            if(adjTown!=null){
+                            if(adjTown!=null) for(StructuredArmy i: StructuredArmy.armyLocationMap.getOrDefault(army.getLocation().getChunkLocation(), new HashSet<>())){
+                                if(i instanceof SiegeFlag){
+                                    adjTown = null;
+                                }
+                            }
+                            if(Config.getBoolean("allow-war")&&adjTown!=null){
                                 Town t = adjTown;
                                 gui.getItems("siege")
                                         .placeholder("town", adjTown.getName())

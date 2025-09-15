@@ -153,6 +153,8 @@ command:
     invalid-item-type: "<red>无效的物品类型!"
     cannot-unclaim-siege-chunk: "<red>无法取消占领正在被入侵的区块!"
     invalid-chat-type: "<red>无效的聊天类型 %chat_type%! 可用值: nation, town, global"
+    nation-max-claims-reached: "<red>已达到最大占领数量 %max%!"
+    war-disabled: "<red>停战期间无法执行该操作!"
 
 # These are messages that are related to nations.
 nation:
@@ -377,6 +379,7 @@ combat:
   item-not-edible: "&c该物品不能转换为补给点!"
 
   next-update-bossbar: "&c下一次战斗更新:&e %timer%"
+  war-disabled-bossbar: "&c停战期"
 
   breakage:
     failed: "&c未能消灭对方部队!"

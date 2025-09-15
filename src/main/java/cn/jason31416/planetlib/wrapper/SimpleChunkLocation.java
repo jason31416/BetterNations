@@ -9,10 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Rule;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements ConfigurationSerializable {
     public enum Direction {
@@ -66,9 +63,9 @@ public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements Co
         double dz = this.z - other.z;
         return Math.sqrt(dx * dx + dz * dz);
     }
-    public Collection<SimpleChunkLocation> getAdjacentChunks() {
+    public List<SimpleChunkLocation> getAdjacentChunks() {
         int[] dx = {-1, 0, 1, 0}, dz = {0, -1, 0, 1};
-        Collection<SimpleChunkLocation> result = new java.util.ArrayList<>();
+        List<SimpleChunkLocation> result = new java.util.ArrayList<>();
         for (int i = 0; i < 4; i++) {
             result.add(this.getRelative(dx[i], dz[i]));
         }

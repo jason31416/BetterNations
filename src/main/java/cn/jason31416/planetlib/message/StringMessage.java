@@ -21,6 +21,7 @@ public class StringMessage implements Message {
     public static BukkitAudiences bukkitAudiences;
     public static MiniMessage miniMessage;
     String content;
+    SimplePlayer context=null;
     public StringMessage(String content) {
         this.content = content
                 .replace("§", "&")
@@ -47,19 +48,25 @@ public class StringMessage implements Message {
         content = content.replace("%"+placeholder+"%", (value instanceof String)?(String)value:value.toString());
         return this;
     }
+    public StringMessage addContext(SimplePlayer player){
+        this.context = player;
+        return this;
+    }
     public String toString(){
-        return LegacyComponentSerializer.legacySection().serialize(MiniMessage.miniMessage().deserialize(InternalPlaceholder.replacePlaceholders(content, null)));
+        return LegacyComponentSerializer.legacySection().serialize(MiniMessage.miniMessage().deserialize(InternalPlaceholder.replacePlaceholders(content, context)));
     }
     public String toFormatted(){
-        return MiniMessage.miniMessage().serialize(MiniMessage.miniMessage().deserialize(InternalPlaceholder.replacePlaceholders(content, null)));
+        return MiniMessage.miniMessage().serialize(MiniMessage.miniMessage().deserialize(InternalPlaceholder.replacePlaceholders(content, context)));
     }
     public void send(CommandSender player){
-        Component component = MiniMessage.miniMessage().deserialize(InternalPlaceholder.replacePlaceholders(content, null));
+        if(context == null) context = SimplePlayer.of(player);
+        Component component = MiniMessage.miniMessage().deserialize(InternalPlaceholder.replacePlaceholders(content, context));
         if(player instanceof Player pl) pl.spigot().sendMessage(BungeeComponentSerializer.get().serialize(component));
         else player.sendMessage(LegacyComponentSerializer.legacySection().serialize(component));
     }
     public void sendActionbar(Player player){
-        bukkitAudiences.player(player).sendActionBar(MiniMessage.miniMessage().deserialize(InternalPlaceholder.replacePlaceholders(content, SimplePlayer.of(player))));
+        if(context == null) context = SimplePlayer.of(player);
+        bukkitAudiences.player(player).sendActionBar(MiniMessage.miniMessage().deserialize(InternalPlaceholder.replacePlaceholders(content, context)));
     }
     public boolean equals(Object obj){
         if(obj instanceof StringMessage){

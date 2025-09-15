@@ -1,6 +1,10 @@
 package cn.jason31416.betternations.structure;
 
+import cn.jason31416.betternations.army.ArmyStack;
+import cn.jason31416.betternations.army.ArmyType;
+import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.StructuredArmy;
+import cn.jason31416.betternations.manager.LandArmyManager;
 import cn.jason31416.betternations.manager.NaturalResourcesManager;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.structure.types.Extractor;
@@ -155,6 +159,27 @@ public class StructureListener implements Listener {
                             throw new RuntimeException("Failed to create structure instance!");
                         }
                         hand.setAmount(hand.getAmount() - 1);
+                    }else if(LandArmyManager.directPlacements.containsKey(ItemType.getItemType(hand).getName())) {
+                        event.setCancelled(true);
+                        SimpleChunkLocation chunk = loc.getChunkLocation();
+                        SimpleLocation clicked = SimpleLocation.of(event.getClickedBlock());
+                        ArmyType type = LandArmyManager.directPlacements.get(ItemType.getItemType(hand).getName());
+                        if (AbstractStructure.structures.containsKey(clicked) && AbstractStructure.structures.get(clicked) instanceof ArmyCamp camp && camp.stack.nation==player.getNation() &&
+                                clicked.getChunkLocation().isTownChunk()&&clicked.getChunkLocation().getNation()==player.getNation()){
+                            camp.stack.addArmy(type, 1);
+                            camp.stack.supply += type.maxSupply;
+                            camp.updateHologram();
+                            hand.setAmount(hand.getAmount() - 1);
+                        }else if(chunk.isTownChunk()&&chunk.getNation()==player.getNation()){
+                            ArmyStack stack = new ArmyStack(player.getNation());
+                            stack.addArmy(type, 1);
+                            stack.supply = type.maxSupply;
+                            ArmyCamp camp = new ArmyCamp();
+                            camp.location = loc.getBlockLocation();
+                            camp.stack = stack;
+                            camp.place();
+                            hand.setAmount(hand.getAmount() - 1);
+                        }
                     }
                 }
             }

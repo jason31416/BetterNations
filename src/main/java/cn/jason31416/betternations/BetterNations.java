@@ -265,8 +265,13 @@ public final class BetterNations extends JavaPlugin {
         UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
         if(Config.getBoolean("combat.enable-animation")) UpdateCycle.registerTask("BetterNations.FromToParticlesUpdate", new UpdateTask(Config.getInt("combat.particle-interval"), FromToAnimationManager::updateAll));
         UpdateCycle.registerTask("BetterNations.ArmyUpdateBossbar", new UpdateTask(5, () -> {
-            ToggleArmyUpdateCommand.bossBar.setProgress(Math.min(1, Math.max(0, (ArmyUpdateManager.nextUpdate-System.currentTimeMillis())/1000.0/Config.getInt("combat.army-tick-interval"))));
-            ToggleArmyUpdateCommand.bossBar.setTitle(Message.getMessage("combat.next-update-bossbar").add("timer", Utils.formatSeconds((int)(ArmyUpdateManager.nextUpdate-System.currentTimeMillis())/1000)).toString());
+            if(Config.getBoolean("allow-war")) {
+                ToggleArmyUpdateCommand.bossBar.setProgress(Math.min(1, Math.max(0, (ArmyUpdateManager.nextUpdate - System.currentTimeMillis()) / 1000.0 / Config.getInt("combat.army-tick-interval"))));
+                ToggleArmyUpdateCommand.bossBar.setTitle(Message.getMessage("combat.next-update-bossbar").add("timer", Utils.formatSeconds((int) (ArmyUpdateManager.nextUpdate - System.currentTimeMillis()) / 1000)).toString());
+            }else{
+                ToggleArmyUpdateCommand.bossBar.setProgress(1);
+                ToggleArmyUpdateCommand.bossBar.setTitle(Message.getMessage("combat.war-disabled-bossbar").toString());
+            }
         }));
         UpdateCycle.registerTask("BetterNations.ExtractorUpdate", new UpdateTask(Config.getInt("structure.extractor-tick-interval"), Extractor::tickAll));
         if(BlueMapHook.enabled) UpdateCycle.registerTask("BetterNations.MapUpdate", new UpdateTask(Config.getInt("bluemap.check-interval"), MapDisplayManager::update));
@@ -374,7 +379,7 @@ public final class BetterNations extends JavaPlugin {
             i.close();
         }
         if(ToggleArmyUpdateCommand.bossBar!=null) ToggleArmyUpdateCommand.bossBar.removeAll();
-        MapDisplayManager.unload();
+        if(BlueMapHook.enabled) MapDisplayManager.unload();
         for(BreakCampRunnable i: BreakCampRunnable.breakingPlayers.values()){
             try {
                 i.failed();

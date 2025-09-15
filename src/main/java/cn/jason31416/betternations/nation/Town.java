@@ -3,6 +3,7 @@ package cn.jason31416.betternations.nation;
 import cn.jason31416.betternations.army.ArmorType;
 import cn.jason31416.betternations.army.DamageSource;
 import cn.jason31416.betternations.army.Damageable;
+import cn.jason31416.betternations.manager.map.BlueMapHook;
 import cn.jason31416.betternations.manager.map.MapDisplayManager;
 import cn.jason31416.betternations.structure.types.TownCore;
 import cn.jason31416.betternations.structure.types.TownRuin;
@@ -116,7 +117,7 @@ public class Town implements Damageable {
         for(SimpleChunkLocation chunk : townChunks) {
             chunkTownMap.remove(chunk);
         }
-        MapDisplayManager.updateTown(this);
+        if(BlueMapHook.enabled) MapDisplayManager.updateTown(this);
         unregisterTown();
         if (Config.getBoolean("town.require-ruin")) TownRuin.create(core.location, name);
     }
@@ -147,7 +148,7 @@ public class Town implements Damageable {
         }
         townChunks.add(chunk);
         chunkTownMap.put(chunk, this);
-        MapDisplayManager.updateTown(this);
+        if(BlueMapHook.enabled) MapDisplayManager.updateTown(this);
         return true;
     }
     private boolean isConnectedToCore(SimpleChunkLocation chunk, SimpleChunkLocation original, SimpleChunkLocation target){
@@ -183,7 +184,7 @@ public class Town implements Damageable {
         if(!chunk.isTownChunk()) return false;
         townChunks.remove(chunk);
         chunkTownMap.remove(chunk);
-        MapDisplayManager.updateTown(this);
+        if(BlueMapHook.enabled) MapDisplayManager.updateTown(this);
         return true;
     }
     // Data storage
@@ -276,7 +277,7 @@ public class Town implements Damageable {
         town.core.place();
         town.townChunks.add(location.getChunkLocation());
         chunkTownMap.put(location.getChunkLocation(), town);
-        MapDisplayManager.updateTown(town);
+        if(BlueMapHook.enabled) MapDisplayManager.updateTown(town);
         return town;
     }
     public static Town getTown(UUID id) {

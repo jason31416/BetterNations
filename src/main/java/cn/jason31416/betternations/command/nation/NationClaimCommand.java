@@ -1,6 +1,7 @@
 package cn.jason31416.betternations.command.nation;
 
 import cn.jason31416.betternations.BetterNations;
+import cn.jason31416.betternations.manager.ArmyUpdateManager;
 import cn.jason31416.betternations.manager.EventListener;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
@@ -8,6 +9,7 @@ import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
+import cn.jason31416.planetlib.hook.PAPIHook;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
@@ -45,6 +47,9 @@ public class NationClaimCommand extends ChildCommand {
         }
         if(player.getBalance()< Config.getDouble("nation.claim-cost")){
             return Message.getMessage("command.failed.not-enough-money").add("amount", Config.getDouble("nation.claim-cost"));
+        }
+        if(nation.nationalChunks.size()>=Config.getInt("nation.max-claims", -1) && Config.getInt("nation.max-claims", -1)>0) {
+            return Message.getMessage("command.failed.nation-max-claims-reached").add("max", Config.getInt("nation.max-claims", -1));
         }
         if(doCost) player.withdrawBalance(Config.getDouble("nation.claim-cost"));
         if(nation.claim(chunkLocation)){
