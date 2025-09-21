@@ -89,6 +89,11 @@ command:
     set-natural-resource: "<#2288ff>Successfully set natural resource for the current chunk!"
     granted-greencard: "<#2288ff>Successfully granted <#00ddff>%player% <#2288ff>a greencard for town %town%!"
     chat-changed: "<#2288ff>Chat type changed to %chat_type%"
+
+    invasion-list-header: "&7----= <#2288ff>%nation% Invasions/Sieges &7=----"
+    invasion-list-invasion: "&7- &c%attacking_nation%'s invasion at &e%nation%'s chunk&7 (%hp%❤) &7(%x%, %y%, %z%)"
+    invasion-list-siege: "&7- &c%attacking_nation%'s siege at &e%nation%'s %target% &7(%hp%❤) &7(%x%, %y%, %z%)"
+    invasion-list-empty: "&7There is no invasion/siege targeting your nation!"
   failed:
     owner-cannot-leave: "<red>You are the nation leader, please <click:suggest_command:/nation rank >assign a new leader</click> or <click:suggest_command:/nation disband>disband the nation</click> before leaving!"
     chunk-claim-failed: "<red>Failed to claim this chunk!"

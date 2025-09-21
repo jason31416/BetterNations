@@ -88,8 +88,8 @@ barbarian:
       advanced-zombie: 5
     initial-count: 10 # The number of units to spawn initially
     max-count: 15 # The max. number of units in a stack
-    recover-chance: 0.05 # The chance of spawning a new unit per army update (0-1)
-  barbarian-invasion-chance: 0.01 # The chance of a potential invasion check happening per army update (0-1)
+    recover-chance: 0.01 # The chance of spawning a new unit per army update (0-1)
+  barbarian-invasion-chance: 0.005 # The chance of a potential invasion check happening per army update (0-1)
   barbarian-nation-name: "Barbarians" # Do not change upon creation, it is used to identify the nation
   barbarian-chunk-hp: 5
 

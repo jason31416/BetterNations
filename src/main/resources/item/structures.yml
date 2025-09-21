@@ -81,18 +81,6 @@ recipes:
       l: lava_bucket
       b: bricks
       c: magma_block
-  outpost:
-    type: crafting
-    product: outpost
-    shape:
-      - "sns"
-      - "wgw"
-      - "sws"
-    material:
-      g: granary
-      w: wood
-      s: steel-plate
-      n: beacon
   granary:
     type: crafting
     product: granary

@@ -93,6 +93,11 @@ command:
     set-natural-resource: "<#2288ff>成功设置了该区块的自然资源!"
     granted-greencard: "<#2288ff>成功授予了 <#00ddff>%player% <#2288ff> 在 %town% 城镇的绿卡!"
     chat-changed: "<#2288ff>已经将聊天类型修改为 %chat_type%"
+
+    invasion-list-header: "&7----= &e&l%nation% &c入侵/围攻 &7=----"
+    invasion-list-invasion: "&7- &c由 %attacking_nation% 发起的对 &e%nation%的区块&7 (%hp%❤) &c的入侵 &7(位置: %x%, %y%, %z%)"
+    invasion-list-siege: "&7- &c由 %attacking_nation% 发起的对 &e%nation%的%target% &7(%hp%❤) &c的入侵 &7(位置: %x%, %y%, %z%)"
+    invasion-list-empty: "&7你的国家没有被入侵/围攻!"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"

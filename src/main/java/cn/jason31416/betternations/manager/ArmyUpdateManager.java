@@ -25,7 +25,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
     public static Map<SimpleChunkLocation, Double> chunkHealths = new HashMap<>();
     public static long nextUpdate=0;
     private void checkChunkAfterInvasion(SimpleChunkLocation origchunk, Nation winner, Nation loser){
-        if(loser.isBarbarian()) return;
+//        if(loser.isBarbarian()) return;
         Set<SimpleChunkLocation> encircled = new HashSet<>();
         outer: for(SimpleChunkLocation adj: origchunk.getAdjacentChunks()) {
             if (adj.getNation() == loser && !encircled.contains(adj)) {
@@ -40,6 +40,11 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                     if (cur.isTownChunk() || Outpost.outposts.contains(cur)) {
 //                        System.out.println("Found town");
                         continue outer;
+                    }
+                    for (StructuredArmy army: StructuredArmy.armyLocationMap.getOrDefault(cur, new HashSet<>())){
+                        if(army.stack.nation == loser) {
+                            continue outer;
+                        }
                     }
                     for (SimpleChunkLocation c : cur.getAdjacentChunks()) {
                         if (c.getNation() == loser && !searched.contains(c)) {

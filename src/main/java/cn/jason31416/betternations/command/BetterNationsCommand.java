@@ -35,6 +35,7 @@ public class BetterNationsCommand extends RootCommand {
         new NationMapCommand(this);
         new NationTypeCommand(this);
         new NationInfoCommand(this);
+        new NationCheckInvasionCommand(this);
         new NationRevokeAllianceCommand(this);
         new ToggleArmyUpdateCommand(this);
         new BNFSCKCommand(this);
