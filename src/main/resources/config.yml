@@ -123,6 +123,8 @@ combat:
   transport-max-distance: 64 # The unit must be within 64 blocks of the player, or else its gonna be destroyed
   transport-warn-distance: 56
 
+  force-border-invasion: false
+
   enable-animation: true
   particle-interval: 5
   particle-speed: 1.0 # Usually this is fine

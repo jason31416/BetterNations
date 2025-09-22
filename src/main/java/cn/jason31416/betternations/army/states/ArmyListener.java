@@ -154,7 +154,8 @@ public class ArmyListener implements Listener {
                                     break;
                                 }
                             }
-                            if(Config.getBoolean("allow-war")&&flag&&army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation()) == Relation.ENEMY){
+                            if(Config.getBoolean("allow-war")&&flag&&army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation()) == Relation.ENEMY
+                                        && (!Config.getBoolean("combat.force-border-invasion", false)||army.getLocation().getChunkLocation().getAdjacentChunks().stream().anyMatch(c->c.getNation()!=army.getLocation().getChunkLocation().getNation()))){
                                 gui.getItems("invade").setClickHandler((session, action, evt) -> {
                                     if(army.isActive){
                                         if(army.getLocation().getChunkLocation().isClaimed()&&!army.getLocation().getChunkLocation().isTownChunk()&&army.stack.nation.getRelation(army.getLocation().getChunkLocation().getNation())== Relation.ENEMY) {

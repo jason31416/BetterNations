@@ -81,6 +81,7 @@ public class InvasionFlag extends StructuredArmy {
                                     .setMaterial(automation == AutomationMode.SPEARHEAD? Material.LIME_WOOL : automation == AutomationMode.PUSH? Material.MAGENTA_WOOL : Material.GRAY_WOOL)
                                     .setLore(List.of(MessageLoader.getMessage("combat.invasion-automation."+automation.name().toLowerCase(Locale.ROOT)).toString()))
                                     .setClickHandler((session, action, evt) -> {
+                                        if(!player.hasPermission(Permission.MANAGE_ARMY)||player.getNation()!=stack.nation) return;
                                         if(automation == AutomationMode.SPEARHEAD) automation = AutomationMode.PUSH;
                                         else if(automation == AutomationMode.PUSH) automation = AutomationMode.NONE;
                                         else automation = AutomationMode.SPEARHEAD;
@@ -89,7 +90,7 @@ public class InvasionFlag extends StructuredArmy {
                                     });
                             if(player.getNation()==stack.nation&&player.hasPermission(Permission.MANAGE_ARMY)) gui.getItems("action-page").setClickHandler(new GUI.SwitchGuiRunnable("invasion-actions"));
                             else gui.getItems("action-page").setMaterial(Material.BARRIER);
-                            double mxhp = Config.getDouble("combat.chunk-hp", 20), chunkhp=ArmyUpdateManager.chunkHealths.getOrDefault(invasion.location.getChunkLocation(), mxhp);
+                            double mxhp = Config.getDouble("combat.chunk-hp", 20), chunkhp=Math.round(ArmyUpdateManager.chunkHealths.getOrDefault(invasion.location.getChunkLocation(), mxhp)*100)/100.0;
                             if(chunkhp>mxhp) return;
                             int cnt = (int) ((mxhp-chunkhp)*5/mxhp);
                             for(int i=0;i<7;i++){

@@ -299,7 +299,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                                                 Set<SimpleChunkLocation> toInvade = new HashSet<>();
                                                 inner:
                                                 for(SimpleChunkLocation adj: chunk.getAdjacentChunks()) {
-                                                    if (invasion.stack.nation.getRelation(adj.getNation()) == Relation.ENEMY) {
+                                                    if (invasion.stack.nation.getRelation(adj.getNation()) == Relation.ENEMY && !adj.isTownChunk()) {
                                                         for(StructuredArmy other: StructuredArmy.armyLocationMap.getOrDefault(adj, new HashSet<>())){
                                                             if(other instanceof InvasionFlag) continue inner;
                                                         }
@@ -320,8 +320,9 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                                                     int cnt=0;
                                                     for(SimpleChunkLocation loc: toInvade){
                                                         stacks.get(cnt).supply = invasion.stack.supply/invasion.stack.getMaxSupply()*stacks.get(cnt).getMaxSupply();
-                                                        startAutomatedInvasionAt(loc, stacks.get(cnt++))
-                                                                .thenAccept(newInvasion->newInvasion.automation = InvasionFlag.AutomationMode.PUSH);
+                                                        if(stacks.get(cnt).size()>0)
+                                                            startAutomatedInvasionAt(loc, stacks.get(cnt++))
+                                                                    .thenAccept(newInvasion->newInvasion.automation = InvasionFlag.AutomationMode.PUSH);
                                                     }
                                                 }else{
                                                     invasion.convertToCamp();
@@ -356,9 +357,9 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
     }
     public static CompletableFuture<InvasionFlag> startAutomatedInvasionAt(SimpleChunkLocation chunkLocation, ArmyStack stack){
         Nation attacker = stack.nation;
-        if(chunkLocation.isTownChunk()||!chunkLocation.isClaimed()) return null;
+        if(chunkLocation.isTownChunk()||!chunkLocation.isClaimed()) throw new IllegalArgumentException("Invalid chunk location: chunk is not claimed or is a town chunk!");
         Nation nation = chunkLocation.getNation();
-        if(!attacker.getRelation(nation).equals(Relation.ENEMY)) return null;
+        if(!attacker.getRelation(nation).equals(Relation.ENEMY)) throw new IllegalArgumentException("Invalid chunk location: chunk is not an enemy!");
         Random rand = new Random();
         SimpleLocation loc = SimpleLocation.of(chunkLocation.getBukkitWorld().getHighestBlockAt(chunkLocation.x()*16+rand.nextInt(16), chunkLocation.z()*16+rand.nextInt(16)));
         while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!= Material.AIR){

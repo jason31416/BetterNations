@@ -93,6 +93,7 @@ command:
     set-natural-resource: "<#2288ff>成功设置了该区块的自然资源!"
     granted-greencard: "<#2288ff>成功授予了 <#00ddff>%player% <#2288ff> 在 %town% 城镇的绿卡!"
     chat-changed: "<#2288ff>已经将聊天类型修改为 %chat_type%"
+    owner-change: "<#2288ff>成功将 %player% 设置为了新的国家元首!"
 
     invasion-list-header: "&7----= &e&l%nation% &c入侵/围攻 &7=----"
     invasion-list-invasion: "&7- &c由 %attacking_nation% 发起的对 &e%nation%的区块&7 (%hp%❤) &c的入侵 &7(位置: %x%, %y%, %z%)"

@@ -36,6 +36,11 @@ public class NationRankCommand extends ChildCommand {
         if(!context.getPlayer().getRank().hasPermission(Permission.CHANGE_RANK)||!context.getPlayer().getRank().isHigher(player.getRank())){
             return Message.getMessage("command.failed.no-permission");
         }
+        if(context.getPlayer().getRank()==nation.getType().getOwnerRank()&&rank==nation.getType().getOwnerRank()){
+            nation.setRank(nation.getOwner(), nation.getType().getDefaultRank());
+            nation.setOwner(player);
+            return Message.getMessage("command.success.owner-change").add("player", player.getName());
+        }
         new PlayerRankResolution(nation, context.getPlayer(), player, rank).propose();
         return null;
     }
