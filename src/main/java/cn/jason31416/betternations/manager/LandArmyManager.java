@@ -8,7 +8,7 @@ import cn.jason31416.betternations.structure.types.UnitProductionStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.InvalidConfigurationException;
 import cn.jason31416.planetlib.PlanetLib;
-import cn.jason31416.planetlib.item.ItemType;
+import cn.jason31416.betternations.item.ItemType;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -70,6 +70,7 @@ public class LandArmyManager {
     public static void unregisterAll(){
         ArmyType.armyTypes.clear();
         UnitProductionStructure.recipes.clear();
+        directPlacements.clear();
     }
     public static void loadAll(){
         YamlConfiguration file;

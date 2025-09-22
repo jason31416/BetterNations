@@ -5,22 +5,22 @@ import cn.jason31416.betternations.army.ArmyStack;
 import cn.jason31416.betternations.army.ArmyType;
 import cn.jason31416.betternations.army.states.ArmyCamp;
 import cn.jason31416.betternations.army.states.TransportArmy;
+import cn.jason31416.betternations.manager.LandArmyManager;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.structure.PlaceableStructure;
+import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.Utils;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
 import cn.jason31416.planetlib.gui.GUISession;
-import cn.jason31416.planetlib.item.CustomItemType;
-import cn.jason31416.planetlib.item.ItemType;
+import cn.jason31416.betternations.item.CustomItemType;
+import cn.jason31416.betternations.item.ItemType;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
-import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -115,6 +115,7 @@ public class UnitProductionStructure extends PlaceableStructure {
                     player.hasPermission(Permission.STRUCTURE, location))||!location.getChunkLocation().isClaimed()){
                 checkComplete();
                 ItemStack hand = player.getPlayer().getInventory().getItemInMainHand();
+                if(LandArmyManager.directPlacements.containsKey(ItemType.getItemType(hand).getName())) return true;
                 if(recipeMap.containsKey(ItemType.getItemType(hand).getName())){
                     if(currentProducing==null){
                         currentProducing = ItemType.getItemType(hand).getName();

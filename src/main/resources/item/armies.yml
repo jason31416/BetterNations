@@ -1,53 +1,164 @@
-# NOTE: YOU SHOULD CHANGE THIS AS IT IS LIKELY NOT SUITABLE AND BALANCED FOR COMPLEX SERVERS!
-
-# This is just an example of how to create custom items and categories. You can delete this and create your own items and categories.
-# Also, there is a preset configuration made for 1.21+ servers in the git repository (https://gitee.com/jason31416/betternations/tree/main/configurable-translation) for you.
-# You can ask for help on jason31416@163.com or on the BetterNations QQ group (458787362)
-
 categories:
   unit:
-    name: "&b&lEquipment"
+    name: "&b&l装备"
     material: zombie_head
 
 items:
   basic-zombie-equipment:
     skull: "56fc854bb84cf4b7697297973e02b79bc10698460b51a639c60e5e417734e11"
-    name: "&fBasic Zombie &7Equipment"
+    name: "&f基础僵尸 &7装备"
     lore:
       - "&8| &710&c❤ &7🚶"
       - "&8| &70.01/22.0&e🌾"
-      - "&8| &70.5&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &70.1&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.5&b🗡&7 ➡ &8🏴 &fTerritory"
+      - "&8| &70.1&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.1&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.1&b🗡&7 ➡ &8🏴 &f领地"
       - ""
-      - "&8&o[Infantry · Undead]"
-      - "&7Train in &eUndead Graveyard"
+      - "&8&o[步兵 · 亡灵]"
+      - "&7在&e亡灵墓园&7训练"
     category: unit
   trained-zombie-equipment:
     skull: "8288fcbda4ff85aca7ff21133d1afec9ee246dd923eca9bfd092f2333e66f"
-    name: "&fTrained Zombie &7Equipment"
+    name: "&f士兵僵尸 &7装备"
     lore:
       - "&8| &710&c❤ &7🚶"
       - "&8| &70.015/28.8&e🌾"
-      - "&8| &73.0&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &70.7&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.7&b🗡&7 ➡ &8🏴 &fTerritory"
+      - "&8| &73.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🏴 &f领地"
       - ""
-      - "&8&o[Infantry · Undead]"
-      - "&7Train in &eUndead Graveyard"
+      - "&8&o[步兵 · 亡灵]"
+      - "&7在&e亡灵墓园&7训练"
     category: unit
   advanced-zombie-equipment:
     skull: "a6b8d8745f6fc7a0a77354ce1a9f3046817f66d2d3afd1bcdac6d2d10f379"
-    name: "&fAdvanced Zombie &7Equipment"
+    name: "&f高级僵尸 &7装备"
     lore:
       - "&8| &720&c❤ &7🚶"
       - "&8| &70.035/28.8&e🌾"
-      - "&8| &74.0&b🗡&7 ➡ &8🚶 &fNormal Army"
-      - "&8| &70.8&b🗡&7 ➡ &8🛡 &fArmored Army"
-      - "&8| &70.7&b🗡&7 ➡ &8🏴 &fTerritory"
+      - "&8| &74.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.8&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🏴 &f领地"
       - ""
-      - "&8&o[Infantry · Undead]"
-      - "&7Train in &eUndead Graveyard"
+      - "&8&o[步兵 · 亡灵]"
+      - "&7在&e亡灵墓园&7训练"
+    category: unit
+  zombified-piglin-equipment:
+    skull: "7eabaecc5fae5a8a49c8863ff4831aaa284198f1a2398890c765e0a8de18da8c"
+    name: "&f僵尸猪灵 &7装备"
+    lore:
+      - "&8| &720&c❤ &7🚶"
+      - "&8| &70.035/28.8&e🌾"
+      - "&8| &73.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.5&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 亡灵]"
+      - "&7在&e亡灵墓园&7训练"
+    category: unit
+  zombie-king-equipment:
+    skull: "15582ed512a8cea9b17ffc31ca12b86f2abccf83a622fb7d15b5f171f51bb64"
+    name: "&f僵王 &7装备"
+    lore:
+      - "&8| &7145&c❤ &7🚶"
+      - "&8| &70.11/28.8&e🌾"
+      - "&8| &77.5&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &72.0&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.9&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 亡灵]"
+      - "&7在&e亡灵墓园&7训练"
+    category: unit
+  spider-equipment:
+    skull: "cd541541daaff50896cd258bdbdd4cf80c3ba816735726078bfe393927e57f1"
+    name: "&f蜘蛛 &7装备"
+    lore:
+      - "&8| &710&c❤ &7🚶"
+      - "&8| &70.03/28.8&e🌾"
+      - "&8| &74.5&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &70.7&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.0&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 节肢]"
+      - "&7在&e蛛网&7或&e人工蛛网&7训练"
+    category: unit
+  cave-spider-equipment:
+    skull: "7652bd7617e56c756514f83c28dd1d96a7e5e167bf7fb593693fc65046f799"
+    name: "&f洞穴蜘蛛 &7装备"
+    lore:
+      - "&8| &75&c❤ &7🚶"
+      - "&8| &70.045/28.8&e🌾"
+      - "&8| &78.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &71.0&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.0&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 节肢]"
+      - "&7在&e蛛网&7或&e人工蛛网&7训练"
+    category: unit
+  vindicator-equipment:
+    skull: "6deaec344ab095b48cead7527f7dee61b063ff791f76a8fa76642c8676e2173"
+    name: "&f卫道士 &7装备"
+    lore:
+      - "&8| &735&c❤ &7🚶"
+      - "&8| &70.035/28.8&e🌾"
+      - "&8| &71.1&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &71.1&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.3&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 灾厄]"
+      - "&7在&e灾厄哨塔&7训练"
+    category: unit
+  armored-vindicator-equipment:
+    skull: "8abebc59f2891fb975fc2b20de473e4bbdb8b4cfe246135b893699b985032756"
+    name: "&f装甲卫道士 &7装备"
+    lore:
+      - "&8| &755&c❤ &7🛡"
+      - "&8| &70.045/28.8&e🌾"
+      - "&8| &71.5&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &71.5&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.3&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 灾厄]"
+      - "&7在&e灾厄哨塔&7训练"
+    category: unit
+  evoker-equipment:
+    skull: "d954135dc82213978db478778ae1213591b93d228d36dd54f1ea1da48e7cba6"
+    name: "&f唤魔者 &7装备"
+    lore:
+      - "&8| &755&c❤ &7🛡"
+      - "&8| &70.045/28.8&e🌾"
+      - "&8| &71.0&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &71.0&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.3&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 灾厄]"
+      - "&7在&e灾厄哨塔&7训练"
+    category: unit
+  ravager-equipment:
+    skull: "5c73e16fa2926899cf18434360e2144f84ef1eb981f996148912148dd87e0b2a"
+    name: "&f劫掠兽 &7装备"
+    lore:
+      - "&8| &7155&c❤ &7🛡"
+      - "&8| &70.15/28.8&e🌾"
+      - "&8| &75.5&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &75.0&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.1&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 灾厄]"
+      - "&7在&e灾厄哨塔&7训练"
+    category: unit
+  wither-skeleton-equipment:
+    skull: "7953b6c68448e7e6b6bf8fb273d7203acd8e1be19e81481ead51f45de59a8"
+    name: "&f凋零骷髅 &7装备"
+    lore:
+      - "&8| &725&c❤ &7🚶"
+      - "&8| &70.15/28.8&e🌾"
+      - "&8| &70.5&b🗡&7 ➡ &8🚶 &f普通陆军"
+      - "&8| &76.5&b🗡&7 ➡ &8🛡 &f装甲陆军"
+      - "&8| &70.1&b🗡&7 ➡ &8🏴 &f领地"
+      - ""
+      - "&8&o[步兵 · 凋零]"
+      - "&7在&e要塞&7训练"
     category: unit
 
 recipes:
@@ -55,9 +166,9 @@ recipes:
     type: crafting
     product: basic-zombie-equipment
     shape:
-      - "s"
-      - "u"
-      - "u"
+      - " s "
+      - " u "
+      - " u "
     material:
       u: undead-essence
       s: iron_helmet
@@ -71,8 +182,8 @@ recipes:
     material:
       u: undead-essence
       e: iron_chestplate
-      a: steel
-      b: iron_axe
+      a: steel-axe
+      b: steel-boots
   advanced-zombie:
     type: crafting
     product: advanced-zombie-equipment
@@ -81,7 +192,106 @@ recipes:
       - "szs"
       - "u u"
     material:
-      t: steel
+      t: aluminum-alloy
       s: steel-plate
       z: trained-zombie-equipment
       u: undead-essence
+  zombified-piglin:
+    type: crafting
+    product: zombified-piglin-equipment
+    shape:
+      - "n u"
+      - "nzg"
+      - "n u"
+    material:
+      n: nether-gold
+      g: golden_sword
+      z: trained-zombie-equipment
+      u: undead-essence
+  zombie-king:
+    type: crafting
+    product: zombie-king-equipment
+    shape:
+      - "r r"
+      - "czc"
+      - "uxu"
+    material:
+      r: reinforced-alloy
+      c: compressed-steel-plate
+      z: advanced-zombie-equipment
+      u: undead-essence
+      x: charged-superconductor
+  spider:
+    type: crafting
+    product: spider-equipment
+    shape:
+      - "s s"
+      - "tct"
+      - "s s"
+    material:
+      s: silk
+      t: titanium-alloy
+      c: cobweb
+  cave-spider:
+    type: crafting
+    product: cave-spider-equipment
+    shape:
+      - "kkk"
+      - "psp"
+      - "kkk"
+    material:
+      s: spider-equipment
+      p: undead-mixture
+      k: silk
+  vindicator:
+    type: crafting
+    product: vindicator-equipment
+    shape:
+      - "e e"
+      - "sri"
+      - "lnl"
+    material:
+      i: steel-axe
+      l: steel
+      n: reinforced-alloy
+      s: steel-plate
+      r: hardened-glass-board
+      e: emerald_block
+  armored-vindicator:
+    type: crafting
+    product: armored-vindicator-equipment
+    shape:
+      - "e e"
+      - "ava"
+      - "tst"
+    material:
+      e: emerald_block
+      a: reinforced-alloy
+      v: vindicator-equipment
+      s: compressed-steel-plate
+      t: titanium-alloy
+  ravager:
+    type: crafting
+    product: ravager-equipment
+    shape:
+      - "rvr"
+      - "sbs"
+      - "rsr"
+    material:
+      r: reinforced-alloy
+      b: blazing-alloy
+      v: vindicator-equipment
+      s: compressed-steel-plate
+  wither-skeleton:
+    type: crafting
+    product: wither-skeleton-equipment
+    shape:
+      - " s "
+      - "bwi"
+      - "xb "
+    material:
+      s: steel-helmet
+      i: steel-sword
+      b: bone
+      x: undead-essence
+      w: wither_skeleton_skull

@@ -4,7 +4,7 @@ import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.army.ArmyStack;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.message.Message;
-import cn.jason31416.planetlib.mob.SimpleMob;
+import cn.jason31416.betternations.mob.SimpleMob;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Material;

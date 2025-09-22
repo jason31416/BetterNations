@@ -1,29 +1,20 @@
 package cn.jason31416.betternations.command.nation;
 
-import cn.jason31416.betternations.manager.EventListener;
 import cn.jason31416.betternations.manager.NaturalResourcesManager;
-import cn.jason31416.betternations.nation.Nation;
-import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
-import cn.jason31416.planetlib.item.ItemType;
-import cn.jason31416.planetlib.item.VanillaItemType;
+import cn.jason31416.betternations.item.ItemType;
+import cn.jason31416.betternations.item.VanillaItemType;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
-import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-
-import static cn.jason31416.planetlib.command.ParameterType.INTEGER;
-import static cn.jason31416.planetlib.command.ParameterType.STRING;
 
 public class NationMapCommand extends ChildCommand {
     public NationMapCommand(IParentCommand parent) {

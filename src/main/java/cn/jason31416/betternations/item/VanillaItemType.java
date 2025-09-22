@@ -1,4 +1,4 @@
-package cn.jason31416.planetlib.item;
+package cn.jason31416.betternations.item;
 
 import org.bukkit.Material;
 

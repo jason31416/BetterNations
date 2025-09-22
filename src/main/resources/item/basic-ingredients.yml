@@ -1,43 +1,227 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
-
-# NOTE: YOU SHOULD CHANGE THIS AS IT IS LIKELY NOT SUITABLE AND BALANCED FOR COMPLEX SERVERS!
-
-# This is just an example of how to create custom items and categories. You can delete this and create your own items and categories.
-# Also, there is a preset configuration made for 1.21+ servers in the git repository (https://gitee.com/jason31416/betternations/tree/main/configurable-translation) for you.
-# You can ask for help on jason31416@163.com or on the BetterNations QQ group (458787362)
-
 categories:
   ingredient:
-    name: "&b&lIngredients"
+    name: "&b&l原料"
     material: iron_ingot
+  resource:
+    name: "&b&l资源"
+    material: raw_iron
 
 items:
+  energy-fragment:
+    skull: "52eb13f9c099ad5007b54a517585dc26c9ecaf54632f65d5234571194dae9ea8"
+    name: "&3&l能量碎片"
+    category: resource
+  pure-energy:
+    skull: "3a7cda9004fc197d66afbc2b003a5b9ef13cf4600b1fc7490067590f047181e"
+    name: "&3&l纯净能量"
+    lore:
+      - "&7可转换为补给点或用于合成"
+    category: resource
+  oil:
+    material: HONEY_BOTTLE
+    name: "&3&l石油"
+    category: resource
+    glowing: true
+  fuel:
+    material: HONEY_BOTTLE
+    name: "&3&l燃料"
+    category: resource
+    glowing: true
+  oil-essence:
+    material: coal
+    name: "&3&l原油精华"
+    category: ingredient
+    interaction: true
+  redstone-alloy:
+    material: nether_brick
+    name: "&3&l红石合金"
+    glowing: true
+    category: resource
+    interaction: true
+  biomass:
+    material: pitcher_pod
+    name: "&3&l生物质"
+    category: resource
+    interaction: true
+  undead-mixture:
+    material: nether_wart
+    name: "&4&l亡灵混合物"
+    glowing: true
+    category: ingredient
   undead-essence:
     material: glowstone_dust
-    name: "&4&lUndead Essence"
+    name: "&4&l亡灵精华"
     glowing: true
     category: ingredient
     interaction: true
-  raw-steel:
-    material: raw_iron
-    name: "&7&lRaw Steel"
+  purified-quartz:
+    material: quartz
+    name: "&3&l净化石英"
+    category: resource
+    glow: true
+    interaction: true
+  silicon:
+    skull: "324d23f0bb3e750ae4fe10a2a8490e8a028806b8a954c457be379d02b7d46502"
+    name: "&3&l硅"
+    category: resource
+  glass-pieces:
+    material: sugar
+    name: "&3&l玻璃粉"
+    category: resource
+  melted-crystal:
+    material: HONEY_BOTTLE
+    name: "&3&l熔融水晶"
+    category: resource
+    glowing: true
+  hardened-glass-pieces:
+    material: sugar
+    name: "&3&l硬化玻璃粉"
+    category: resource
+    glowing: true
+  hardened-glass-board:
+    material: black_stained_glass_pane
+    name: "&3&l强化玻璃板"
+    category: resource
+  chip:
+    material: rail
+    name: "&3&l芯片"
+    category: ingredient
+  mechanical-chip:
+    material: rail
+    name: "&3&l机械芯片"
     glowing: true
     category: ingredient
+  smart-chip:
+    material: rail
+    name: "&3&l智能芯片"
+    glowing: true
+    category: ingredient
+  machine-core:
+    skull: "6da482670ad74466081883fe7edd48dec27a698a9a52c4f870310ba035acf696"
+    name: "&3&l机械核心"
+    category: ingredient
+  raw-steel:
+    material: raw_iron
+    name: "&7&l粗钢"
+    glowing: true
+    category: resource
     interaction: true
   steel:
     material: iron_ingot
-    name: "&7&lSteel Ingot"
+    name: "&7&l钢锭"
+    glowing: true
+    category: resource
+    interaction: true
+  aluminum-powder:
+    material: sugar
+    name: "&7&l铝粉"
+    category: ingredient
+    interaction: true
+  aluminum-alloy:
+    material: iron_ingot
+    name: "&7&l铝锭"
+    category: resource
+  titanium-alloy:
+    skull: "8df232457030a6667e4c65ff92e93c6ceffb20c133110844012e0a90fba786b4"
+    name: "&7&l钛合金"
+    category: resource
+  reinforced-alloy:
+    material: iron_ingot
+    name: "&3&l强化合金"
+    glowing: true
+    category: resource
+    interaction: true
+  superconductor:
+    skull: "97658bde554d4cf3a7e588d7dbeba55434c69f779925038da6d7f1db219d5165"
+    name: "&3&l超导体"
+    category: resource
+  charged-superconductor:
+    skull: "e368021658bfc21ccc44cf11e4058fd17f335c26a8265dd870d1924a1a8d6d65"
+    name: "&3&l充能超导体"
+    category: resource
+  blazing-alloy:
+    material: copper_ingot
+    name: "&6&l炽热合金"
+    lore:
+      - "&7&o燃烧着火焰的力量!"
+    glowing: true
+    category: resource
+    interaction: true
+  steel-chunk:
+    skull: "ff16d5a96efd707e4674c07546e3cd02c3f3e4bb8b4f0678baf9701d8c95169a"
+    name: "&7&l钢块"
+    category: resource
+  steel-plate:
+    material: paper
+    name: "&7&l钢板"
+    category: ingredient
+    interaction: true
+  compressed-steel-plate:
+    material: paper
+    name: "&7&l压缩钢板"
     glowing: true
     category: ingredient
     interaction: true
-  steel-plate:
-    material: paper
-    name: "&7&lSteel Plate"
-    category: ingredient
-    interaction: true
+  reinforced-bricks:
+    material: brick
+    name: "&3&l强化砖块"
+    category: resource
+    glowing: true
   wood:
     material: oak_wood
-    name: "&7&lWood"
+    name: "&7&l木材"
+    category: resource
+  hilt:
+    material: bone
+    name: "&7&l剑柄"
+    category: ingredient
+    interaction: true
+  steel-hilt:
+    material: LIGHTNING_ROD
+    name: "&7&l钢制剑柄"
+    glowing: true
+    category: ingredient
+    interaction: true
+  silk:
+    material: string
+    name: "&3&l丝绸"
+    glow: true
+    category: ingredient
+    interaction: true
+  tomb:
+    material: spruce_trapdoor
+    name: "&3&l棺材"
+    category: ingredient
+  raw-nether-gold:
+    material: nether_gold_ore
+    name: "&6&l下界粗金"
+    category: ingredient
+  nether-gold:
+    material: gold_ingot
+    name: "&6&l下界金锭"
+    glow: true
+    category: ingredient
+    interaction: true
+  raw-upgrade:
+    material: disc_fragment_5
+    name: "&b&l基础升级"
+    category: ingredient
+    interaction: true
+  carbon:
+    skull: 3ca46618-32c3-4509-b8b0-d3c9a120aa09
+    name: "&8&l碳"
+    category: ingredient
+  carbon-chunk:
+    skull: 3ca46618-32c3-4509-b8b0-d3c9a120aa09
+    name: "&8&l碳块"
+    category: ingredient
+  compressed-carbon-chunk:
+    skull: 3ca46618-32c3-4509-b8b0-d3c9a120aa09
+    name: "&8&l压缩碳块"
+    category: ingredient
+    
+
 
 # Recipes don't need translation as they use material codes
 recipes:
@@ -141,38 +325,155 @@ recipes:
       - "aaa"
     material:
       a: warped_planks
+  redstone-alloy:
+    type: crafting
+    product: redstone-alloy
+    shape:
+      - "scs"
+      - "crc"
+      - "scs"
+    material:
+      s: steel
+      c: copper_ingot
+      r: redstone_block
 
   machine-core:
     type: crafting
     product: machine-core
     shape:
-      - "ded"
+      - "bbb"
       - "cac"
-      - "dbd"
+      - "bbb"
     material:
       a: mechanical-chip
-      b: iron_ingot
-      c: redstone
-      d: silicon
-      e: diamond
+      b: steel-plate
+      c: diamond
   undead-essence-1:
     type: crafting
-    product: undead-essence
+    product: biomass
+    product-count: 2
     shape:
       - "aba"
       - "bcb"
       - "aba"
     material:
-      a: bone_meal
+      a: bone
       b: rotten_flesh
       c: fermented_spider_eye
+  undead-essence-2:
+    type: soul-extractor
+    product: undead-essence
+    ingredient: undead-mixture
+    time: 150
+  undead-essence-3:
+    type: crafting
+    product: undead-mixture
+    product-count: 2
+    shape:
+      - " a "
+      - "aba"
+      - " a "
+    material:
+      a: soul_sand
+      b: biomass
+  melted-crystal:
+    type: smelting
+    product: melted-crystal
+    ingredient: amethyst_shard
+    exp: 0.5
+    time: 50
+  glass-pieces:
+    type: grinder
+    product: glass-pieces
+    product-count: 4
+    ingredient: glass
+    time: 10
+  hardened-glass-pieces:
+    type: crafting
+    product: hardened-glass-pieces
+    product-count: 8
+    shape:
+      - "aaa"
+      - "ama"
+      - "aaa"
+    material:
+      a: glass-pieces
+      m: melted-crystal
+  hardened-glass-board:
+    type: smelting
+    product: hardened-glass-board
+    ingredient: hardened-glass-pieces
+    exp: 0.5
+    time: 80
+  reinforced-bricks:
+    type: crafting
+    product: reinforced-bricks
+    product-count: 8
+    shape:
+      - "cac"
+      - "aba"
+      - "cac"
+    material:
+      a: brick
+      b: iron_ingot
+      c: nether_brick
+  purified-quartz:
+    type: smelting
+    product: purified-quartz
+    ingredient: glass
+    exp: 0.5
+    time: 150
+  silicon:
+    type: crafting
+    product: silicon
+    shape:
+      - " a "
+      - "aaa"
+      - " a "
+    material:
+      a: purified-quartz
+  chip:
+    type: crafting
+    product: chip
+    shape:
+      - "crc"
+      - "aaa"
+      - "crc"
+    material:
+      a: silicon
+      c: copper_ingot
+      r: redstone
+  mechanical-chip:
+    type: crafting
+    product: mechanical-chip
+    shape:
+      - "ada"
+      - "bcb"
+      - "ada"
+    material:
+      a: redstone
+      b: steel-plate
+      c: chip
+      d: netherite_scrap
+  smart-chip:
+    type: crafting
+    product: smart-chip
+    shape:
+      - "lbl"
+      - "gcg"
+      - "lbl"
+    material:
+      b: netherite_scrap
+      c: mechanical-chip
+      l: aluminum-alloy
+      g: hardened-glass-board
   raw-steel:
     type: crafting
     product: raw-steel
     shape:
-      - "b"
-      - "a"
-      - "b"
+      - " b "
+      - " a "
+      - " b "
     material:
       a: raw_iron
       b: coal
@@ -180,22 +481,241 @@ recipes:
     type: crafting
     product: raw-steel
     shape:
-      - "b"
-      - "a"
-      - "b"
+      - " b "
+      - " a "
+      - " b "
     material:
       a: raw_iron
       b: charcoal
+  steel-hilt:
+    type: crafting
+    product: steel-hilt
+    shape:
+      - "   "
+      - " b "
+      - " a "
+    material:
+      a: hilt
+      b: steel
+  titanium:
+    type: crafting
+    product: titanium-alloy
+    shape:
+      - "   "
+      - "bdb"
+      - "   "
+    material:
+      b: steel
+      d: diamond
+  aluminum-powder:
+    type: grinder
+    product: aluminum-powder
+    product-count: 4
+    ingredient: ghast_tear
+    time: 10
+  aluminum-alloy:
+    type: alloy-foundry
+    product: aluminum-alloy
+    ingredient: aluminum-powder
+    time: 300
+  reinforced-alloy:
+    type: crafting
+    product: reinforced-alloy
+    shape:
+      - "aaa"
+      - "bbc"
+      - "   "
+    material:
+      a: steel
+      b: titanium-alloy
+      c: aluminum-alloy
+  blazing-alloy:
+    type: crafting
+    product: blazing-alloy
+    shape:
+      - "asa"
+      - "ncn"
+      - "fff"
+    material:
+      a: blaze_powder
+      c: copper_ingot
+      s: silicon
+      n: nether-gold
+      f: fire_charge
+  superconductor:
+    type: crafting
+    product: superconductor
+    shape:
+      - "aaa"
+      - "bbb"
+      - "aaa"
+    material:
+      a: titanium-alloy
+      b: copper_ingot
+  charged-superconductor:
+    type: crafting
+    product: charged-superconductor
+    shape:
+      - "   "
+      - "bab"
+      - "   "
+    material:
+      a: superconductor
+      b: pure-energy
   steel:
-    type: smelting
-    time: 600
-    exp: 15
+    type: alloy-foundry
     product: steel
     ingredient: raw-steel
+    time: 1000
+  hilt:
+    type: crafting
+    product: hilt
+    shape:
+      - "   "
+      - " b "
+      - " a "
+    material:
+      a: stick
+      b: wood
+  steel-chunk:
+    type: crafting
+    product: steel-chunk
+    shape:
+      - "aa "
+      - "aa "
+      - "   "
+    material:
+      a: steel
   steel-plate:
     type: crafting
     product: steel-plate
     shape:
+      - "   "
       - "aaa"
+      - "   "
     material:
       a: steel
+  compressed-steel-plate:
+    type: crafting
+    product: compressed-steel-plate
+    shape:
+      - "   "
+      - "aaa"
+      - "   "
+    material:
+      a: steel-plate
+  tomb:
+    type: crafting
+    product: tomb
+    shape:
+      - "waw"
+      - "b b"
+      - "waw"
+    material:
+      a: steel
+      b: undead-essence
+      w: wood
+  silk:
+    type: crafting
+    product: silk
+    shape:
+      - "aaa"
+      - "aba"
+      - "aaa"
+    material:
+      a: string
+      b: honey_bottle
+  raw-nether-gold:
+    type: crafting
+    product: raw-nether-gold
+    product-count: 2
+    shape:
+      - "aaa"
+      - "ana"
+      - "ama"
+    material:
+      a: raw_gold
+      n: netherrack
+      m: magma_block
+  nether-gold:
+    type: alloy-foundry
+    product: nether-gold
+    ingredient: raw-nether-gold
+    time: 360
+  fuel:
+    type: refinery
+    product: fuel
+    ingredient: oil
+    time: 240
+  oil-synthesis:
+    type: smelting
+    product: oil-essence
+    ingredient: coal_block
+    exp: 5.0
+    time: 1200
+  oil-synthesis-2:
+    type: crafting
+    product: oil
+    product-count: 8
+    shape:
+      - "aaa"
+      - "aba"
+      - "aaa"
+    material:
+      a: lava_bucket
+      b: oil-essence
+  energy-1:
+    type: refinery
+    product: energy-fragment
+    ingredient: fuel
+    time: 200
+  pure-energy:
+    type: crafting
+    product: pure-energy
+    shape:
+      - "aaa"
+      - "aba"
+      - "aaa"
+    material:
+      a: energy-fragment
+      b: diamond
+  raw-upgrade:
+    type: crafting
+    product: raw-upgrade
+    shape:
+      - "rdr"
+      - "scs"
+      - "rdr"
+    material:
+      c: chip
+      r: redstone-alloy
+      s: silicon
+      d: diamond
+  carbon:
+    type: crafting
+    product: carbon
+    shape:
+      - "ccc"
+      - "cbc"
+      - "ccc"
+    material:
+      c: coal
+      b: coal_block
+  carbon-chunk:
+    type: crafting
+    product: carbon-chunk
+    shape:
+      - "cc "
+      - "cc "
+      - "   "
+    material:
+      c: carbon
+  compressed-carbon-chunk:
+    type: crafting
+    product: compressed-carbon-chunk
+    shape:
+      - "ccc"
+      - "ccc"
+      - "ccc"
+    material:
+      c: carbon-chunk

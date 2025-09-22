@@ -1,11 +1,9 @@
 package cn.jason31416.betternations.manager;
 
 import cn.jason31416.betternations.BetterNations;
-import cn.jason31416.planetlib.item.ItemType;
+import cn.jason31416.betternations.item.ItemType;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimpleWorld;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;

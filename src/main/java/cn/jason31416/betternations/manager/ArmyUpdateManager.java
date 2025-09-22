@@ -16,13 +16,18 @@ import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.message.StaticMessages;
 import cn.jason31416.planetlib.update.UpdateTask;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
+import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Contract;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ArmyUpdateManager implements UpdateTask.RunnableTask {
-    public static Map<SimpleChunkLocation, Double> chunkHealths = new HashMap<>();
+    public static Map<SimpleChunkLocation, Double> chunkHealths = new ConcurrentHashMap<>();
     public static long nextUpdate=0;
     private void checkChunkAfterInvasion(SimpleChunkLocation origchunk, Nation winner, Nation loser){
 //        if(loser.isBarbarian()) return;
@@ -268,7 +273,61 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                                             BarbarianInvasionManager.startBarbarianInvasionAt(loc2, newStack);
                                         }
                                     }else {
-                                        invasion.convertToCamp();
+                                        if(invasion.automation == InvasionFlag.AutomationMode.NONE){
+                                            invasion.convertToCamp();
+                                        }else{
+                                            if(invasion.automation == InvasionFlag.AutomationMode.SPEARHEAD){
+                                                invasion.automation = InvasionFlag.AutomationMode.PUSH; // also acts as a flag
+                                                inner:
+                                                for(SimpleChunkLocation adj: chunk.getAdjacentChunks()){
+                                                    if(invasion.stack.nation.getRelation(adj.getNation()) == Relation.ENEMY){
+                                                        for(SimpleChunkLocation adj2: adj.getEightAdjacentChunks()){
+                                                            if(adj2.getNation() == invasion.stack.nation && !adj2.equals(chunk)){
+                                                                continue inner;
+                                                            }
+                                                        }
+                                                        invasion.breakStructure();
+                                                        invasion.unregister();
+                                                        startAutomatedInvasionAt(adj, invasion.stack)
+                                                                .thenAccept(newInvasion->newInvasion.automation = InvasionFlag.AutomationMode.SPEARHEAD);
+                                                        invasion.automation = InvasionFlag.AutomationMode.SPEARHEAD;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if(invasion.automation == InvasionFlag.AutomationMode.PUSH){
+                                                Set<SimpleChunkLocation> toInvade = new HashSet<>();
+                                                inner:
+                                                for(SimpleChunkLocation adj: chunk.getAdjacentChunks()) {
+                                                    if (invasion.stack.nation.getRelation(adj.getNation()) == Relation.ENEMY) {
+                                                        for(StructuredArmy other: StructuredArmy.armyLocationMap.getOrDefault(adj, new HashSet<>())){
+                                                            if(other instanceof InvasionFlag) continue inner;
+                                                        }
+                                                        toInvade.add(adj);
+                                                    }
+                                                }
+                                                if(!toInvade.isEmpty()){
+                                                    invasion.breakStructure();
+                                                    invasion.unregister();
+                                                    List<ArmyStack> stacks = new ArrayList<>();
+                                                    for (SimpleChunkLocation loc: toInvade) stacks.add(new ArmyStack(invasion.stack.nation));
+                                                    int counter=0;
+                                                    for (ArmyStack.Unit i : new HashSet<>(invasion.stack.armies.values())) {
+                                                        for(int j=0;j<i.count;j++){
+                                                            stacks.get(counter++%stacks.size()).addArmy(i.type, 1, i.hp/i.count);
+                                                        }
+                                                    }
+                                                    int cnt=0;
+                                                    for(SimpleChunkLocation loc: toInvade){
+                                                        stacks.get(cnt).supply = invasion.stack.supply/invasion.stack.getMaxSupply()*stacks.get(cnt).getMaxSupply();
+                                                        startAutomatedInvasionAt(loc, stacks.get(cnt++))
+                                                                .thenAccept(newInvasion->newInvasion.automation = InvasionFlag.AutomationMode.PUSH);
+                                                    }
+                                                }else{
+                                                    invasion.convertToCamp();
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -294,5 +353,34 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
         }
         if(Config.getBoolean("allow-war")&&Config.getBoolean("barbarian.enable-barbarians", false)&&Math.random()<Config.getDouble("barbarian.barbarian-invasion-chance")) BarbarianInvasionManager.attemptStartBarbarianInvasion();
         nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
+    }
+    public static CompletableFuture<InvasionFlag> startAutomatedInvasionAt(SimpleChunkLocation chunkLocation, ArmyStack stack){
+        Nation attacker = stack.nation;
+        if(chunkLocation.isTownChunk()||!chunkLocation.isClaimed()) return null;
+        Nation nation = chunkLocation.getNation();
+        if(!attacker.getRelation(nation).equals(Relation.ENEMY)) return null;
+        Random rand = new Random();
+        SimpleLocation loc = SimpleLocation.of(chunkLocation.getBukkitWorld().getHighestBlockAt(chunkLocation.x()*16+rand.nextInt(16), chunkLocation.z()*16+rand.nextInt(16)));
+        while(loc.y()<loc.world().getBukkitWorld().getMaxHeight()&&loc.getBlockMaterial()!= Material.AIR){
+            loc = loc.getRelative(0, 1, 0);
+        }
+        if(loc.y()>=loc.world().getBukkitWorld().getMaxHeight()){
+            loc = loc.getRelative(0, -1, 0);
+        }
+        SimpleLocation location = loc;
+        CompletableFuture<InvasionFlag> future = new CompletableFuture<>();
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                InvasionFlag c = new InvasionFlag();
+                c.stack = stack;
+                c.location = location;
+                stack.curHolder = c;
+                c.place();
+                future.complete(c);
+            }
+        }.runTaskLater(BetterNations.instance, 1);
+        Message.getMessage("combat.invasion-started").add("nation", stack.nation.getName()).add("location", loc.x()+","+loc.y()+","+loc.z()).send(chunkLocation.getNation().getMembers());
+        return future;
     }
 }

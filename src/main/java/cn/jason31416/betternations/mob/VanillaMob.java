@@ -1,7 +1,6 @@
-package cn.jason31416.planetlib.mob;
+package cn.jason31416.betternations.mob;
 
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
-import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;

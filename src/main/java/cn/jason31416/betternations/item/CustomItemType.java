@@ -1,8 +1,6 @@
-package cn.jason31416.planetlib.item;
+package cn.jason31416.betternations.item;
 
-import cn.jason31416.planetlib.InvalidConfigurationException;
 import cn.jason31416.planetlib.hook.NbtHook;
-import cn.jason31416.planetlib.message.StaticMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -13,7 +11,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 
-import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;

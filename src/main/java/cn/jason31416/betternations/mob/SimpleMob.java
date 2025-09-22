@@ -1,12 +1,10 @@
-package cn.jason31416.planetlib.mob;
+package cn.jason31416.betternations.mob;
 
 import cn.jason31416.planetlib.hook.MythicMobsHook;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
-import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 
 import java.util.*;
 

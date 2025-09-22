@@ -192,10 +192,13 @@ bluemap:
   line-width: 3
   check-interval: 20 # in ticks, how frequent should the plugin update the map (almost completely async ;) )
   display-camps: true
-  resource-img:
-    steel: /assets/betternations/steel.png
-    town-ruin: /assets/betternations/town_ruin.png
-    town-core: /assets/betternations/town_core.png
-    invasion-flag: /assets/betternations/invasion_flag.png
-    siege-flag: /assets/betternations/siege_flag.png
-    camp: /assets/betternations/camp.png
+
+  # The following options are for the custom images for the markers.
+
+#  resource-img:
+#    steel: /assets/betternations/steel.png
+#    town-ruin: /assets/betternations/town_ruin.png
+#    town-core: /assets/betternations/town_core.png
+#    invasion-flag: /assets/betternations/invasion_flag.png
+#    siege-flag: /assets/betternations/siege_flag.png
+#    camp: /assets/betternations/camp.png

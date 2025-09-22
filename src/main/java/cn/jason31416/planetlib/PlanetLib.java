@@ -6,13 +6,12 @@ import cn.jason31416.planetlib.gui.GUIEventHandler;
 import cn.jason31416.planetlib.hook.MythicMobsHook;
 import cn.jason31416.planetlib.hook.PAPIHook;
 import cn.jason31416.planetlib.hook.VaultHook;
-import cn.jason31416.planetlib.item.SimpleCraftingRecipe;
+import cn.jason31416.betternations.item.SimpleCraftingRecipe;
 import cn.jason31416.planetlib.message.MessageLoader;
 import cn.jason31416.planetlib.update.UpdateCycle;
 import cn.jason31416.planetlib.update.UpdateTask;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 

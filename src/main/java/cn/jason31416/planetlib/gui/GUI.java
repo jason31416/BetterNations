@@ -1,15 +1,13 @@
 package cn.jason31416.planetlib.gui;
 
 import cn.jason31416.planetlib.hook.NbtHook;
-import cn.jason31416.planetlib.item.CustomItemType;
-import cn.jason31416.planetlib.item.ItemType;
-import cn.jason31416.planetlib.message.StaticMessages;
+import cn.jason31416.betternations.item.CustomItemType;
+import cn.jason31416.betternations.item.ItemType;
 import cn.jason31416.planetlib.message.StringMessage;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;

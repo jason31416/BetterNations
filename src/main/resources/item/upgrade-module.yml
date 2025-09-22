@@ -1,89 +1,273 @@
 categories:
   upgrade-modules:
-    name: "&b&lUpgrade Modules"
+    name: "&b&l升级模块"
     material: MUSIC_DISC_OTHERSIDE
 
 items:
   fuel-efficiency-upgrade-i:
-    name: "&a&lFuel Efficiency Upgrade"
+    name: "&a&l燃料能效升级 I"
     material: MUSIC_DISC_OTHERSIDE
     category: upgrade-modules
     lore:
-      - "&7Increases fuel machine efficiency by 20%"
+      - "&7这个物品可以使你的燃料机器的燃料效率提高20%"
     upgrade-info:
       type: EFFICIENCY
       value: 20
   fuel-efficiency-upgrade-ii:
-    name: "&a&lFuel Efficiency Upgrade II"
+    name: "&a&l燃料能效升级 II"
     material: MUSIC_DISC_OTHERSIDE
     category: upgrade-modules
     lore:
-      - "&7Increases fuel machine efficiency by 40%"
+      - "&7这个物品可以使你的燃料机器的燃料效率提高40%"
     upgrade-info:
       type: EFFICIENCY
       value: 40
   fuel-efficiency-upgrade-iii:
-    name: "&a&lFuel Efficiency Upgrade III"
+    name: "&a&l燃料能效升级 III"
     material: MUSIC_DISC_OTHERSIDE
     category: upgrade-modules
     lore:
-      - "&7Increases fuel machine efficiency by 60%"
+      - "&7这个物品可以使你的燃料机器的燃料效率提高60%"
     upgrade-info:
       type: EFFICIENCY
       value: 60
+  fuel-efficiency-upgrade-iv:
+    material: MUSIC_DISC_OTHERSIDE
+    name: "&a&l燃料能效升级 IV"
+    category: upgrade-modules
+    lore:
+      - "&7这个物品可以使你的燃料机器的燃料效率提高80%"
+    upgrade-info:
+      type: EFFICIENCY
+      value: 80
+  fuel-efficiency-upgrade-v:
+    name: "&a&l燃料能效升级 V"
+    material: MUSIC_DISC_OTHERSIDE
+    category: upgrade-modules
+    lore:
+      - "&7这个物品可以使你的燃料机器的燃料效率提高100%"
+    upgrade-info:
+      type: EFFICIENCY
+      value: 100
 
   speed-upgrade-i:
-    name: "&d&lSpeed Upgrade I"
+    name: "&d&l速率升级 I"
     material: MUSIC_DISC_CAT
     category: upgrade-modules
     lore:
-      - "&7Increases machine speed by 20%"
+      - "&7这个物品可以使你的机器速率提高20%"
     upgrade-info:
       type: SPEED
       value: 20
   speed-upgrade-ii:
-    name: "&d&lSpeed Upgrade II"
+    name: "&d&l速率升级 II"
     material: MUSIC_DISC_CAT
     category: upgrade-modules
     lore:
-      - "&7Increases machine speed by 40%"
+      - "&7这个物品可以使你的机器速率提高40%"
     upgrade-info:
       type: SPEED
       value: 40
   speed-upgrade-iii:
-    name: "&d&lSpeed Upgrade III"
+    name: "&d&l速率升级 III"
     material: MUSIC_DISC_CAT
     category: upgrade-modules
     lore:
-      - "&7Increases machine speed by 60%"
+      - "&7这个物品可以使你的机器速率提高60%"
     upgrade-info:
       type: SPEED
       value: 60
+  speed-upgrade-iv:
+    name: "&d&l速率升级 IV"
+    material: MUSIC_DISC_CAT
+    category: upgrade-modules
+    lore:
+      - "&7这个物品可以使你的机器速率提高80%"
+    upgrade-info:
+      type: SPEED
+      value: 80
+  speed-upgrade-v:
+    name: "&d&l速率升级 V"
+    material: MUSIC_DISC_CAT
+    category: upgrade-modules
+    lore:
+      - "&7这个物品可以使你的机器速率提高100%"
+    upgrade-info:
+      type: SPEED
+      value: 100
 
   slot-upgrade-i:
-    name: "&d&lSlot Upgrade I"
+    name: "&d&l升级槽升级 I"
     material: MUSIC_DISC_11
     category: upgrade-modules
     lore:
-      - "&7Adds 2 upgrade slots to machines"
+      - "&7这个物品可以使你的机器增加2个升级槽"
     upgrade-info:
       type: SLOT
       value: 2
   slot-upgrade-ii:
-    name: "&d&lSlot Upgrade II"
+    name: "&d&l升级槽升级 II"
     material: MUSIC_DISC_11
     category: upgrade-modules
     lore:
-      - "&7Adds 3 upgrade slots to machines"
+      - "&7这个物品可以使你的机器增加3个升级槽"
     upgrade-info:
       type: SLOT
       value: 3
   slot-upgrade-iii:
-    name: "&d&lSlot Upgrade III"
+    name: "&d&l升级槽升级 III"
     material: MUSIC_DISC_11
     category: upgrade-modules
     lore:
-      - "&7Adds 4 upgrade slots to machines"
+      - "&7这个物品可以使你的机器增加4个升级槽"
     upgrade-info:
       type: SLOT
       value: 4
+
+recipes:
+  fuel-efficiency-upgrade-i:
+    type: crafting
+    product: fuel-efficiency-upgrade-i
+    shape:
+      - "u  "
+      - " c "
+      - "  u"
+    material:
+      c: raw-upgrade
+      u: energy-fragment
+  fuel-efficiency-upgrade-ii:
+    type: crafting
+    product: fuel-efficiency-upgrade-ii
+    shape:
+      - "u u"
+      - "ucu"
+      - "u u"
+    material:
+      c: fuel-efficiency-upgrade-i
+      u: energy-fragment
+  fuel-efficiency-upgrade-iii:
+    type: crafting
+    product: fuel-efficiency-upgrade-iii
+    shape:
+      - "c  "
+      - " u "
+      - "  c"
+    material:
+      c: fuel-efficiency-upgrade-ii
+      u: pure-energy
+  fuel-efficiency-upgrade-iv:
+    type: crafting
+    product: fuel-efficiency-upgrade-iv
+    shape:
+      - "n n"
+      - "ucu"
+      - "n n"
+    material:
+      c: fuel-efficiency-upgrade-iii
+      u: pure-energy
+      n: netherite_scrap
+  fuel-efficiency-upgrade-v:
+    type: crafting
+    product: fuel-efficiency-upgrade-v
+    shape:
+      - " di"
+      - "dcd"
+      - "id "
+    material:
+      c: fuel-efficiency-upgrade-iv
+      d: diamond
+      i: charged-superconductor
+  speed-upgrade-i:
+    type: crafting
+    product: speed-upgrade-i
+    shape:
+      - "c  "
+      - " u "
+      - "  c"
+    material:
+      c: carbon-chunk
+      u: raw-upgrade
+  speed-upgrade-ii:
+    type: crafting
+    product: speed-upgrade-ii
+    shape:
+      - "c c"
+      - "cuc"
+      - "c c"
+    material:
+      c: carbon-chunk
+      u: speed-upgrade-i
+  speed-upgrade-iii:
+    type: crafting
+    product: speed-upgrade-iii
+    shape:
+      - "ucc"
+      - "ccc"
+      - "ccu"
+    material:
+      c: compressed-carbon-chunk
+      u: speed-upgrade-ii
+  speed-upgrade-iv:
+    type: crafting
+    product: speed-upgrade-iv
+    shape:
+      - "aba"
+      - "cuc"
+      - "dbd"
+    material:
+      u: speed-upgrade-iii
+      a: reinforced-alloy
+      b: blazing-alloy
+      c: compressed-carbon-chunk
+      d: diamond
+  speed-upgrade-v:
+    type: crafting
+    product: speed-upgrade-v
+    shape:
+      - " di"
+      - "dud"
+      - "id "
+    material:
+      u: speed-upgrade-iv
+      i: charged-superconductor
+      d: diamond
+  slot-upgrade-i:
+    type: crafting
+    product: slot-upgrade-i
+    shape:
+      - "ndn"
+      - "dud"
+      - "ndn"
+    material:
+      n: reinforced-alloy
+      d: diamond
+      u: raw-upgrade
+  slot-upgrade-ii:
+    type: crafting
+    product: slot-upgrade-ii
+    shape:
+      - "abc"
+      - "due"
+      - "fgh"
+    material:
+      u: slot-upgrade-i
+      a: pure-energy
+      b: redstone-alloy
+      c: compressed-carbon-chunk
+      d: reinforced-alloy
+      e: blazing-alloy
+      f: silicon
+      g: hardened-glass-board
+      h: titanium-alloy
+  slot-upgrade-iii:
+    type: crafting
+    product: slot-upgrade-iii
+    shape:
+      - "dnd"
+      - "awa"
+      - "dnd"
+    material:
+      w: slot-upgrade-ii
+      a: charged-superconductor
+      d: diamond
+      n: netherite_ingot

@@ -9,7 +9,7 @@ import cn.jason31416.betternations.nation.Relation;
 import cn.jason31416.betternations.structure.PlaceableStructure;
 import cn.jason31416.planetlib.Config;
 import cn.jason31416.planetlib.data.IDataItem;
-import cn.jason31416.planetlib.item.ItemType;
+import cn.jason31416.betternations.item.ItemType;
 import cn.jason31416.planetlib.message.Message;
 import cn.jason31416.planetlib.wrapper.SimpleChunkLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;

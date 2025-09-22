@@ -1,15 +1,12 @@
 package cn.jason31416.betternations.structure.types;
 
-import cn.jason31416.betternations.manager.ItemCraftingManager;
-import cn.jason31416.betternations.structure.upgrade.UpgradeInfo;
 import cn.jason31416.betternations.structure.upgrade.UpgradeType;
 import cn.jason31416.planetlib.data.IDataItem;
 import cn.jason31416.planetlib.gui.GUI;
-import cn.jason31416.planetlib.item.ItemType;
+import cn.jason31416.betternations.item.ItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;

@@ -1,104 +1,234 @@
 # In this file you can manage the items for the BetterNations plugin and even create custom items for yourself!
-
-# NOTE: YOU SHOULD CHANGE THIS AS IT IS LIKELY NOT SUITABLE AND BALANCED FOR COMPLEX SERVERS!
-
-# This is just an example of how to create custom items and categories. You can delete this and create your own items and categories.
-# Also, there is a preset configuration made for 1.21+ servers in the git repository (https://gitee.com/jason31416/betternations/tree/main/configurable-translation) for you.
-# You can ask for help on jason31416@163.com or on the BetterNations QQ group (458787362)
-
 categories:
   structure:
-    name: "&b&lStructures &7- EXAMPLE"
+    name: "&b&l结构"
     material: green_concrete
 
 machinery:
+  refinery:
+    material: iron_block
   alloy-foundry:
     material: nether_bricks
     machinery-type: fueled
-    fuel-capacity: 1200
+    fuel-capacity: 15000
+  grinder:
+    material: grindstone
+  soul-extractor:
+    material: obsidian
 
 fuels:
-  coal: 100
+  coal: 270
+  coal_block: 2430
+  charcoal: 270
+  wood: 250
+  fuel: 2500
 
 items: # You can create your own items!
+  refinery:
+    material: iron_block
+    name: "&b&l精炼厂"
+    lore:
+      - "&7用于精炼燃料等资源的建筑"
+      - "&7右键点击放置"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
   alloy-foundry:
     material: nether_bricks
-    name: "&b&lAlloy Foundry"
+    name: "&b&l合金熔炉"
     lore:
-      - "&7Structure for producing alloys"
-      - "&7Right-click to place"
+      - "&7用于生产合金的建筑"
+      - "&7右键点击放置"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
+  grinder:
+    material: grindstone
+    name: "&b&l研磨机"
+    lore:
+      - "&7用于研磨资源的建筑"
+      - "&7右键点击放置"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
+  soul-extractor:
+    material: obsidian
+    name: "&b&l灵魂提取器"
+    lore:
+      - "&7用于从不死生物提取灵魂的建筑"
+      - "&7右键点击放置"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
   graveyard:
     material: mossy_stone_bricks
-    name: "&b&lUndead Graveyard"
+    name: "&b&l亡灵墓园"
     lore:
-      - "&7Structure for producing undead units"
-      - "&7Right-click to place"
+      - "&7用于生产亡灵单位的建筑"
+      - "&7右键点击放置"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
-  granary:
-    material: hay_block
-    name: "&b&lGranary"
+  spiderweb:
+    material: cobweb
+    name: "&b&l蛛网"
     lore:
-      - "&7Provides supplies to troops and production structures in the chunk"
-      - "&7Convert food into supply points by right-clicking on the structure with food in hand"
-      - "&7Right-click to place"
+      - "&7用于生产节肢单位的建筑"
+      - "&7右键点击放置"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
-  outpost:
-    material: bell
-    name: "&b&lOutpost"
+  ominous-outpost:
+    material: dark_oak_wood
+    name: "&b&l灾厄哨塔"
     lore:
-      - "&7Maintains stability of exclaves"
-      - "&7If an exclave has no outpost, enemies only need to capture one chunk to take over the entire exclave!"
+      - "&7用于生产灾厄单位的建筑"
+      - "&7右键点击放置"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
+  fortress:
+    material: CHISELED_NETHER_BRICKS
+    name: "&b&l要塞"
+    lore:
+      - "&7用于生产凋零单位的建筑"
+      - "&7右键点击放置"
+      - ""
+      - "&8[BetterNations Structure]"
+    category: structure
+#  granary:
+#    material: hay_block
+#    name: "&b&l粮仓"
+#    lore:
+#      - "&7为区块内的部队和生产建筑提供补给"
+#      - "&7手持食物右键点击可将食物转换为补给点"
+#      - "&7右键点击放置"
+#      - ""
+#      - "&8[BetterNations Structure]"
+#    category: structure
   extractor:
     material: iron_block
-    name: "&b&lExtractor"
+    name: "&b&l资源开采机"
     lore:
-      - "&7Extract resources from certain chunks"
+      - "&7从特定区块中开采自然资源"
       - ""
       - "&8[BetterNations Structure]"
     category: structure
 
 # Recipes don't need translation as they use material codes
 recipes:
+  refinery:
+    type: crafting
+    product: refinery
+    shape:
+      - "sss"
+      - "gcg"
+      - "sss"
+    material:
+      s: steel-plate
+      c: machine-core
+      g: hardened-glass-board
+  grinder:
+    type: crafting
+    product: grinder
+    shape:
+      - " s "
+      - "sgs"
+      - "   "
+    material:
+      s: steel
+      g: grindstone
   alloy-foundry:
     type: crafting
     product: alloy-foundry
     shape:
-      - "i i"
-      - "ili"
+      - "b b"
+      - "nln"
       - "bcb"
     material:
-      i: iron_block
       l: lava_bucket
-      b: bricks
+      b: reinforced-bricks
       c: magma_block
-  granary:
+      n: nether_brick
+  soul-extractor:
     type: crafting
-    product: granary
+    product: soul-extractor
     shape:
-      - "ccc"
-      - "chc"
-      - "ccc"
+      - "w w"
+      - "owo"
+      - "oco"
     material:
-      c: hay_block
-      h: barrel
+      w: wood
+      c: cauldron
+      o: obsidian
+#  granary:
+#    type: crafting
+#    product: granary
+#    shape:
+#      - "ccc"
+#      - "chc"
+#      - "ccc"
+#    material:
+#      c: hay_block
+#      h: barrel
   graveyard:
     type: crafting
     product: graveyard
     shape:
       - " u "
-      - "www"
+      - "wtw"
       - "ddd"
     material:
       w: wood
+      t: tomb
       u: undead-essence
       d: dirt
+  spiderweb:
+    type: crafting
+    product: spiderweb
+    shape:
+      - "sws"
+      - "wfw"
+      - "sws"
+    material:
+      w: cobweb
+      f: fermented_spider_eye
+      s: silk
+  ominous-outpost:
+    type: crafting
+    product: ominous-outpost
+    shape:
+      - "ese"
+      - "wlw"
+      - "fmf"
+    material:
+      w: dark_oak_wood
+      s: steel-chunk
+      e: emerald_block
+      f: dark_oak_fence
+      m: mechanical-chip
+      l: white_wool
+  fortress:
+    type: crafting
+    product: fortress
+    shape:
+      - "bbb"
+      - "lbn"
+      - "bbb"
+    material:
+      b: reinforced-bricks
+      l: machine-core
+      n: nether_star
+  
+  extractor:
+    type: crafting
+    product: extractor
+    shape:
+      - "idi"
+      - "imi"
+      - "ihi"
+    material:
+      i: compressed-steel-plate
+      d: diamond_pickaxe
+      m: machine-core
+      h: hopper

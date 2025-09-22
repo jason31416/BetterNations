@@ -1,13 +1,11 @@
-package cn.jason31416.planetlib.mob;
+package cn.jason31416.betternations.mob;
 
-import cn.jason31416.betternations.army.ArmyType;
 import cn.jason31416.planetlib.hook.MythicMobsHook;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import io.lumine.mythic.bukkit.BukkitAdapter;
 import io.lumine.mythic.core.mobs.ActiveMob;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 
 public class MythicMob implements SimpleMob {
     ActiveMob mob;

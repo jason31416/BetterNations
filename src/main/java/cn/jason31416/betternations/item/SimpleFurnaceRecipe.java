@@ -1,11 +1,10 @@
-package cn.jason31416.planetlib.item;
+package cn.jason31416.betternations.item;
 
 import cn.jason31416.planetlib.PlanetLib;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.*;
 
-import java.util.List;
 import java.util.UUID;
 
 public class SimpleFurnaceRecipe implements SimpleRecipe {

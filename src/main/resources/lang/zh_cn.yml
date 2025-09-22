@@ -386,6 +386,11 @@ combat:
   next-update-bossbar: "&c下一次战斗更新:&e %timer%"
   war-disabled-bossbar: "&c停战期"
 
+  invasion-automation:
+    none: "&c&l无: &7单位将在入侵成功后原地转换为营地"
+    push: "&c&l推进: &7单位将在入侵成功后自动分裂并入侵周围敌对区块"
+    spearhead: "&c&l突击: &7单位将在入侵成功后向前继续入侵"
+
   breakage:
     failed: "&c未能消灭对方部队!"
     success: "&a该营地已被消灭!"

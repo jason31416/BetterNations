@@ -155,11 +155,15 @@ invasion-main:
     border:
       name: " "
       material: GRAY_STAINED_GLASS_PANE
-      slots: [1, 2, 3, 4, 5, 6, 7, 9, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+      slots: [1, 2, 3, 5, 6, 7, 9, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
     army-overview:
       name: ""
       material: GLASS_PANE
       slot: 22
+    invasion-automation:
+      name: "&c自动指挥模式"
+      material: RED_WOOL
+      slot: 4
     action-page:
       name: "&a执行操作"
       material: LIME_WOOL

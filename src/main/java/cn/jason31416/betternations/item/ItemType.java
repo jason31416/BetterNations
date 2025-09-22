@@ -1,7 +1,6 @@
-package cn.jason31416.planetlib.item;
+package cn.jason31416.betternations.item;
 
 import cn.jason31416.planetlib.hook.NbtHook;
-import cn.jason31416.planetlib.message.StaticMessages;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

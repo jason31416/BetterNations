@@ -2,9 +2,8 @@ package cn.jason31416.betternations.structure;
 
 import cn.jason31416.betternations.structure.types.Extractor;
 import cn.jason31416.betternations.structure.types.Granary;
-import cn.jason31416.betternations.structure.types.Machinery;
 import cn.jason31416.betternations.structure.types.Outpost;
-import cn.jason31416.planetlib.item.ItemType;
+import cn.jason31416.betternations.item.ItemType;
 
 import java.util.HashMap;
 import java.util.Map;
