@@ -38,7 +38,8 @@ public class EventListener implements Listener {
         CLAIM,
         UNCLAIM,
         TOWN_CLAIM,
-        TOWN_UNCLAIM
+        TOWN_UNCLAIM,
+        SETUNCLAIMABLE
     }
     public static Map<SimplePlayer, AutoClaimingMode> autoClaiming = new HashMap<>();
     @EventHandler
@@ -158,6 +159,10 @@ public class EventListener implements Listener {
                     case UNCLAIM -> NationUnclaimCommand.unclaimWithChecks(player, to).send(event.getPlayer());
                     case TOWN_CLAIM -> {if(from.getTown()!=null) TownClaimCommand.claimWithChecks(player, to, from.getTown()).send(event.getPlayer());}
                     case TOWN_UNCLAIM -> TownUnclaimCommand.unclaimWithChecks(player, to).send(event.getPlayer());
+                    case SETUNCLAIMABLE -> {
+                        UnclaimableRegionManager.unclaimableChunks.add(to);
+                        player.sendMessage(Message.getMessage("nation.set-unclaimable").add("chunk", to.x()+","+to.z()));
+                    }
                 }
             }else if(from.isTownChunk()!=to.isTownChunk()||from.getTown()!=to.getTown()||from.getNation()!=to.getNation()||from.isClaimed()!=to.isClaimed()) {
                 sendCrossChunkMessage(player, from, to);

@@ -124,15 +124,15 @@ public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements Co
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
         data.put("world", this.world().getBukkitWorld().getUID().toString());
-        data.put("x", this.x);
-        data.put("z", this.z);
+        data.put("x", ""+this.x);
+        data.put("z", ""+this.z);
         return data;
     }
 
     public static SimpleChunkLocation deserialize(Map<String, Object> map) {
         SimpleWorld world = SimpleWorld.of(UUID.fromString((String) map.get("world")));
-        int x = (int) map.get("x");
-        int z = (int) map.get("z");
+        int x = Integer.parseInt((String)map.get("x"));
+        int z = Integer.parseInt((String)map.get("z"));
         return new SimpleChunkLocation(x, z, world);
     }
 }

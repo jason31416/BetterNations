@@ -169,6 +169,7 @@ command:
 
 # These are messages that are related to nations.
 nation:
+  set-unclaimable: "<#2288ff>已将 %chunk% 区块设置为不可占领"
   type:
     gui-name: "&f政体: %type_name%"
     gui-lore:

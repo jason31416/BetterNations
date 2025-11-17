@@ -1,6 +1,7 @@
 package cn.jason31416.betternations.command.admin;
 
 import cn.jason31416.betternations.BetterNations;
+import cn.jason31416.betternations.manager.EventListener;
 import cn.jason31416.betternations.manager.UnclaimableRegionManager;
 import cn.jason31416.planetlib.command.ChildCommand;
 import cn.jason31416.planetlib.command.ICommandContext;
@@ -20,7 +21,16 @@ public class ToggleUnclaimableCommand extends ChildCommand {
     public Message execute(ICommandContext context) {
         if(!context.getSender().sender().isOp()) return Message.getMessage("command.failed.no-permission");
         if(context.getPlayer() == null) return null;
-        if(UnclaimableRegionManager.unclaimableChunks.contains(context.getPlayer().getLocation().getChunkLocation())){
+        if(!context.args().isEmpty() && context.args().get(0).equals("auto")){
+            if(EventListener.autoClaiming.get(context.getPlayer()) != EventListener.AutoClaimingMode.SETUNCLAIMABLE) {
+                Message.getMessage("auto-claiming.claim").sendActionbar(context.getPlayer());
+                EventListener.autoClaiming.put(context.getPlayer(), EventListener.AutoClaimingMode.SETUNCLAIMABLE);
+            }else {
+                Message.getMessage("auto-claiming.disabled-auto-claiming").sendActionbar(context.getPlayer());
+                EventListener.autoClaiming.remove(context.getPlayer());
+            }
+            return null;
+        }else if(UnclaimableRegionManager.unclaimableChunks.contains(context.getPlayer().getLocation().getChunkLocation())){
             UnclaimableRegionManager.unclaimableChunks.remove(context.getPlayer().getLocation().getChunkLocation());
             UnclaimableRegionManager.save();
             return Message.getMessage("command.success.unclaimable.disable");
@@ -33,6 +43,6 @@ public class ToggleUnclaimableCommand extends ChildCommand {
 
     @Override
     public List<String> tabComplete(ICommandContext context) {
-        return null;
+        return List.of("auto");
     }
 }
