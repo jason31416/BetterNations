@@ -27,6 +27,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 
@@ -252,6 +253,15 @@ public class EventListener implements Listener {
         if(!player.hasPermission(Permission.BUILD, SimpleLocation.of(event.getClickedBlock()))){
             event.setCancelled(true);
             Message.getMessage("town.cannot-build").sendActionbar(player);
+        }
+    }
+    @EventHandler
+    public void onEntitySpawn(EntitySpawnEvent event){
+        if(event.getEntity() instanceof Monster){
+            SimpleLocation loc = SimpleLocation.of(event.getLocation());
+            if(loc.getChunkLocation().isTownChunk() && Config.getBoolean("town.prevent-spawning-unfriendly-monsters")) {
+                event.setCancelled(true);
+            }
         }
     }
     @EventHandler

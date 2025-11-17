@@ -26,10 +26,10 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ArmyUpdateManager implements UpdateTask.RunnableTask {
+public class ArmyUpdateManager {
     public static Map<SimpleChunkLocation, Double> chunkHealths = new ConcurrentHashMap<>();
     public static long nextUpdate=0;
-    private void checkChunkAfterInvasion(SimpleChunkLocation origchunk, Nation winner, Nation loser){
+    private static void checkChunkAfterInvasion(SimpleChunkLocation origchunk, Nation winner, Nation loser){
 //        if(loser.isBarbarian()) return;
         Set<SimpleChunkLocation> encircled = new HashSet<>();
         outer: for(SimpleChunkLocation adj: origchunk.getAdjacentChunks()) {
@@ -71,8 +71,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
             }
         }.runTaskLater(BetterNations.instance, 0);
     }
-    @Override
-    public void run() {
+    public static synchronized void run() {
         if(Config.getBoolean("combat.enable-supply-system")) {
             new BukkitRunnable() {
                 public void run() {
@@ -280,7 +279,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                                                 invasion.automation = InvasionFlag.AutomationMode.PUSH; // also acts as a flag
                                                 inner:
                                                 for(SimpleChunkLocation adj: chunk.getAdjacentChunks()){
-                                                    if(invasion.stack.nation.getRelation(adj.getNation()) == Relation.ENEMY){
+                                                    if(invasion.stack.nation.getRelation(adj.getNation()) == Relation.ENEMY && !adj.isTownChunk()){
                                                         for(SimpleChunkLocation adj2: adj.getEightAdjacentChunks()){
                                                             if(adj2.getNation() == invasion.stack.nation && !adj2.equals(chunk)){
                                                                 continue inner;
@@ -296,7 +295,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                                                 }
                                             }
                                             if(invasion.automation == InvasionFlag.AutomationMode.PUSH){
-                                                Set<SimpleChunkLocation> toInvade = new HashSet<>();
+                                                List<SimpleChunkLocation> toInvade = new ArrayList<>();
                                                 inner:
                                                 for(SimpleChunkLocation adj: chunk.getAdjacentChunks()) {
                                                     if (invasion.stack.nation.getRelation(adj.getNation()) == Relation.ENEMY && !adj.isTownChunk()) {
@@ -306,6 +305,7 @@ public class ArmyUpdateManager implements UpdateTask.RunnableTask {
                                                         toInvade.add(adj);
                                                     }
                                                 }
+                                                Collections.shuffle(toInvade);
                                                 if(!toInvade.isEmpty()){
                                                     invasion.breakStructure();
                                                     invasion.unregister();

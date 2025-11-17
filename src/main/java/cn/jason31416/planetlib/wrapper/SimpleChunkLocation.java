@@ -123,7 +123,7 @@ public record SimpleChunkLocation(int x, int z, SimpleWorld world) implements Co
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
-        data.put("world", this.world().getName());
+        data.put("world", this.world().getBukkitWorld().getUID().toString());
         data.put("x", this.x);
         data.put("z", this.z);
         return data;

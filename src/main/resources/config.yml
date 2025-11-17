@@ -37,6 +37,8 @@ town:
   teleport-countdown: 5 # The countdown for /k tp
   hp-recover-speed: 1.5 # How many HP to recover per update?
 
+  prevent-spawning-unfriendly-monsters: false # Should we stop unfriendly monsters from spawning in claimed town chunks
+
   max-distance-from-core: 16 # The max. distance from the town core (in chunks) that a town chunk can be claimed
 
   # Should we require a ruin to create a town? (Useful for more RPG-like servers, require server owner to manually place ruins via /n ruin)

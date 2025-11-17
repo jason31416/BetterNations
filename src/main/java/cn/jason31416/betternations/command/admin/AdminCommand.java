@@ -1,5 +1,6 @@
 package cn.jason31416.betternations.command.admin;
 
+import cn.jason31416.betternations.manager.UnclaimableRegionManager;
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.IParentCommand;
 import cn.jason31416.planetlib.command.ParentCommand;
@@ -15,6 +16,8 @@ public class AdminCommand extends ParentCommand {
         new ExecuteCommand(this);
         new TownRuinCommand(this);
         new SetNaturalResourceCommand(this);
+        new ArmyUpdateCommand(this);
+        new ToggleUnclaimableCommand(this);
     }
 
     @Override

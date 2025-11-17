@@ -99,6 +99,10 @@ command:
     invasion-list-invasion: "&7- &c由 %attacking_nation% 发起的对 &e%nation%的区块&7 (%hp%❤) &c的入侵 &7(位置: %x%, %y%, %z%)"
     invasion-list-siege: "&7- &c由 %attacking_nation% 发起的对 &e%nation%的%target% &7(%hp%❤) &c的入侵 &7(位置: %x%, %y%, %z%)"
     invasion-list-empty: "&7你的国家没有被入侵/围攻!"
+
+    unclaimable:
+      enable: "&a将该区块设置为了不可占领!"
+      disable: "&a将该区块设置为了可占领!"
   failed:
     owner-cannot-leave: "<red>你是该国家的领导者，请在退出前<click:suggest_command:/nation rank >指定下一任领导者</click>或<click:suggest_command:/nation disband>解散国家</click>!"
     chunk-claim-failed: "<red>无法占领该区块!"
@@ -161,6 +165,7 @@ command:
     invalid-chat-type: "<red>无效的聊天类型 %chat_type%! 可用值: nation, town, global"
     nation-max-claims-reached: "<red>已达到最大占领数量 %max%!"
     war-disabled: "<red>停战期间无法执行该操作!"
+    chunk-unclaimable: "<red>该区块无法被占领!"
 
 # These are messages that are related to nations.
 nation:
@@ -359,6 +364,8 @@ admin:
   configuration-format-error-with-loc: "&c错误的配置格式 @%file%, %line%!"
   reloading: "&3重新加载 &bBetterNations &3中..."
   reloaded: "&3成功加载 &bBetterNations &3!"
+  army-updating: "&3执行战斗更新中..."
+
 combat:
   stack-name: "&f%nation% 的部队 &7(%count% 个单位)"
   stack-lore:

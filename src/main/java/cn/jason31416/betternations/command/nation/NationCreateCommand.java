@@ -1,6 +1,7 @@
 package cn.jason31416.betternations.command.nation;
 
 import cn.jason31416.betternations.manager.HistoricalBroadcastManager;
+import cn.jason31416.betternations.manager.UnclaimableRegionManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.NationType;
 import cn.jason31416.betternations.structure.types.TownRuin;
@@ -34,6 +35,9 @@ public class NationCreateCommand extends ChildCommand {
         }
         if(context.getSender().toPlayer().getLocation().getChunkLocation().isClaimed()){
             return Message.getMessage("command.failed.already-claimed-by-nation");
+        }
+        if(!UnclaimableRegionManager.canClaim(context.getSender().toPlayer().getLocation().getChunkLocation())){
+            return Message.getMessage("command.failed.chunk-unclaimable");
         }
         if(!NationClaimCommand.checkWorld(context.getPlayer().getLocation().world())){
             return Message.getMessage("command.failed.chunk-claim-invalid-world");

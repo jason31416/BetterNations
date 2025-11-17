@@ -58,11 +58,11 @@ public class NationInfoCommand extends ChildCommand {
         if(town!=null){
             MessageLoader.getList("info.town")
                     .add("nation", town.getNation().getColorTag()+town.getNation().getName())
-                    .add("town", town.getName())
-                    .add("size", town.getTownChunks().size())
-                    .add("leader", town.getMayor().getName())
-                    .add("health", town.getHealth())
-                    .add("max_health", town.getMaxHealth())
+                    .add("town", ""+town.getName())
+                    .add("size", ""+town.getTownChunks().size())
+                    .add("leader", ""+town.getMayor().getName())
+                    .add("health", ""+town.getHealth())
+                    .add("max_health", ""+town.getMaxHealth())
                     .send(context.getSender());
             return null;
         }

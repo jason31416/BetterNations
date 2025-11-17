@@ -260,9 +260,10 @@ public final class BetterNations extends JavaPlugin {
         TownLevel.loadLevels();
         NaturalResourcesManager.load();
         BStatsManager.initialize();
+        UnclaimableRegionManager.load();
 
         UpdateCycle.registerTask("BetterNations.BorderDisplay", new UpdateTask(Config.getInt("border-display.interval"), new BorderDisplayManager()));
-        UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
+        UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, ArmyUpdateManager::run));
         if(Config.getBoolean("combat.enable-animation")) UpdateCycle.registerTask("BetterNations.FromToParticlesUpdate", new UpdateTask(Config.getInt("combat.particle-interval"), FromToAnimationManager::updateAll));
         UpdateCycle.registerTask("BetterNations.ArmyUpdateBossbar", new UpdateTask(5, () -> {
             if(Config.getBoolean("allow-war")) {
@@ -329,6 +330,7 @@ public final class BetterNations extends JavaPlugin {
         Granary.loadSupplyWorth();
         TownLevel.loadLevels();
         NaturalResourcesManager.load();
+        UnclaimableRegionManager.load();
 
         GUILoader.loadedGUIs.clear();
         loadGUIs();
@@ -341,13 +343,12 @@ public final class BetterNations extends JavaPlugin {
 
         UpdateCycle.unregisterTask("BetterNations.FromToParticlesUpdate");
         if(Config.getBoolean("combat.enable-animation")) UpdateCycle.registerTask("BetterNations.FromToParticlesUpdate", new UpdateTask(Config.getInt("combat.particle-interval"), FromToAnimationManager::updateAll));
-
         UpdateCycle.unregisterTask("BetterNations.MapUpdate");
         if(BlueMapHook.enabled) MapDisplayManager.reload();
         if(BlueMapHook.enabled) UpdateCycle.registerTask("BetterNations.MapUpdate", new UpdateTask(Config.getInt("bluemap.check-interval"), MapDisplayManager::update));
 
         UpdateCycle.unregisterTask("BetterNations.ArmyUpdate");
-        UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, new ArmyUpdateManager()));
+        UpdateCycle.registerTask("BetterNations.ArmyUpdate", new UpdateTask(Config.getInt("combat.army-tick-interval")*20, ArmyUpdateManager::run));
         ArmyUpdateManager.nextUpdate = System.currentTimeMillis()+1000L*Config.getInt("combat.army-tick-interval");
 
         for(AbstractStructure i: AbstractStructure.structures.values()){

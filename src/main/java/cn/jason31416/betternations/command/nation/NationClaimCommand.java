@@ -3,6 +3,7 @@ package cn.jason31416.betternations.command.nation;
 import cn.jason31416.betternations.BetterNations;
 import cn.jason31416.betternations.manager.ArmyUpdateManager;
 import cn.jason31416.betternations.manager.EventListener;
+import cn.jason31416.betternations.manager.UnclaimableRegionManager;
 import cn.jason31416.betternations.nation.Nation;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.planetlib.Config;
@@ -41,6 +42,9 @@ public class NationClaimCommand extends ChildCommand {
         }
         if(chunkLocation.isClaimed()){
             return Message.getMessage("command.failed.chunk-already-claimed");
+        }
+        if(!UnclaimableRegionManager.canClaim(chunkLocation)){
+            return Message.getMessage("command.failed.chunk-unclaimable");
         }
         if(!player.getRank().hasPermission(Permission.NATION_CLAIM)){
             return Message.getMessage("command.failed.no-permission");

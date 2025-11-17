@@ -4,6 +4,7 @@ import cn.jason31416.betternations.army.states.InvasionFlag;
 import cn.jason31416.betternations.army.states.StructuredArmy;
 import cn.jason31416.betternations.command.nation.NationClaimCommand;
 import cn.jason31416.betternations.manager.EventListener;
+import cn.jason31416.betternations.manager.UnclaimableRegionManager;
 import cn.jason31416.betternations.nation.Permission;
 import cn.jason31416.betternations.nation.Town;
 import cn.jason31416.planetlib.Config;
@@ -30,6 +31,9 @@ public class TownClaimCommand extends ChildCommand {
         }
         if(town.core.location.getChunkLocation().distance(chunkLocation)>Config.getDouble("town.max-distance-from-core", 24)){
             return Message.getMessage("command.failed.too-far-from-core");
+        }
+        if(!UnclaimableRegionManager.canClaim(chunkLocation)){
+            return Message.getMessage("command.failed.chunk-unclaimable");
         }
         for(StructuredArmy i: StructuredArmy.armyLocationMap.getOrDefault(chunkLocation, Set.of())){
             if(i instanceof InvasionFlag) return Message.getMessage("command.failed.chunk-not-belong-to-nation");

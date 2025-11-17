@@ -439,6 +439,7 @@ admin:
   configuration-format-error: "&cInvalid configuration format!"
   configuration-format-error-with-loc: "&cInvalid configuration format @%file%, %line%!"
   reloading: "&3Reloading &bBetterNations &3..."
+  army-updating: "&3Updating armies&3..."
   reloaded: "&3Successfully loaded &bBetterNations &3!"
 
 placeholder:
