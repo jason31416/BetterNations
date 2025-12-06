@@ -33,7 +33,7 @@ public class UnclaimableRegionManager {
         if (!file.exists()) return;
         try(FileInputStream reader = new FileInputStream(file)){
             List<Map<String, Object>> serializedChunks = new Gson().fromJson(new String(reader.readAllBytes()), new TypeToken<List<Map<String, Object>>>(){}.getType());
-            unclaimableChunks = serializedChunks.stream().map(SimpleChunkLocation::deserialize).toList();
+            unclaimableChunks = new ArrayList<>(serializedChunks.stream().map(SimpleChunkLocation::deserialize).toList());
         }
     }
 }

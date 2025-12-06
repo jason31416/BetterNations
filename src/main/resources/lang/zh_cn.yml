@@ -348,6 +348,7 @@ info:
     - "&7政体: &f%type%"
     - "&7大小: &f%size%"
     - "&7%leader_role_name%: &f%leader%"
+    - "&7城镇: &f%towns%"
     - "&7成员: &f%members_count%"
     - "&f%members%"
     - "&a盟友:"

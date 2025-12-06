@@ -47,6 +47,7 @@ public class NationInfoCommand extends ChildCommand {
                     .add("size", nation.nationalChunks.size())
                     .add("leader_role_name", nation.getType().getOwnerRank().getDisplayName())
                     .add("leader", nation.getOwner().getName())
+                    .add("towns", String.join(",", nation.getTowns().stream().map(Town::getName).toList()))
                     .add("members_count", nation.getMembers().size())
                     .add("members", String.join(",", nation.getMembers().stream().map(s->nation1.getRank(s).getDisplayName()+" "+s.getName()).toList()))
                     .add("allies", String.join(",", nation.relations.keySet().stream().filter(n->nation1.getRelation(n)==Relation.ALLY).map(Nation::getName).toList()))
